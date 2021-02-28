@@ -1,0 +1,37 @@
+﻿<UserControl
+    x:Class="VtuberMusic_UWP.Components.Account.AccountPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Components.Account"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <StackPanel Padding="10">
+        <PersonPicture Height="60" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
+        <TextBlock Text="Misaka-L" Margin="5" FontSize="24" HorizontalAlignment="Center"/>
+        <StackPanel>
+            <Grid>
+                <TextBlock Text="Lv.9"/>
+                <TextBlock Text="102050/102050" HorizontalAlignment="Right"/>
+            </Grid>
+            <ProgressBar Margin="0 5" Value="100"/>
+        </StackPanel>
+        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="主推"/>
+                <TextBlock Text="233" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Margin="10 0">
+                <TextBlock Text="粉丝"/>
+                <TextBlock Text="NaN" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="歌单"/>
+                <TextBlock Text="0" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

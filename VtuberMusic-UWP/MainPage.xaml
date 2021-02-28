@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="VtuberMusic_UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP"
+    xmlns:main="using:VtuberMusic_UWP.Components.Main"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:player="using:VtuberMusic_UWP.Components.Player"
+    mc:Ignorable="d">
+
+    <Page.Background>
+        <ImageBrush Stretch="UniformToFill"/>
+    </Page.Background>
+    <Grid>
+        <Grid.Background>
+            <AcrylicBrush TintColor="#CC878787" FallbackColor="#CC878787" TintOpacity="0.4"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <main:SidePanel/>
+        <player:MainPlayer Grid.Row="1"/>
+    </Grid>
+</Page>

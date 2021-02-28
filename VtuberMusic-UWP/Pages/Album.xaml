@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="VtuberMusic_UWP.Pages.Album"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel>
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image x:Name="CoverImg" MaxWidth="400" Stretch="UniformToFill"/>
+                <StackPanel Grid.Column="1" Margin="10 0">
+                    <TextBlock x:Name="AlbumName" FontSize="24" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="创建时间:"/>
+                        <TextBlock x:Name="CreateTime"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="简介:"/>
+                        <TextBlock x:Name="Introduction"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button Content="播放全部" Margin="5 0"/>
+                    <Button Style="{StaticResource CircleButton}" FontFamily="{StaticResource Icon}"
+                            Content="{StaticResource icon-add-favorite}" Height="40" Width="40" Margin="0 0 20 0"/>
+                </StackPanel>
+            </Grid>
+            <collections:MusicDataList x:Name="DataView" Mode="Small"/>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

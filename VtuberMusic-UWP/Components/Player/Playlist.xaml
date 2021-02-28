@@ -1,0 +1,91 @@
+﻿<UserControl
+    x:Class="VtuberMusic_UWP.Components.Player.Playlist"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Storyboard x:Name="PopupIn">
+            <DoubleAnimation Duration="00:00:00.2" Storyboard.TargetName="MainContent"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" From="400" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:00.2" Storyboard.TargetName="BackgroundMask"
+                             Storyboard.TargetProperty="Opacity" From="0" To="1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="PopupOut">
+            <DoubleAnimation Duration="00:00:00.2" Storyboard.TargetName="MainContent"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" From="0" To="400">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="00:00:00.2" Storyboard.TargetName="BackgroundMask"
+                             Storyboard.TargetProperty="Opacity" From="1" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid x:Name="BackgroundMask" Opacity="0" Background="#25000000" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle x:Name="Side" Fill="Transparent" Tapped="Background_Tapped"/>
+        <Grid x:Name="MainContent" Width="400" Grid.Column="1">
+            <Grid.RenderTransform>
+                <TranslateTransform/>
+            </Grid.RenderTransform>
+            <Grid.Background>
+                <AcrylicBrush TintColor="#CC878787" FallbackColor="#CC878787" TintOpacity="0.4"/>
+            </Grid.Background>
+            <Grid Margin="0 35 0 0">
+                <StackPanel x:Name="None" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <FontIcon FontFamily="{StaticResource Icon}" Glyph="{StaticResource icon-none}"
+                              Foreground="White" FontSize="128"/>
+                    <TextBlock Text="没有任何歌曲在播放列表中" FontSize="24" Foreground="White"/>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="播放列表" FontSize="24" Margin="10 2 0 10"/>
+                    <ListView x:Name="DataView" ItemsSource="{x:Bind Player.PlayList}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vtubermusic:MusicData">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--<FontIcon FontFamily="{StaticResource Icon}" Glyph="{StaticResource icon-volume}"/>-->
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{x:Bind OriginName}"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{x:Bind VocalName}" Margin="5 0"/>
+                                    <Button x:Name="Remove" Grid.Column="3" Click="Remove_Click"
+                                            Tag="{x:Bind}" FontFamily="{StaticResource Icon}" Content="{StaticResource icon-close}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

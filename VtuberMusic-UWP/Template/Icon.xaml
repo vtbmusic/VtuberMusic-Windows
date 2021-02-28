@@ -1,0 +1,21 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <FontFamily x:Key="Icon">/Assets/iconfont.ttf#iconfont</FontFamily>
+
+    <x:String x:Key="icon-prev">&#xe61a;</x:String>
+    <x:String x:Key="icon-play">&#xe613;</x:String>
+    <x:String x:Key="icon-pause">&#xe614;</x:String>
+    <x:String x:Key="icon-next">&#xe612;</x:String>
+    <x:String x:Key="icon-playlist">&#xe616;</x:String>
+    <x:String x:Key="icon-repeat">&#xe61c;</x:String>
+    <x:String x:Key="icon-single-repeat">&#xe62d;</x:String>
+    <x:String x:Key="icon-shuffle">&#xe61f;</x:String>
+    <x:String x:Key="icon-volume">&#xe628;</x:String>
+    <x:String x:Key="icon-close">&#xe605;</x:String>
+    <x:String x:Key="icon-back">&#xe603;</x:String>
+    <x:String x:Key="icon-go">&#xe609;</x:String>
+    <x:String x:Key="icon-none">&#xe631;</x:String>
+    <x:String x:Key="icon-add-favorite">&#xe601;</x:String>
+</ResourceDictionary>
