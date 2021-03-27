@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,139 +12,64 @@ namespace VtuberMusic_UWP.Service
     public class MusicClient
     {
         public AccountService Account = new AccountService();
-        public CDN[] CDNList;
+        private RestClient _restClient = new RestClient();
 
-        public MusicClient(EventHandler loadCompleteEvent = null)
+        public MusicClient()
         {
-            loadClient(loadCompleteEvent);
+            _restClient.UseSerializer<RestSharp.Serializers.NewtonsoftJson.JsonNetSerializer>();
         }
 
-        private async void loadClient(EventHandler loadCompleteEvent)
+        #region 歌曲
+        public async Task<ApiResponse<Music[]>> GetNewSong(int limit)
         {
-            CDNList = (await GetCDNListAsync()).Data;
+            var request = new RestRequest(ApiUri.NewSong);
+            request.AddParameter("limit", limit.ToString());
 
-            if (loadCompleteEvent != null)
+            var response = await _restClient.ExecuteAsync<ApiResponse<Music[]>>(request);
+
+            if (response.IsSuccessful)
             {
-                loadCompleteEvent(this, null);
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
             }
 
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
         }
 
-        #region CDN 相关
-        /// <summary>
-        /// 获取资源 Url
-        /// </summary>
-        /// <param name="url">Url</param>
-        /// <param name="cdn">CDN</param>
-        /// <returns>返回资源 Url 文本</returns>
-        public string GetResourcesUrl(string url, string cdn, ResourcesType type)
+        public async Task<ApiResponse<string>> GetSongMeduaUri(string id)
         {
-            var cdnList = cdn.Split(':');
-            if (cdnList.Length == 1)
-            {
-                return getResourcesUrlSingle(url, cdn);
-            }
-            else
-            {
-                switch (type)
-                {
-                    case ResourcesType.CoverImg:
-                        return getResourcesUrlSingle(url, cdnList[0]);
-                    case ResourcesType.Music:
-                        return getResourcesUrlSingle(url, cdnList[1]);
-                    case ResourcesType.Lyric:
-                        return getResourcesUrlSingle(url, cdnList[2]);
-                }
-            }
+            var request = new RestRequest(ApiUri.SongMedia + id);
+            request.AddParameter("type", 1);
 
+            var response = await _restClient.ExecuteAsync<ApiResponse<string>>(request);
 
-            return null;
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+            
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
         }
+        #endregion
 
-        private string getResourcesUrlSingle(string url, string cdn)
+        public async Task<ApiResponse<Banner[]>> GetBanner(string type = "pc")
         {
-            foreach (var temp in CDNList)
+            var request = new RestRequest(ApiUri.Banner);
+            request.AddParameter("type", type);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<Banner[]>>(request);
+
+            if (response.IsSuccessful)
             {
-                if (temp.name == cdn)
-                {
-                    return temp.url + url;
-                }
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
             }
 
-            return null;
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
         }
-
-        /// <summary>
-        /// 获取 CDN 列表
-        /// </summary>
-        /// <returns>CDN 数组 获取失败返回 null</returns>
-        public async Task<CDNDataResponse> GetCDNListAsync()
-        {
-            var data =await NetworkTool.PostApiAsync<CDNDataResponse>(
-                ApiUri.GetCDNList, new ListRequest { pageIndex = 1, pageRows = 1000, sortField = "name", sortType = "desc" });
-
-            return data;
-        }
-        #endregion
-
-        #region 音乐
-        /// <summary>
-        /// 获取音乐列表
-        /// </summary>
-        /// <param name="args">参数</param>
-        /// <returns>Api 请求结果</returns>
-        public async Task<MusicDataResponse> GetMusicListAsync(ListRequest args)
-        {
-            return await NetworkTool.PostApiAsync<MusicDataResponse>(ApiUri.GetMusicList, args);
-        }
-
-        /// <summary>
-        /// 获取热门音乐列表
-        /// </summary>
-        /// <param name="args">参数</param>
-        /// <returns>Api 请求结果</returns>
-        public async Task<MusicDataResponse> GetHotMusicListAsync(ListRequest args)
-        {
-            return await NetworkTool.PostApiAsync<MusicDataResponse>(ApiUri.GetHotMusicList, args);
-        }
-
-        public async Task<MusicDataResponse> GetMusicDatasAsync(string[] ids)
-        {
-            return await NetworkTool.PostApiAsync<MusicDataResponse>(ApiUri.GetMusicData, ids);
-        }
-        #endregion
-
-        #region Vtuber
-        public async Task<VocalDataResponse> GetVocalListAsync(ListRequestUpper args)
-        {
-            return await NetworkTool.PostApiAsync<VocalDataResponse>(ApiUri.GetVtbsList, args);
-        }
-        #endregion
-
-        #region 歌单
-        public async Task<AlbumListResponse> GetAlbumListAsync(ListRequestUpper args)
-        {
-            return await NetworkTool.PostApiAsync<AlbumListResponse>(ApiUri.GetAlbumsList, args);
-        }
-
-        public async Task<AlbumDataResponse> GetAlbumDataAsync(string id)
-        {
-            return await NetworkTool.PostApiAsync<AlbumDataResponse>(ApiUri.GetAlbumsData, new GetAlbumDataRequeset { id = id });
-        }
-        #endregion
-
-        #region Banner
-        public async Task<BannerDataResponse> GetBannerListAsync(ListRequestUpper args)
-        {
-            return await NetworkTool.PostApiAsync<BannerDataResponse>(ApiUri.GetBannerData, args);
-        }
-        #endregion
-    }
-
-    public enum ResourcesType
-    {
-        Music = 0,
-        Lyric = 1,
-        CoverImg = 2,
     }
 }

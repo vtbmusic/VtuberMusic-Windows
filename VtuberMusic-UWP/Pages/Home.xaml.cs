@@ -33,67 +33,17 @@ namespace VtuberMusic_UWP.Pages
 
         private async void loadData()
         {
-            var bannerData = await App.Client.GetBannerListAsync(new ListRequestUpper
-            {
-                PageIndex = 1,
-                PageRows = 100,
-                SortType = "desc"
-            });
-
-            var hotMusicData = (await App.Client.GetHotMusicListAsync(new ListRequest
-            {
-                pageIndex = 1,
-                pageRows = 10,
-                sortField = nameof(MusicData.Likes),
-                sortType = "desc"
-            })).Data;
-
-            var newMusicData = (await App.Client.GetMusicListAsync(new ListRequest
-            {
-                pageIndex = 1,
-                pageRows = 10,
-                sortField = nameof(MusicData.CreateTime),
-                sortType = "desc"
-            })).Data;
-
-            var vtuberData = (await App.Client.GetVocalListAsync(new ListRequestUpper
-            {
-                PageIndex = 1,
-                PageRows = 30,
-                SortField = nameof(Artist.Watchs),
-                SortType = "desc"
-            })).Data;
-
-            var albumData = (await App.Client.GetAlbumListAsync(new ListRequestUpper
-            {
-                PageIndex = 1,
-                PageRows = 10,
-                SortField = nameof(AlbumData.CreateTime),
-                SortType = "desc"
-            })).Data;
-
-            if (App.Player.NowPlayingMusic == null)
-            {
-                var image = new BitmapImage();
-                image.UriSource = new Uri(bannerData.Data[0].BannerImg);
-                App.ViewModel.SetBackgroundImage(image);
-            }
+            var bannerData = await App.Client.GetBanner();
+            var newMusicData = await App.Client.GetNewSong(12);
 
             BannerDataView.ItemsSource = bannerData.Data;
-            VtuberDataView.ItemsSource = vtuberData;
-            AlbumDataView.ItemsSource = albumData;
-            HotMusicDataView.ItemsSource = hotMusicData;
-            SubMusicDataView.ItemsSource = newMusicData;
-            NewMusicDataView.ItemsSource = newMusicData;
+            SubMusicDataView.ItemsSource = newMusicData.Data;
+            NewMusicDataView.ItemsSource = newMusicData.Data;
         }
 
         private void AlbumDataView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AlbumDataView.SelectedIndex != -1)
-            {
-                Frame.Navigate(typeof(Album), ((AlbumData)AlbumDataView.SelectedItem).Id);
-                AlbumDataView.SelectedIndex = -1;
-            }
+            
         }
     }
 }

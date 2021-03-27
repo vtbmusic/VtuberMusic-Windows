@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="BannerItemTemplate" x:DataType="models:BannerData">
+        <DataTemplate x:Key="BannerItemTemplate" x:DataType="models:Banner">
             <Grid>
                 <Image Source="{x:Bind BannerImg}" Stretch="UniformToFill"/>
                 <Border VerticalAlignment="Bottom">
@@ -64,8 +64,8 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <PersonPicture ProfilePicture="{x:Bind AvatarImg}" Margin="5"/>
-                            <TextBlock Grid.Row="1" Text="{x:Bind OriginalName}" HorizontalAlignment="Center"/>
+                            <PersonPicture ProfilePicture="{x:Bind imgUrl}" Margin="5"/>
+                            <TextBlock Grid.Row="1" Text="{x:Bind name.origin}" HorizontalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>
@@ -78,14 +78,14 @@
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AlbumData">
+                    <DataTemplate x:DataType="models:Album">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="150"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Image Source="{x:Bind CoverImg}" Width="280" Stretch="UniformToFill"/>
-                            <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="5" Text="{x:Bind Name}"/>
+                            <Image Source="{x:Bind coverImgUrl}" Width="280" Stretch="UniformToFill"/>
+                            <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="5" Text="{x:Bind name}"/>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>

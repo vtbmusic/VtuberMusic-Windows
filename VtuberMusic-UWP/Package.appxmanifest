@@ -9,7 +9,7 @@
 
   <Identity
     Name="d0a417bf-8346-4bec-aad8-d72a0e209f88"
-    Publisher="CN=lipww"
+    Publisher="CN=VtuberMusic-Dev"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="a399079b-c898-4e42-a859-8a38c3434754" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>

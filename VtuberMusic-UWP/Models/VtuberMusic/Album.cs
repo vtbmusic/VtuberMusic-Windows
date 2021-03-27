@@ -6,45 +6,28 @@ using System.Threading.Tasks;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic
 {
-    public class AlbumData
-    {
-        public MusicData[] Data { get; set; }
-        public bool isLike { get; set; }
-        public string Id { get; set; }
-        public DateTime CreateTime { get; set; }
-        public DateTime? PublishTime { get; set; }
-        public string CreatorId { get; set; }
-        public string CreatorRealName { get; set; }
-        public bool Deleted { get; set; }
-        public string Name { get; set; }
-        public string CoverImg { get; set; }
-        public string introduce { get; set; }
-        public object VocalId { get; set; }
-        public object VocalName { get; set; }
-        public string Form { get; set; }
-        public string Type { get; set; }
-    }
-
-    public class GetAlbumDataRequeset
+    public class Album
     {
         public string id { get; set; }
-    }
-
-    public class AlbumListResponse
-    {
-        public bool Success { get; set; }
-        public int ErrorCode { get; set; }
-        public string Msg { get; set; }
-        public AlbumData[] Data { get; set; }
-        public int Total { get; set; }
-    }
-
-    public class AlbumDataResponse
-    {
-        public bool Success { get; set; }
-        public int ErrorCode { get; set; }
-        public string Msg { get; set; }
-        public AlbumData Data { get; set; }
-        public int Total { get; set; }
+        public string name { get; set; }
+        public int status { get; set; }
+        public int userId { get; set; }
+        public int createTime { get; set; }
+        public int updateTime { get; set; }
+        public int subscribedCount { get; set; }
+        public string coverImgUrl { get; set; }
+        public int coverImgId { get; set; }
+        public string description { get; set; }
+        public object tags { get; set; }
+        public int playCount { get; set; }
+        public int trackUpdateTime { get; set; }
+        public Profile creator { get; set; }
+        public object subscribers { get; set; }
+        public bool subscribed { get; set; }
+        public int privacy { get; set; }
+        public string recommendInfo { get; set; }
+        public int shareCount { get; set; }
+        public int commentCount { get; set; }
+        public bool like { get; set; }
     }
 }

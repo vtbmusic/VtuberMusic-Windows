@@ -32,27 +32,27 @@ namespace VtuberMusic_UWP.Pages
 
         private async void loadData(string id)
         {
-            var data = await App.Client.GetAlbumDataAsync(id);
+            //var data = await App.Client.GetAlbumDataAsync(id);
 
-            if (data.Success)
-            {
-                AlbumName.Text = data.Data.Name;
-                CreateTime.Text = data.Data.CreateTime.ToString();
-                if (data.Data.introduce != null)
-                {
-                    Introduction.Text = data.Data.introduce;
-                }
-                else
-                {
-                    Introduction.Text = "这个作者很懒没写简介哦～";
-                }
+            //if (data.Success)
+            //{
+            //    AlbumName.Text = data.Data.Name;
+            //    CreateTime.Text = data.Data.CreateTime.ToString();
+            //    if (data.Data.introduce != null)
+            //    {
+            //        Introduction.Text = data.Data.introduce;
+            //    }
+            //    else
+            //    {
+            //        Introduction.Text = "这个作者很懒没写简介哦～";
+            //    }
 
-                DataView.ItemsSource = data.Data.Data;
+            //    DataView.ItemsSource = data.Data.Data;
 
-                var image = new BitmapImage();
-                image.UriSource = new Uri(data.Data.CoverImg);
-                CoverImg.Source = image;
-            }
+            //    var image = new BitmapImage();
+            //    image.UriSource = new Uri(data.Data.CoverImg);
+            //    CoverImg.Source = image;
+            //}
         }
     }
 }

@@ -4,7 +4,7 @@
 
     <Color x:Key="ThemeColor">#f77850</Color>
     <SolidColorBrush x:Key="ThemeColorBrush" Color="{StaticResource ThemeColor}"/>
-    <SolidColorBrush x:Key="Foreground" Color="White"/>
+    <SolidColorBrush x:Key="Foreground" Color="Black"/>
 
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource Foreground}"/>

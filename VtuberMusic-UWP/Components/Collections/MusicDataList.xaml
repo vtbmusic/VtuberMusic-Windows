@@ -11,7 +11,7 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <DataTemplate x:Name="Small" x:DataType="vtubermusic:MusicData">
+        <DataTemplate x:Name="Small" x:DataType="vtubermusic:Music">
             <Grid Margin="10 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -19,11 +19,11 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{x:Bind OriginName}"/>
-                <ItemsControl Grid.Column="1" Margin="0 0 5 0" ItemsSource="{x:Bind VocalList}" Grid.Row="1">
+                <TextBlock Text="{x:Bind name}"/>
+                <ItemsControl Grid.Column="1" Margin="0 0 5 0" ItemsSource="{x:Bind artists}" Grid.Row="1">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="vtubermusic:Vocallist">
-                            <TextBlock Text="{x:Bind cn}"/>
+                        <DataTemplate x:DataType="vtubermusic:Artist">
+                            <TextBlock Text="{x:Bind name.origin}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>
@@ -32,28 +32,28 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-                <TextBlock Grid.Column="2" Text="{x:Bind SourceName}"/>
-                <TextBlock Grid.Column="3" Text="00:00" Margin="0 0 20 0"/>
+                <TextBlock Grid.Column="2" Text="{x:Bind alias}"/>
+                <TextBlock Grid.Column="3" Text="{x:Bind duration}" Margin="0 0 20 0"/>
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Name="Large" x:DataType="vtubermusic:MusicData">
+        <DataTemplate x:Name="Large" x:DataType="vtubermusic:Music">
             <Grid Height="50" Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image x:Name="CoverImage" Source="{x:Bind ResourcesUrl.CoverImg}" Stretch="UniformToFill"/>
+                <Image x:Name="CoverImage" Source="{x:Bind picUrl}" Stretch="UniformToFill"/>
                 <Grid Grid.Column="1" Margin="5 0 0 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind OriginName}" FontWeight="Medium" VerticalAlignment="Center"/>
-                    <ItemsControl ItemsSource="{x:Bind VocalList}" Grid.Row="1">
+                    <TextBlock Text="{x:Bind name}" FontWeight="Medium" VerticalAlignment="Center"/>
+                    <ItemsControl ItemsSource="{x:Bind artists}" Grid.Row="1">
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="vtubermusic:Vocallist">
-                                <TextBlock Text="{x:Bind cn}" VerticalAlignment="Center" Margin="0 0 2 0"/>
+                            <DataTemplate x:DataType="vtubermusic:Artist">
+                                <TextBlock Text="{x:Bind name.origin}" VerticalAlignment="Center" Margin="0 0 2 0"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

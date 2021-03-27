@@ -21,14 +21,14 @@ namespace VtuberMusic_UWP.Components.Collections
     public partial class MusicDataList : UserControl
     {
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(MusicData[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
+            DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
         public static readonly DependencyProperty ModeProperty =
             DependencyProperty.Register("Mode", typeof(MusicDataListMode), typeof(MusicDataList), new PropertyMetadata("Mode", new PropertyChangedCallback(ModeChangeEventHandle)));
 
-        public MusicData[] ItemsSource
+        public Music[] ItemsSource
         {
-            get { return (MusicData[])GetValue(ItemsSourceProperty); }
+            get { return (Music[])GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -55,7 +55,7 @@ namespace VtuberMusic_UWP.Components.Collections
 
         private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue.GetType() == typeof(MusicData[]))
+            if (e.NewValue.GetType() == typeof(Music[]))
             {
                 DataList.ItemsSource = e.NewValue;
             }
@@ -87,7 +87,7 @@ namespace VtuberMusic_UWP.Components.Collections
         {
             if (DataList.SelectedItem != null)
             {
-                App.Player.SetMusic((MusicData)DataList.SelectedItem);
+                App.Player.SetMusic((Music)DataList.SelectedItem);
             }
         }
     }

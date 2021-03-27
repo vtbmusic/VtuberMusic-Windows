@@ -67,7 +67,7 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="vtubermusic:MusicData">
+                            <DataTemplate x:DataType="vtubermusic:Music">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="24"/>
@@ -76,8 +76,14 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <!--<FontIcon FontFamily="{StaticResource Icon}" Glyph="{StaticResource icon-volume}"/>-->
-                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{x:Bind OriginName}"/>
-                                    <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{x:Bind VocalName}" Margin="5 0"/>
+                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{x:Bind name}"/>
+                                    <ItemsControl Grid.Column="2" ItemsSource="{x:Bind artists}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vtubermusic:Artist">
+                                                <TextBlock VerticalAlignment="Center" Text="{x:Bind name.origin}" Margin="5 0"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                     <Button x:Name="Remove" Grid.Column="3" Click="Remove_Click"
                                             Tag="{x:Bind}" FontFamily="{StaticResource Icon}" Content="{StaticResource icon-close}"/>
                                 </Grid>

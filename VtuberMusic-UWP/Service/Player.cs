@@ -99,9 +99,9 @@ namespace VtuberMusic_UWP.Service
             }
         }
         // 播放列表
-        public ObservableCollection<MusicData> PlayList { get; private set; } = new ObservableCollection<MusicData>();
+        public ObservableCollection<Music> PlayList { get; private set; } = new ObservableCollection<Music>();
         public EventHandler PlayListChanged;
-        public EventHandler<MusicData> NowPlayingMusicChanged;
+        public EventHandler<Music> NowPlayingMusicChanged;
         public EventHandler<PlayMode> PlayModeChanged;
 
         private PlayMode _playMode;
@@ -121,8 +121,8 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        private MusicData _nowPlayingMusic;
-        public MusicData NowPlayingMusic
+        private Music _nowPlayingMusic;
+        public Music NowPlayingMusic
         {
             get
             {
@@ -165,7 +165,7 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        private void nowPlayingMusicChanged(object sender, MusicData e)
+        private void nowPlayingMusicChanged(object sender, Music e)
         {
             updateMediaTransportControls(e);
             _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
@@ -216,18 +216,19 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        public void SetMusic(MusicData music)
+        public async void SetMusic(Music music)
         {
             if (music != null)
             {
-                if (!PlayList.Any(m => m.Id == music.Id))
+                if (!PlayList.Any(m => m.id == music.id))
                 {
                     PlayListAddMusic(music);
                 }
 
                 NowPlayingMusic = music;
                 Stop();
-                mediaSource = MediaSource.CreateFromUri(new Uri(music.ResourcesUrl.Music));
+
+                mediaSource = MediaSource.CreateFromUri(new Uri((await App.Client.GetSongMeduaUri(music.id)).Data));
                 mediaSource.OpenOperationCompleted += _mediaSource_OpenOperationCompleted;
             }
             else
@@ -292,21 +293,27 @@ namespace VtuberMusic_UWP.Service
         }
 
         #region 系统媒体传输控件
-        private void updateMediaTransportControls(MusicData music)
+        private void updateMediaTransportControls(Music music)
         {
             if (music != null)
             {
                 var updater = _systemMediaTransportControls.DisplayUpdater;
                 updater.Type = MediaPlaybackType.Music;
-                if (music.SourceName != null)
+                if (music.alias != null)
                 {
-                    updater.MusicProperties.AlbumTitle = (string)music.SourceName;
+                    updater.MusicProperties.AlbumTitle = (string)music.alias;
                 }
 
-                updater.MusicProperties.AlbumArtist = music.VocalName;
-                updater.MusicProperties.Artist = music.VocalName;
-                updater.MusicProperties.Title = music.OriginName;
-                updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(music.ResourcesUrl.CoverImg));
+                var artists = "";
+                foreach (var temp in music.artists)
+                {
+                    artists += temp + "";
+                }
+
+                updater.MusicProperties.AlbumArtist = artists;
+                updater.MusicProperties.Artist = artists;
+                updater.MusicProperties.Title = music.name;
+                updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(music.picUrl));
 
                 updater.Update();
             }
@@ -384,9 +391,9 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        public void PlayListAddMusic(MusicData music)
+        public void PlayListAddMusic(Music music)
         {
-            if (!PlayList.Any(m => m.Id == music.Id))
+            if (!PlayList.Any(m => m.id == music.id))
             {
                 PlayList.Add(music);
                 if (PlayListChanged != null)
@@ -396,9 +403,9 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        public void PlayListDeleteMusic(MusicData music)
+        public void PlayListDeleteMusic(Music music)
         {
-            if (PlayList.Any(m => m.Id == music.Id))
+            if (PlayList.Any(m => m.id == music.id))
             {
                 PlayList.Remove(music);
                 if (PlayListChanged != null)

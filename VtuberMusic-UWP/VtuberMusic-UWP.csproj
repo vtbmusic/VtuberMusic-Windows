@@ -139,13 +139,13 @@
     </Compile>
     <Compile Include="Models\Main\ViewModel.cs" />
     <Compile Include="Models\VtuberMusic\Account.cs" />
-    <Compile Include="Models\VtuberMusic\ApiRequest.cs" />
+    <Compile Include="Models\VtuberMusic\ApiResponse.cs" />
     <Compile Include="Models\VtuberMusic\ApiUri.cs" />
     <Compile Include="Models\VtuberMusic\Banner.cs" />
-    <Compile Include="Models\VtuberMusic\CDN.cs" />
     <Compile Include="Models\VtuberMusic\Music.cs" />
     <Compile Include="Models\VtuberMusic\Album.cs" />
     <Compile Include="Models\VtuberMusic\Artist.cs" />
+    <Compile Include="Models\VtuberMusic\Profile.cs" />
     <Compile Include="Pages\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
@@ -256,6 +256,12 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="RestSharp">
+      <Version>106.11.7</Version>
+    </PackageReference>
+    <PackageReference Include="RestSharp.Serializers.NewtonsoftJson">
+      <Version>106.11.7</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

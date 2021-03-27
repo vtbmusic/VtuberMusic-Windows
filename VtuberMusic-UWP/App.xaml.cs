@@ -26,7 +26,7 @@ namespace VtuberMusic_UWP
     sealed partial class App : Application
     {
         public static ViewModel ViewModel = new ViewModel();
-        public static MusicClient Client;
+        public static MusicClient Client = new MusicClient();
         public static Player Player = new Player();
         private Frame rootFrame;
 
@@ -59,11 +59,6 @@ namespace VtuberMusic_UWP
                 Window.Current.Activate();
             }
 
-            Client = new MusicClient(OnClientLoadComplete);
-        }
-
-        private void OnClientLoadComplete(object sender, EventArgs e)
-        {
             rootFrame.Navigate(typeof(MainPage));
         }
 

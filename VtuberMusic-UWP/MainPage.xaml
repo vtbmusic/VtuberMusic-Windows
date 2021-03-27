@@ -9,12 +9,9 @@
     mc:Ignorable="d">
 
     <Page.Background>
-        <ImageBrush Stretch="UniformToFill"/>
+        <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemChromeMediumColor}" TintOpacity="0.5" FallbackColor="{ThemeResource SystemChromeMediumColor}"/>
     </Page.Background>
     <Grid>
-        <Grid.Background>
-            <AcrylicBrush TintColor="#CC878787" FallbackColor="#CC878787" TintOpacity="0.4"/>
-        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>

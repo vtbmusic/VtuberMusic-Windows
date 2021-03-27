@@ -102,11 +102,18 @@ namespace VtuberMusic_UWP.Components.Player
             if (data != null)
             {
                 var image = new BitmapImage();
-                image.UriSource = new Uri(data.ResourcesUrl.CoverImg);
+                image.UriSource = new Uri(data.picUrl);
                 CoverImg.Source = image;
 
-                MusicName.Text = data.OriginName;
-                VocalName.Text = data.VocalName;
+                MusicName.Text = data.name;
+
+                string artists = "";
+                foreach (var temp in data.artists)
+                {
+                    artists += temp + " ";
+                }
+
+                VocalName.Text = artists;
             }
             else
             {
@@ -116,7 +123,7 @@ namespace VtuberMusic_UWP.Components.Player
             }
         }
 
-        private async void nowPlayingMusicChange(object sender, MusicData e)
+        private async void nowPlayingMusicChange(object sender, Music e)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(update));
         }

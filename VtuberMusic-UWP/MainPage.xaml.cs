@@ -35,26 +35,6 @@ namespace VtuberMusic_UWP
         {
             this.InitializeComponent();
             App.ViewModel.MainPage = this;
-            App.Player.NowPlayingMusicChanged += nowPlayingMusicChanged;
-        }
-
-        private void update()
-        {
-            if (App.Player.NowPlayingMusic != null)
-            {
-                var image = new BitmapImage();
-                image.UriSource = new Uri(App.Player.NowPlayingMusic.ResourcesUrl.CoverImg);
-                Background = new ImageBrush { ImageSource = image, Stretch = Stretch.UniformToFill };
-            }
-            else
-            {
-                Background = null;
-            }
-        }
-
-        private async void nowPlayingMusicChanged(object sender, MusicData e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(update));
         }
     }
 }
