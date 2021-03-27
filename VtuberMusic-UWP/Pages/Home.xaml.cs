@@ -33,9 +33,11 @@ namespace VtuberMusic_UWP.Pages
 
         private async void loadData()
         {
+            var artistData = await App.Client.GetArtistList();
             var bannerData = await App.Client.GetBanner();
             var newMusicData = await App.Client.GetNewSong(12);
 
+            VtuberDataView.ItemsSource = artistData.Data;
             BannerDataView.ItemsSource = bannerData.Data;
             SubMusicDataView.ItemsSource = newMusicData.Data;
             NewMusicDataView.ItemsSource = newMusicData.Data;
