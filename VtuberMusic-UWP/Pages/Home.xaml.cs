@@ -36,11 +36,13 @@ namespace VtuberMusic_UWP.Pages
             var artistData = await App.Client.GetArtistList();
             var bannerData = await App.Client.GetBanner();
             var newMusicData = await App.Client.GetNewSong(12);
+            var albumData = await App.Client.GetPlayListList();
 
             VtuberDataView.ItemsSource = artistData.Data;
             BannerDataView.ItemsSource = bannerData.Data;
             SubMusicDataView.ItemsSource = newMusicData.Data;
             NewMusicDataView.ItemsSource = newMusicData.Data;
+            AlbumDataView.ItemsSource = albumData.Data;
         }
 
         private void AlbumDataView_SelectionChanged(object sender, SelectionChangedEventArgs e)

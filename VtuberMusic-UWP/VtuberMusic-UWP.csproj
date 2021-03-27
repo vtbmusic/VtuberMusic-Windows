@@ -164,7 +164,6 @@
     <Compile Include="Service\AccountService.cs" />
     <Compile Include="Service\MusicClient.cs" />
     <Compile Include="Service\Player.cs" />
-    <Compile Include="Tools\NetworkTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -271,6 +270,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="VtuberMusic-UWP_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tools\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

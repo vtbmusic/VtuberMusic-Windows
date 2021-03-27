@@ -20,5 +20,7 @@ namespace VtuberMusic_UWP.Models.VtuberMusic
         public static string Banner = BaseUrl + "/v2/banner";
 
         public static string ArtistList = BaseUrl + "/v2/artist/list";
+
+        public static string PlayListList = BaseUrl + "/v2/playlist/list";
     }
 }

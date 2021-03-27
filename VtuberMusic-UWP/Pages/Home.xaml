@@ -28,10 +28,10 @@
     </Page.Resources>
 
     <ScrollViewer>
-        <StackPanel Margin="100 0">
+        <StackPanel MaxWidth="1100" Margin="100 0">
             <main:BlockTitle Text="我们的推荐"/>
             <FlipView x:Name="BannerDataView" Margin="0 5" Height="530" ItemTemplate="{StaticResource BannerItemTemplate}"/>
-            <Grid MaxWidth="1100" Margin="0 30" HorizontalAlignment="Center">
+            <Grid Margin="0 30" HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
