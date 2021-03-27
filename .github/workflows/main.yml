@@ -57,6 +57,7 @@ jobs:
 
     env:
       Solution_Name: VtuberMusic-UWP                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Wap_Project_Directory: .\VtuberMusic-UWP
 
     steps:
     - name: Checkout
