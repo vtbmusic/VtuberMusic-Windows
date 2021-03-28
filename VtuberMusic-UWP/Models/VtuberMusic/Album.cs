@@ -30,4 +30,10 @@ namespace VtuberMusic_UWP.Models.VtuberMusic
         public int commentCount { get; set; }
         public bool like { get; set; }
     }
+
+    public class AlbumSong
+    {
+        public Album playlist { get; set; }
+        public Music[] songs { get; set; }
+    }
 }

@@ -107,19 +107,13 @@ namespace VtuberMusic_UWP.Components.Player
 
                 MusicName.Text = data.name;
 
-                string artists = "";
-                foreach (var temp in data.artists)
-                {
-                    artists += temp + " ";
-                }
-
-                VocalName.Text = artists;
+                Vocal.ItemsSource = data.artists;
             }
             else
             {
                 CoverImg.Source = null;
                 MusicName.Text = "";
-                VocalName.Text = "";
+                Vocal.ItemsSource = null;
             }
         }
 

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Components.Player"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -25,7 +25,18 @@
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="10 0" Tapped="MusicInfo_Tapped" VerticalAlignment="Center">
                 <TextBlock x:Name="MusicName"/>
-                <TextBlock x:Name="VocalName"/>
+                <ItemsControl x:Name="Vocal">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal"></ItemsStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vtubermusic:Artist">
+                            <TextBlock Text="{x:Bind name.origin}" Margin="0 0 5 0"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1" VerticalAlignment="Center">

@@ -47,7 +47,8 @@ namespace VtuberMusic_UWP.Pages
 
         private void AlbumDataView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            if (AlbumDataView.SelectedIndex != -1) Frame.Navigate(typeof(Album), ((Models.VtuberMusic.Album)AlbumDataView.SelectedItem).id);
+            AlbumDataView.SelectedIndex = -1;
         }
     }
 }

@@ -142,5 +142,22 @@ namespace VtuberMusic_UWP.Service
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        public async Task<ApiResponse<AlbumSong>> GetPlayListSong(string id)
+        {
+            var request = new RestRequest(ApiUri.PlayListSongs);
+            request.AddParameter("id", id);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<AlbumSong>>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
     }
 }
