@@ -51,7 +51,7 @@ namespace VtuberMusic_UWP.Components.Player
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            App.Player.PlayListDeleteMusic((Music)((Button)sender).Tag);
+            App.Player.PlayList.Remove((Music)DataView.SelectedItem);
         }
         
         public void ShowPopup()

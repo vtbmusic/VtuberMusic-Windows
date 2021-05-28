@@ -155,14 +155,15 @@ namespace VtuberMusic_UWP.Service
             PlayListChanged += playListChanged;
             PlayStateChanged += playStateChanged;
             NowPlayingMusicChanged += nowPlayingMusicChanged;
+            PlayList.CollectionChanged += delegate
+            {
+                if (PlayListChanged != null) playListChanged(this, null);
+            };
         }
 
         private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args)
         {
-            if (VolumeChanged != null)
-            {
-                VolumeChanged(this, _mediaPlayer.Volume);
-            }
+            if (VolumeChanged != null) VolumeChanged(this, _mediaPlayer.Volume);
         }
 
         private void nowPlayingMusicChanged(object sender, Music e)
@@ -222,7 +223,7 @@ namespace VtuberMusic_UWP.Service
             {
                 if (!PlayList.Any(m => m.id == music.id))
                 {
-                    PlayListAddMusic(music);
+                    PlayList.Add(music);
                 }
 
                 NowPlayingMusic = music;
@@ -307,7 +308,7 @@ namespace VtuberMusic_UWP.Service
                 var artists = "";
                 foreach (var temp in music.artists)
                 {
-                    artists += temp + "";
+                    artists += temp.name.origin + "";
                 }
 
                 updater.MusicProperties.AlbumArtist = artists;
@@ -387,30 +388,6 @@ namespace VtuberMusic_UWP.Service
                             SetMusic(PlayList[PlayList.IndexOf(NowPlayingMusic) - 1]);
                         }
                         break;
-                }
-            }
-        }
-
-        public void PlayListAddMusic(Music music)
-        {
-            if (!PlayList.Any(m => m.id == music.id))
-            {
-                PlayList.Add(music);
-                if (PlayListChanged != null)
-                {
-                    PlayListChanged(this, null);
-                }
-            }
-        }
-
-        public void PlayListDeleteMusic(Music music)
-        {
-            if (PlayList.Any(m => m.id == music.id))
-            {
-                PlayList.Remove(music);
-                if (PlayListChanged != null)
-                {
-                    PlayListChanged(this, null);
                 }
             }
         }

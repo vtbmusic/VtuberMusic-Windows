@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Components.Main;
 using VtuberMusic_UWP.Components.Player;
+using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace VtuberMusic_UWP.Models.Main
 {
@@ -15,14 +17,16 @@ namespace VtuberMusic_UWP.Models.Main
         public SidePanel SidePanel;
         public MainPlayer MainPlayer;
 
-        public void SetBackgroundImage(ImageSource imageSource)
-        {
-            MainPage.Background = new ImageBrush { ImageSource = imageSource };
-        }
+        public Album CurrentAlbum;
 
         public void NavigateToPage(Type page, object args = null)
         {
             SidePanel.NavigateToPage(page, args);
+        }
+
+        public void SetAppBackgroundImage(Uri imageUri)
+        {
+            MainPage.Background = new ImageBrush { ImageSource = new BitmapImage(imageUri) };
         }
     }
 }

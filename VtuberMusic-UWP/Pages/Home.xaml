@@ -6,7 +6,9 @@
     xmlns:main="using:VtuberMusic_UWP.Components.Main"
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -31,25 +33,11 @@
         <StackPanel MaxWidth="1100" Margin="100 0">
             <main:BlockTitle Text="我们的推荐"/>
             <FlipView x:Name="BannerDataView" Margin="0 5" Height="530" ItemTemplate="{StaticResource BannerItemTemplate}"/>
-            <Grid Margin="0 30" HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel MinWidth="400">
-                    <main:BlockTitle Text="我关注的"/>
-                    <collections:MusicDataList x:Name="SubMusicDataView" Mode="Large"/>
-                </StackPanel>
-                <StackPanel Grid.Column="1" MinWidth="400" Margin="5 0">
-                    <main:BlockTitle Text="热门播放"/>
-                    <collections:MusicDataList x:Name="HotMusicDataView" Mode="Large"/>
-                </StackPanel>
-                <StackPanel Grid.Column="2" MinWidth="400">
-                    <main:BlockTitle Text="最新歌曲"/>
-                    <collections:MusicDataList x:Name="NewMusicDataView" Mode="Large"/>
-                </StackPanel>
-            </Grid>
+            <main:BlockTitle Text="我关注的"/>
+            <collections:MusicCardView x:Name="SubMusicDataView"/>
+            <main:BlockTitle Text="最新歌曲"/>
+            <collections:MusicCardView x:Name="NewMusicDataView"/>
+
             <main:BlockTitle Text="人气 Vtuber"/>
             <GridView x:Name="VtuberDataView">
                 <GridView.ItemsPanel>
@@ -71,7 +59,9 @@
                 </GridView.ItemTemplate>
             </GridView>
             <main:BlockTitle Text="歌单"/>
-            <GridView x:Name="AlbumDataView" SelectionChanged="AlbumDataView_SelectionChanged">
+            <GridView x:Name="AlbumDataView" SelectionChanged="AlbumDataView_SelectionChanged"
+                      animations:Connected.ListItemKey="Cover"
+                      animations:Connected.ListItemElementName="AlbumCover">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
@@ -84,7 +74,7 @@
                                 <RowDefinition Height="150"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <Image Source="{x:Bind coverImgUrl}" Width="280" Stretch="UniformToFill"/>
+                            <Image x:Name="AlbumCover" Source="{x:Bind coverImgUrl}" Width="280" Stretch="UniformToFill"/>
                             <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="5" Text="{x:Bind name}"/>
                         </Grid>
                     </DataTemplate>

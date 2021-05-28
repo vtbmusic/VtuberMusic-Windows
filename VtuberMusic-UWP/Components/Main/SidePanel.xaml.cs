@@ -19,6 +19,14 @@ namespace VtuberMusic_UWP.Components.Main
 {
     public sealed partial class SidePanel : UserControl
     {
+        public Type NowPage
+        {
+            get
+            {
+                return ContentFrame.CurrentSourcePageType;
+            }
+        }
+
         public SidePanel()
         {
             this.InitializeComponent();

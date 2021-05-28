@@ -23,36 +23,42 @@ namespace VtuberMusic_UWP.Pages
         public Album()
         {
             this.InitializeComponent();
+            CoverImg.Translation = new System.Numerics.Vector3(0, 0, 32);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            loadData((string)e.Parameter);
+            loadData((Models.VtuberMusic.Album)e.Parameter);
         }
 
-        private async void loadData(string id)
+        private async void loadData(Models.VtuberMusic.Album album)
         {
-            var data = await App.Client.GetPlayListSong(id);
+            AlbumName.Text = album.name;
+            CreatorInfo.Text = $"{ album.creator.nickname } 创建于 { ConvertUnixTimeStamp(album.createTime).ToString("yyyy/M/d") }";
+            if (album.description != null)
+            {
+                Introduction.Text = album.description;
+            }
+            else
+            {
+                Introduction.Text = "这个作者很懒没写简介哦～";
+            }
+
+            var image = new BitmapImage();
+            image.UriSource = new Uri(album.coverImgUrl);
+            CoverImg.Source = image;
+
+            var data = await App.Client.GetPlayListSong(album.id);
 
             if (data.Success)
             {
-                AlbumName.Text = data.Data.playlist.name;
-                CreateTime.Text = data.Data.playlist.createTime.ToString();
-                if (data.Data.playlist.description != null)
-                {
-                    Introduction.Text = data.Data.playlist.description;
-                }
-                else
-                {
-                    Introduction.Text = "这个作者很懒没写简介哦～";
-                }
-
                 DataView.ItemsSource = data.Data.songs;
-
-                var image = new BitmapImage();
-                image.UriSource = new Uri(data.Data.playlist.coverImgUrl);
-                CoverImg.Source = image;
             }
+        }
+
+        private DateTime ConvertUnixTimeStamp(long time)
+        {
+            return new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(time);
         }
     }
 }

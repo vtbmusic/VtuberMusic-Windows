@@ -20,9 +20,9 @@
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel CornerRadius="10" Height="55" Tapped="MusicInfo_Tapped">
-                <Image x:Name="CoverImg" Stretch="UniformToFill"/>
-            </StackPanel>
+            <Grid CornerRadius="10" Height="55" Tapped="MusicInfo_Tapped">
+                <Image x:Name="CoverImg" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
+            </Grid>
             <StackPanel Grid.Column="1" Margin="10 0" Tapped="MusicInfo_Tapped" VerticalAlignment="Center">
                 <TextBlock x:Name="MusicName"/>
                 <ItemsControl x:Name="Vocal">

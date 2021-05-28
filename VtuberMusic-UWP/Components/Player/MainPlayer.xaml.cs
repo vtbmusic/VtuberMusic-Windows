@@ -45,6 +45,8 @@ namespace VtuberMusic_UWP.Components.Player
             player.VolumeChanged += volumeChanged;
             Volume.Value = player.Volume;
             App.ViewModel.MainPlayer = this;
+
+            if (player.NowPlayingMusic == null) this.Visibility = Visibility.Collapsed;
         }
 
         private async void volumeChanged(object sender, double e)
@@ -103,24 +105,20 @@ namespace VtuberMusic_UWP.Components.Player
             {
                 var image = new BitmapImage();
                 image.UriSource = new Uri(data.picUrl);
+
                 CoverImg.Source = image;
-
                 MusicName.Text = data.name;
-
                 Vocal.ItemsSource = data.artists;
+
+                this.Visibility = Visibility.Visible;
             }
             else
             {
-                CoverImg.Source = null;
-                MusicName.Text = "";
-                Vocal.ItemsSource = null;
+                this.Visibility = Visibility.Collapsed;
             }
         }
 
-        private async void nowPlayingMusicChange(object sender, Music e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(update));
-        }
+        private async void nowPlayingMusicChange(object sender, Music e) { await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(update)); }
 
         private void PlayList_Click(object sender, RoutedEventArgs e)
         {
@@ -134,16 +132,13 @@ namespace VtuberMusic_UWP.Components.Player
             DurationSliderIsDrag = false;
         }
 
-        private void DurationSlider_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            DurationSliderIsDrag = true;
-        }
+        private void DurationSlider_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) { DurationSliderIsDrag = true; }
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             switch (player.PlayState)
             {
-                case Service.PlayState.Pause:
+                case PlayState.Pause:
                     
                     Play.Content = "\ue613";
                     player.Play();
@@ -155,34 +150,19 @@ namespace VtuberMusic_UWP.Components.Player
             }
         }
 
-        private void Next_Click(object sender, RoutedEventArgs e)
-        {
-            player.Next();
-        }
+        private void Next_Click(object sender, RoutedEventArgs e) { player.Next(); }
 
-        private void Prev_Click(object sender, RoutedEventArgs e)
-        {
-            player.Previous();
-        }
+        private void Prev_Click(object sender, RoutedEventArgs e) { player.Previous(); }
 
-        private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            player.Volume = Volume.Value;
-        }
+        private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) { player.Volume = Volume.Value; }
 
-        private void Volume_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
-        {
-            VolSliderIsDrag = true;
-        }
+        private void Volume_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) { VolSliderIsDrag = true; }
 
-        private void Volume_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            VolSliderIsDrag = false;
-        }
+        private void Volume_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) { VolSliderIsDrag = false; }
 
         private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            App.ViewModel.NavigateToPage(typeof(Playing));
+            if (App.ViewModel.SidePanel.NowPage != typeof(Playing)) App.ViewModel.NavigateToPage(typeof(Playing));
         }
     }
 }

@@ -8,15 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:player="using:VtuberMusic_UWP.Components.Player"
     mc:Ignorable="d">
 
-    <Page.Background>
-        <AcrylicBrush BackgroundSource="HostBackdrop" TintColor="{ThemeResource SystemChromeMediumColor}" TintOpacity="0.5" FallbackColor="{ThemeResource SystemChromeMediumColor}"/>
-    </Page.Background>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <Grid Background="{StaticResource SystemControlAcrylicElementBrush}">
         <main:SidePanel/>
-        <player:MainPlayer Grid.Row="1"/>
     </Grid>
 </Page>

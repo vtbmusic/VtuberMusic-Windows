@@ -74,15 +74,6 @@ namespace VtuberMusic_UWP.Components.Collections
             }
         }
 
-        private void DataList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (args.ItemIndex % 2 == 0)
-            {
-                var brush = new SolidColorBrush((Color)Resources["SystemListLowColor"]);
-                args.ItemContainer.Background = brush;
-            }
-        }
-
         private void DataList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (DataList.SelectedItem != null)
@@ -95,6 +86,7 @@ namespace VtuberMusic_UWP.Components.Collections
     public enum MusicDataListMode
     {
         Small,
-        Large
+        Large,
+        Card
     }
 }

@@ -18,9 +18,9 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Height="400" Width="400" CornerRadius="20">
-                <Image x:Name="CoverImg" Height="400" Width="400" Stretch="UniformToFill" Source="https://cdn.aqua.chat/image/754443bca897f76766543d28fc8cdc8d.jpg"/>
-            </StackPanel>
+            <Grid Height="400" Width="400" CornerRadius="20">
+                <Image x:Name="CoverImg" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill" Source="https://cdn.aqua.chat/image/754443bca897f76766543d28fc8cdc8d.jpg"/>
+            </Grid>
             <StackPanel Grid.Row="1" Margin="10">
                 <TextBlock x:Name="MusicName" Text="箱庭～ミニチュアガーデン～" FontSize="24" FontWeight="Bold"/>
                 <TextBlock x:Name="Artist" FontSize="18" Text="健屋花那"/>
