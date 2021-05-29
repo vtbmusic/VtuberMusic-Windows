@@ -45,8 +45,8 @@
                 <Button x:Name="GoBackButton" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
                         Click="GoBackButton_Click" FontFamily="{StaticResource Icon}" Content="{StaticResource icon-back}"/>
                 <Button x:Name="GoForwardButton" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
-                        Click="GoForwardButton_Click" FontFamily="{StaticResource Icon}" Content="{StaticResource icon-go}" Margin="5 0"/>
-                <TextBox FontSize="16" PlaceholderText="搜索" Width="400"/>
+                        Click="GoForwardButton_Click" FontFamily="{StaticResource Icon}" Content="{StaticResource icon-go}" Margin="5 0 3 0"/>
+                <TextBox CornerRadius="18" FontSize="14" Height="40" Padding="13 8 0 0" VerticalAlignment="Center" BorderBrush="Transparent" PlaceholderText="搜索" Width="400"/>
             </StackPanel>
             <Frame x:Name="ContentFrame" Grid.Row="1"/>
             <player:MainPlayer Grid.Row="2"/>

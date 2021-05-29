@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -20,6 +21,8 @@ namespace VtuberMusic_UWP.Components.Collections
 {
     public partial class MusicDataList : UserControl
     {
+        private int _count = 0;
+
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
@@ -81,6 +84,13 @@ namespace VtuberMusic_UWP.Components.Collections
                 App.Player.SetMusic((Music)DataList.SelectedItem);
             }
         }
+
+        private void Count_Loaded(object sender, RoutedEventArgs e)
+        {
+            var text = (TextBlock)sender;
+            _count++;
+            text.Text = _count.ToString();
+        }
     }
 
     public enum MusicDataListMode
@@ -88,5 +98,21 @@ namespace VtuberMusic_UWP.Components.Collections
         Small,
         Large,
         Card
+    }
+
+    public class TimeConver : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string culture)
+        {
+            if (value == null && value.GetType() != typeof(double))
+                return DependencyProperty.UnsetValue;
+
+            return TimeSpan.FromSeconds((float)value).ToString(@"mm\:ss");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture)
+        {
+            return DependencyProperty.UnsetValue;
+        }
     }
 }
