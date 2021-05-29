@@ -32,7 +32,7 @@
     <ScrollViewer>
         <StackPanel MaxWidth="1100" Margin="100 0">
             <main:BlockTitle Text="我们的推荐"/>
-            <FlipView x:Name="BannerDataView" Margin="0 5" Height="530" ItemTemplate="{StaticResource BannerItemTemplate}"/>
+            <FlipView x:Name="BannerDataView" CornerRadius="10" Margin="0 5" Height="530" ItemTemplate="{StaticResource BannerItemTemplate}"/>
             <main:BlockTitle Text="我关注的"/>
             <collections:MusicCardView x:Name="SubMusicDataView"/>
             <main:BlockTitle Text="最新歌曲"/>

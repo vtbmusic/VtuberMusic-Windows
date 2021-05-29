@@ -59,7 +59,7 @@ namespace VtuberMusic_UWP.Pages
                 _albumItem,
                 "AlbumCover");
 
-            Frame.Navigate(typeof(Album), e.ClickedItem, new SuppressNavigationTransitionInfo());
+            Frame.Navigate(typeof(Album), e.ClickedItem);
         }
 
         private async void AlbumDataView_Loaded(object sender, RoutedEventArgs e)
@@ -70,11 +70,6 @@ namespace VtuberMusic_UWP.Pages
             ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
             if (animation != null)
             {
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
-                {
-                    animation.Configuration = new DirectConnectedAnimationConfiguration();
-                }
-
                 await AlbumDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "AlbumCover");
             }
         }

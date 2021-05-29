@@ -17,7 +17,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel CornerRadius="10">
-                    <Image x:Name="CoverImg" animations:Connected.Key="Cover" Stretch="UniformToFill">
+                    <Image x:Name="CoverImg" Stretch="UniformToFill">
                         <Image.Shadow>
                             <ThemeShadow/>
                         </Image.Shadow>
