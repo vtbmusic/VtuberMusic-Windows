@@ -44,8 +44,8 @@
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel CornerRadius="10">
-                    <Image x:Name="CoverImage" Width="50" Height="50" Source="{x:Bind picUrl}" Stretch="UniformToFill"/>
+                <StackPanel CornerRadius="10" Width="50" >
+                    <Image x:Name="CoverImage" Height="50" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <Grid Grid.Column="1" Margin="5 0 0 0">
                     <Grid.ColumnDefinitions>

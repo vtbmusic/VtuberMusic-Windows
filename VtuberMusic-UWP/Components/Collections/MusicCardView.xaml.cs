@@ -93,5 +93,10 @@ namespace VtuberMusic_UWP.Components.Collections
 
             itemContainer.Loaded -= this.ItemContainer_Loaded;
         }
+
+        private void DataView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            App.Player.SetMusic((Music)e.ClickedItem);
+        }
     }
 }

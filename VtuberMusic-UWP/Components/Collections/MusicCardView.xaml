@@ -12,21 +12,24 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <GridView x:Name="DataView" Height="235"
-                      ContainerContentChanging="GridView_ContainerContentChanging"
-                      ItemContainerStyle="{StaticResource GridViewItemRevealStyle}"
-                      ItemContainerTransitions="{x:Null}"
-                      ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                      animations:Connected.ListItemKey="podimageback"
-                      animations:Connected.ListItemElementName="Image">
+    <GridView x:Name="DataView" Height="245"
+              SelectionMode="None" IsItemClickEnabled="True" ItemClick="DataView_ItemClick"
+              ContainerContentChanging="GridView_ContainerContentChanging"
+              ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+              ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+        <GridView.ItemContainerStyle>
+            <Style TargetType="GridViewItem" BasedOn="{StaticResource GridViewItemRevealStyle}">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+        </GridView.ItemContainerStyle>
         <GridView.ItemsPanel>
             <ItemsPanelTemplate>
-                <ItemsStackPanel Orientation="Horizontal" />
+                <ItemsStackPanel Orientation="Horizontal"/>
             </ItemsPanelTemplate>
         </GridView.ItemsPanel>
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="models:Music">
-                <Grid Margin="5" Height="210" Width="170">
+                <Grid Height="220" Width="170" Background="#19000000" CornerRadius="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -34,7 +37,7 @@
                     <Grid Height="170" Background="White">
                         <Image x:Name="Image" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
                     </Grid>
-                    <StackPanel Margin="0 2" Grid.Row="1">
+                    <StackPanel Margin="5" Grid.Row="1">
                         <TextBlock Text="{x:Bind name}"/>
                         <ItemsControl ItemsSource="{x:Bind artists}">
                             <ItemsControl.ItemTemplate>

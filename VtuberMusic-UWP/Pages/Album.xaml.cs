@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -48,6 +49,9 @@ namespace VtuberMusic_UWP.Pages
             image.UriSource = new Uri(album.coverImgUrl);
             CoverImg.Source = image;
 
+            ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
+            if(imageAnimation != null) imageAnimation.TryStart(CoverImg, new UIElement[] { InfoPanel });
+
             var data = await App.Client.GetPlayListSong(album.id);
 
             if (data.Success)
@@ -59,6 +63,13 @@ namespace VtuberMusic_UWP.Pages
         private DateTime ConvertUnixTimeStamp(long time)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(time);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", CoverImg);
         }
     }
 }

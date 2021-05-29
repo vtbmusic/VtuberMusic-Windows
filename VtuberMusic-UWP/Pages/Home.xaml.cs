@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,14 +25,13 @@ namespace VtuberMusic_UWP.Pages
 {
     public sealed partial class Home : Page
     {
+        private object _albumItem;
+
         public Home()
         {
             this.InitializeComponent();
-        }
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
             loadData();
         }
 
@@ -52,15 +52,31 @@ namespace VtuberMusic_UWP.Pages
             AlbumDataView.ItemsSource = albumData.Data;
         }
 
-        private void AlbumDataView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AlbumDataView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (AlbumDataView.SelectedIndex != -1)
-            {
-                //ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ForwardConnectedAnimation", )
-                Frame.Navigate(typeof(Album), AlbumDataView.SelectedItem, new SuppressNavigationTransitionInfo());
-            }
+            _albumItem = ((GridViewItem)AlbumDataView.ContainerFromItem(e.ClickedItem)).Content;
+            var animation = AlbumDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
+                _albumItem,
+                "AlbumCover");
 
-            AlbumDataView.SelectedIndex = -1;
+            Frame.Navigate(typeof(Album), e.ClickedItem, new SuppressNavigationTransitionInfo());
+        }
+
+        private async void AlbumDataView_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlbumDataView.ScrollIntoView(_albumItem);
+            AlbumDataView.UpdateLayout();
+
+            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
+            if (animation != null)
+            {
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+                {
+                    animation.Configuration = new DirectConnectedAnimationConfiguration();
+                }
+
+                await AlbumDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "AlbumCover");
+            }
         }
     }
 }

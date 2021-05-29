@@ -23,7 +23,7 @@
                         </Image.Shadow>
                     </Image>
                 </StackPanel>
-                <Grid Grid.Column="1" Margin="20 15 0 0">
+                <Grid Grid.Column="1" Margin="20 15 0 0" x:Name="InfoPanel">
                     <StackPanel>
                         <TextBlock x:Name="AlbumName" FontSize="24" FontWeight="SemiBold"/>
                         <TextBlock x:Name="CreatorInfo" Text="Misaka-L 创建于 2021/5/23" FontSize="24" FontWeight="Bold"/>
@@ -32,7 +32,7 @@
                     <Button CornerRadius="10" Padding="12 9" Margin="0 0 0 5" VerticalAlignment="Bottom">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Margin=" 0 0 5 0" FontSize="16" FontFamily="{StaticResource Icon}" Text="&#xe613;" VerticalAlignment="Center"/>
-                            <TextBlock Margin="0 0 0 0" FontSize="18" Text="播放全部"/>
+                            <TextBlock FontSize="18" Text="播放全部"/>
                         </StackPanel>
                     </Button>
                 </Grid>

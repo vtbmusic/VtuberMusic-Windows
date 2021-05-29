@@ -39,7 +39,8 @@
             <collections:MusicCardView x:Name="NewMusicDataView"/>
 
             <main:BlockTitle Text="人气 Vtuber"/>
-            <GridView x:Name="VtuberDataView">
+            <GridView x:Name="VtuberDataView" SelectionMode="None"
+                      IsItemClickEnabled="True">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
@@ -59,24 +60,28 @@
                 </GridView.ItemTemplate>
             </GridView>
             <main:BlockTitle Text="歌单"/>
-            <GridView x:Name="AlbumDataView" SelectionChanged="AlbumDataView_SelectionChanged"
-                      animations:Connected.ListItemKey="Cover"
-                      animations:Connected.ListItemElementName="AlbumCover">
+            <GridView x:Name="AlbumDataView" Loaded="AlbumDataView_Loaded"
+                      SelectionMode="None" IsItemClickEnabled="True" ItemClick="AlbumDataView_ItemClick"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="5 0"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Album">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="150"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Image x:Name="AlbumCover" Source="{x:Bind coverImgUrl}" Width="280" Stretch="UniformToFill"/>
-                            <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="5" Text="{x:Bind name}"/>
-                        </Grid>
+                        <StackPanel Height="200">
+                            <StackPanel CornerRadius="10">
+                                <Image x:Name="AlbumCover" Source="{x:Bind coverImgUrl}" Height="150" Width="280" Stretch="UniformToFill"/>
+                            </StackPanel>
+                            <TextBlock TextWrapping="Wrap" Margin="5 5" Text="{x:Bind name}"/>
+                        </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
