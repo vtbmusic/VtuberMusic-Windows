@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Media.Animation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -38,18 +39,46 @@ namespace VtuberMusic_UWP.Pages
         {
             ArtistName.Text = artist.name.origin;
             // awsl
-            if (artist.name.cn != artist.name.origin && !string.IsNullOrEmpty(artist.name.cn)) OtherNameAndGroup.Text = artist.name.cn;
-            if (artist.name.jp != artist.name.origin && !string.IsNullOrEmpty(artist.name.jp)) OtherNameAndGroup.Text += " / " + artist.name.jp;
-            if (artist.name.en != artist.name.origin && !string.IsNullOrEmpty(artist.name.en)) OtherNameAndGroup.Text += " / " + artist.name.en;
-            OtherNameAndGroup.Text += " - " + artist.groupName;
+            if (artist.name.cn != artist.name.origin && !string.IsNullOrEmpty(artist.name.cn))
+            {
+                OtherNameAndGroup.Text = artist.name.cn;
+            }
+            if (artist.name.jp != artist.name.origin && !string.IsNullOrEmpty(artist.name.jp))
+            {
+                if (artist.name.cn != artist.name.origin && !string.IsNullOrEmpty(artist.name.cn)) OtherNameAndGroup.Text += " / ";
+                OtherNameAndGroup.Text += artist.name.jp;
+            }
+
+            if (artist.name.en != artist.name.origin && !string.IsNullOrEmpty(artist.name.en))
+            {
+                if (artist.name.jp != artist.name.origin && !string.IsNullOrEmpty(artist.name.jp))
+                {
+                    OtherNameAndGroup.Text += " / ";
+                } else if (artist.name.cn != artist.name.origin && !string.IsNullOrEmpty(artist.name.cn)) OtherNameAndGroup.Text += " / ";
+
+                OtherNameAndGroup.Text += artist.name.en;
+            }
+
+            if (OtherNameAndGroup.Text != "") OtherNameAndGroup.Text += " - ";
+            OtherNameAndGroup.Text += artist.groupName;
 
             Avater.ProfilePicture = new BitmapImage(new Uri(artist.imgUrl));
+
+            ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ArtistForwardConnectedAnimation");
+            if (imageAnimation != null) imageAnimation.TryStart(Avater, new UIElement[] { InfoPanel });
 
             MusicCount.Text = artist.musicSize.ToString();
             AlbumCount.Text = artist.albumSize.ToString();
             FanCount.Text = artist.likeSize.ToString();
 
             DataView.ItemsSource = (await App.Client.GetArtistSong(artist.id, "time", 1000)).Data;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ArtistBackConnectedAnimation", Avater);
         }
     }
 }

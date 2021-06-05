@@ -40,7 +40,7 @@
 
             <main:BlockTitle Text="人气 Vtuber"/>
             <GridView x:Name="VtuberDataView" SelectionMode="None"
-                      IsItemClickEnabled="True" ItemClick="VtuberDataView_ItemClick"
+                      IsItemClickEnabled="True" ItemClick="VtuberDataView_ItemClick" Loaded="VtuberDataView_Loaded"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
                 <GridView.ItemsPanel>
@@ -55,7 +55,7 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <PersonPicture ProfilePicture="{x:Bind imgUrl}" Margin="5"/>
+                            <PersonPicture x:Name="Avater" ProfilePicture="{x:Bind imgUrl}" Margin="5"/>
                             <TextBlock Grid.Row="1" Text="{x:Bind name.origin}" HorizontalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>

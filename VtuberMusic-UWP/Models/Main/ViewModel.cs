@@ -20,9 +20,12 @@ namespace VtuberMusic_UWP.Models.Main
             SidePanel.NavigateToPage(page, args);
         }
 
-        public void SetAppBackgroundImage(Uri imageUri)
+        public async void SetAppBackgroundImage(Uri imageUri)
         {
-            MainPage.Background = new ImageBrush { ImageSource = new BitmapImage(imageUri) };
+            await MainPage.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, delegate
+            {
+                MainPage.Background = new ImageBrush { ImageSource = new BitmapImage(imageUri) };
+            });
         }
     }
 }

@@ -9,17 +9,20 @@
 
     <ScrollViewer>
         <StackPanel Margin="30 0">
-            <Grid Margin="20 30">
+            <Grid Margin="70 30">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <PersonPicture x:Name="Avater" Height="200" Width="200" ProfilePicture="https://cdn.aqua.chat/image/c4dba86a04c64116ba310c6986dd31c1.png"/>
-                <Grid Grid.Column="1" Margin="20 20 0 0">
+                <PersonPicture x:Name="Avater" Height="200" Width="200"/>
+                <Grid x:Name="InfoPanel" Grid.Column="1" Margin="20 20 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock Text="湊阿库娅 / 湊あくあ - hololive" x:Name="OtherNameAndGroup"/>
-                        <TextBlock Text="湊あくあ" x:Name="ArtistName" FontSize="36" FontWeight="SemiBold"/>
+                        <TextBlock x:Name="OtherNameAndGroup"/>
+                        <TextBlock x:Name="ArtistName" FontSize="36" FontWeight="SemiBold"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
                         <Button CornerRadius="10" Padding="12 9" Margin="0 0 0 5">
@@ -29,25 +32,25 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="100 0" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock Text="歌曲" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="MusicCount" HorizontalAlignment="Center" FontSize="36"/>
+                        </StackPanel>
+                        <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="White"/>
+                        <StackPanel>
+                            <TextBlock Text="歌单" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="AlbumCount" HorizontalAlignment="Center" FontSize="36"/>
+                        </StackPanel>
+                        <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="White"/>
+                        <StackPanel>
+                            <TextBlock Text="粉丝" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="FanCount" HorizontalAlignment="Center" FontSize="36"/>
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
-                <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                    <StackPanel>
-                        <TextBlock Text="歌曲" HorizontalAlignment="Center"/>
-                        <TextBlock x:Name="MusicCount" HorizontalAlignment="Center" Text="149" FontSize="36"/>
-                    </StackPanel>
-                    <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="White"/>
-                    <StackPanel>
-                        <TextBlock Text="歌单" HorizontalAlignment="Center"/>
-                        <TextBlock x:Name="AlbumCount" HorizontalAlignment="Center" Text="14" FontSize="36"/>
-                    </StackPanel>
-                    <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="White"/>
-                    <StackPanel>
-                        <TextBlock Text="粉丝" HorizontalAlignment="Center"/>
-                        <TextBlock x:Name="FanCount" HorizontalAlignment="Center" Text="198" FontSize="36"/>
-                    </StackPanel>
-                </StackPanel>
             </Grid>
-            <collections:MusicDataList x:Name="DataView" Mode="Large"/>
+            <collections:MusicDataList x:Name="DataView" Mode="Large" Margin="0 10 0 50"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

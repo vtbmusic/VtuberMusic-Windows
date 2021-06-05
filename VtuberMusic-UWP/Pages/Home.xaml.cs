@@ -10,7 +10,8 @@ namespace VtuberMusic_UWP.Pages
     public sealed partial class Home : Page
     {
         private object _albumItem;
-
+        private object _artistItem;
+        
         public Home()
         {
             this.InitializeComponent();
@@ -60,7 +61,24 @@ namespace VtuberMusic_UWP.Pages
 
         private void VtuberDataView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            _artistItem = ((GridViewItem)VtuberDataView.ContainerFromItem(e.ClickedItem)).Content;
+            var animation = VtuberDataView.PrepareConnectedAnimation("ArtistForwardConnectedAnimation",
+                _artistItem,
+                "Avater");
+
             Frame.Navigate(typeof(Artist), e.ClickedItem, new DrillInNavigationTransitionInfo());
+        }
+
+        private async void VtuberDataView_Loaded(object sender, RoutedEventArgs e)
+        {
+            VtuberDataView.ScrollIntoView(_artistItem);
+            VtuberDataView.UpdateLayout();
+
+            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ArtistBackConnectedAnimation");
+            if (animation != null)
+            {
+                await VtuberDataView.TryStartConnectedAnimationAsync(animation, _artistItem, "Avater");
+            }
         }
     }
 }
