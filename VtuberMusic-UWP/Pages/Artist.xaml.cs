@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using VtuberMusic_UWP.Models.VtuberMusic;
+using Windows.UI.Xaml.Media.Imaging;
+
+// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
+
+namespace VtuberMusic_UWP.Pages
+{
+    /// <summary>
+    /// 可用于自身或导航至 Frame 内部的空白页。
+    /// </summary>
+    public sealed partial class Artist : Page
+    {
+        public Artist()
+        {
+            this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            loadData((Models.VtuberMusic.Artist)e.Parameter);
+        }
+
+        private async void loadData(Models.VtuberMusic.Artist artist)
+        {
+            ArtistName.Text = artist.name.origin;
+            // awsl
+            if (artist.name.cn != artist.name.origin && !string.IsNullOrEmpty(artist.name.cn)) OtherNameAndGroup.Text = artist.name.cn;
+            if (artist.name.jp != artist.name.origin && !string.IsNullOrEmpty(artist.name.jp)) OtherNameAndGroup.Text += " / " + artist.name.jp;
+            if (artist.name.en != artist.name.origin && !string.IsNullOrEmpty(artist.name.en)) OtherNameAndGroup.Text += " / " + artist.name.en;
+            OtherNameAndGroup.Text += " - " + artist.groupName;
+
+            Avater.ProfilePicture = new BitmapImage(new Uri(artist.imgUrl));
+
+            MusicCount.Text = artist.musicSize.ToString();
+            AlbumCount.Text = artist.albumSize.ToString();
+            FanCount.Text = artist.likeSize.ToString();
+
+            DataView.ItemsSource = (await App.Client.GetArtistSong(artist.id, "time", 1000)).Data;
+        }
+    }
+}

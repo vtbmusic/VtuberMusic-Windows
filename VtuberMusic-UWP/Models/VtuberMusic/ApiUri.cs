@@ -18,5 +18,7 @@
         public static string PlayListList = BaseUrl + "/v2/playlist/list";
 
         public static string PlayListSongs = BaseUrl + "/v2/playlist/song";
+
+        public static string ArtistSongs = BaseUrl + "/v2/artist/songs";
     }
 }

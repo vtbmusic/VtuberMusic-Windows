@@ -57,5 +57,10 @@ namespace VtuberMusic_UWP.Pages
                 await AlbumDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "AlbumCover");
             }
         }
+
+        private void VtuberDataView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(Artist), e.ClickedItem, new DrillInNavigationTransitionInfo());
+        }
     }
 }

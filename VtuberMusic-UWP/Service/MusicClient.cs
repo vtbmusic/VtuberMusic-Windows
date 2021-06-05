@@ -156,5 +156,22 @@ namespace VtuberMusic_UWP.Service
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        public async Task<ApiResponse<Music[]>> GetArtistSong(string id, string order = "time", int limit = 50, int offest = 1)
+        {
+            var request = new RestRequest(ApiUri.ArtistSongs);
+            request.AddParameter("id", id);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<Music[]>>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
     }
 }

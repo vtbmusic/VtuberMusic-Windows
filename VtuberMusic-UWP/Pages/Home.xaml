@@ -40,7 +40,9 @@
 
             <main:BlockTitle Text="人气 Vtuber"/>
             <GridView x:Name="VtuberDataView" SelectionMode="None"
-                      IsItemClickEnabled="True">
+                      IsItemClickEnabled="True" ItemClick="VtuberDataView_ItemClick"
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
