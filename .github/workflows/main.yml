@@ -17,7 +17,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: VtuberMusic-UWP                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Solution_Name: VtuberMusic-UWP
       Wap_Project_Directory: .\VtuberMusic-UWP
 
     steps:
@@ -62,14 +62,25 @@ jobs:
     # - name: Remove the pfx
     #  run: Remove-Item -path $env:Wap_Project_Directory\$env:Signing_Certificate
     
+    - name: Compress app package
+      uses: coco-hkk/compress-action@v2.1
+      id: compress
+      with:
+        target-directory-path: ${{ env.Wap_Project_Directory }}\AppPackages
+        compress-tool: zip
+    
+    - name: Get commit comment
+      run: git log --pretty=format:"%s" -1 > commit.txt
+    
     - name: Create Release
       uses: ncipollo/release-action@v1.8.6
       with:
-        body: ${{ github.action }}
-        artifacts: \AppPackages\*.zip
+        bodyFile: commit.txt
+        artifacts: ${{ steps.compress.outputs.archive }}
         commit: main
         tag: v2.0-pre-${{ github.run_number }}
         token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: true
         
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
