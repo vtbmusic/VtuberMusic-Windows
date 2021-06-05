@@ -43,7 +43,7 @@ namespace VtuberMusic_UWP.Pages
                 _albumItem,
                 "AlbumCover");
 
-            Frame.Navigate(typeof(Album), e.ClickedItem);
+            Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
 
         private async void AlbumDataView_Loaded(object sender, RoutedEventArgs e)

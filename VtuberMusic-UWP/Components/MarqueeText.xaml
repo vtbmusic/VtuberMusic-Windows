@@ -10,17 +10,17 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <Storyboard x:Name="TextContentMove">
+        <Storyboard x:Name="TextContentMove" Duration="00:00:01.5" AutoReverse="True">
             <DoubleAnimation Storyboard.TargetName="Translate" Storyboard.TargetProperty="X"
-                                                     From="0" Duration="00:00:01.5">
+                                                     From="0">
                 <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseInOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        <Storyboard x:Name="TextContentMoveBack" Duration="00:00:05">
+        <Storyboard x:Name="TextContentMoveBack" Duration="00:00:01.5">
             <DoubleAnimation Storyboard.TargetName="Translate" Storyboard.TargetProperty="X"
-                                                     To="0" Duration="00:00:01.5">
+                                                     To="0">
                 <DoubleAnimation.EasingFunction>
                     <CubicEase EasingMode="EaseInOut"/>
                 </DoubleAnimation.EasingFunction>

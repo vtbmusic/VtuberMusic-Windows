@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -37,7 +38,7 @@ namespace VtuberMusic_UWP.Components
 
         private void TextContent_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-
+            TextContentMove.Seek(TextContentMove.Duration.TimeSpan * 2 - TextContentMove.GetCurrentTime());
         }
 
         private void TextContent_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -46,18 +47,31 @@ namespace VtuberMusic_UWP.Components
 
             if (offest < 0)
             {
+                var current = TextContentMove.GetCurrentTime();
+
                 ((DoubleAnimation)TextContentMove.Children[0]).To = offest;
                 TextContentMove.Completed += TextContentMove_Completed;
                 TextContentMove.Begin();
+
+                
+                if (current == null) return;
+                if (current < TextContentMove.Duration.TimeSpan)
+                {
+                    TextContentMove.Seek(current);
+                }
+                else
+                {
+                    TextContentMove.Seek(current - TextContentMove.Duration.TimeSpan);
+                }
             }
         }
 
         private void TextContentMove_Completed(object sender, object e)
         {
-            TextContentMove.Stop();
+            //TextContentMove.Stop();
 
-            ((DoubleAnimation)TextContentMoveBack.Children[0]).From = -TextContent.ActualWidth + ActualWidth;
-            TextContentMoveBack.Begin();
+            //((DoubleAnimation)TextContentMoveBack.Children[0]).From = -TextContent.ActualWidth + ActualWidth;
+            //TextContentMoveBack.Begin();
         }
 
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
