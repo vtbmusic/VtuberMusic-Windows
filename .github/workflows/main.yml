@@ -63,11 +63,7 @@ jobs:
     #  run: Remove-Item -path $env:Wap_Project_Directory\$env:Signing_Certificate
     
     - name: Compress app package
-      uses: coco-hkk/compress-action@v2.1
-      id: compress
-      with:
-        target-directory-path: ${{ env.Wap_Project_Directory }}\AppPackages
-        compress-tool: zip
+      run:  Compress-Archive -Path -path ${{ env.Wap_Project_Directory }}\AppPackages -DestinationPath ${{ GITHUB_WORKSPACE }}\VtuberMusic_UWP_v2.0_pre_${{ github.run_number }}.zip -Force
     
     - name: Get commit comment
       run: git log --pretty=format:"%s" -1 > commit.txt
@@ -76,7 +72,7 @@ jobs:
       uses: ncipollo/release-action@v1.8.6
       with:
         bodyFile: commit.txt
-        artifacts: ${{ steps.compress.outputs.archive }}
+        artifacts: ${{ GITHUB_WORKSPACE }}\VtuberMusic_UWP_v2.0_pre_${{ github.run_number }}.zip
         commit: main
         tag: v2.0-pre-${{ github.run_number }}
         token: ${{ secrets.GITHUB_TOKEN }}
