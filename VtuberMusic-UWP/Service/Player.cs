@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VtuberMusic_UWP.Models.VtuberMusic;
-using Windows.Foundation;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -394,7 +389,8 @@ namespace VtuberMusic_UWP.Service
         #endregion
     }
 
-    public enum PlayMode {
+    public enum PlayMode
+    {
         ListRepeat,
         SingleRepeat,
         Shuffle

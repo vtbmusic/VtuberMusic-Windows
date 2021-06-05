@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VtuberMusic_UWP.Service;
-
-namespace VtuberMusic_UWP.Models.VtuberMusic
+﻿namespace VtuberMusic_UWP.Models.VtuberMusic
 {
     public class Music
     {

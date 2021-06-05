@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Components.Player"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
+    xmlns:components="using:VtuberMusic_UWP.Components"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -23,9 +25,13 @@
             <Grid CornerRadius="10" Height="55" Tapped="MusicInfo_Tapped">
                 <Image x:Name="CoverImg" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill"/>
             </Grid>
-            <StackPanel Grid.Column="1" Margin="10 0" Tapped="MusicInfo_Tapped" VerticalAlignment="Center">
-                <TextBlock x:Name="MusicName"/>
-                <ItemsControl x:Name="Vocal">
+            <Grid Grid.Column="1" Margin="10 0" Tapped="MusicInfo_Tapped" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <components:MarqueeText x:Name="MusicName" Margin="0 0 0 18"/>
+                <ItemsControl x:Name="Vocal" Grid.Row="1" VerticalAlignment="Bottom">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsStackPanel Orientation="Horizontal"></ItemsStackPanel>
@@ -37,7 +43,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </StackPanel>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1" VerticalAlignment="Center">
             <Grid.RowDefinitions>

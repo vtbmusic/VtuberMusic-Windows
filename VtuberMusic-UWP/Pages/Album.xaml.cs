@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using VtuberMusic_UWP.Models.VtuberMusic;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -50,7 +39,7 @@ namespace VtuberMusic_UWP.Pages
             CoverImg.Source = image;
 
             ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
-            if(imageAnimation != null) imageAnimation.TryStart(CoverImg, new UIElement[] { InfoPanel });
+            if (imageAnimation != null) imageAnimation.TryStart(CoverImg, new UIElement[] { InfoPanel });
 
             var data = await App.Client.GetPlayListSong(album.id);
 

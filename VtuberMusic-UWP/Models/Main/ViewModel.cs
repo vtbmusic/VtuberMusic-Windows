@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VtuberMusic_UWP.Components.Main;
 using VtuberMusic_UWP.Components.Player;
 using VtuberMusic_UWP.Models.VtuberMusic;

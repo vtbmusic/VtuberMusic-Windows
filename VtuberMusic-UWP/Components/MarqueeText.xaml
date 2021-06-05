@@ -1,0 +1,40 @@
+﻿<UserControl x:Name="Control"
+    x:Class="VtuberMusic_UWP.Components.MarqueeText"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Storyboard x:Name="TextContentMove">
+            <DoubleAnimation Storyboard.TargetName="Translate" Storyboard.TargetProperty="X"
+                                                     From="0" Duration="00:00:01.5">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="TextContentMoveBack" Duration="00:00:05">
+            <DoubleAnimation Storyboard.TargetName="Translate" Storyboard.TargetProperty="X"
+                                                     To="0" Duration="00:00:01.5">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Canvas x:Name="Canvas" SizeChanged="Canvas_SizeChanged">
+        <StackPanel x:Name="Panel">
+            <TextBlock PointerEntered="TextContent_PointerEntered" PointerExited="TextContent_PointerExited" x:Name="TextContent">
+                <TextBlock.RenderTransform>
+                    <TranslateTransform x:Name="Translate"/>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+        </StackPanel>
+    </Canvas>
+</UserControl>
