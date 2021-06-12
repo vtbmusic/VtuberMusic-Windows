@@ -11,7 +11,7 @@ namespace VtuberMusic_UWP.Pages
     {
         private object _albumItem;
         private object _artistItem;
-        
+
         public Home()
         {
             this.InitializeComponent();

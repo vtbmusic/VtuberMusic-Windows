@@ -11,28 +11,22 @@ namespace VtuberMusic_UWP.Service
 {
     public class Player
     {
-        // 核心
+        #region 播放器核心
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
         private MediaTimelineController _timelineController = new MediaTimelineController();
-        private SystemMediaTransportControls _systemMediaTransportControls;
-        private MediaSource _mediaSource;
-        private MediaSource mediaSource
+        private MediaPlaybackItem _mediaPlaybackItem;
+        private MediaPlaybackItem mediaPlaybackItem
         {
             get
             {
-                return _mediaSource;
+                return _mediaPlaybackItem;
             }
             set
             {
-                _mediaSource = value;
-                _mediaPlayer.Source = _mediaSource;
+                _mediaPlaybackItem = value;
+                _mediaPlayer.Source = value;
             }
         }
-        // 播放
-        public EventHandler<PlayState> PlayStateChanged;
-        public EventHandler<TimeSpan> PositionChanged;
-        public EventHandler<TimeSpan> DurationChanged;
-        public EventHandler<double> VolumeChanged;
 
         public double Volume
         {
@@ -49,20 +43,11 @@ namespace VtuberMusic_UWP.Service
                 }
             }
         }
-        private TimeSpan? _duration;
-        public TimeSpan? Duration
+        public TimeSpan Duration
         {
             get
             {
-                return _duration;
-            }
-            private set
-            {
-                _duration = value;
-                if (DurationChanged != null)
-                {
-                    DurationChanged(this, _duration.GetValueOrDefault());
-                }
+                return _mediaPlayer.PlaybackSession.NaturalDuration;
             }
         }
         public TimeSpan Position
@@ -77,23 +62,22 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        private PlayState _playState;
-        public PlayState PlayState
+        public MediaPlaybackState PlayState
         {
             get
             {
-                return _playState;
-            }
-            private set
-            {
-                _playState = value;
-                if (PlayStateChanged != null)
-                {
-                    PlayStateChanged(this, _playState);
-                }
+                return _mediaPlayer.PlaybackSession.PlaybackState;
             }
         }
-        // 播放列表
+        #endregion
+
+        #region 事件
+        public EventHandler<MediaPlaybackState> PlayStateChanged;
+        public EventHandler<TimeSpan> PositionChanged;
+        public EventHandler<double> VolumeChanged;
+        #endregion
+
+        #region 播放列表
         public ObservableCollection<Music> PlayList { get; private set; } = new ObservableCollection<Music>();
         public EventHandler PlayListChanged;
         public EventHandler<Music> NowPlayingMusicChanged;
@@ -134,41 +118,28 @@ namespace VtuberMusic_UWP.Service
                 App.ViewModel.SetAppBackgroundImage(new Uri(NowPlayingMusic.picUrl));
             }
         }
+        #endregion
 
         public Player()
         {
-            // 设置系统媒体信息控件
-            _mediaPlayer.CommandManager.IsEnabled = false;
-            _systemMediaTransportControls = _mediaPlayer.SystemMediaTransportControls;
-            _systemMediaTransportControls.IsEnabled = true;
-            // 绑定系统媒体信息控件事件
-            _systemMediaTransportControls.ButtonPressed += _systemMediaTransportControls_ButtonPressed;
+            InitSMTC();
             // 设置核心
             _mediaPlayer.TimelineController = _timelineController;
             _timelineController.PositionChanged += positionChanged;
             _mediaPlayer.MediaEnded += _mediaPlayer_MediaEnded;
             _mediaPlayer.VolumeChanged += _mediaPlayer_VolumeChanged;
+            _mediaPlayer.CurrentStateChanged += _mediaPlayer_CurrentStateChanged;
             // 绑定事件
             PlayListChanged += playListChanged;
-            PlayStateChanged += playStateChanged;
-            NowPlayingMusicChanged += nowPlayingMusicChanged;
             PlayList.CollectionChanged += delegate
             {
                 if (PlayListChanged != null) playListChanged(this, null);
             };
         }
 
-        private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args)
-        {
-            if (VolumeChanged != null) VolumeChanged(this, _mediaPlayer.Volume);
-        }
-
-        private void nowPlayingMusicChanged(object sender, Music e)
-        {
-            updateMediaTransportControls(e);
-            _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Changing;
-        }
-
+        #region 事件处理
+        private void _mediaPlayer_CurrentStateChanged(MediaPlayer sender, object args) { if (PlayStateChanged != null) PlayStateChanged(this, PlayState); }
+        private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args) { if (VolumeChanged != null) VolumeChanged(this, _mediaPlayer.Volume); }
         private void _mediaPlayer_MediaEnded(MediaPlayer sender, object args)
         {
             switch (PlayMode)
@@ -181,39 +152,35 @@ namespace VtuberMusic_UWP.Service
                     break;
                 case PlayMode.Shuffle:
                     break;
-                default:
-                    Next();
-                    break;
             }
         }
 
         private void positionChanged(MediaTimelineController sender, object args)
         {
+            updateSMTCTimeline();
             if (PositionChanged != null)
             {
                 PositionChanged(this, _timelineController.Position);
             }
         }
 
-        private void playStateChanged(object sender, PlayState e)
+        private void playListChanged(object sender, object args)
         {
-            switch (e)
+            if (PlayList.Count != 0)
             {
-                case PlayState.Playing:
-                    _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Playing;
-                    _systemMediaTransportControls.IsStopEnabled = true;
-                    break;
-                case PlayState.Pause:
-                    _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Paused;
-                    _systemMediaTransportControls.IsStopEnabled = true;
-                    break;
-                case PlayState.Stop:
-                    _systemMediaTransportControls.PlaybackStatus = MediaPlaybackStatus.Stopped;
-                    _systemMediaTransportControls.IsStopEnabled = false;
-                    break;
+                _mediaPlayer.CommandManager.IsEnabled = true;
+            }
+            else
+            {
+                _mediaPlayer.CommandManager.IsEnabled = false;
+
+                SetMusic(null);
+                Stop();
             }
         }
+        #endregion
 
+        #region 载入媒体
         public async void SetMusic(Music music)
         {
             if (music != null)
@@ -223,83 +190,107 @@ namespace VtuberMusic_UWP.Service
                     PlayList.Add(music);
                 }
 
-                NowPlayingMusic = music;
-                Stop();
+                mediaPlaybackItem = new MediaPlaybackItem(MediaSource.CreateFromUri(new Uri((await App.Client.GetSongMeduaUri(music.id)).Data)));
+                updateSMTC(music, mediaPlaybackItem);
+                mediaPlaybackItem.Source.OpenOperationCompleted += Source_OpenOperationCompleted;
+                _mediaPlaybackItem = mediaPlaybackItem;
 
-                mediaSource = MediaSource.CreateFromUri(new Uri((await App.Client.GetSongMeduaUri(music.id)).Data));
-                mediaSource.OpenOperationCompleted += _mediaSource_OpenOperationCompleted;
+                Stop();
+                NowPlayingMusic = music;
             }
             else
             {
                 NowPlayingMusic = music;
-                mediaSource = null;
+                _mediaPlaybackItem = null;
             }
         }
 
-        private void _mediaSource_OpenOperationCompleted(MediaSource sender, MediaSourceOpenOperationCompletedEventArgs args)
+        private void Source_OpenOperationCompleted(MediaSource sender, MediaSourceOpenOperationCompletedEventArgs args)
         {
-            Duration = sender.Duration;
             Start();
         }
+        #endregion
 
-        private void playListChanged(object sender, object args)
-        {
-            if (PlayList.Count != 0)
-            {
-                _systemMediaTransportControls.IsPreviousEnabled = true;
-                _systemMediaTransportControls.IsNextEnabled = true;
-                _systemMediaTransportControls.IsPlayEnabled = true;
-                _systemMediaTransportControls.IsPauseEnabled = true;
-                _systemMediaTransportControls.IsStopEnabled = true;
-            }
-            else
-            {
-                _systemMediaTransportControls.IsPreviousEnabled = false;
-                _systemMediaTransportControls.IsNextEnabled = false;
-                _systemMediaTransportControls.IsPlayEnabled = false;
-                _systemMediaTransportControls.IsPauseEnabled = false;
-                _systemMediaTransportControls.IsStopEnabled = false;
-
-                SetMusic(null);
-                Stop();
-            }
-        }
-
+        #region 播放器控制方法
         public void Start()
         {
             Stop();
-            Play();
+            _timelineController.Start();
         }
 
         public void Play()
         {
             _timelineController.Resume();
-            PlayState = PlayState.Playing;
         }
 
         public void Pause()
         {
             _timelineController.Pause();
-            PlayState = PlayState.Pause;
         }
 
         public void Stop()
         {
             _timelineController.Position = TimeSpan.Zero;
             _timelineController.Pause();
-            PlayState = PlayState.Stop;
+        }
+        #endregion
+
+        #region 系统媒体控件
+        private void InitSMTC()
+        {
+            _mediaPlayer.CommandManager.NextBehavior.EnablingRule = MediaCommandEnablingRule.Always;
+            _mediaPlayer.CommandManager.PreviousBehavior.EnablingRule = MediaCommandEnablingRule.Always;
+            _mediaPlayer.CommandManager.PlayBehavior.EnablingRule = MediaCommandEnablingRule.Always;
+            _mediaPlayer.CommandManager.PauseBehavior.EnablingRule = MediaCommandEnablingRule.Always;
+
+            _mediaPlayer.CommandManager.NextReceived += CommandManager_NextReceived;
+            _mediaPlayer.CommandManager.PreviousReceived += CommandManager_PreviousReceived;
+            _mediaPlayer.CommandManager.ShuffleReceived += CommandManager_ShuffleReceived;
+            _mediaPlayer.CommandManager.PlayReceived += CommandManager_PlayReceived;
+            _mediaPlayer.CommandManager.PauseReceived += CommandManager_PauseReceived;
         }
 
-        #region 系统媒体传输控件
-        private void updateMediaTransportControls(Music music)
+        #region 处理按钮点击
+        private void CommandManager_PauseReceived(MediaPlaybackCommandManager sender, MediaPlaybackCommandManagerPauseReceivedEventArgs args) => Pause();
+        private void CommandManager_PlayReceived(MediaPlaybackCommandManager sender, MediaPlaybackCommandManagerPlayReceivedEventArgs args) => Play();
+        private void CommandManager_ShuffleReceived(MediaPlaybackCommandManager sender, MediaPlaybackCommandManagerShuffleReceivedEventArgs args)
         {
+            if (args.IsShuffleRequested)
+            {
+                PlayMode = PlayMode.Shuffle;
+            }
+            else
+            {
+                PlayMode = PlayMode.ListRepeat;
+            }
+        }
+
+        private void CommandManager_PreviousReceived(MediaPlaybackCommandManager sender, MediaPlaybackCommandManagerPreviousReceivedEventArgs args) => Previous();
+        private void CommandManager_NextReceived(MediaPlaybackCommandManager sender, MediaPlaybackCommandManagerNextReceivedEventArgs args) => Next();
+        #endregion
+
+        private void updateSMTCTimeline()
+        {
+            var pros = new SystemMediaTransportControlsTimelineProperties();
+            pros.StartTime = TimeSpan.Zero;
+            pros.MinSeekTime = TimeSpan.Zero;
+            pros.MaxSeekTime = Duration;
+            pros.Position = Position;
+            pros.EndTime = Duration;
+
+            _mediaPlayer.SystemMediaTransportControls.UpdateTimelineProperties(pros);
+        }
+
+        private void updateSMTC(Music music, MediaPlaybackItem mediaPlaybackItem)
+        {
+            var pros = mediaPlaybackItem.GetDisplayProperties();
+
             if (music != null)
             {
-                var updater = _systemMediaTransportControls.DisplayUpdater;
-                updater.Type = MediaPlaybackType.Music;
+                pros.Type = MediaPlaybackType.Music;
                 if (music.alias != null)
                 {
-                    updater.MusicProperties.AlbumTitle = (string)music.alias;
+                    pros.MusicProperties.AlbumTitle = (string)music.alias;
                 }
 
                 var artists = "";
@@ -308,39 +299,17 @@ namespace VtuberMusic_UWP.Service
                     artists += temp.name.origin + "";
                 }
 
-                updater.MusicProperties.AlbumArtist = artists;
-                updater.MusicProperties.Artist = artists;
-                updater.MusicProperties.Title = music.name;
-                updater.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(music.picUrl));
-
-                updater.Update();
+                pros.MusicProperties.AlbumArtist = artists;
+                pros.MusicProperties.Artist = artists;
+                pros.MusicProperties.Title = music.name;
+                pros.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(music.picUrl));
             }
             else
             {
-                _systemMediaTransportControls.DisplayUpdater.ClearAll();
+                pros.ClearAll();
             }
-        }
 
-        private void _systemMediaTransportControls_ButtonPressed(SystemMediaTransportControls sender, SystemMediaTransportControlsButtonPressedEventArgs args)
-        {
-            switch (args.Button)
-            {
-                case SystemMediaTransportControlsButton.Play:
-                    Play();
-                    break;
-                case SystemMediaTransportControlsButton.Pause:
-                    Pause();
-                    break;
-                case SystemMediaTransportControlsButton.Stop:
-                    Stop();
-                    break;
-                case SystemMediaTransportControlsButton.Next:
-                    Next();
-                    break;
-                case SystemMediaTransportControlsButton.Previous:
-                    Previous();
-                    break;
-            }
+            mediaPlaybackItem.ApplyDisplayProperties(pros);
         }
         #endregion
 
@@ -396,12 +365,5 @@ namespace VtuberMusic_UWP.Service
         ListRepeat,
         SingleRepeat,
         Shuffle
-    }
-
-    public enum PlayState
-    {
-        Playing,
-        Pause,
-        Stop
     }
 }

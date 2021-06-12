@@ -1,5 +1,4 @@
-﻿using System;
-using VtuberMusic_UWP.Models.VtuberMusic;
+﻿using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -17,7 +16,7 @@ namespace VtuberMusic_UWP.Components.Player
         public Playlist()
         {
             this.InitializeComponent();
-            Player.PlayListChanged += playListChanged;
+            Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
             App.ViewModel.MainPage.SizeChanged += MainPage_SizeChanged;
             if (App.Player.PlayList.Count == 0)
             {
@@ -25,18 +24,15 @@ namespace VtuberMusic_UWP.Components.Player
             }
         }
 
+        private void NowPlayingMusicChanged(object sender, Music e)
+        {
+            if (Player.PlayList.Count == 0) None.Visibility = Visibility.Visible;
+        }
+
         private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Height = e.NewSize.Height;
             Width = e.NewSize.Width;
-        }
-
-        private void playListChanged(object sender, EventArgs e)
-        {
-            if (App.Player.PlayList.Count == 0)
-            {
-                None.Visibility = Visibility.Visible;
-            }
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,4 @@
-﻿using System;
-using Windows.Foundation;
+﻿using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -53,7 +52,7 @@ namespace VtuberMusic_UWP.Components
                 TextContentMove.Completed += TextContentMove_Completed;
                 TextContentMove.Begin();
 
-                
+
                 if (current == null) return;
                 if (current < TextContentMove.Duration.TimeSpan)
                 {

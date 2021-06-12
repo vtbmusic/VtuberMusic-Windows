@@ -1,8 +1,7 @@
 ﻿using System;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Pages;
-using VtuberMusic_UWP.Service;
-using Windows.ApplicationModel.Core;
+using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,7 +29,6 @@ namespace VtuberMusic_UWP.Components.Player
             this.InitializeComponent();
             player.NowPlayingMusicChanged += nowPlayingMusicChange;
             player.PositionChanged += positionChanged;
-            player.DurationChanged += durationChanged;
             player.PlayStateChanged += playStateChanged;
             player.VolumeChanged += volumeChanged;
             Volume.Value = player.Volume;
@@ -50,29 +48,19 @@ namespace VtuberMusic_UWP.Components.Player
             }));
         }
 
-        private async void playStateChanged(object sender, PlayState e)
+        private async void playStateChanged(object sender, MediaPlaybackState e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
             {
-                switch (player.PlayState)
+                switch (e)
                 {
-                    case PlayState.Pause:
+                    case MediaPlaybackState.Paused:
                         Play.Content = "\ue613";
                         break;
-                    case PlayState.Playing:
+                    case MediaPlaybackState.Playing:
                         Play.Content = "\ue614";
                         break;
                 }
-            }));
-        }
-
-        private async void durationChanged(object sender, TimeSpan e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-            {
-                DurationText.Text = App.Player.Duration.GetValueOrDefault().ToString("mm\\:ss");
-                DurationSlider.Maximum = App.Player.Duration.GetValueOrDefault().TotalMilliseconds;
-                DurationSlider.Value = App.Player.Position.Milliseconds;
             }));
         }
 
@@ -84,6 +72,9 @@ namespace VtuberMusic_UWP.Components.Player
                 {
                     PositionText.Text = App.Player.Position.ToString("mm\\:ss");
                     DurationSlider.Value = App.Player.Position.TotalMilliseconds;
+
+                    DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
+                    DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
                 }));
             }
         }
@@ -106,9 +97,19 @@ namespace VtuberMusic_UWP.Components.Player
             {
                 this.Visibility = Visibility.Collapsed;
             }
+
+            DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
+            DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
+            DurationSlider.Value = App.Player.Position.Milliseconds;
         }
 
-        private async void nowPlayingMusicChange(object sender, Music e) { await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(update)); }
+        private async void nowPlayingMusicChange(object sender, Music e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
+            {
+                update();
+            }));
+        }
 
         private void PlayList_Click(object sender, RoutedEventArgs e)
         {
@@ -128,21 +129,20 @@ namespace VtuberMusic_UWP.Components.Player
         {
             switch (player.PlayState)
             {
-                case PlayState.Pause:
-
+                case MediaPlaybackState.Paused:
                     Play.Content = "\ue613";
                     player.Play();
                     break;
-                case PlayState.Playing:
+                case MediaPlaybackState.Playing:
                     Play.Content = "\ue614";
                     player.Pause();
                     break;
             }
         }
 
-        private void Next_Click(object sender, RoutedEventArgs e) { player.Next(); }
+        private void Next_Click(object sender, RoutedEventArgs e) => player.Next();
 
-        private void Prev_Click(object sender, RoutedEventArgs e) { player.Previous(); }
+        private void Prev_Click(object sender, RoutedEventArgs e) => player.Previous();
 
         private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) { player.Volume = Volume.Value; }
 

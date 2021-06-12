@@ -75,7 +75,7 @@
                                         <ColumnDefinition Width="0.5*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <!--<FontIcon FontFamily="{StaticResource Icon}" Glyph="{StaticResource icon-volume}"/>-->
+                                    <FontIcon FontFamily="{StaticResource Icon}" Glyph="{StaticResource icon-volume}"/>
                                     <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{x:Bind name}"/>
                                     <ItemsControl Grid.Column="2" ItemsSource="{x:Bind artists}">
                                         <ItemsControl.ItemTemplate>
