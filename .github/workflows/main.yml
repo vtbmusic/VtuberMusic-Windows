@@ -46,11 +46,31 @@ jobs:
         [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
     # 生成应用并生成包
-    - name: Create the app package
-      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+    - name: Create the app package (x86)
+      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:Platform="x86" /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
       env:
         Appx_Bundle: Always
-        Appx_Bundle_Platforms: x86|x64|ARM
+        Appx_Package_Build_Mode: StoreUpload
+        Configuration: Release
+        
+    - name: Create the app package (x64)
+      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:Platform="x64" /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+      env:
+        Appx_Bundle: Always
+        Appx_Package_Build_Mode: StoreUpload
+        Configuration: Release
+    
+    - name: Create the app package (ARM)
+      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:Platform="ARM" /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+      env:
+        Appx_Bundle: Always
+        Appx_Package_Build_Mode: StoreUpload
+        Configuration: Release
+        
+    - name: Create the app package (ARM64)
+      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:Platform="ARM64" /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+      env:
+        Appx_Bundle: Always
         Appx_Package_Build_Mode: StoreUpload
         Configuration: Release
     
