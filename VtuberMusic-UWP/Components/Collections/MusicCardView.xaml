@@ -29,12 +29,12 @@
         </GridView.ItemsPanel>
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="models:Music">
-                <Grid Height="220" Width="170" Background="#19000000" CornerRadius="10">
+                <Grid Height="220" Width="170" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Grid Height="170" Background="White">
+                    <Grid Height="170" Background="White" CornerRadius="10">
                         <Image x:Name="Image" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
                     </Grid>
                     <StackPanel Margin="5" Grid.Row="1">

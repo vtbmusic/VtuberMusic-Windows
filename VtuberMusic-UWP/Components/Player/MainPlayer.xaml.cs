@@ -152,7 +152,7 @@ namespace VtuberMusic_UWP.Components.Player
 
         private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if (App.ViewModel.SidePanel.NowPage != typeof(Playing)) App.ViewModel.NavigateToPage(typeof(Playing));
+            //if (App.ViewModel.SidePanel.NowPage != typeof(Playing)) App.ViewModel.NavigateToPage(typeof(Playing));
         }
     }
 }

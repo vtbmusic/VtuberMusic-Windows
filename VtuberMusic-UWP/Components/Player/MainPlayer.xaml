@@ -67,7 +67,7 @@
                 <TextBlock x:Name="PositionText" Text="00:00" VerticalAlignment="Center"/>
                 <Slider x:Name="DurationSlider" ManipulationStarted="DurationSlider_ManipulationStarted"
                         PointerCaptureLost="DurationSlider_PointerCaptureLost" ManipulationMode="All"
-                        Style="{StaticResource CircleSliderThumb}" Margin="5 0 5 -5" Grid.Column="1"/>
+                        Margin="5 0 5 -5" Grid.Column="1"/>
                 <TextBlock x:Name="DurationText" Grid.Column="2" VerticalAlignment="Center" Text="00:00"/>
             </Grid>
         </Grid>
@@ -76,7 +76,7 @@
                 <Button Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
                         FontFamily="{StaticResource Icon}" Content="{StaticResource icon-volume}"/>
                 <Slider x:Name="Volume" ValueChanged="Volume_ValueChanged"
-                        Style="{StaticResource CircleSliderThumb}" Maximum="1" Width="100"
+                        Maximum="1" Width="100"
                         Margin="0 4 0 0" StepFrequency="0.01" ManipulationMode="All"
                         ManipulationStarted="Volume_ManipulationStarted" ManipulationCompleted="Volume_ManipulationCompleted"/>
                 <Button Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"

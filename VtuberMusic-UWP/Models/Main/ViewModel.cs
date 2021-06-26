@@ -10,15 +10,8 @@ namespace VtuberMusic_UWP.Models.Main
     public class ViewModel
     {
         public MainPage MainPage;
-        public SidePanel SidePanel;
+        public TopPanel TopPanel;
         public MainPlayer MainPlayer;
-
-        public Album CurrentAlbum;
-
-        public void NavigateToPage(Type page, object args = null)
-        {
-            SidePanel.NavigateToPage(page, args);
-        }
 
         public async void SetAppBackgroundImage(Uri imageUri)
         {

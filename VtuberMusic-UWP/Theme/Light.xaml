@@ -7,6 +7,6 @@
     <SolidColorBrush x:Key="Foreground" Color="Black"/>
 
     <Style TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
+        <Setter Property="Foreground" Value="{ThemeResource Foreground}"/>
     </Style>
 </ResourceDictionary>

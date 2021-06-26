@@ -55,7 +55,11 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <PersonPicture x:Name="Avater" ProfilePicture="{x:Bind imgUrl}" Margin="5"/>
+                            <PersonPicture x:Name="Avater" Margin="5">
+                                <PersonPicture.ProfilePicture>
+                                    <BitmapImage UriSource="{x:Bind imgUrl}" DecodePixelHeight="150" DecodePixelWidth="150"/>
+                                </PersonPicture.ProfilePicture>
+                            </PersonPicture>
                             <TextBlock Grid.Row="1" Text="{x:Bind name.origin}" HorizontalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>

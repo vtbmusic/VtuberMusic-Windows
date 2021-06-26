@@ -14,7 +14,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <PersonPicture x:Name="Avater" Height="200" Width="200"/>
+                <PersonPicture x:Name="Avater" Height="200" Width="200" BorderThickness="0" BorderBrush="{x:Null}"/>
                 <Grid x:Name="InfoPanel" Grid.Column="1" Margin="20 20 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -32,7 +32,7 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="100 0" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                         <StackPanel>
                             <TextBlock Text="歌曲" HorizontalAlignment="Center"/>
                             <TextBlock x:Name="MusicCount" HorizontalAlignment="Center" FontSize="36"/>

@@ -9,17 +9,26 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <StackPanel Padding="10">
-        <PersonPicture Height="60" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
-        <TextBlock Text="Misaka-L" Margin="5" FontSize="24" HorizontalAlignment="Center"/>
-        <StackPanel>
-            <Grid>
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="5 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <PersonPicture Height="40" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
+            <StackPanel Grid.Column="1" Margin="10 0">
                 <TextBlock Text="Lv.9"/>
-                <TextBlock Text="102050/102050" HorizontalAlignment="Right"/>
-            </Grid>
-            <ProgressBar Margin="0 5" Value="100"/>
-        </StackPanel>
-        <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
+                <ProgressBar Margin="0 3 0 0" Value="100"/>
+                <TextBlock Text="Misaka-L" FontSize="16" FontWeight="SemiBold"/>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.Column="1"
+                    Orientation="Horizontal" HorizontalAlignment="Center"
+                    Margin="0 10 0 0">
             <StackPanel>
                 <TextBlock Text="主推"/>
                 <TextBlock Text="233" HorizontalAlignment="Center"/>
@@ -33,5 +42,6 @@
                 <TextBlock Text="0" HorizontalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
-    </StackPanel>
+
+    </Grid>
 </UserControl>

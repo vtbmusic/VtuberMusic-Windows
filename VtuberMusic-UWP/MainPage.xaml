@@ -5,10 +5,59 @@
     xmlns:local="using:VtuberMusic_UWP"
     xmlns:main="using:VtuberMusic_UWP.Components.Main"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:player="using:VtuberMusic_UWP.Components.Player"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:player="using:VtuberMusic_UWP.Components.Player"
+    xmlns:muxc="using:Windows.UI.Xaml.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{StaticResource SystemControlAcrylicElementBrush}">
-        <main:SidePanel/>
+    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
+        <NavigationView Name="Navigation" MenuItemsSource="{x:Bind navigationItemList, Mode=OneWay}"
+                        IsBackButtonVisible="Collapsed" IsBackEnabled="False"
+                        Background="Transparent">
+            <!--<NavigationView.PaneHeader>
+                <TextBlock Text="VtuberMusic" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5 0"/>
+            </NavigationView.PaneHeader>-->
+            <NavigationView.Resources>
+                <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.6"/>
+            </NavigationView.Resources>
+            <NavigationView.MenuItems>
+                <NavigationViewItemHeader Content="发现"/>
+                <NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="Home"/>
+                <NavigationViewItem Content="电台">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEC44;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItemHeader Content="我的音乐"/>
+                <NavigationViewItem Content="下载" Icon="Download"/>
+                <NavigationViewItem Content="我喜欢的音乐">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE006;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItemHeader Content="我创建的歌单"/>
+                <NavigationViewItem Content="Test!!!">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="透透 Misaka">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE1F6;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItemHeader Content="我收藏的歌单"/>
+            </NavigationView.MenuItems>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <main:TopPanel/>
+                <Frame Name="NavigationFrame" Grid.Row="1"/>
+                <player:MainPlayer Grid.Row="2"/>
+            </Grid>
+        </NavigationView>
     </Grid>
 </Page>
