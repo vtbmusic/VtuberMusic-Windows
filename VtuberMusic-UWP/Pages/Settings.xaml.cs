@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -14,6 +15,16 @@ namespace VtuberMusic_UWP.Pages
         public Settings()
         {
             this.InitializeComponent();
+            Version.Text = "VtuberMusic | v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + "-" + getGitCommitInfo();
+                ;
+        }
+
+        private string getGitCommitInfo()
+        {
+            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
+            if (attributes.Length != 0) return ((AssemblyFileVersionAttribute)attributes[0]).Version;
+
+            return "Nan";
         }
 
         private void ForceGC_Click(object sender, RoutedEventArgs e)
