@@ -48,7 +48,7 @@ jobs:
     # 写入 Git 版本号
     - name: Write Git Commit and Date
       run: |
-        $Git_Commit = git log -1 - pretty=format:%h
+        $Git_Commit = git log -1 --pretty=format:%h
         $Build_Time = Get-Date -Format 'yyyy-M-d-H:m:s'
         $Info = Get-Content $env:Wap_Project_Directory/Properties/AssemblyInfo.cs
         $Info = $Info -replace "GitCommit",$Git_Commit
