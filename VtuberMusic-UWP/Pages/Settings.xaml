@@ -1,0 +1,110 @@
+﻿<Page
+    x:Class="VtuberMusic_UWP.Pages.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Margin="25">
+            <Grid CornerRadius="10">
+                <Grid.Background>
+                    <ImageBrush ImageSource="https://pixiv.cat/90077053.png" Stretch="UniformToFill"/>
+                </Grid.Background>
+                <Grid Margin="0 0 0 0" CornerRadius="10" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <PersonPicture Margin="15" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="misaka-l@vtbmusic.icu" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                        <TextBlock Text="Misaka-L" FontWeight="Bold" FontSize="24"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="30 0" Grid.Column="2">
+                        <Button Margin="10 0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="修改个人资料"/>
+                                <FontIcon Glyph="&#xEC88;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="退出登录"/>
+                                <FontIcon Glyph="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <controls:Expander Header="音频" CornerRadius="10" Margin="0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="A setting item" VerticalAlignment="Center"/>
+                        <ToggleSwitch Margin="0 0 -80 0" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="A setting item" VerticalAlignment="Center"/>
+                        <ToggleSwitch Margin="0 0 -80 0" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </controls:Expander>
+            <controls:Expander Header="高级" CornerRadius="10" Margin="0 0 0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <Button x:Name="ForceGC" Content="强制 GC (内存回收)" Click="ForceGC_Click" HorizontalAlignment="Stretch"/>
+                    <Button Content="查看日志" HorizontalAlignment="Stretch" Margin="0 5"/>
+                </StackPanel>
+            </controls:Expander>
+            <controls:Expander Header="关于和反馈" CornerRadius="10" Margin="0 0 0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <Image Source="/Assets/Icon/Original/Icon-with-title.png" MaxWidth="500"/>
+                    <TextBlock Text="VtuberMusic UWP | v2.0-main-13c8fc5" HorizontalAlignment="Center" FontSize="16" Margin="5 5 0 0" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
+                        <Button Margin="3 0">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Glyph="&#xe6e9;" FontFamily="{StaticResource Icon}"/>
+                                <TextBlock Text="哔哩哔哩" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="3 0">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Glyph="&#xe62e;" FontFamily="{StaticResource Icon}"/>
+                                <TextBlock Text="QQ 群" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="3 0">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Glyph="&#xe600;" FontFamily="{StaticResource Icon}"/>
+                                <TextBlock Text="Twitter" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="3 0">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Glyph="&#xE939;" FontFamily="Segoe MDL2 Assets"/>
+                                <TextBlock Text="反馈中心" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="3 0">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Mail"/>
+                                <TextBlock Text="邮件" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <HyperlinkButton Content="https://vtbmusic.com" HorizontalAlignment="Center" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com"/>
+                </StackPanel>
+            </controls:Expander>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

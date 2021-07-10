@@ -1,11 +1,10 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using System.Collections.ObjectModel;
 using VtuberMusic_UWP.Pages;
 using Windows.Foundation;
-using Windows.UI.Xaml.Navigation;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -52,6 +51,12 @@ namespace VtuberMusic_UWP
 
         private void Navigation_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
+            if (args.IsSettingsInvoked && ContentFrame.Content.GetType() != typeof(Settings))
+            {
+                ContentFrame.Navigate(typeof(Settings));
+                return;
+            }
+
             var item = args.InvokedItemContainer;
             if (item.Tag is NavigationItemTag)
             {
@@ -64,6 +69,12 @@ namespace VtuberMusic_UWP
 
         private void NavigationFrame_Navigated(object sender, NavigationEventArgs e)
         {
+            if (e.Content is Settings)
+            {
+                Navigation.SelectedItem = Navigation.SettingsItem;
+                return;
+            }
+
             foreach (var tmp in navigationItemList)
             {
                 if (tmp.Tag != null && ((NavigationItemTag)tmp.Tag).PageType == e.Content.GetType())

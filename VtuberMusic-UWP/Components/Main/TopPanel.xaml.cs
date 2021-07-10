@@ -1,6 +1,4 @@
-﻿using System;
-using VtuberMusic_UWP.Pages;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -34,7 +32,7 @@ namespace VtuberMusic_UWP.Components.Main
         }
 
         private void GoBackButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             if (frame.CanGoBack) frame.GoBack();
         }
 

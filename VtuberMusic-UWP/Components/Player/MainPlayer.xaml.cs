@@ -1,6 +1,5 @@
 ﻿using System;
 using VtuberMusic_UWP.Models.VtuberMusic;
-using VtuberMusic_UWP.Pages;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
