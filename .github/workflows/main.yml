@@ -50,7 +50,7 @@ jobs:
       run: |
         $Git_Commit = git log -1 - pretty=format:%h
         $Build_Time = Get-Date -Format 'yyyy-M-d-H:m:s'
-        $Info = Get-Content  $env:Wap_Project_Path/Properties/AssemblyInfo.cs
+        $Info = Get-Content $env:Wap_Project_Path/Properties/AssemblyInfo.cs
         $Info = $Info -replace "GitCommit",$Git_Commit
         $Info = $Info -replace "Date",$Date
         Set-Content -Path $env:Wap_Project_Path/Properties/AssemblyInfo.cs -Value $Info
@@ -58,7 +58,7 @@ jobs:
     
     # 生成应用并生成包
     - name: Create the app package (x86)
-      run: msbuild $env:Wap_Project_Path+/p:Configuration=$env:Configuration /p:Platform="x86" /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
+      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:Platform="x86" /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
       env:
         Appx_Bundle: Always
         Appx_Package_Build_Mode: StoreUpload
