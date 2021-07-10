@@ -53,7 +53,7 @@ jobs:
         $Info = Get-Content $env.Wap_Project_Directory/Properties/AssemblyInfo.cs
         $Info = $Info -replace "GitCommit",$Git_Commit
         $Info = $Info -replace "Date",$Date
-        Set-Content -Path $env.Wap_Project_Directory /Properties/AssemblyInfo.cs -Value $Info
+        Set-Content -Path $env:Wap_Project_Path /Properties/AssemblyInfo.cs -Value $Info
         
     
     # 生成应用并生成包
