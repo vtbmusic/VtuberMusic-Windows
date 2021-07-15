@@ -2,6 +2,7 @@
 using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -16,7 +17,6 @@ namespace VtuberMusic_UWP.Pages
         {
             this.InitializeComponent();
             Version.Text = "VtuberMusic | v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + "-" + getGitCommitInfo();
-                ;
         }
 
         private string getGitCommitInfo()
@@ -30,6 +30,20 @@ namespace VtuberMusic_UWP.Pages
         private void ForceGC_Click(object sender, RoutedEventArgs e)
         {
             GC.Collect(100, GCCollectionMode.Forced, true);
+        }
+    }
+
+    public class BlurBackgroundPixelConvert : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is double) return (int)(double)value / 4;
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return null;
         }
     }
 }

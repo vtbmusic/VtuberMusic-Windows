@@ -17,7 +17,7 @@
                     FontFamily="{StaticResource Icon}" Content="{StaticResource icon-back}" IsEnabled="False"/>
             <Button x:Name="GoForwardButton" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
                     FontFamily="{StaticResource Icon}" Content="{StaticResource icon-go}" Margin="5 0 3 0" IsEnabled="False"/>
-            <TextBox CornerRadius="18" FontSize="14" Height="40" Padding="13 8 0 0" VerticalAlignment="Center" BorderBrush="Transparent" PlaceholderText="搜索" Width="400"/>
+            <TextBox x:Name="SearchKeyword" CornerRadius="18" KeyDown="TextBox_KeyDown" FontSize="14" Height="40" Padding="13 8 0 0" VerticalAlignment="Center" BorderBrush="Transparent" PlaceholderText="搜索" Width="400"/>
         </StackPanel>
         <PersonPicture Height="35" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40 0">
             <PersonPicture.ProfilePicture>

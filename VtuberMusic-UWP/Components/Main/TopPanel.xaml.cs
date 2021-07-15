@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using VtuberMusic_UWP.Pages;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -40,6 +41,14 @@ namespace VtuberMusic_UWP.Components.Main
         {
             GoBackButton.IsEnabled = App.ViewModel.MainPage.ContentFrame.CanGoBack;
             GoForwardButton.IsEnabled = App.ViewModel.MainPage.ContentFrame.CanGoForward;
+        }
+
+        private void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                App.ViewModel.NavigateToPage(typeof(Search), SearchKeyword.Text);
+            }
         }
     }
 }

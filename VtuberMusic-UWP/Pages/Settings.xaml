@@ -7,13 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <local:BlurBackgroundPixelConvert x:Key="BlurBackgroundPixelConvert"/>
+    </Page.Resources>
+    
     <ScrollViewer>
         <StackPanel Margin="25">
-            <Grid CornerRadius="10">
-                <Grid.Background>
-                    <ImageBrush ImageSource="https://pixiv.cat/90077053.png" Stretch="UniformToFill"/>
-                </Grid.Background>
-                <Grid Margin="0 0 0 0" CornerRadius="10" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+            <Grid CornerRadius="10" Height="150">
+                <Image Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Image.Source>
+                        <BitmapImage UriSource="https://pixiv.cat/90538771.png"
+                                     DecodePixelHeight="38"/>
+                    </Image.Source>
+                </Image>
+                <Grid Margin="0 0 0 0" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>

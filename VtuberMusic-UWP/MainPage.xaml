@@ -52,11 +52,12 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <main:TopPanel/>
-                <Frame Name="NavigationFrame" Grid.Row="1"/>
-                <player:MainPlayer Grid.Row="2"/>
+                <Grid Grid.Row="1">
+                    <Frame Name="NavigationFrame"/>
+                    <player:MainPlayer Margin="15" VerticalAlignment="Bottom"/>
+                </Grid>
             </Grid>
         </NavigationView>
     </Grid>

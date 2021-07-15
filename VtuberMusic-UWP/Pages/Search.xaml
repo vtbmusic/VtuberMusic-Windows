@@ -4,11 +4,69 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:collections="using:VtuberMusic_UWP.Components.Collections" xmlns:muxc="using:Windows.UI.Xaml.Controls"
+    mc:Ignorable="d">
 
-    <Grid>
-
+    <Grid Margin="30 0">
+        <Pivot Style="{StaticResource SearchPivotStyle}">
+            <PivotItem Loaded="Music_Loaded" Margin="0 10">
+                <PivotItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Audio" Margin="8 0"/>
+                        <TextBlock Text="歌曲" FontSize="18"/>
+                    </StackPanel>
+                </PivotItem.Header>
+                <Grid>
+                    <muxc:ProgressRing x:Name="MusicLoading" Height="50" Width="50" IsActive="True"/>
+                    <ScrollViewer>
+                        <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Mode="Large"/>
+                    </ScrollViewer>
+                </Grid>
+            </PivotItem>
+            <PivotItem Margin="0 10">
+                <PivotItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="MusicInfo" Margin="8 0"/>
+                        <TextBlock Text="歌单" FontSize="18"/>
+                    </StackPanel>
+                </PivotItem.Header>
+                <muxc:ProgressRing x:Name="PlayListLoading" Height="50" Width="50" IsActive="True"/>
+            </PivotItem>
+            <PivotItem Margin="0 10">
+                <PivotItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Contact" Margin="8 0"/>
+                        <TextBlock Text="Vtuber" FontSize="18"/>
+                    </StackPanel>
+                </PivotItem.Header>
+                <muxc:ProgressRing x:Name="VtuberLoading" Height="50" Width="50" IsActive="True"/>
+            </PivotItem>
+            <PivotItem Margin="0 10">
+                <PivotItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="People" Margin="8 0"/>
+                        <TextBlock Text="企划" FontSize="18"/>
+                    </StackPanel>
+                </PivotItem.Header>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <FontIcon Glyph="&#xE125;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                    <TextBlock Text="企划" FontSize="24" Margin="10" HorizontalAlignment="Center"/>
+                    <TextBlock Text="暂不支持搜索" FontSize="18" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Margin="0 10">
+                <PivotItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="ContactInfo" Margin="8 0"/>
+                        <TextBlock Text="用户" FontSize="18"/>
+                    </StackPanel>
+                </PivotItem.Header>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <FontIcon Glyph="&#xE136;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                    <TextBlock Text="用户" FontSize="24" Margin="10" HorizontalAlignment="Center"/>
+                    <TextBlock Text="暂不支持搜索" FontSize="18" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

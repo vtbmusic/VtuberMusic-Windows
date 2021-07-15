@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel Margin="30">
+        <StackPanel Margin="30 0 30 100">
             <Grid animations:Connected.AnchorElement="{x:Bind CoverImg}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.8*" MaxWidth="465"/>

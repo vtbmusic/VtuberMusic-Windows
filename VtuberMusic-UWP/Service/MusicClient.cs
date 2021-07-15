@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using System;
 using System.Threading.Tasks;
+using VtuberMusic_UWP.Components.Player;
 using VtuberMusic_UWP.Models.VtuberMusic;
 
 namespace VtuberMusic_UWP.Service
@@ -173,5 +174,69 @@ namespace VtuberMusic_UWP.Service
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        public async Task<ApiResponse<Music[]>> SearchMusic(string keyword, int limit = 100, int offset = 0)
+        {
+            var request = new RestRequest(ApiUri.Search);
+            request.AddParameter("keyword", keyword);
+            request.AddParameter("limit", limit);
+            request.AddParameter("offest", offset);
+            request.AddParameter("type", "song");
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<Music[]>>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+
+        }
+
+        public async Task<ApiResponse<Artist[]>> SearchArtist(string keyword, int limit = 100, int offset = 0)
+        {
+            var request = new RestRequest(ApiUri.Search);
+            request.AddParameter("keyword", keyword);
+            request.AddParameter("limit", limit);
+            request.AddParameter("offest", offset);
+            request.AddParameter("type", "artist");
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<Artist[]>>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+
+        }
+
+        public async Task<ApiResponse<Playlist[]>> SearchPlaylist(string keyword, int limit = 100, int offset = 0)
+        {
+            var request = new RestRequest(ApiUri.Search);
+            request.AddParameter("keyword", keyword);
+            request.AddParameter("limit", limit);
+            request.AddParameter("offest", offset);
+            request.AddParameter("type", "playlist");
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<Playlist[]>>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+
+        }
+
     }
 }

@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel Margin="30 0">
+        <StackPanel Margin="30 0 30 70">
             <Grid Margin="70 30">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

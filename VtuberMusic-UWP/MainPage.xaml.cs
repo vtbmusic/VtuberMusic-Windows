@@ -16,6 +16,7 @@ namespace VtuberMusic_UWP
     public sealed partial class MainPage : Page
     {
         public TypedEventHandler<object, NavigationEventArgs> Navigated;
+        public Frame PageFrame => NavigationFrame;
         public Frame ContentFrame => NavigationFrame;
         private ObservableCollection<NavigationViewItemBase> navigationItemList = new ObservableCollection<NavigationViewItemBase>()
         {
