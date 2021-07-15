@@ -9,7 +9,7 @@
 
     <Grid Margin="30 0">
         <Pivot Style="{StaticResource SearchPivotStyle}">
-            <PivotItem Loaded="Music_Loaded" Margin="0 10">
+            <PivotItem Loaded="Music_Loaded">
                 <PivotItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Audio" Margin="8 0"/>
@@ -19,7 +19,7 @@
                 <Grid>
                     <muxc:ProgressRing x:Name="MusicLoading" Height="50" Width="50" IsActive="True"/>
                     <ScrollViewer>
-                        <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Mode="Large"/>
+                        <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Mode="Large" Margin="0 0 0 100"/>
                     </ScrollViewer>
                 </Grid>
             </PivotItem>
