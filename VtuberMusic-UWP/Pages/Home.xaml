@@ -8,7 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
+    xmlns:collections="using:VtuberMusic_UWP.Components.Collections" xmlns:controls="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:VtuberMusic_UWP.Components"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -31,15 +31,16 @@
 
     <ScrollViewer>
         <StackPanel MaxWidth="1100" Margin="100 0 100 100">
-            <main:BlockTitle Text="我们的推荐"/>
+            <!--<main:BlockTitle Text="我们的推荐"/>-->
             <FlipView x:Name="BannerDataView" CornerRadius="10" Margin="0 5" Height="530" ItemTemplate="{StaticResource BannerItemTemplate}"/>
+            <controls:PipsPager x:Name="BannerPipsPager" HorizontalAlignment="Center" SelectedPageIndex="{x:Bind BannerDataView.SelectedIndex, Mode=TwoWay}"/>
             <!--<main:BlockTitle Text="我关注的"/>
             <collections:MusicCardView x:Name="SubMusicDataView"/>-->
-            <main:BlockTitle Text="最新歌曲"/>
-            <collections:MusicCardView x:Name="NewMusicDataView"/>
+            <!--<main:BlockTitle Text="最新歌曲"/>-->
+            <collections:MusicCardView x:Name="NewMusicDataView" Margin="0 10"/>
 
-            <main:BlockTitle Text="人气 Vtuber"/>
-            <GridView x:Name="VtuberDataView" SelectionMode="None"
+            <!--<main:BlockTitle Text="人气 Vtuber"/>-->
+            <GridView x:Name="VtuberDataView" SelectionMode="None" Margin="0 10"
                       IsItemClickEnabled="True" ItemClick="VtuberDataView_ItemClick" Loaded="VtuberDataView_Loaded"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
@@ -48,25 +49,25 @@
                         <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="0 0 10 0"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Artist">
-                        <Grid Padding="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <PersonPicture x:Name="Avater" Margin="5">
-                                <PersonPicture.ProfilePicture>
-                                    <BitmapImage UriSource="{x:Bind imgUrl}" DecodePixelHeight="150" DecodePixelWidth="150"/>
-                                </PersonPicture.ProfilePicture>
-                            </PersonPicture>
-                            <TextBlock Grid.Row="1" Text="{x:Bind name.origin}" HorizontalAlignment="Center"/>
-                        </Grid>
+                        <StackPanel Width="110">
+                            <PersonPicture x:Name="Avater" ProfilePicture="{x:Bind imgUrl}"/>
+                            <StackPanel CornerRadius="10" Margin="0 10 0 0" Padding="10 5" Height="50" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind groupName}"/>
+                                <components:MarqueeText Text="{x:Bind name.origin}" FontSize="16"/>
+                            </StackPanel>
+                        </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
-            <main:BlockTitle Text="歌单"/>
-            <GridView x:Name="AlbumDataView" Loaded="AlbumDataView_Loaded"
+            <!--<main:BlockTitle Text="歌单"/>-->
+            <GridView x:Name="AlbumDataView" Loaded="AlbumDataView_Loaded" Margin="0 20 0 0"
                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="AlbumDataView_ItemClick"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
@@ -82,11 +83,14 @@
                 </GridView.ItemContainerStyle>
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Album">
-                        <StackPanel Height="200">
-                            <StackPanel CornerRadius="10">
-                                <Image x:Name="AlbumCover" Source="{x:Bind coverImgUrl}" Height="150" Width="280" Stretch="UniformToFill"/>
+                        <StackPanel>
+                            <StackPanel x:Name="CoverImgBorder" CornerRadius="10">
+                                <Image Source="{x:Bind coverImgUrl}" Height="150" Width="280" Stretch="UniformToFill"/>
                             </StackPanel>
-                            <TextBlock TextWrapping="Wrap" Margin="5 5" Text="{x:Bind name}"/>
+                            <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind creator.nickname}"/>
+                                <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

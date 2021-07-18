@@ -39,7 +39,7 @@ namespace VtuberMusic_UWP.Pages
             CoverImg.Source = image;
 
             ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
-            if (imageAnimation != null) imageAnimation.TryStart(CoverImg, new UIElement[] { InfoPanel });
+            if (imageAnimation != null) imageAnimation.TryStart(CoverImgBorder, new UIElement[] { InfoPanel });
 
             var data = await App.Client.GetPlayListSong(album.id);
 

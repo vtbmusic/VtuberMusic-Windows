@@ -16,7 +16,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel CornerRadius="10">
+                <StackPanel x:Name="CoverImgBorder" CornerRadius="10">
                     <Image x:Name="CoverImg" Stretch="UniformToFill">
                         <Image.Shadow>
                             <ThemeShadow/>

@@ -23,6 +23,7 @@ namespace VtuberMusic_UWP.Pages
         private async void loadData()
         {
             var bannerData = await App.Client.GetBanner();
+            BannerPipsPager.NumberOfPages = bannerData.Data.Length;
             BannerDataView.ItemsSource = bannerData.Data;
             App.ViewModel.SetAppBackgroundImage(new Uri(bannerData.Data.First().BannerImg));
 
@@ -42,7 +43,7 @@ namespace VtuberMusic_UWP.Pages
             _albumItem = ((GridViewItem)AlbumDataView.ContainerFromItem(e.ClickedItem)).Content;
             var animation = AlbumDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
                 _albumItem,
-                "AlbumCover");
+                "CoverImgBorder");
 
             Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
@@ -55,7 +56,7 @@ namespace VtuberMusic_UWP.Pages
             ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
             if (animation != null)
             {
-                await AlbumDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "AlbumCover");
+                await AlbumDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "CoverImgBorder");
             }
         }
 
