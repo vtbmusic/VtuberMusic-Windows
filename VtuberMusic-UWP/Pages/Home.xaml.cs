@@ -27,7 +27,7 @@ namespace VtuberMusic_UWP.Pages
             App.ViewModel.SetAppBackgroundImage(new Uri(bannerData.Data.First().BannerImg));
 
             var newMusicData = await App.Client.GetNewSong(12);
-            SubMusicDataView.ItemsSource = newMusicData.Data;
+            //SubMusicDataView.ItemsSource = newMusicData.Data;
             NewMusicDataView.ItemsSource = newMusicData.Data;
 
             var artistData = await App.Client.GetArtistList();

@@ -47,6 +47,13 @@ namespace VtuberMusic_UWP.Components.Main
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
+                if (string.IsNullOrWhiteSpace(SearchKeyword.Text)) return;
+                if (App.ViewModel.MainPage.ContentFrame.Content.GetType() == typeof(Search))
+                {
+                    ((Search)App.ViewModel.MainPage.ContentFrame.Content).SearchKeyword(SearchKeyword.Text);
+                    return;
+                }
+
                 App.ViewModel.NavigateToPage(typeof(Search), SearchKeyword.Text);
             }
         }

@@ -4,12 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:collections="using:VtuberMusic_UWP.Components.Collections" xmlns:muxc="using:Windows.UI.Xaml.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
+    xmlns:muxc="using:Windows.UI.Xaml.Controls"
+    xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic" xmlns:components="using:VtuberMusic_UWP.Components"
     mc:Ignorable="d">
 
     <Grid Margin="30 0">
         <Pivot Style="{StaticResource SearchPivotStyle}">
-            <PivotItem Loaded="Music_Loaded">
+            <PivotItem>
                 <PivotItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Audio" Margin="8 0"/>
@@ -30,7 +33,11 @@
                         <TextBlock Text="歌单" FontSize="18"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <muxc:ProgressRing x:Name="PlayListLoading" Height="50" Width="50" IsActive="True"/>
+                <Grid>
+                    <muxc:ProgressRing x:Name="PlayListLoading" Height="50" Width="50" IsActive="True"/>
+                    <ScrollViewer>
+                    </ScrollViewer>
+                </Grid>
             </PivotItem>
             <PivotItem Margin="0 10">
                 <PivotItem.Header>
@@ -39,7 +46,33 @@
                         <TextBlock Text="Vtuber" FontSize="18"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <muxc:ProgressRing x:Name="VtuberLoading" Height="50" Width="50" IsActive="True"/>
+                <Grid>
+                    <muxc:ProgressRing x:Name="VtuberLoading" Height="50" Width="50" IsActive="True"/>
+                    <GridView x:Name="VtuberDataView" Padding="0 0 0 100"
+                              IsItemClickEnabled="True" Loaded="VtuberDataView_Loaded" ItemClick="VtuberDataView_ItemClick">
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="Margin" Value="10 0 10 20"/>
+                            </Style>
+                        </GridView.ItemContainerStyle>
+                        <GridView.ItemsPanel>
+                            <muxc:ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal"/>
+                            </muxc:ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Artist">
+                                <StackPanel Width="110">
+                                    <PersonPicture x:Name="ArtistAvater" ProfilePicture="{x:Bind imgUrl}"/>
+                                    <StackPanel CornerRadius="10" Margin="0 10 0 0" Padding="10 5" Height="50" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                        <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind groupName}"/>
+                                        <components:MarqueeText Text="{x:Bind name.origin}" FontSize="16"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Grid>
             </PivotItem>
             <PivotItem Margin="0 10">
                 <PivotItem.Header>

@@ -41,7 +41,7 @@
                         <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem Content="透透 Misaka">
+                <NavigationViewItem Content="厕所用歌单 (?)">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE1F6;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>
