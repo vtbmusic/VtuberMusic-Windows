@@ -8,10 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:player="using:VtuberMusic_UWP.Components.Player"
     xmlns:muxc="using:Windows.UI.Xaml.Controls"
+    xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
+    xmlns:pages ="using:VtuberMusic_UWP.Pages"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
-        <NavigationView Name="Navigation" MenuItemsSource="{x:Bind navigationItemList, Mode=OneWay}"
+        <NavigationView Name="Navigation" 
                         IsBackButtonVisible="Collapsed" IsBackEnabled="False"
                         Background="Transparent">
             <!--<NavigationView.PaneHeader>
@@ -22,8 +24,8 @@
             </NavigationView.Resources>
             <NavigationView.MenuItems>
                 <NavigationViewItemHeader Content="发现"/>
-                <NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="Home"/>
-                <NavigationViewItem Content="电台">
+                <NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="{local:NavigationItemTag PageType=pages:Home, Args=pages:Home}"/>
+                <NavigationViewItem Content="电台" Tag="{local:NavigationItemTag PageType=pages:Radio}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC44;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>

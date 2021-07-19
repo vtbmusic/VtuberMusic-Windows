@@ -21,7 +21,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBlock x:Name="OtherNameAndGroup"/>
+                        <TextBlock x:Name="OtherNameAndGroup" Foreground="{ThemeResource SystemBaseMediumLowColor}" FontSize="14"/>
                         <TextBlock x:Name="ArtistName" FontSize="36" FontWeight="SemiBold"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
@@ -37,12 +37,12 @@
                             <TextBlock Text="歌曲" HorizontalAlignment="Center"/>
                             <TextBlock x:Name="MusicCount" HorizontalAlignment="Center" FontSize="36"/>
                         </StackPanel>
-                        <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="White"/>
+                        <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="{ThemeResource SystemBaseMediumLowColor}"/>
                         <StackPanel>
                             <TextBlock Text="歌单" HorizontalAlignment="Center"/>
                             <TextBlock x:Name="AlbumCount" HorizontalAlignment="Center" FontSize="36"/>
                         </StackPanel>
-                        <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="White"/>
+                        <Border Width="1" Margin="20 5" VerticalAlignment="Stretch" Background="{ThemeResource SystemBaseMediumLowColor}"/>
                         <StackPanel>
                             <TextBlock Text="粉丝" HorizontalAlignment="Center"/>
                             <TextBlock x:Name="FanCount" HorizontalAlignment="Center" FontSize="36"/>

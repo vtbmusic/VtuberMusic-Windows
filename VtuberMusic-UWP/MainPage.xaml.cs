@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using VtuberMusic_UWP.Pages;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
@@ -18,12 +20,6 @@ namespace VtuberMusic_UWP
         public TypedEventHandler<object, NavigationEventArgs> Navigated;
         public Frame PageFrame => NavigationFrame;
         public Frame ContentFrame => NavigationFrame;
-        private ObservableCollection<NavigationViewItemBase> navigationItemList = new ObservableCollection<NavigationViewItemBase>()
-        {
-            new NavigationViewItemHeader { Content = "发现" },
-            new NavigationViewItem { Icon = new SymbolIcon(Symbol.Home), Content = "首页", Tag = new NavigationItemTag { PageType = typeof(Home) } },
-            new NavigationViewItem { Icon = new FontIcon { Glyph = "\uEC44", FontFamily = new FontFamily("Segoe MDL2 Assets") }, Content = "电台", Tag = new NavigationItemTag { PageType = typeof(Radio) } }
-        };
 
         public MainPage()
         {
@@ -35,7 +31,7 @@ namespace VtuberMusic_UWP
             NavigationFrame.Navigated += NavigationFrame_Navigated;
             Navigation.ItemInvoked += Navigation_ItemInvoked;
 
-            Navigation.SelectedItem = navigationItemList[1];
+            Navigation.SelectedItem = Navigation.MenuItems[1];
         }
 
         private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -76,7 +72,7 @@ namespace VtuberMusic_UWP
                 return;
             }
 
-            foreach (var tmp in navigationItemList)
+            foreach (NavigationViewItemBase tmp in Navigation.MenuItems)
             {
                 if (tmp.Tag != null && ((NavigationItemTag)tmp.Tag).PageType == e.Content.GetType())
                 {
@@ -89,8 +85,10 @@ namespace VtuberMusic_UWP
         }
     }
 
-    public class NavigationItemTag
+    [MarkupExtensionReturnType(ReturnType = typeof(NavigationItemTag))]
+    public class NavigationItemTag : MarkupExtension
     {
+        protected override object ProvideValue() => this;
         public Type PageType { get; set; }
         public object Args { get; set; }
     }
