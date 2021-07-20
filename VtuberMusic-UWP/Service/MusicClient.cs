@@ -217,7 +217,7 @@ namespace VtuberMusic_UWP.Service
 
         }
 
-        public async Task<ApiResponse<Playlist[]>> SearchPlaylist(string keyword, int limit = 100, int offset = 0)
+        public async Task<ApiResponse<Album[]>> SearchPlaylist(string keyword, int limit = 100, int offset = 0)
         {
             var request = new RestRequest(ApiUri.Search);
             request.AddParameter("keyword", keyword);
@@ -225,7 +225,7 @@ namespace VtuberMusic_UWP.Service
             request.AddParameter("offest", offset);
             request.AddParameter("type", "playlist");
 
-            var response = await _restClient.ExecuteAsync<ApiResponse<Playlist[]>>(request);
+            var response = await _restClient.ExecuteAsync<ApiResponse<Album[]>>(request);
 
             if (response.IsSuccessful)
             {

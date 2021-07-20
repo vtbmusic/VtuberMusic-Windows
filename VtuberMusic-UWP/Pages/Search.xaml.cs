@@ -15,6 +15,7 @@ namespace VtuberMusic_UWP.Pages
     {
         private string keyWord = "";
         private object _artistItem = null;
+        private object _albumItem = null;
 
         public Search()
         {
@@ -31,6 +32,11 @@ namespace VtuberMusic_UWP.Pages
             VtuberLoading.Visibility = Visibility.Visible;
             VtuberDataView.ItemsSource = (await App.Client.SearchArtist(keyword)).Data;
             VtuberLoading.Visibility = Visibility.Collapsed;
+
+            PlayListLoading.Visibility = Visibility.Visible;
+            PlayListDataView.ItemsSource = (await App.Client.SearchPlaylist(keyword)).Data;
+            PlayListLoading.Visibility = Visibility.Collapsed;
+            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -60,6 +66,37 @@ namespace VtuberMusic_UWP.Pages
             if (animation != null)
             {
                 await VtuberDataView.TryStartConnectedAnimationAsync(animation, _artistItem, "ArtistAvater");
+            }
+        }
+
+        private void PlayListDataView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            _albumItem = ((GridViewItem)PlayListDataView.ContainerFromItem(e.ClickedItem)).Content;
+            var animation = PlayListDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
+                _albumItem,
+                "CoverImgBorder");
+
+            Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
+        }
+
+        private async void PlayListDataView_Loaded(object sender, RoutedEventArgs e)
+        {
+            PlayListDataView.ScrollIntoView(_albumItem);
+            PlayListDataView.UpdateLayout();
+
+            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
+            if (animation != null)
+            {
+                await PlayListDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "CoverImgBorder");
+            }
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (e.SourcePageType != typeof(Album) && e.SourcePageType != typeof(Artist))
+            {
+                this.NavigationCacheMode = NavigationCacheMode.Disabled;
+                GC.Collect();
             }
         }
     }

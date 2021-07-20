@@ -68,7 +68,10 @@ namespace VtuberMusic_UWP.Pages
         {
             base.OnNavigatingFrom(e);
 
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ArtistBackConnectedAnimation", Avater);
+            if (e.SourcePageType == typeof(Home) || e.SourcePageType == typeof(Search))
+            {
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ArtistBackConnectedAnimation", Avater);
+            }
         }
     }
 }

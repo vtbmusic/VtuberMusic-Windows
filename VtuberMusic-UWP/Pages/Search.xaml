@@ -35,8 +35,27 @@
                 </PivotItem.Header>
                 <Grid>
                     <muxc:ProgressRing x:Name="PlayListLoading" Height="50" Width="50" IsActive="True"/>
-                    <ScrollViewer>
-                    </ScrollViewer>
+                    <GridView x:Name="PlayListDataView" IsItemClickEnabled="True" ItemClick="PlayListDataView_ItemClick"
+                              Loaded="PlayListDataView_Loaded">
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="Margin" Value="5 0 5 10"/>
+                            </Style>
+                        </GridView.ItemContainerStyle>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Album">
+                                <StackPanel>
+                                    <StackPanel x:Name="CoverImgBorder" CornerRadius="10">
+                                        <Image Source="{x:Bind coverImgUrl}" Height="150" Width="280" Stretch="UniformToFill"/>
+                                    </StackPanel>
+                                    <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                        <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind creator.nickname}"/>
+                                        <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </Grid>
             </PivotItem>
             <PivotItem Margin="0 10">
