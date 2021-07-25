@@ -152,6 +152,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Main\ISetupStep.cs" />
     <Compile Include="Models\Main\ViewModel.cs" />
     <Compile Include="Models\VtuberMusic\Account.cs" />
     <Compile Include="Models\VtuberMusic\ApiResponse.cs" />
@@ -184,6 +185,18 @@
     </Compile>
     <Compile Include="Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Setup.xaml.cs">
+      <DependentUpon>Setup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SetupPage\Finsh.xaml.cs">
+      <DependentUpon>Finsh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SetupPage\Account.xaml.cs">
+      <DependentUpon>Account.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SetupPage\Welcome.xaml.cs">
+      <DependentUpon>Welcome.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AccountService.cs" />
@@ -251,6 +264,7 @@
     <Content Include="Assets\Icon\SplashScreen\SplashScreen.scale-150.png" />
     <Content Include="Assets\Icon\SplashScreen\SplashScreen.scale-200.png" />
     <Content Include="Assets\Icon\SplashScreen\SplashScreen.scale-400.png" />
+    <Content Include="Assets\SetupBackground\66681407_p0.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -329,6 +343,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Setup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SetupPage\Finsh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SetupPage\Account.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SetupPage\Welcome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Template\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -355,9 +385,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DiscordRichPresence">
-      <Version>1.0.175</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>

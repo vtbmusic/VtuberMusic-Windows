@@ -26,19 +26,19 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <PersonPicture Margin="15" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
+                    <PersonPicture x:Name="Avatar" Margin="15" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="misaka-l@vtbmusic.icu" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                        <TextBlock Text="Misaka-L" FontWeight="Bold" FontSize="24"/>
+                        <TextBlock x:Name="Username" Text="misaka-l@vtbmusic.icu" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                        <TextBlock x:Name="Nickname" Text="Misaka-L" FontWeight="Bold" FontSize="24"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="30 0" Grid.Column="2">
-                        <Button Margin="10 0">
+                        <Button x:Name="EditProfile" Margin="10 0" Click="EditProfile_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="修改个人资料"/>
                                 <FontIcon Glyph="&#xEC88;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>
                             </StackPanel>
                         </Button>
-                        <Button>
+                        <Button x:Name="LogOut" Click="LogOut_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="退出登录"/>
                                 <FontIcon Glyph="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>

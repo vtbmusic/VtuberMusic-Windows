@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Reflection;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media.Imaging;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -17,6 +19,10 @@ namespace VtuberMusic_UWP.Pages
         {
             this.InitializeComponent();
             Version.Text = "VtuberMusic | v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + "-" + getGitCommitInfo();
+
+            Username.Text = App.Client.Account.Account.userName;
+            Nickname.Text = App.Client.Account.Profile.nickname;
+            Avatar.ProfilePicture = new BitmapImage(new Uri(App.Client.Account.Profile.avatarUrl));
         }
 
         private string getGitCommitInfo()
@@ -29,7 +35,17 @@ namespace VtuberMusic_UWP.Pages
 
         private void ForceGC_Click(object sender, RoutedEventArgs e)
         {
-            GC.Collect(100, GCCollectionMode.Forced, true);
+            GC.Collect();
+        }
+
+        private async void EditProfile_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://vtbmusic.com/"));
+        }
+
+        private void LogOut_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

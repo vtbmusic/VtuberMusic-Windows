@@ -22,5 +22,9 @@
         public static string ArtistSongs = BaseUrl + "/v2/artist/songs";
 
         public static string Search = BaseUrl + "/v2/search";
+
+        public static string Login = BaseUrl + "/v2/user/login";
+
+        public static string AccountInfo = BaseUrl = "/v2/user/account";
     }
 }

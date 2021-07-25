@@ -237,6 +237,5 @@ namespace VtuberMusic_UWP.Service
             throw new Exception(response.ErrorMessage);
 
         }
-
     }
 }

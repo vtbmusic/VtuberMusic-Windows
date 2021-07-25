@@ -1,5 +1,6 @@
 ﻿using System;
 using VtuberMusic_UWP.Models.Main;
+using VtuberMusic_UWP.Pages;
 using VtuberMusic_UWP.Service;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -16,7 +17,7 @@ namespace VtuberMusic_UWP
         public static ViewModel ViewModel = new ViewModel();
         public static MusicClient Client = new MusicClient();
         public static Player Player = new Player();
-        private Frame rootFrame;
+        public static Frame RootFrame;
 
         public App()
         {
@@ -31,15 +32,15 @@ namespace VtuberMusic_UWP
             titleBar.ButtonBackgroundColor = Colors.Transparent;
             titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-            rootFrame = Window.Current.Content as Frame;
+            RootFrame = Window.Current.Content as Frame;
 
-            if (rootFrame == null)
+            if (RootFrame == null)
             {
-                rootFrame = new Frame();
+                RootFrame = new Frame();
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
+                RootFrame.NavigationFailed += OnNavigationFailed;
 
-                Window.Current.Content = rootFrame;
+                Window.Current.Content = RootFrame;
             }
 
             if (e.PrelaunchActivated == false)
@@ -47,7 +48,8 @@ namespace VtuberMusic_UWP
                 Window.Current.Activate();
             }
 
-            rootFrame.Navigate(typeof(MainPage));
+            RootFrame.Navigate(typeof(Setup));
+            //rootFrame.Navigate(typeof(MainPage));
         }
 
         /// <summary>
