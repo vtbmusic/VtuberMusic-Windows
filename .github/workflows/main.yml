@@ -21,6 +21,15 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        
+    # 缓存 obj
+    - name: Cache Obj
+      uses: actions/cache@v2.1.6
+      env:
+          cache-name: cache-obj
+      with:
+          path: $env:Wap_Project_Directory\obj\
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
 
     # 安装 .NET Core 环境
     - name: Install .NET Core
