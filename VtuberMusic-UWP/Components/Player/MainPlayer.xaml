@@ -11,11 +11,8 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <UserControl.Resources>
-        <ThemeShadow x:Name="SharedShadow" />
-    </UserControl.Resources>
 
-    <Grid Shadow="{StaticResource SharedShadow}" Padding="10" CornerRadius="10" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+    <Grid Padding="10" CornerRadius="10" Background="{ThemeResource SystemControlAcrylicElementBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.8*"/>

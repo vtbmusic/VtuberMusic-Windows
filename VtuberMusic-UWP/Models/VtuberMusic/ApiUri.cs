@@ -25,6 +25,12 @@
 
         public static string Login = BaseUrl + "/v2/user/login";
 
-        public static string AccountInfo = BaseUrl = "/v2/user/account";
+        public static string AccountInfo = BaseUrl + "/v2/user/account";
+
+        public static string MyCreatePlayList = BaseUrl + "/v2/playlist/createlist";
+
+        public static string MyFavouitePlayList = BaseUrl + "/v2/playlist/sublist";
+
+        public static string GetUserLikeMusic = BaseUrl + "/v2/playlist/likelist";
     }
 }

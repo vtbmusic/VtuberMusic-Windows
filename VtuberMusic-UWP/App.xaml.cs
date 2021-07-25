@@ -4,6 +4,7 @@ using VtuberMusic_UWP.Pages;
 using VtuberMusic_UWP.Service;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -48,8 +49,29 @@ namespace VtuberMusic_UWP
                 Window.Current.Activate();
             }
 
-            RootFrame.Navigate(typeof(Setup));
-            //rootFrame.Navigate(typeof(MainPage));
+            init();
+        }
+
+        private async void init()
+        {
+            var username = (string)ApplicationData.Current.LocalSettings.Values["Username"];
+            var password = (string)ApplicationData.Current.LocalSettings.Values["Password"];
+            if (username != null && password != null)
+            {
+                try
+                {
+                    await Client.Account.Login(username, password);
+                    RootFrame.Navigate(typeof(MainPage));
+                }
+                catch
+                {
+                    RootFrame.Navigate(typeof(Setup));
+                }
+            }
+            else
+            {
+                RootFrame.Navigate(typeof(Setup));
+            }
         }
 
         /// <summary>

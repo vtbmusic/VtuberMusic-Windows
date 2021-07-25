@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Numerics;
 using VtuberMusic_UWP.Pages;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
@@ -32,17 +33,63 @@ namespace VtuberMusic_UWP
             Navigation.ItemInvoked += Navigation_ItemInvoked;
 
             Navigation.SelectedItem = Navigation.MenuItems[1];
+
+            Load();
         }
 
+        #region 加载导航歌单列表
+        private async void Load()
+        {
+            var myAlbum = await App.Client.Account.GetMyCreatePlayList();
+            var myFavouriteAlbum = await App.Client.Account.GetMyFavouritePlayList();
+
+            var myAlbumHeaderIndex = Navigation.MenuItems.IndexOf(MyAlbumTitle) + 1;
+            foreach (var album in myAlbum.Data)
+            {
+                if (album.privacy == 0)
+                {
+                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new NavigationViewItem
+                    {
+                        Icon = new SymbolIcon(Symbol.MusicInfo),
+                        Content = album.name,
+                        Tag = new NavigationItemTag { PageType = typeof(Album), Args = album }
+                    });
+                }
+                else
+                {
+                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new NavigationViewItem
+                    {
+                        Icon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = "\uE1F6" },
+                        Content = album.name,
+                        Tag = new NavigationItemTag { PageType = typeof(Album), Args = album }
+                    });
+                }
+            }
+
+            var myFavouriteAlbumIndex = Navigation.MenuItems.IndexOf(FavouriteAlbum) + 1;
+            foreach (var album in myFavouriteAlbum.Data)
+            {
+                Navigation.MenuItems.Insert(myFavouriteAlbumIndex, new NavigationViewItem
+                {
+                    Icon = new SymbolIcon(Symbol.MusicInfo),
+                    Content = album.name,
+                    Tag = new NavigationItemTag { PageType = typeof(Album), Args = album }
+                });
+            }
+        }
+        #endregion
+
+        #region 导航
         private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             var item = (NavigationViewItemBase)args.SelectedItem;
             if (item != null && item.Tag != null && item.Tag is NavigationItemTag)
             {
                 var tag = (NavigationItemTag)item.Tag;
+                var page = (Page)ContentFrame.Content;
 
-                if (ContentFrame.Content == null) ContentFrame.Navigate(tag.PageType);
-                if (tag.PageType != ContentFrame.Content.GetType()) ContentFrame.Navigate(tag.PageType);
+                if (page == null) ContentFrame.Navigate(tag.PageType, tag.Args);
+                if (page != null && tag.Args != page.Tag) ContentFrame.Navigate(tag.PageType, tag.Args);
             }
         }
 
@@ -58,9 +105,10 @@ namespace VtuberMusic_UWP
             if (item.Tag is NavigationItemTag)
             {
                 var tag = (NavigationItemTag)item.Tag;
+                var page = (Page)ContentFrame.Content;
 
-                if (ContentFrame.Content == null) ContentFrame.Navigate(tag.PageType);
-                if (tag.PageType != ContentFrame.Content.GetType()) ContentFrame.Navigate(tag.PageType);
+                if (page == null) ContentFrame.Navigate(tag.PageType, tag.Args);
+                if (page != null && tag.Args != page.Tag) ContentFrame.Navigate(tag.PageType, tag.Args);
             }
         }
 
@@ -74,7 +122,8 @@ namespace VtuberMusic_UWP
 
             foreach (NavigationViewItemBase tmp in Navigation.MenuItems)
             {
-                if (tmp.Tag != null && ((NavigationItemTag)tmp.Tag).PageType == e.Content.GetType())
+                var tag = (NavigationItemTag)tmp.Tag;
+                if (tmp.Tag != null && tag.PageType == e.Content.GetType() && tag.Args == e.Parameter)
                 {
                     Navigation.SelectedItem = tmp;
                     return;
@@ -82,6 +131,25 @@ namespace VtuberMusic_UWP
             }
 
             Navigation.SelectedItem = null;
+        }
+        #endregion
+
+        #region 插入导航菜单歌单
+        public void InsertMyCreateAlbum(Models.VtuberMusic.Album album)
+        {
+
+        }
+
+        public void InsertFavouriteAlbum(Models.VtuberMusic.Album album)
+        {
+
+        }
+        #endregion
+
+        private void MainPlayer_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ShareShadow.Receivers.Add(NavigationFrame);
+            MainPlayer.Translation = new Vector3(0, 0, 25);
         }
     }
 

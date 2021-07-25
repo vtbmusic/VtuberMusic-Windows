@@ -10,6 +10,8 @@ namespace VtuberMusic_UWP.Pages
 {
     public sealed partial class Album : Page
     {
+        private bool turnOffConnectedAnimation = false;
+
         public Album()
         {
             this.InitializeComponent();
@@ -18,6 +20,8 @@ namespace VtuberMusic_UWP.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            Tag = (Models.VtuberMusic.Album)e.Parameter;
+
             loadData((Models.VtuberMusic.Album)e.Parameter);
         }
 
@@ -39,7 +43,14 @@ namespace VtuberMusic_UWP.Pages
             CoverImg.Source = image;
 
             ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
-            if (imageAnimation != null) imageAnimation.TryStart(CoverImgBorder, new UIElement[] { InfoPanel });
+            if (imageAnimation == null)
+            {
+                turnOffConnectedAnimation = true;
+            }
+            else
+            {
+                imageAnimation.TryStart(CoverImgBorder, new UIElement[] { InfoPanel });
+            }
 
             var data = await App.Client.GetPlayListSong(album.id);
 
@@ -58,7 +69,7 @@ namespace VtuberMusic_UWP.Pages
         {
             base.OnNavigatingFrom(e);
 
-            if (e.SourcePageType == typeof(Home) | e.SourcePageType == typeof(Search))
+            if (!turnOffConnectedAnimation && e.SourcePageType == typeof(Home) | e.SourcePageType == typeof(Search))
             {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", CoverImg);
             }

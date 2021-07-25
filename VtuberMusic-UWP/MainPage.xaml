@@ -37,8 +37,8 @@
                         <FontIcon Glyph="&#xE006;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItemHeader Content="我创建的歌单"/>
-                <NavigationViewItem Content="Test!!!">
+                <NavigationViewItemHeader x:Name="MyAlbumTitle" Content="我创建的歌单"/>
+                <!--<NavigationViewItem Content="Test!!!">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>
@@ -47,8 +47,8 @@
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE1F6;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItemHeader Content="我收藏的歌单"/>
+                </NavigationViewItem>-->
+                <NavigationViewItemHeader x:Name="FavouriteAlbum" Content="我收藏的歌单"/>
             </NavigationView.MenuItems>
             <Grid>
                 <Grid.RowDefinitions>
@@ -57,8 +57,12 @@
                 </Grid.RowDefinitions>
                 <main:TopPanel/>
                 <Grid Grid.Row="1">
+                    <Grid.Resources>
+                        <ThemeShadow x:Name="ShareShadow"/>
+                    </Grid.Resources>
+                    
                     <Frame Name="NavigationFrame"/>
-                    <player:MainPlayer Margin="15" VerticalAlignment="Bottom"/>
+                    <player:MainPlayer x:Name="MainPlayer" Margin="15" Loaded="MainPlayer_Loaded" Shadow="{StaticResource ShareShadow}" VerticalAlignment="Bottom"/>
                 </Grid>
             </Grid>
         </NavigationView>

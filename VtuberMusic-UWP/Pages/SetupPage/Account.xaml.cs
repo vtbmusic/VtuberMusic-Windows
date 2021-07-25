@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VtuberMusic_UWP.Models.Main;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -49,6 +50,9 @@ namespace VtuberMusic_UWP.Pages.SetupPage
             try
             {
                 await App.Client.Account.Login(Username.Text, Password.Password);
+                ApplicationData.Current.LocalSettings.Values["Username"] = Username.Text;
+                ApplicationData.Current.LocalSettings.Values["Password"] = Password.Password;
+
                 Frame.Navigate(typeof(Finsh), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
             catch (Exception ex)
