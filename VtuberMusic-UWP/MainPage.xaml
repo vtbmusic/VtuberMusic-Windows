@@ -32,7 +32,7 @@
                 </NavigationViewItem>
                 <NavigationViewItemHeader Content="我的音乐"/>
                 <NavigationViewItem Content="下载" Icon="Download"/>
-                <NavigationViewItem Content="我喜欢的音乐">
+                <NavigationViewItem Content="我喜欢的音乐" x:Name="LikeMusic">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE006;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>

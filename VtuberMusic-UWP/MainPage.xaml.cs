@@ -40,6 +40,13 @@ namespace VtuberMusic_UWP
         #region 加载导航歌单列表
         private async void Load()
         {
+            var likeMusicAlbum = await App.Client.Account.GetLikeMusicSong();
+            LikeMusic.Tag = new NavigationItemTag
+            {
+                PageType = typeof(Album),
+                Args = new AlbumPageArgs { Album = likeMusicAlbum.Data.playlist, IsLikeMusic = true }
+            };
+
             var myAlbum = await App.Client.Account.GetMyCreatePlayList();
             var myFavouriteAlbum = await App.Client.Account.GetMyFavouritePlayList();
 

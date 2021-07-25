@@ -121,6 +121,10 @@ namespace VtuberMusic_UWP.Service
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        public async Task<ApiResponse<AlbumSong>> GetLikeMusicList() => await App.Client.GetLikeMusicList(Account.id);
+
+        public async Task<ApiResponse<AlbumSong>> GetLikeMusicSong() => await App.Client.GetLikeMusicSong(Account.id);
     }
 
     public class TokenPack

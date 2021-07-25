@@ -235,7 +235,41 @@ namespace VtuberMusic_UWP.Service
 
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
+        }
 
+        public async Task<ApiResponse<AlbumSong>> GetLikeMusicList(string uid)
+        {
+            var request = new RestRequest(ApiUri.GetUserLikeMusic);
+            request.AddParameter("uid", uid);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<AlbumSong>>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
+        public async Task<ApiResponse<AlbumSong>> GetLikeMusicSong(string uid)
+        {
+            var request = new RestRequest(ApiUri.GetUserLikeMusic);
+            request.AddParameter("uid", uid);
+            request.AddParameter("type", "song");
+
+            var response = await _restClient.ExecuteAsync<ApiResponse<AlbumSong>>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
         }
     }
 }

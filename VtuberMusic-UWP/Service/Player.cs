@@ -115,7 +115,7 @@ namespace VtuberMusic_UWP.Service
                     NowPlayingMusicChanged(this, value);
                 }
 
-                App.ViewModel.SetAppBackgroundImage(new Uri(NowPlayingMusic.picUrl));
+                if (NowPlayingMusic != null) App.ViewModel.SetAppBackgroundImage(new Uri(NowPlayingMusic.picUrl));
             }
         }
         #endregion

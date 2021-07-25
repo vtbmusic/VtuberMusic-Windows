@@ -20,12 +20,18 @@ namespace VtuberMusic_UWP.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Tag = (Models.VtuberMusic.Album)e.Parameter;
+            Tag = e.Parameter;
+            if (e.Parameter.GetType() == typeof(AlbumPageArgs))
+            {
+                var args = (AlbumPageArgs)e.Parameter;
+                loadData(args.Album, args.IsLikeMusic);
+                return;
+            }
 
             loadData((Models.VtuberMusic.Album)e.Parameter);
         }
 
-        private async void loadData(Models.VtuberMusic.Album album)
+        private async void loadData(Models.VtuberMusic.Album album, bool likeMusic = false)
         {
             AlbumName.Text = album.name;
             CreatorInfo.Text = $"{ album.creator.nickname } 创建于 { ConvertUnixTimeStamp(album.createTime).ToString("yyyy/M/d") }";
@@ -52,11 +58,13 @@ namespace VtuberMusic_UWP.Pages
                 imageAnimation.TryStart(CoverImgBorder, new UIElement[] { InfoPanel });
             }
 
-            var data = await App.Client.GetPlayListSong(album.id);
-
-            if (data.Success)
+            if (likeMusic)
             {
-                DataView.ItemsSource = data.Data.songs;
+                DataView.ItemsSource = (await App.Client.Account.GetLikeMusicSong()).Data.songs;
+            }
+            else
+            {
+                DataView.ItemsSource = (await App.Client.GetPlayListSong(album.id)).Data.songs;
             }
         }
 
@@ -74,5 +82,25 @@ namespace VtuberMusic_UWP.Pages
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", CoverImg);
             }
         }
+
+        private void PlayAll_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataView.ItemsSource.Length != 0)
+            {
+                App.Player.PlayList.Clear();
+                foreach (var music in DataView.ItemsSource)
+                {
+                    App.Player.PlayList.Add(music);
+                }
+
+                App.Player.SetMusic(App.Player.PlayList[0]);
+            }
+        }
+    }
+
+    public class AlbumPageArgs
+    {
+        public Models.VtuberMusic.Album Album { get; set; }
+        public bool IsLikeMusic { get; set; }
     }
 }
