@@ -28,7 +28,7 @@ jobs:
       env:
           cache-name: cache-obj
       with:
-          path: $env:Wap_Project_Directory\obj
+          path: .\VtuberMusic-UWP\obj
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles( '.\VtuberMusic-UWP\VtuberMusic-UWP.csproj' ) }}
 
     # 安装 .NET Core 环境
