@@ -11,6 +11,14 @@
         public float duration { get; set; }
         public Artist[] artists { get; set; }
         public MusicStatis statis { get; set; }
+
+        public bool IsPlaying
+        {
+            get
+            {
+                return this == App.Player.NowPlayingMusic;
+            }
+        }
     }
 
     public class MusicStatis

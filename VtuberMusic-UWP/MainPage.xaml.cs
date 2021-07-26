@@ -95,8 +95,7 @@ namespace VtuberMusic_UWP
                 var tag = (NavigationItemTag)item.Tag;
                 var page = (Page)ContentFrame.Content;
 
-                if (page == null) ContentFrame.Navigate(tag.PageType, tag.Args);
-                if (page != null && tag.Args != page.Tag) ContentFrame.Navigate(tag.PageType, tag.Args);
+                if (page == null || tag.PageType != page.GetType() || tag.Args != page.Tag) ContentFrame.Navigate(tag.PageType, tag.Args);
             }
         }
 
@@ -114,8 +113,7 @@ namespace VtuberMusic_UWP
                 var tag = (NavigationItemTag)item.Tag;
                 var page = (Page)ContentFrame.Content;
 
-                if (page == null) ContentFrame.Navigate(tag.PageType, tag.Args);
-                if (page != null && tag.Args != page.Tag) ContentFrame.Navigate(tag.PageType, tag.Args);
+                if (page == null || tag.PageType != page.GetType() || tag.Args != page.Tag) ContentFrame.Navigate(tag.PageType, tag.Args);
             }
         }
 

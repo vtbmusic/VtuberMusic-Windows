@@ -125,6 +125,25 @@ namespace VtuberMusic_UWP.Service
         public async Task<ApiResponse<AlbumSong>> GetLikeMusicList() => await App.Client.GetLikeMusicList(Account.id);
 
         public async Task<ApiResponse<AlbumSong>> GetLikeMusicSong() => await App.Client.GetLikeMusicSong(Account.id);
+
+        public async Task<ApiResponse> LikeMusic(string id, bool like = true)
+        {
+            var request = new RestRequest(ApiUri.LikeMusic, Method.POST);
+            request.AddParameter("id", id);
+            request.AddParameter("like", like);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
     }
 
     public class TokenPack

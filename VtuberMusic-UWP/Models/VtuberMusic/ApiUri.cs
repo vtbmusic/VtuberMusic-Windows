@@ -32,5 +32,7 @@
         public static string MyFavouitePlayList = BaseUrl + "/v2/playlist/sublist";
 
         public static string GetUserLikeMusic = BaseUrl + "/v2/playlist/likelist";
+
+        public static string LikeMusic = BaseUrl + "​/v2​/song​/like";
     }
 }

@@ -1,7 +1,10 @@
-﻿using VtuberMusic_UWP.Models.VtuberMusic;
+﻿using System;
+using VtuberMusic_UWP.Models.VtuberMusic;
+using Windows.Devices.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
@@ -59,6 +62,37 @@ namespace VtuberMusic_UWP.Components.Player
         private void PopupOut_Completed(object sender, object e)
         {
             popup.IsOpen = false;
+        }
+
+        private void DeleteMusic_Click(object sender, RoutedEventArgs e)
+        {
+            App.Player.PlayList.Remove((Music)((AppBarButton)sender).Tag);
+        }
+
+        private void DeleteSwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            App.Player.PlayList.Remove((Music)args.SwipeControl.Tag);
+        }
+    }
+
+    public class VisibilityConver : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string culture)
+        {
+            if (value == null && value.GetType() != typeof(bool))
+                return DependencyProperty.UnsetValue;
+
+            if ((bool)value)
+            {
+                return Visibility.Visible;
+            }
+
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture)
+        {
+            return DependencyProperty.UnsetValue;
         }
     }
 }

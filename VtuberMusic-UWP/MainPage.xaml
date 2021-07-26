@@ -24,7 +24,7 @@
             </NavigationView.Resources>
             <NavigationView.MenuItems>
                 <NavigationViewItemHeader Content="发现"/>
-                <NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="{local:NavigationItemTag PageType=pages:Home, Args=pages:Home}"/>
+                <NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="{local:NavigationItemTag PageType=pages:Home}"/>
                 <NavigationViewItem Content="电台" Tag="{local:NavigationItemTag PageType=pages:Radio}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC44;" FontFamily="Segoe MDL2 Assets"/>
