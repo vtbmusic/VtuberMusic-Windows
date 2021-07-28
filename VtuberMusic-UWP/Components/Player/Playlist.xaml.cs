@@ -21,9 +21,11 @@ namespace VtuberMusic_UWP.Components.Player
             this.InitializeComponent();
             Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
             App.ViewModel.MainPage.SizeChanged += MainPage_SizeChanged;
+
             if (App.Player.PlayList.Count == 0)
             {
                 None.Visibility = Visibility.Visible;
+                return;
             }
         }
 
@@ -72,6 +74,11 @@ namespace VtuberMusic_UWP.Components.Player
         private void DeleteSwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
         {
             App.Player.PlayList.Remove((Music)args.SwipeControl.Tag);
+        }
+
+        private void DataView_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataView.ScrollIntoView(Player.NowPlayingMusic, ScrollIntoViewAlignment.Leading);
         }
     }
 

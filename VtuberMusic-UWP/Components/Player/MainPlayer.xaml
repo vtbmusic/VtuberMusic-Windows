@@ -6,11 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
-    xmlns:components="using:VtuberMusic_UWP.Components"
+    xmlns:components="using:VtuberMusic_UWP.Components" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <local:PercentagesConverter x:Key="PercentagesConverter"/>
+        <local:TimeConverter x:Key="TimeConverter"/>
+    </UserControl.Resources>
 
     <Grid Padding="10" CornerRadius="10" Background="{ThemeResource SystemControlAcrylicElementBrush}">
         <Grid.ColumnDefinitions>
@@ -68,18 +72,23 @@
                 <TextBlock x:Name="PositionText" Text="00:00" VerticalAlignment="Center"/>
                 <Slider x:Name="DurationSlider" ManipulationStarted="DurationSlider_ManipulationStarted"
                         PointerCaptureLost="DurationSlider_PointerCaptureLost" ManipulationMode="All"
-                        Margin="5 0 5 -5" Grid.Column="1"/>
+                        Margin="5 0 5 -5" Grid.Column="1" ThumbToolTipValueConverter="{StaticResource TimeConverter}"/>
                 <TextBlock x:Name="DurationText" Grid.Column="2" VerticalAlignment="Center" Text="00:00"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button x:Name="LikeMusicButton" Click="LikeMusicButton_Click" Style="{StaticResource CircleButton}" Height="40" Width="40">
+                    <FontIcon x:Name="LikeMusicIcon" FontFamily="{StaticResource Icon}" Glyph="&#xe601;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
                 <Button Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
                         FontFamily="{StaticResource Icon}" Content="{StaticResource icon-volume}"/>
                 <Slider x:Name="Volume" ValueChanged="Volume_ValueChanged"
                         Maximum="1" Width="100"
                         Margin="0 4 0 0" StepFrequency="0.01" ManipulationMode="All"
-                        ManipulationStarted="Volume_ManipulationStarted" ManipulationCompleted="Volume_ManipulationCompleted"/>
+                        ManipulationStarted="Volume_ManipulationStarted" ManipulationCompleted="Volume_ManipulationCompleted"
+                        ThumbToolTipValueConverter="{StaticResource PercentagesConverter}"/>
+
                 <Button Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
                     FontFamily="{StaticResource Icon}" Content="{StaticResource icon-repeat}"/>
                 <Button x:Name="PlayList" Click="PlayList_Click" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"

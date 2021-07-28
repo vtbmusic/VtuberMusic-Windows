@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ProgressBar x:Name="LoadingBar" Visibility="Collapsed" IsIndeterminate="True" VerticalAlignment="Top" Margin="10 20 0 0"/>
+        <muxc:ProgressBar x:Name="LoadingBar" Visibility="Collapsed" IsIndeterminate="True" VerticalAlignment="Top" Margin="10 20 0 0"/>
         <Grid Margin="10 40 0 0">
             <StackPanel>
                 <TextBlock Text="请登录您的账号！" FontSize="24"/>

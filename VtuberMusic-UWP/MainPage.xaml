@@ -7,37 +7,37 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:player="using:VtuberMusic_UWP.Components.Player"
-    xmlns:muxc="using:Windows.UI.Xaml.Controls"
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:pages ="using:VtuberMusic_UWP.Pages"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
-        <NavigationView Name="Navigation" 
+        <muxc:NavigationView Name="Navigation"
                         IsBackButtonVisible="Collapsed" IsBackEnabled="False"
                         Background="Transparent">
             <!--<NavigationView.PaneHeader>
                 <TextBlock Text="VtuberMusic" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5 0"/>
             </NavigationView.PaneHeader>-->
-            <NavigationView.Resources>
+            <muxc:NavigationView.Resources>
                 <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.6"/>
-            </NavigationView.Resources>
-            <NavigationView.MenuItems>
-                <NavigationViewItemHeader Content="发现"/>
-                <NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="{local:NavigationItemTag PageType=pages:Home}"/>
-                <NavigationViewItem Content="电台" Tag="{local:NavigationItemTag PageType=pages:Radio}">
-                    <NavigationViewItem.Icon>
+            </muxc:NavigationView.Resources>
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItemHeader Content="发现"/>
+                <muxc:NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="{local:NavigationItemTag PageType=pages:Home}"/>
+                <muxc:NavigationViewItem Content="电台" Tag="{local:NavigationItemTag PageType=pages:Radio}">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC44;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItemHeader Content="我的音乐"/>
-                <NavigationViewItem Content="下载" Icon="Download"/>
-                <NavigationViewItem Content="我喜欢的音乐" x:Name="LikeMusic">
-                    <NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItemHeader Content="我的音乐"/>
+                <muxc:NavigationViewItem Content="下载" Icon="Download"/>
+                <muxc:NavigationViewItem Content="我喜欢的音乐" x:Name="LikeMusic" Tag="{local:NavigationItemTag PageType=pages:Album}">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE006;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItemHeader x:Name="MyAlbumTitle" Content="我创建的歌单"/>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItemHeader x:Name="MyAlbumTitle" Content="我创建的歌单"/>
                 <!--<NavigationViewItem Content="Test!!!">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE142;" FontFamily="Segoe MDL2 Assets"/>
@@ -48,8 +48,8 @@
                         <FontIcon Glyph="&#xE1F6;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>-->
-                <NavigationViewItemHeader x:Name="FavouriteAlbum" Content="我收藏的歌单"/>
-            </NavigationView.MenuItems>
+                <muxc:NavigationViewItemHeader x:Name="FavouriteAlbum" Content="我收藏的歌单"/>
+            </muxc:NavigationView.MenuItems>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -65,6 +65,6 @@
                     <player:MainPlayer x:Name="MainPlayer" Margin="15" Loaded="MainPlayer_Loaded" Shadow="{StaticResource ShareShadow}" VerticalAlignment="Bottom"/>
                 </Grid>
             </Grid>
-        </NavigationView>
+        </muxc:NavigationView>
     </Grid>
 </Page>

@@ -47,9 +47,13 @@ namespace VtuberMusic_UWP.Components.Collections
 
         private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue.GetType() == typeof(Music[]))
+            if (e.NewValue != null && e.NewValue.GetType() == typeof(Music[]))
             {
                 DataList.ItemsSource = e.NewValue;
+            }
+            else
+            {
+                DataList.ItemsSource = null;
             }
         }
 

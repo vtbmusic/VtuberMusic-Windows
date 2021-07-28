@@ -66,57 +66,65 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="播放列表" FontSize="24" Margin="10 2 0 10"/>
-                    <ScrollViewer Grid.Row="1">
-                        <ListView x:Name="DataView" ItemsSource="{x:Bind Player.PlayList}" ScrollViewer.VerticalScrollMode="Disabled">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="vtubermusic:Music">
-                                    <SwipeControl Tag="{x:Bind}">
-                                        <SwipeControl.RightItems>
-                                            <SwipeItems Mode="Execute">
-                                                <SwipeItem x:Name="DeleteSwipeItem" Background="Red" Invoked="DeleteSwipeItem_Invoked"/>
-                                            </SwipeItems>
-                                        </SwipeControl.RightItems>
-                                        <Grid Height="50" Margin="5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="50"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid CornerRadius="10">
-                                                <StackPanel Width="50" >
-                                                    <Image x:Name="CoverImage" Height="50" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
-                                                </StackPanel>
-                                                <Grid Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource VisibilityConver}}">
-                                                    <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                </Grid>
-                                            </Grid>
-                                            <StackPanel Grid.Column="1" Margin="5 0 0 0" VerticalAlignment="Center">
-                                                <TextBlock Margin="5 0" Text="{x:Bind name}" FontWeight="Medium" VerticalAlignment="Center"/>
-                                                <ItemsControl Margin="5 0" ItemsSource="{x:Bind artists}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate x:DataType="vtubermusic:Artist">
-                                                            <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13" Margin="0 0 5 0"/>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <ItemsStackPanel Orientation="Horizontal"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                </ItemsControl>
+                    <GridView x:Name="DataView" Grid.Row="1" Loaded="DataView_Loaded" ItemsSource="{x:Bind Player.PlayList}">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </GridView.ItemContainerStyle>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="vtubermusic:Music">
+                                <SwipeControl Tag="{x:Bind}" Padding="10 0">
+                                    <SwipeControl.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem x:Name="DeleteSwipeItem" Background="Red" Text="移除" Invoked="DeleteSwipeItem_Invoked">
+                                                <SwipeItem.IconSource>
+                                                    <SymbolIconSource Symbol="Delete"/>
+                                                </SwipeItem.IconSource>
+                                            </SwipeItem>
+                                        </SwipeItems>
+                                    </SwipeControl.RightItems>
+                                    <Grid Height="50" Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid CornerRadius="10">
+                                            <StackPanel Width="50" >
+                                                <Image x:Name="CoverImage" Height="50" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
                                             </StackPanel>
-                                            <AppBarButton x:Name="DeleteMusic" Click="DeleteMusic_Click" Grid.Column="2" Tag="{x:Bind}" Icon="Delete"/>
+                                            <Grid Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource VisibilityConver}}">
+                                                <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Grid>
                                         </Grid>
-                                    </SwipeControl>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </ScrollViewer>
+                                        <StackPanel Grid.Column="1" Margin="5 0 0 0" VerticalAlignment="Center">
+                                            <TextBlock Margin="5 0" Text="{x:Bind name}" FontWeight="Medium" VerticalAlignment="Center"/>
+                                            <ItemsControl Height="20" Margin="5 0" ItemsSource="{x:Bind artists}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="vtubermusic:Artist">
+                                                        <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13" Margin="0 0 5 0"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <ItemsStackPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                        <AppBarButton x:Name="DeleteMusic" Click="DeleteMusic_Click" Grid.Column="2" Tag="{x:Bind}" Icon="Delete"/>
+                                    </Grid>
+                                </SwipeControl>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </Grid>
             </Grid>
         </Grid>

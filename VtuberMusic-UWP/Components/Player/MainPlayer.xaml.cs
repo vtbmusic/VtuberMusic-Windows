@@ -5,6 +5,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -89,6 +90,14 @@ namespace VtuberMusic_UWP.Components.Player
                 CoverImg.Source = image;
                 MusicName.Text = data.name;
                 Vocal.ItemsSource = data.artists;
+                if (data.like)
+                {
+                    LikeMusicIcon.Glyph = "\ue60a";
+                }
+                else
+                {
+                    LikeMusicIcon.Glyph = "\ue601";
+                }
 
                 this.Visibility = Visibility.Visible;
             }
@@ -152,6 +161,62 @@ namespace VtuberMusic_UWP.Components.Player
         private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e)
         {
             //if (App.ViewModel.SidePanel.NowPage != typeof(Playing)) App.ViewModel.NavigateToPage(typeof(Playing));
+        }
+
+        private async void LikeMusicButton_Click(object sender, RoutedEventArgs e)
+        {
+            LikeMusicButton.IsEnabled = false;
+            await App.Client.Account.LikeMusic(player.NowPlayingMusic.id, !player.NowPlayingMusic.like);
+            player.NowPlayingMusic.like = !player.NowPlayingMusic.like;
+
+            if (player.NowPlayingMusic.like)
+            {
+                LikeMusicIcon.Glyph = "\ue60a";
+            }
+            else
+            {
+                LikeMusicIcon.Glyph = "\ue601";
+            }
+
+            LikeMusicButton.IsEnabled = true;
+        }
+    }
+
+    public class PercentagesConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string culture)
+        {
+            if (value != null && value.GetType() == typeof(double))
+            {
+                var convertValue = (double)value;
+                return ((int)(convertValue * 100)).ToString() + "%";
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture)
+        {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class TimeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string culture)
+        {
+            if (value != null && value.GetType() == typeof(double))
+            {
+                var convertValue = (double)value;
+                return TimeSpan.FromMilliseconds(convertValue).ToString("mm\\:ss");
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture)
+        {
+            return DependencyProperty.UnsetValue;
         }
     }
 }

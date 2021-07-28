@@ -25,6 +25,10 @@ namespace VtuberMusic_UWP.Pages
 
         public async void SearchKeyword(string keyword)
         {
+            MusicDataList.ItemsSource = null;
+            VtuberDataView.ItemsSource = null;
+            PlayListDataView.ItemsSource = null;
+
             MusicLoading.Visibility = Visibility.Visible;
             MusicDataList.ItemsSource = (await App.Client.SearchMusic(keyword)).Data;
             MusicLoading.Visibility = Visibility.Collapsed;

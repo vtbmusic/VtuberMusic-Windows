@@ -11,11 +11,11 @@ namespace VtuberMusic_UWP.Service
         public Account Account;
         public Profile Profile;
         public TokenPack Token;
-        private RestClient _restClient = new RestClient();
+        private RestClient _restClient;
 
-        public AccountService()
+        public AccountService(RestClient restClient)
         {
-            _restClient.UseSerializer<RestSharp.Serializers.NewtonsoftJson.JsonNetSerializer>();
+            _restClient = restClient;
         }
 
         public async Task<ApiResponse<LoginData>> Login(string userName, string password)
@@ -129,8 +129,8 @@ namespace VtuberMusic_UWP.Service
         public async Task<ApiResponse> LikeMusic(string id, bool like = true)
         {
             var request = new RestRequest(ApiUri.LikeMusic, Method.POST);
-            request.AddParameter("id", id);
-            request.AddParameter("like", like);
+            request.AddParameter("id", id, ParameterType.QueryString);
+            request.AddParameter("like", like, ParameterType.QueryString);
 
             var response = await _restClient.ExecuteAsync<ApiResponse>(request);
 

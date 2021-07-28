@@ -8,12 +8,13 @@ namespace VtuberMusic_UWP.Service
 {
     public class MusicClient
     {
-        public AccountService Account = new AccountService();
+        public AccountService Account;
         private RestClient _restClient = new RestClient();
 
         public MusicClient()
         {
             _restClient.UseSerializer<RestSharp.Serializers.NewtonsoftJson.JsonNetSerializer>();
+            Account = new AccountService(_restClient);
         }
 
         #region 歌曲

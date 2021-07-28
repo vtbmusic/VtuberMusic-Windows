@@ -4,10 +4,12 @@ using System.Diagnostics;
 using System.Numerics;
 using VtuberMusic_UWP.Pages;
 using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Controls;
+using System.Threading.Tasks;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -50,12 +52,13 @@ namespace VtuberMusic_UWP
             var myAlbum = await App.Client.Account.GetMyCreatePlayList();
             var myFavouriteAlbum = await App.Client.Account.GetMyFavouritePlayList();
 
-            var myAlbumHeaderIndex = Navigation.MenuItems.IndexOf(MyAlbumTitle) + 1;
+            var myAlbumHeaderIndex = Navigation.MenuItems.IndexOf(MyAlbumTitle);
             foreach (var album in myAlbum.Data)
             {
+                myAlbumHeaderIndex++;
                 if (album.privacy == 0)
                 {
-                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new NavigationViewItem
+                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new Microsoft.UI.Xaml.Controls.NavigationViewItem
                     {
                         Icon = new SymbolIcon(Symbol.MusicInfo),
                         Content = album.name,
@@ -64,7 +67,7 @@ namespace VtuberMusic_UWP
                 }
                 else
                 {
-                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new NavigationViewItem
+                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new Microsoft.UI.Xaml.Controls.NavigationViewItem
                     {
                         Icon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = "\uE1F6" },
                         Content = album.name,
@@ -74,22 +77,33 @@ namespace VtuberMusic_UWP
             }
 
             var myFavouriteAlbumIndex = Navigation.MenuItems.IndexOf(FavouriteAlbum) + 1;
-            foreach (var album in myFavouriteAlbum.Data)
+            for (int i = myFavouriteAlbum.Data.Length - 1; i != -1; i--)
             {
-                Navigation.MenuItems.Insert(myFavouriteAlbumIndex, new NavigationViewItem
+                Debug.WriteLine(myFavouriteAlbumIndex);
+                Navigation.MenuItems.Insert(myFavouriteAlbumIndex, new Microsoft.UI.Xaml.Controls.NavigationViewItem
                 {
                     Icon = new SymbolIcon(Symbol.MusicInfo),
-                    Content = album.name,
-                    Tag = new NavigationItemTag { PageType = typeof(Album), Args = album }
+                    Content = myFavouriteAlbum.Data[i].name,
+                    Tag = new NavigationItemTag { PageType = typeof(Album), Args = myFavouriteAlbum.Data[i] }
                 });
+
+                myFavouriteAlbumIndex++;
+            }
+
+            foreach (var item in Navigation.MenuItems)
+            {
+                var navitem = (Microsoft.UI.Xaml.Controls.NavigationViewItemBase)item;
+                string tag = "";
+                if (navitem.Tag != null) tag = navitem.Tag.ToString();
+                Debug.WriteLine(navitem.Content + " | " + tag);
             }
         }
         #endregion
 
         #region 导航
-        private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void Navigation_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            var item = (NavigationViewItemBase)args.SelectedItem;
+            var item = (Microsoft.UI.Xaml.Controls.NavigationViewItemBase)args.SelectedItem;
             if (item != null && item.Tag != null && item.Tag is NavigationItemTag)
             {
                 var tag = (NavigationItemTag)item.Tag;
@@ -99,7 +113,7 @@ namespace VtuberMusic_UWP
             }
         }
 
-        private void Navigation_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void Navigation_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             if (args.IsSettingsInvoked && ContentFrame.Content.GetType() != typeof(Settings))
             {
@@ -125,7 +139,7 @@ namespace VtuberMusic_UWP
                 return;
             }
 
-            foreach (NavigationViewItemBase tmp in Navigation.MenuItems)
+            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase tmp in Navigation.MenuItems)
             {
                 var tag = (NavigationItemTag)tmp.Tag;
                 if (tmp.Tag != null && tag.PageType == e.Content.GetType() && tag.Args == e.Parameter)

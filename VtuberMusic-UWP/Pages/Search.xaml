@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
-    xmlns:muxc="using:Windows.UI.Xaml.Controls"
-    xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic" xmlns:components="using:VtuberMusic_UWP.Components"
+    xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic" xmlns:components="using:VtuberMusic_UWP.Components" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <Grid Margin="30 0">
@@ -20,7 +19,10 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <muxc:ProgressRing x:Name="MusicLoading" Height="50" Width="50" IsActive="True"/>
+                    <StackPanel x:Name="MusicLoading" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <muxc:ProgressBar Width="200" IsIndeterminate="True"/>
+                        <TextBlock Text="Loading..." Margin="0 10" FontSize="14" Foreground="{ThemeResource SystemBaseMediumHighColor}" HorizontalAlignment="Center"/>
+                    </StackPanel>
                     <ScrollViewer>
                         <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Mode="Large" Margin="0 0 0 100"/>
                     </ScrollViewer>
@@ -34,7 +36,10 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <muxc:ProgressRing x:Name="PlayListLoading" Height="50" Width="50" IsActive="True"/>
+                    <StackPanel x:Name="PlayListLoading" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <muxc:ProgressBar Width="200" IsIndeterminate="True"/>
+                        <TextBlock Text="Loading..." Margin="0 10" FontSize="14" Foreground="{ThemeResource SystemBaseMediumHighColor}" HorizontalAlignment="Center"/>
+                    </StackPanel>
                     <GridView x:Name="PlayListDataView" IsItemClickEnabled="True" ItemClick="PlayListDataView_ItemClick"
                               Loaded="PlayListDataView_Loaded">
                         <GridView.ItemContainerStyle>
@@ -66,7 +71,10 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <muxc:ProgressRing x:Name="VtuberLoading" Height="50" Width="50" IsActive="True"/>
+                    <StackPanel x:Name="VtuberLoading" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <muxc:ProgressBar Width="200" IsIndeterminate="True"/>
+                        <TextBlock Text="Loading..." Margin="0 10" FontSize="14" Foreground="{ThemeResource SystemBaseMediumHighColor}" HorizontalAlignment="Center"/>
+                    </StackPanel>
                     <GridView x:Name="VtuberDataView" Padding="0 0 0 100"
                               IsItemClickEnabled="True" Loaded="VtuberDataView_Loaded" ItemClick="VtuberDataView_ItemClick">
                         <GridView.ItemContainerStyle>
@@ -75,9 +83,9 @@
                             </Style>
                         </GridView.ItemContainerStyle>
                         <GridView.ItemsPanel>
-                            <muxc:ItemsPanelTemplate>
+                            <ItemsPanelTemplate>
                                 <ItemsWrapGrid Orientation="Horizontal"/>
-                            </muxc:ItemsPanelTemplate>
+                            </ItemsPanelTemplate>
                         </GridView.ItemsPanel>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Artist">
