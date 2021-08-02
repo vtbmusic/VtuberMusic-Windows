@@ -72,7 +72,7 @@ namespace VtuberMusic_UWP.Service
         #endregion
 
         #region 事件
-        public EventHandler<MediaPlaybackState> PlayStateChanged;
+        public EventHandler<MediaTimelineControllerState> PlayStateChanged;
         public EventHandler<TimeSpan> PositionChanged;
         public EventHandler<double> VolumeChanged;
         #endregion
@@ -128,7 +128,7 @@ namespace VtuberMusic_UWP.Service
             _timelineController.PositionChanged += positionChanged;
             _mediaPlayer.MediaEnded += _mediaPlayer_MediaEnded;
             _mediaPlayer.VolumeChanged += _mediaPlayer_VolumeChanged;
-            _mediaPlayer.CurrentStateChanged += _mediaPlayer_CurrentStateChanged;
+            _timelineController.StateChanged += _timelineController_StateChanged;
             // 绑定事件
             PlayListChanged += playListChanged;
             PlayList.CollectionChanged += delegate
@@ -138,8 +138,14 @@ namespace VtuberMusic_UWP.Service
         }
 
         #region 事件处理
-        private void _mediaPlayer_CurrentStateChanged(MediaPlayer sender, object args) { if (PlayStateChanged != null) PlayStateChanged(this, PlayState); }
-        private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args) { if (VolumeChanged != null) VolumeChanged(this, _mediaPlayer.Volume); }
+        private void _timelineController_StateChanged(MediaTimelineController sender, object args)
+        {
+            if (PlayStateChanged != null) PlayStateChanged(this, sender.State);
+        }
+        private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args)
+        {
+            if (VolumeChanged != null) VolumeChanged(this, _mediaPlayer.Volume);
+        }
         private void _mediaPlayer_MediaEnded(MediaPlayer sender, object args)
         {
             switch (PlayMode)

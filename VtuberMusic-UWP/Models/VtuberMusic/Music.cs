@@ -6,6 +6,7 @@
         public string name { get; set; }
         public object alias { get; set; }
         public string picUrl { get; set; }
+        public string vrcUrl { get; set; }
         public bool like { get; set; }
         public int time { get; set; }
         public float duration { get; set; }

@@ -1,5 +1,7 @@
 ﻿using System;
 using VtuberMusic_UWP.Models.VtuberMusic;
+using VtuberMusic_UWP.Pages;
+using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -7,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace VtuberMusic_UWP.Components.Player
@@ -48,17 +51,17 @@ namespace VtuberMusic_UWP.Components.Player
             }));
         }
 
-        private async void playStateChanged(object sender, MediaPlaybackState e)
+        private async void playStateChanged(object sender, MediaTimelineControllerState e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
             {
                 switch (e)
                 {
-                    case MediaPlaybackState.Paused:
-                        Play.Content = "\ue613";
+                    case MediaTimelineControllerState.Paused:
+                        PlayButtonIocn.Symbol = Symbol.Play;
                         break;
-                    case MediaPlaybackState.Playing:
-                        Play.Content = "\ue614";
+                    case MediaTimelineControllerState.Running:
+                        PlayButtonIocn.Symbol = Symbol.Pause;
                         break;
                 }
             }));
@@ -92,11 +95,11 @@ namespace VtuberMusic_UWP.Components.Player
                 Vocal.ItemsSource = data.artists;
                 if (data.like)
                 {
-                    LikeMusicIcon.Glyph = "\ue60a";
+                    LikeMusicIcon.Glyph = "\uE00B";
                 }
                 else
                 {
-                    LikeMusicIcon.Glyph = "\ue601";
+                    LikeMusicIcon.Glyph = "\uE006";
                 }
 
                 this.Visibility = Visibility.Visible;
@@ -138,11 +141,11 @@ namespace VtuberMusic_UWP.Components.Player
             switch (player.PlayState)
             {
                 case MediaPlaybackState.Paused:
-                    Play.Content = "\ue613";
+                    PlayButtonIocn.Symbol = Symbol.Play;
                     player.Play();
                     break;
                 case MediaPlaybackState.Playing:
-                    Play.Content = "\ue614";
+                    PlayButtonIocn.Symbol = Symbol.Pause;
                     player.Pause();
                     break;
             }
@@ -160,7 +163,10 @@ namespace VtuberMusic_UWP.Components.Player
 
         private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //if (App.ViewModel.SidePanel.NowPage != typeof(Playing)) App.ViewModel.NavigateToPage(typeof(Playing));
+            if (App.RootFrame.Content.GetType() != typeof(Playing))
+            {
+                App.RootFrame.Navigate(typeof(Playing), null, new DrillInNavigationTransitionInfo());
+            }
         }
 
         private async void LikeMusicButton_Click(object sender, RoutedEventArgs e)
@@ -171,11 +177,11 @@ namespace VtuberMusic_UWP.Components.Player
 
             if (player.NowPlayingMusic.like)
             {
-                LikeMusicIcon.Glyph = "\ue60a";
-            }
+                LikeMusicIcon.Glyph = "\uE00B";
+            }   
             else
             {
-                LikeMusicIcon.Glyph = "\ue601";
+                LikeMusicIcon.Glyph = "\uE006";
             }
 
             LikeMusicButton.IsEnabled = true;

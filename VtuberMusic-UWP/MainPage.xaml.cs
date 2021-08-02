@@ -27,6 +27,8 @@ namespace VtuberMusic_UWP
         public MainPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+
             App.ViewModel.MainPage = this;
             App.ViewModel.TopPanel.Init();
 
@@ -88,14 +90,6 @@ namespace VtuberMusic_UWP
                 });
 
                 myFavouriteAlbumIndex++;
-            }
-
-            foreach (var item in Navigation.MenuItems)
-            {
-                var navitem = (Microsoft.UI.Xaml.Controls.NavigationViewItemBase)item;
-                string tag = "";
-                if (navitem.Tag != null) tag = navitem.Tag.ToString();
-                Debug.WriteLine(navitem.Content + " | " + tag);
             }
         }
         #endregion

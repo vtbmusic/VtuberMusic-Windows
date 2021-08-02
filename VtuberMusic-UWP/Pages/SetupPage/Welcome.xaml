@@ -14,18 +14,18 @@
                 <TextBlock Text="初见！是这个语言吗？" FontSize="24"/>
             </StackPanel>
             <StackPanel Margin="10 0" VerticalAlignment="Center" CornerRadius="3">
-                <ListBox SelectedIndex="0" Background="Transparent">
-                    <ListBox.ItemContainerStyle>
+                <ListView SelectedIndex="0" Background="Transparent">
+                    <ListView.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="CornerRadius" Value="10"/>
                         </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.Items>
-                        <ListBoxItem Height="50">
+                    </ListView.ItemContainerStyle>
+                    <ListView.Items>
+                        <ListViewItem Height="50">
                             <TextBlock Text="简体中文" FontSize="14" FontWeight="SemiLight" Margin="0 0 0 -2" VerticalAlignment="Center"/>
-                        </ListBoxItem>
-                    </ListBox.Items>
-                </ListBox>
+                        </ListViewItem>
+                    </ListView.Items>
+                </ListView>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                             Margin="0 0 15 30">
