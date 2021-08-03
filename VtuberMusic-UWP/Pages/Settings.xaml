@@ -4,14 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    controls:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
     <Page.Resources>
         <local:BlurBackgroundPixelConvert x:Key="BlurBackgroundPixelConvert"/>
     </Page.Resources>
-    
-    <ScrollViewer>
+
+    <ScrollViewer CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
         <StackPanel Margin="25">
             <Grid CornerRadius="10" Height="150">
                 <Image Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">

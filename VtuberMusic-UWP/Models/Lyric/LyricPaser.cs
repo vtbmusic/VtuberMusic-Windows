@@ -22,7 +22,7 @@ namespace VtuberMusic_UWP.Models.Lyric
             var lyrics = new List<Lyric>();
             var sourceLyric = parseLrc(vrc.origin.text);
             
-            if (vrc.translated)
+            if (vrc.translate != null)
             {
                 var translationLyric = parseLrc(vrc.translate.text);
                 for (int i = 0; i < sourceLyric.Length || i < translationLyric.Length; i++)

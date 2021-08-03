@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Controls;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -30,7 +31,7 @@ namespace VtuberMusic_UWP
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
             App.ViewModel.MainPage = this;
-            App.ViewModel.TopPanel.Init();
+            //App.ViewModel.TopPanel.Init();
 
             Navigation.SelectionChanged += Navigation_SelectionChanged;
             NavigationFrame.Navigated += NavigationFrame_Navigated;
@@ -127,6 +128,8 @@ namespace VtuberMusic_UWP
 
         private void NavigationFrame_Navigated(object sender, NavigationEventArgs e)
         {
+             Navigation.IsBackEnabled = ContentFrame.CanGoBack;
+
             if (e.Content is Settings)
             {
                 Navigation.SelectedItem = Navigation.SettingsItem;
@@ -163,6 +166,17 @@ namespace VtuberMusic_UWP
         {
             ShareShadow.Receivers.Add(NavigationFrame);
             MainPlayer.Translation = new Vector3(0, 0, 25);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            //Window.Current.SetTitleBar(AppTitleBar);
+        }
+
+        private void Navigation_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        {
+            NavigationFrame.GoBack();
         }
     }
 

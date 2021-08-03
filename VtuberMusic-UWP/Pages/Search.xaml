@@ -6,10 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
-    xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic" xmlns:components="using:VtuberMusic_UWP.Components" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic"
+    xmlns:components="using:VtuberMusic_UWP.Components"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
-    <Grid Margin="30 0">
+    <Grid CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
         <Pivot Style="{StaticResource SearchPivotStyle}">
             <PivotItem>
                 <PivotItem.Header>
@@ -28,7 +31,7 @@
                     </ScrollViewer>
                 </Grid>
             </PivotItem>
-            <PivotItem Margin="0 10">
+            <PivotItem Margin="0 10 0 0">
                 <PivotItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="MusicInfo" Margin="8 0"/>

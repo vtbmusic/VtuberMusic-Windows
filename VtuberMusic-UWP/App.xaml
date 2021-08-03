@@ -13,6 +13,9 @@
                 <ResourceDictionary Source="/Template/Button.xaml"/>
                 <ResourceDictionary Source="/Template/Silder.xaml"/>
                 <ResourceDictionary Source="/Template/Icon.xaml"/>
+                <ResourceDictionary>
+                    <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light" Source="/Theme/Light.xaml"/>

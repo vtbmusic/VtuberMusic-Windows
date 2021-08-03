@@ -8,21 +8,59 @@
     xmlns:account="using:VtuberMusic_UWP.Components.Account"
     xmlns:player="using:VtuberMusic_UWP.Components.Player"
     mc:Ignorable="d" Background="{x:Null}"
-    d:DesignHeight="1080"
+    d:DesignHeight="48"
     d:DesignWidth="1920">
 
-    <Grid>
-        <StackPanel Orientation="Horizontal" Padding="25 0 0 20">
-            <Button x:Name="GoBackButton" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
-                    FontFamily="{StaticResource Icon}" Content="{StaticResource icon-back}" IsEnabled="False"/>
-            <Button x:Name="GoForwardButton" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18"
-                    FontFamily="{StaticResource Icon}" Content="{StaticResource icon-go}" Margin="5 0 3 0" IsEnabled="False"/>
-            <TextBox x:Name="SearchKeyword" CornerRadius="18" KeyDown="TextBox_KeyDown" FontSize="14" Height="40" Padding="13 8 0 0" VerticalAlignment="Center" BorderBrush="Transparent" PlaceholderText="搜索" Width="400"/>
-        </StackPanel>
-        <PersonPicture Height="35" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="40 0">
-            <PersonPicture.ProfilePicture>
-                <BitmapImage UriSource="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg" DecodePixelHeight="40" DecodePixelWidth="40"/>
-            </PersonPicture.ProfilePicture>
-        </PersonPicture>
+    <Grid Height="48">
+        <Rectangle x:Name="TitleBar" Fill="Transparent"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="190"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" IsHitTestVisible="False">
+                <Image Source="/Assets/Icon/Original/Icon.png" Height="24" Stretch="UniformToFill" VerticalAlignment="Center"/>
+                <TextBlock Text="VtuberMusic" VerticalAlignment="Center" FontSize="12" Margin="15 0 0 0"/>
+                <TextBlock Text="Preview" VerticalAlignment="Center" FontSize="12" Margin="3 0 0 0" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+            </StackPanel>
+            <TextBox x:Name="SearchKeyword" Grid.Column="1" Margin="5 0"
+                 KeyDown="TextBox_KeyDown" VerticalAlignment="Center" PlaceholderText="搜索歌曲、歌手、歌单等"/>
+            <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"
+                    CornerRadius="10" Padding="0" Background="Transparent" BorderBrush="Transparent">
+                <Button.Flyout>
+                    <Flyout Placement="BottomEdgeAlignedRight">
+                        <StackPanel Width="300">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <PersonPicture Height="50" VerticalAlignment="Top">
+                                    <PersonPicture.ProfilePicture>
+                                        <BitmapImage UriSource="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg" DecodePixelHeight="50" DecodePixelWidth="50"/>
+                                    </PersonPicture.ProfilePicture>
+                                </PersonPicture>
+                                <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                                    <TextBlock Text="Misaka-L" FontSize="16"/>
+                                    <TextBlock Text="呜喵！如果在凌晨一点钟后看到我请直接把我提到床上" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                                    <Grid Margin="0 2 0 0">
+                                        <TextBlock Text="Lv.9" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                                        <TextBlock Text="100 / 100" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                    <ProgressBar Margin="0 2 0 0" CornerRadius="2" Value="100"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+                <PersonPicture Height="28">
+                    <PersonPicture.ProfilePicture>
+                        <BitmapImage UriSource="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg" DecodePixelHeight="40" DecodePixelWidth="40"/>
+                    </PersonPicture.ProfilePicture>
+                </PersonPicture>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

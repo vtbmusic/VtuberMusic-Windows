@@ -14,7 +14,11 @@
     <Page.Resources>
         <DataTemplate x:Key="BannerItemTemplate" x:DataType="models:Banner">
             <Grid>
-                <Image Source="{x:Bind BannerImg}" Stretch="UniformToFill"/>
+                <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="{x:Bind BannerImg}" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
+                    </Grid.Background>
+                </Grid>
                 <Border VerticalAlignment="Bottom">
                     <Border.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -30,7 +34,7 @@
     </Page.Resources>
 
     <ScrollViewer>
-        <StackPanel MaxWidth="1100" Margin="100 0 100 100">
+        <StackPanel MaxWidth="1100" Margin="100 30 100 100">
             <!--<main:BlockTitle Text="我们的推荐"/>-->
             <FlipView x:Name="BannerDataView" CornerRadius="10" Margin="0 5" Height="530" ItemTemplate="{StaticResource BannerItemTemplate}"/>
             <controls:PipsPager x:Name="BannerPipsPager" HorizontalAlignment="Center" SelectedPageIndex="{x:Bind BannerDataView.SelectedIndex, Mode=TwoWay}"/>

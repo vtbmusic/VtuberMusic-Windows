@@ -10,17 +10,16 @@
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:pages ="using:VtuberMusic_UWP.Pages"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
-        <muxc:NavigationView Name="Navigation"
-                        IsBackButtonVisible="Collapsed" IsBackEnabled="False"
-                        Background="Transparent">
-            <!--<NavigationView.PaneHeader>
-                <TextBlock Text="VtuberMusic" FontWeight="SemiBold" VerticalAlignment="Center" Margin="5 0"/>
-            </NavigationView.PaneHeader>-->
+    mc:Ignorable="d"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals">
+    
+    <Grid>
+        <main:TopPanel Margin="48 0 0 0" VerticalAlignment="Top" Canvas.ZIndex="1"/>
+        <muxc:NavigationView Name="Navigation" Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                             IsBackButtonVisible="Visible" IsPaneToggleButtonVisible="False" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                             IsTitleBarAutoPaddingEnabled="False" BackRequested="Navigation_BackRequested">
             <muxc:NavigationView.Resources>
-                <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground" TintColor="{ThemeResource SystemAltHighColor}" TintOpacity="0.6"/>
+                <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
             </muxc:NavigationView.Resources>
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItemHeader Content="发现"/>
@@ -50,21 +49,22 @@
                 </NavigationViewItem>-->
                 <muxc:NavigationViewItemHeader x:Name="FavouriteAlbum" Content="我收藏的歌单"/>
             </muxc:NavigationView.MenuItems>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <main:TopPanel/>
-                <Grid Grid.Row="1">
-                    <Grid.Resources>
-                        <ThemeShadow x:Name="ShareShadow"/>
-                    </Grid.Resources>
-                    
-                    <Frame Name="NavigationFrame"/>
-                    <player:MainPlayer x:Name="MainPlayer" Margin="15" Loaded="MainPlayer_Loaded" Shadow="{StaticResource ShareShadow}" VerticalAlignment="Bottom"/>
+            <muxc:NavigationView.Content>
+                <Grid Margin="0 50 10 10" CornerRadius="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.Resources>
+                            <ThemeShadow x:Name="ShareShadow"/>
+                        </Grid.Resources>
+
+                        <Frame Name="NavigationFrame"/>
+                        <player:MainPlayer x:Name="MainPlayer" Margin="15" Loaded="MainPlayer_Loaded" Shadow="{StaticResource ShareShadow}" VerticalAlignment="Bottom"/>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </muxc:NavigationView.Content>
         </muxc:NavigationView>
     </Grid>
 </Page>

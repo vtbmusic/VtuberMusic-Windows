@@ -4,12 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel Margin="30 0 30 70">
-            <Grid Margin="70 30">
+        <StackPanel Margin="0 0 0 50">
+            <Grid Margin="0 0 0 20" Padding="10" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -50,7 +53,9 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <collections:MusicDataList x:Name="DataView" Mode="Large" Margin="0 10 0 50"/>
+            <Grid Margin="0 0 0 50" Padding="10" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
+                <collections:MusicDataList x:Name="DataView" Mode="Large"/>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>
