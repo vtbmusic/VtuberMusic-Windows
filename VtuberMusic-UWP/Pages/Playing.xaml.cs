@@ -34,7 +34,7 @@ namespace VtuberMusic_UWP.Pages
         public Playing()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
             ShareShadow.Receivers.Add(ShadowBackground);
             CoverImgGrid.Translation = new Vector3(0, 0, 32);
@@ -93,7 +93,7 @@ namespace VtuberMusic_UWP.Pages
 
             try
             {
-                lyrics = LyricPaser.Parse(response.Content);
+                lyrics = await Task.Run<Models.Lyric.Lyric[]>( () => LyricPaser.Parse(response.Content));
                 LyricView.ItemsSource = lyrics;
 
                 startTick();
@@ -107,7 +107,6 @@ namespace VtuberMusic_UWP.Pages
 
         private async void startTick()
         {
-            Debug.WriteLine("start {0}", lyricTimer.IsEnabled);
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
             {
                 lyricTimer.Start();
@@ -116,7 +115,6 @@ namespace VtuberMusic_UWP.Pages
 
         private async void stopTick()
         {
-            Debug.WriteLine("stop {0}", lyricTimer.IsEnabled);
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
             {
                 lyricTimer.Stop();
@@ -135,8 +133,6 @@ namespace VtuberMusic_UWP.Pages
 
                 if (lyrics[i].Time <= App.Player.Position && lyrics[i + 1].Time >= App.Player.Position)
                 {
-                    Debug.WriteLine(i);
-
                     ToLyric(i);
                     return;
                 }

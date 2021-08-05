@@ -37,12 +37,8 @@ namespace VtuberMusic_UWP.Components.Lyric
 
         private void onLyricChanged(Models.Lyric.Lyric lyric)
         {
-            try
-            {
-                SourceLyric.Text = lyric.Source;
-                TranslationLyric.Text = lyric.Translation;
-            }
-            catch { }
+            SourceLyric.Text = lyric.Source;
+            TranslationLyric.Text = lyric.Translation;
         }
 
         public LyricItem()

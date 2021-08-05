@@ -25,17 +25,25 @@
 
         <Style x:Name="NowSourceLyric" BasedOn="{StaticResource NormalSourceLyric}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="26"/>
+            <!--<Setter Property="FontSize" Value="26"/>-->
         </Style>
         <Style x:Name="NowTranslationLyric" BasedOn="{StaticResource NormalTranslationLyric}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="20"/>
+            <!--<Setter Property="FontSize" Value="20"/>-->
         </Style>
     </UserControl.Resources>
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-        <TextBlock x:Name="SourceLyric" TextWrapping="Wrap" Style="{StaticResource NormalSourceLyric}"/>
+        <TextBlock x:Name="SourceLyric" TextWrapping="Wrap" Style="{StaticResource NormalSourceLyric}">
+            <TextBlock.ScaleTransition>
+                <Vector3Transition/>
+            </TextBlock.ScaleTransition>
+        </TextBlock>
         <TextBlock x:Name="TranslationLyric" Visibility="{x:Bind TranslationLyric.Text, Mode=OneWay, Converter={StaticResource HideConverter}}"
-                   TextWrapping="Wrap" Style="{StaticResource NormalTranslationLyric}"/>
+                   TextWrapping="Wrap" Style="{StaticResource NormalTranslationLyric}">
+            <TextBlock.ScaleTransition>
+                <Vector3Transition/>
+            </TextBlock.ScaleTransition>
+        </TextBlock>
     </StackPanel>
 </UserControl>

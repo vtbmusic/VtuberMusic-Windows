@@ -51,7 +51,7 @@ namespace VtuberMusic_UWP.Models.Lyric
             {
                 for (int i = 0; i != sourceLyric.Length; i++)
                 {
-                    lyrics.Add(new Lyric { Time = sourceLyric[i].Time, Source = sourceLyric[i].Text, Translation = null });
+                    lyrics.Add(new Lyric { Time = sourceLyric[i].Time, Source = sourceLyric[i].Text, Translation = "" });
                 }
             }
 
@@ -81,7 +81,6 @@ namespace VtuberMusic_UWP.Models.Lyric
                 var time = TimeTransition(temp.Groups[1].Value, offset);
                 var word = temp.Groups[2].Value.Replace("\n", "");
 
-                Debug.WriteLine(temp.Groups[1].Value + " " + time.ToString());
                 lyrics.Add(new LrcLyric { Time = time, Text = word });
             }
 

@@ -27,8 +27,8 @@ namespace VtuberMusic_UWP.Pages
 
         private string getGitCommitInfo()
         {
-            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
-            if (attributes.Length != 0) return ((AssemblyFileVersionAttribute)attributes[0]).Version;
+            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
+            if (attributes.Length != 0) return ((AssemblyInformationalVersionAttribute)attributes[0]).InformationalVersion;
 
             return "Nan";
         }

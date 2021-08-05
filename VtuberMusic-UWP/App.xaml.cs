@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using System;
+using System.Reflection;
 using VtuberMusic_UWP.Models.Main;
 using VtuberMusic_UWP.Pages;
 using VtuberMusic_UWP.Service;
@@ -23,6 +27,16 @@ namespace VtuberMusic_UWP
         public App()
         {
             InitializeComponent();
+
+#if !DEBUG
+            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
+                   typeof(Analytics), typeof(Crashes));
+
+            var properties = new CustomProperties();
+            properties.Set("Commit", getGitCommitInfo());
+
+            AppCenter.SetCustomProperties(properties);
+#endif
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
@@ -72,6 +86,14 @@ namespace VtuberMusic_UWP
             {
                 RootFrame.Navigate(typeof(Setup));
             }
+        }
+
+        private string getGitCommitInfo()
+        {
+            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
+            if (attributes.Length != 0) return ((AssemblyFileVersionAttribute)attributes[0]).Version;
+
+            return "Nan";
         }
 
         /// <summary>
