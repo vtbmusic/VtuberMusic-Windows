@@ -29,7 +29,8 @@ namespace VtuberMusic_UWP.Pages
         private Lyric[] lyrics;
         private LyricItem nowLyricItem = null;
         private DispatcherTimer lyricTimer = new DispatcherTimer();
-        private int tickMs = 500;
+        private bool canUpdatePosition = true;
+        private int tickMs = 200;
 
         public Playing()
         {
@@ -42,6 +43,16 @@ namespace VtuberMusic_UWP.Pages
             lyricTimer.Interval = TimeSpan.FromMilliseconds(tickMs);
             lyricTimer.Tick += lyricTick;
 
+            switch (App.Player.PlayState)
+            {
+                case MediaPlaybackState.Playing:
+                    PlayButtonIcon.Symbol = Symbol.Pause;
+                    break;
+                default:
+                    PlayButtonIcon.Symbol = Symbol.Play;
+                    break;
+            }
+
             App.Player.NowPlayingMusicChanged += async delegate
             {
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
@@ -51,12 +62,11 @@ namespace VtuberMusic_UWP.Pages
                 }));
             };
 
-            App.Player.PlayStateChanged += async delegate (object sender, MediaTimelineControllerState e)
+            App.Player.PlayStateChanged += async delegate (object sender, MediaPlaybackState e)
             {
-                Debug.WriteLine(e);
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
                 {
-                    if (e == MediaTimelineControllerState.Running && App.Player.NowPlayingMusic != null && lyrics != null)
+                    if (e == MediaPlaybackState.Playing && App.Player.NowPlayingMusic != null && lyrics != null && App.RootFrame.Content.GetType() == typeof(Playing))
                     {
                         startTick();
                     }
@@ -64,7 +74,32 @@ namespace VtuberMusic_UWP.Pages
                     {
                         stopTick();
                     }
+
+                    switch (e)
+                    {
+                        case MediaPlaybackState.Playing:
+                            PlayButtonIcon.Symbol = Symbol.Pause;
+                            break;
+                        default:
+                            PlayButtonIcon.Symbol = Symbol.Play;
+                            break;
+                    }
                 }));
+            };
+
+            App.Player.PositionChanged += async delegate (object sender, TimeSpan e)
+            {
+                if (!canUpdatePosition) return;
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, delegate
+                {
+                    if (App.RootFrame.Content.GetType() != typeof(Playing)) return;
+
+                    NowPlayTime.Text = App.Player.Position.ToString("mm\\:ss");
+                    Position.Value = App.Player.Position.TotalMilliseconds;
+
+                    Duration.Text = App.Player.Duration.ToString("mm\\:ss");
+                    Position.Maximum = App.Player.Duration.TotalMilliseconds;
+                });
             };
 
             init();
@@ -123,6 +158,7 @@ namespace VtuberMusic_UWP.Pages
 
         private void lyricTick(object sender, object args)
         {
+            var watch = Stopwatch.StartNew();
             for (int i = 0; i != lyrics.Length; i++)
             {
                 if (i == lyrics.Length - 1)
@@ -131,6 +167,7 @@ namespace VtuberMusic_UWP.Pages
                     return;
                 }
 
+                Debug.WriteLine(App.Player.Position);
                 if (lyrics[i].Time <= App.Player.Position && lyrics[i + 1].Time >= App.Player.Position)
                 {
                     ToLyric(i);
@@ -139,6 +176,8 @@ namespace VtuberMusic_UWP.Pages
             }
 
             ToLyric(-1);
+            watch.Stop();
+            Debug.WriteLine("{0}ms now:{1}", watch.ElapsedMilliseconds, App.Player.Position);
         }
 
         private void ToLyric(int index)
@@ -204,7 +243,40 @@ namespace VtuberMusic_UWP.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (loaded && App.Player.PlayState == MediaPlaybackState.Playing) startTick();
+            if (loaded && App.Player.PlayStateInfo == MediaPlaybackState.Playing) startTick();
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e) => App.Player.Previous();
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            switch (App.Player.PlayState)
+            {
+                case MediaPlaybackState.Playing:
+                    App.Player.Pause();
+                    break;
+                default:
+                    App.Player.Play();
+                    break;
+            }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e) => App.Player.Next();
+
+        private void Position_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+        {
+            canUpdatePosition = false;
+        }
+
+        private void Position_PointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            App.Player.Position = TimeSpan.FromMilliseconds(Position.Value);
+            canUpdatePosition = true;
+        }
+
+        private void Position_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        {
+            canUpdatePosition = true;
         }
     }
 }

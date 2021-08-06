@@ -51,16 +51,16 @@ namespace VtuberMusic_UWP.Components.Player
             }));
         }
 
-        private async void playStateChanged(object sender, MediaTimelineControllerState e)
+        private async void playStateChanged(object sender, MediaPlaybackState e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
             {
                 switch (e)
                 {
-                    case MediaTimelineControllerState.Paused:
+                    case MediaPlaybackState.Paused:
                         PlayButtonIocn.Symbol = Symbol.Play;
                         break;
-                    case MediaTimelineControllerState.Running:
+                    case MediaPlaybackState.Playing:
                         PlayButtonIocn.Symbol = Symbol.Pause;
                         break;
                 }

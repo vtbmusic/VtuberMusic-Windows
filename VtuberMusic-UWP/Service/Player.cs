@@ -13,7 +13,6 @@ namespace VtuberMusic_UWP.Service
     {
         #region 播放器核心
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        private MediaTimelineController _timelineController = new MediaTimelineController();
         private MediaPlaybackItem _mediaPlaybackItem;
         private MediaPlaybackItem mediaPlaybackItem
         {
@@ -54,11 +53,19 @@ namespace VtuberMusic_UWP.Service
         {
             get
             {
-                return _timelineController.Position;
+                return _mediaPlayer.PlaybackSession.Position;
             }
             set
             {
-                _timelineController.Position = value;
+                _mediaPlayer.PlaybackSession.Position = value;
+            }
+        }
+
+        public MediaPlaybackState PlayStateInfo
+        {
+            get
+            {
+                return _mediaPlayer.PlaybackSession.PlaybackState;
             }
         }
 
@@ -72,7 +79,7 @@ namespace VtuberMusic_UWP.Service
         #endregion
 
         #region 事件
-        public EventHandler<MediaTimelineControllerState> PlayStateChanged;
+        public EventHandler<MediaPlaybackState> PlayStateChanged;
         public EventHandler<TimeSpan> PositionChanged;
         public EventHandler<double> VolumeChanged;
         #endregion
@@ -124,11 +131,10 @@ namespace VtuberMusic_UWP.Service
         {
             InitSMTC();
             // 设置核心
-            _mediaPlayer.TimelineController = _timelineController;
-            _timelineController.PositionChanged += positionChanged;
+            _mediaPlayer.PlaybackSession.PositionChanged += positionChanged;
             _mediaPlayer.MediaEnded += _mediaPlayer_MediaEnded;
             _mediaPlayer.VolumeChanged += _mediaPlayer_VolumeChanged;
-            _timelineController.StateChanged += _timelineController_StateChanged;
+            _mediaPlayer.PlaybackSession.PlaybackStateChanged += _mediaPlayer_StateChanged;
             // 绑定事件
             PlayListChanged += playListChanged;
             PlayList.CollectionChanged += delegate
@@ -138,9 +144,9 @@ namespace VtuberMusic_UWP.Service
         }
 
         #region 事件处理
-        private void _timelineController_StateChanged(MediaTimelineController sender, object args)
+        private void _mediaPlayer_StateChanged(MediaPlaybackSession sender, object args)
         {
-            if (PlayStateChanged != null) PlayStateChanged(this, sender.State);
+            if (PlayStateChanged != null) PlayStateChanged(this, sender.PlaybackState);
         }
         private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args)
         {
@@ -161,13 +167,11 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        private void positionChanged(MediaTimelineController sender, object args)
+        private void positionChanged(MediaPlaybackSession sender, object args)
         {
             updateSMTCTimeline();
-            if (PositionChanged != null)
-            {
-                PositionChanged(this, _timelineController.Position);
-            }
+
+            PositionChanged?.Invoke(this, Position);
         }
 
         private void playListChanged(object sender, object args)
@@ -211,33 +215,24 @@ namespace VtuberMusic_UWP.Service
             }
         }
 
-        private void Source_OpenOperationCompleted(MediaSource sender, MediaSourceOpenOperationCompletedEventArgs args)
-        {
-            Start();
-        }
+        private void Source_OpenOperationCompleted(MediaSource sender, MediaSourceOpenOperationCompletedEventArgs args) => Start();
         #endregion
 
         #region 播放器控制方法
         public void Start()
         {
             Stop();
-            _timelineController.Start();
+            _mediaPlayer.Play();
         }
 
-        public void Play()
-        {
-            _timelineController.Resume();
-        }
+        public void Play() => _mediaPlayer.Play();
 
-        public void Pause()
-        {
-            _timelineController.Pause();
-        }
+        public void Pause() => _mediaPlayer.Pause();
 
         public void Stop()
         {
-            _timelineController.Position = TimeSpan.Zero;
-            _timelineController.Pause();
+            _mediaPlayer.PlaybackSession.Position = TimeSpan.Zero;
+            Pause();
         }
         #endregion
 

@@ -73,10 +73,13 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Slider Margin="0 0 0 -5"/>
+                        <Slider x:Name="Position" ManipulationMode="All"
+                                ManipulationStarted="Position_ManipulationStarted" PointerCaptureLost="Position_PointerCaptureLost"
+                                ManipulationCompleted="Position_ManipulationCompleted" IsThumbToolTipEnabled="False"
+                                Margin="0 0 0 -5"/>
                         <Grid Grid.Row="1">
-                            <TextBlock Text="00:00"/>
-                            <TextBlock Text="04:00" HorizontalAlignment="Right"/>
+                            <TextBlock x:Name="NowPlayTime" Text="00:00" Foreground="White"/>
+                            <TextBlock x:Name="Duration" Text="04:00" Foreground="White" HorizontalAlignment="Right"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="2" Margin="-10 10 -10 0">
@@ -87,23 +90,23 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <Button Style="{StaticResource CircleButton}" Height="50" Width="50">
-                                <FontIcon FontFamily="{StaticResource Icon}" Glyph="{StaticResource icon-repeat}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <FontIcon Foreground="White" FontFamily="{StaticResource Icon}" Glyph="{StaticResource icon-repeat}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>
                         </StackPanel>
                         <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
-                            <Button Style="{StaticResource CircleButton}" Height="50" Width="50">
-                                <SymbolIcon Symbol="Previous" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button x:Name="PreviousButton" Click="PreviousButton_Click" Style="{StaticResource CircleButton}" Height="50" Width="50">
+                                <SymbolIcon Foreground="White" Symbol="Previous" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>
-                            <Button Style="{StaticResource CircleButton}" Height="50" Width="50" Margin="10 0">
-                                <SymbolIcon Symbol="Play" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button x:Name="PlayButton" Click="PlayButton_Click" Style="{StaticResource CircleButton}" Height="50" Width="50" Margin="10 0">
+                                <SymbolIcon x:Name="PlayButtonIcon" Foreground="White" Symbol="Play" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>
-                            <Button Style="{StaticResource CircleButton}" Height="50" Width="50">
-                                <SymbolIcon Symbol="Next" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button x:Name="NextButton" Click="NextButton_Click" Style="{StaticResource CircleButton}" Height="50" Width="50">
+                                <SymbolIcon Foreground="White" Symbol="Next" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
                             <Button Style="{StaticResource CircleButton}" Height="50" Width="50">
-                                <FontIcon x:Name="LikeMusicIcon" FontFamily="{StaticResource Icon}" Glyph="&#xe601;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <FontIcon Foreground="White" x:Name="LikeMusicIcon" FontFamily="{StaticResource Icon}" Glyph="&#xe601;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>
                         </StackPanel>
                     </Grid>
