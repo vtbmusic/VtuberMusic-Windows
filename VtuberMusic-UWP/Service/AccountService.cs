@@ -73,7 +73,7 @@ namespace VtuberMusic_UWP.Service
 
         public async Task<ApiResponse<AccountSubCount>> GetAccountSubCouent()
         {
-            var request = new RestRequest(ApiUri.AccountInfo);
+            var request = new RestRequest(ApiUri.SubCount);
 
             var response = await _restClient.ExecuteAsync<ApiResponse<AccountSubCount>>(request);
 

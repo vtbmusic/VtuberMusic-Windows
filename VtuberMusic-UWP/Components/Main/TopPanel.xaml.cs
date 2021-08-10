@@ -12,6 +12,8 @@ namespace VtuberMusic_UWP.Components.Main
             this.InitializeComponent();
             Window.Current.SetTitleBar(TitleBar);
             App.ViewModel.TopPanel = this;
+
+            Avatar.UriSource = new System.Uri(App.Client.Account.Profile.avatarUrl);
         }
 
         private void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

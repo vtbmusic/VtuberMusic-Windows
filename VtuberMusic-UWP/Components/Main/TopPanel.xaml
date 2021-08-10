@@ -31,33 +31,18 @@
                     CornerRadius="10" Padding="0" Background="Transparent" BorderBrush="Transparent">
                 <Button.Flyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
-                        <StackPanel Width="300">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <PersonPicture Height="50" VerticalAlignment="Top">
-                                    <PersonPicture.ProfilePicture>
-                                        <BitmapImage UriSource="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg" DecodePixelHeight="50" DecodePixelWidth="50"/>
-                                    </PersonPicture.ProfilePicture>
-                                </PersonPicture>
-                                <StackPanel Grid.Column="1" Margin="12 0 0 0">
-                                    <TextBlock Text="Misaka-L" FontSize="16"/>
-                                    <TextBlock Text="呜喵！如果在凌晨一点钟后看到我请直接把我提到床上" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                                    <Grid Margin="0 2 0 0">
-                                        <TextBlock Text="Lv.9" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                                        <TextBlock Text="100 / 100" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Right"/>
-                                    </Grid>
-                                    <ProgressBar Margin="0 2 0 0" CornerRadius="2" Value="100"/>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="10 10"/>
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <account:AccountPanel/>
                     </Flyout>
                 </Button.Flyout>
                 <PersonPicture Height="28">
                     <PersonPicture.ProfilePicture>
-                        <BitmapImage UriSource="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg" DecodePixelHeight="40" DecodePixelWidth="40"/>
+                        <BitmapImage x:Name="Avatar" UriSource="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg" DecodePixelHeight="40" DecodePixelWidth="40"/>
                     </PersonPicture.ProfilePicture>
                 </PersonPicture>
             </Button>

@@ -36,7 +36,7 @@
     <ScrollViewer>
         <StackPanel MaxWidth="1100" Margin="100 30 100 100">
             <!--<main:BlockTitle Text="我们的推荐"/>-->
-            <FlipView x:Name="BannerDataView" CornerRadius="10" Margin="0 5" Height="530" ItemTemplate="{StaticResource BannerItemTemplate}"/>
+            <FlipView x:Name="BannerDataView" CornerRadius="10" Margin="0 5" Height="430" ItemTemplate="{StaticResource BannerItemTemplate}"/>
             <controls:PipsPager x:Name="BannerPipsPager" HorizontalAlignment="Center" SelectedPageIndex="{x:Bind BannerDataView.SelectedIndex, Mode=TwoWay}"/>
             <!--<main:BlockTitle Text="我关注的"/>
             <collections:MusicCardView x:Name="SubMusicDataView"/>-->
