@@ -38,7 +38,7 @@
         <Button x:Name="Back" Grid.Row="1" Grid.Column="1"
                 Click="BackButton_Click" BorderBrush="Transparent"
                 Background="Transparent" HorizontalAlignment="Stretch">
-            <SymbolIcon Symbol="Cancel"/>
+            <FontIcon Glyph="&#xE011;" Foreground="White" FontFamily="Segoe MDL2 Assets"/>
         </Button>
         <Grid Grid.Row="2" Grid.Column="1">
             <Grid.ColumnDefinitions>

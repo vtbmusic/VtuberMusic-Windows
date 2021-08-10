@@ -14,7 +14,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using System.Diagnostics;
 
 namespace VtuberMusic_UWP
 {
@@ -90,7 +89,7 @@ namespace VtuberMusic_UWP
                 Window.Current.Activate();
             }
 
-#if DEBUG
+#if !DEBUG
             AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
                        typeof(Analytics), typeof(Crashes));
 

@@ -158,7 +158,7 @@ namespace VtuberMusic_UWP.Components.Player
         {
             if (App.RootFrame.Content.GetType() != typeof(Playing))
             {
-                App.RootFrame.Navigate(typeof(Playing), null, new DrillInNavigationTransitionInfo());
+                App.RootFrame.Navigate(typeof(Playing), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromBottom } );
             }
         }
 
