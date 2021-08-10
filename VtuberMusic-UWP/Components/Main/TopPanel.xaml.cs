@@ -29,10 +29,5 @@ namespace VtuberMusic_UWP.Components.Main
                 App.ViewModel.NavigateToPage(typeof(Search), SearchKeyword.Text);
             }
         }
-
-        private void PersonPicture_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-
-        }
     }
 }

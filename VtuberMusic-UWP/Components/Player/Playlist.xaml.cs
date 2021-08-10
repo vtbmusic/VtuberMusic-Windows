@@ -19,12 +19,23 @@ namespace VtuberMusic_UWP.Components.Player
         {
             this.InitializeComponent();
             Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
-            App.ViewModel.MainPage.SizeChanged += MainPage_SizeChanged;
+            Player.PlayList.CollectionChanged += PlayList_CollectionChanged;
 
             if (App.Player.PlayList.Count == 0)
             {
                 None.Visibility = Visibility.Visible;
-                return;
+            }
+        }
+
+        private void PlayList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (Player.PlayList.Count != 0)
+            {
+                None.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                None.Visibility = Visibility.Visible;
             }
         }
 
@@ -33,36 +44,9 @@ namespace VtuberMusic_UWP.Components.Player
             if (Player.PlayList.Count == 0) None.Visibility = Visibility.Visible;
         }
 
-        private void MainPage_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Height = e.NewSize.Height;
-            Width = e.NewSize.Width;
-        }
-
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
             App.Player.PlayList.Remove((Music)DataView.SelectedItem);
-        }
-
-        public void ShowPopup()
-        {
-            popup.Child = this;
-            Height = Window.Current.Bounds.Height;
-            Width = Window.Current.Bounds.Width;
-
-            popup.IsOpen = true;
-            PopupIn.Begin();
-        }
-
-        private void Background_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            PopupOut.Completed += PopupOut_Completed;
-            PopupOut.Begin();
-        }
-
-        private void PopupOut_Completed(object sender, object e)
-        {
-            popup.IsOpen = false;
         }
 
         private void DeleteMusic_Click(object sender, RoutedEventArgs e)

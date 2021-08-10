@@ -97,7 +97,18 @@
                 <Button Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18">
                     <SymbolIcon Symbol="Refresh"/>
                 </Button>
-                <Button x:Name="PlayList" Click="PlayList_Click" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18">
+                <Button x:Name="PlayList" Style="{StaticResource CircleButton}" Height="40" Width="40" FontSize="18">
+                    <Button.Flyout>
+                        <Flyout Placement="Top">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="0 10 0 0"/>
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <local:Playlist/>
+                        </Flyout>
+                    </Button.Flyout>
                     <SymbolIcon Symbol="MusicInfo"/>
                 </Button>
             </StackPanel>

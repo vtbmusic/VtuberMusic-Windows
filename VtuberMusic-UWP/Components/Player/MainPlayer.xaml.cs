@@ -121,12 +121,6 @@ namespace VtuberMusic_UWP.Components.Player
             }));
         }
 
-        private void PlayList_Click(object sender, RoutedEventArgs e)
-        {
-            var playlist = new Playlist();
-            playlist.ShowPopup();
-        }
-
         private void DurationSlider_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
         {
             App.Player.Position = TimeSpan.FromMilliseconds(DurationSlider.Value);
