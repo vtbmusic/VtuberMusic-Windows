@@ -3,6 +3,7 @@ using System.Reflection;
 using VtuberMusic_UWP.Models.Main;
 using VtuberMusic_UWP.Pages;
 using VtuberMusic_UWP.Service;
+using Microsoft.AppCenter;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -11,6 +12,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace VtuberMusic_UWP
 {

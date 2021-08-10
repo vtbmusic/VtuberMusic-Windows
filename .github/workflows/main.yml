@@ -30,7 +30,7 @@ jobs:
       with:
           path: .\VtuberMusic-UWP\obj
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.run_number }}
-          restore-keys : ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.run_number }}
+          restore-keys : ${{ runner.os }}-build-${{ env.cache-name }}-
 
     # 安装 .NET Core 环境
     - name: Install .NET Core

@@ -8,8 +8,8 @@
     xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:components="using:VtuberMusic_UWP.Components" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight="100"
+    d:DesignWidth="800">
 
     <UserControl.Resources>
         <local:PercentagesConverter x:Key="PercentagesConverter"/>
