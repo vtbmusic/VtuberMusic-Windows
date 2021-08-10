@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Crashes;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using VtuberMusic_UWP.Models.VtuberMusic;
@@ -193,25 +195,37 @@ namespace VtuberMusic_UWP.Service
         #region 载入媒体
         public async void SetMusic(Music music)
         {
-            if (music != null)
+            try
             {
-                if (!PlayList.Any(m => m.id == music.id))
+                if (music != null)
                 {
-                    PlayList.Add(music);
+                    if (!PlayList.Any(m => m.id == music.id))
+                    {
+                        PlayList.Add(music);
+                    }
+
+                    mediaPlaybackItem = new MediaPlaybackItem(MediaSource.CreateFromUri(new Uri((await App.Client.GetSongMeduaUri(music.id)).Data)));
+                    updateSMTC(music, mediaPlaybackItem);
+                    mediaPlaybackItem.Source.OpenOperationCompleted += Source_OpenOperationCompleted;
+                    _mediaPlaybackItem = mediaPlaybackItem;
+
+                    Stop();
+                    NowPlayingMusic = music;
                 }
-
-                mediaPlaybackItem = new MediaPlaybackItem(MediaSource.CreateFromUri(new Uri((await App.Client.GetSongMeduaUri(music.id)).Data)));
-                updateSMTC(music, mediaPlaybackItem);
-                mediaPlaybackItem.Source.OpenOperationCompleted += Source_OpenOperationCompleted;
-                _mediaPlaybackItem = mediaPlaybackItem;
-
-                Stop();
-                NowPlayingMusic = music;
+                else
+                {
+                    NowPlayingMusic = music;
+                    _mediaPlaybackItem = null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                NowPlayingMusic = music;
-                _mediaPlaybackItem = null;
+                var data = new Dictionary<string, string>()
+                {
+                    { "music_id", music.id }
+                };
+
+                Crashes.TrackError(ex, data);
             }
         }
 

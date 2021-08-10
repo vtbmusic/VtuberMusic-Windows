@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using System.Diagnostics;
 
 namespace VtuberMusic_UWP
 {
@@ -28,15 +29,41 @@ namespace VtuberMusic_UWP
         {
             InitializeComponent();
 
-#if !DEBUG
-            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
-                   typeof(Analytics), typeof(Crashes));
+            App.Current.UnhandledException += Current_UnhandledException;
+        }
 
-            var properties = new CustomProperties();
-            properties.Set("Commit", getGitCommitInfo());
+        private void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+        }
 
-            AppCenter.SetCustomProperties(properties);
-#endif
+        private async void showCrashReport()
+        {
+            await RootFrame.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async delegate
+            {
+                var dialog = new ContentDialog();
+                dialog.Title = "是否要上传错误报告？";
+                dialog.PrimaryButtonText = "总是";
+                dialog.SecondaryButtonText = "上传";
+                dialog.CloseButtonText = "不上传";
+                dialog.Content = new TextBlock() { Text = "上传错误报告以帮助我们修复此问题" };
+                dialog.DefaultButton = ContentDialogButton.Primary;
+
+                var result = await dialog.ShowAsync();
+
+                switch (result)
+                {
+                    case ContentDialogResult.Primary:
+                        Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
+                        break;
+                    case ContentDialogResult.Secondary:
+                        Crashes.NotifyUserConfirmation(UserConfirmation.Send);
+                        break;
+                    case ContentDialogResult.None:
+                        Crashes.NotifyUserConfirmation(UserConfirmation.DontSend);
+                        break;
+                }
+            }));
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
@@ -62,6 +89,22 @@ namespace VtuberMusic_UWP
             {
                 Window.Current.Activate();
             }
+
+#if DEBUG
+            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
+                       typeof(Analytics), typeof(Crashes));
+
+            var properties = new CustomProperties();
+            properties.Set("Commit", getGitCommitInfo());
+
+            AppCenter.SetCustomProperties(properties);
+
+            Crashes.ShouldAwaitUserConfirmation = () =>
+            {
+                showCrashReport();
+                return true;
+            };
+#endif
 
             init();
         }
