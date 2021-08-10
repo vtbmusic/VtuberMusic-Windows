@@ -40,7 +40,7 @@ namespace VtuberMusic_UWP.Pages
             PlayListLoading.Visibility = Visibility.Visible;
             PlayListDataView.ItemsSource = (await App.Client.SearchPlaylist(keyword)).Data;
             PlayListLoading.Visibility = Visibility.Collapsed;
-            
+
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace VtuberMusic_UWP.Models.Lyric
 {
@@ -21,7 +18,7 @@ namespace VtuberMusic_UWP.Models.Lyric
             var vrc = JsonConvert.DeserializeObject<Vrc>(lyricString);
             var lyrics = new List<Lyric>();
             var sourceLyric = parseLrc(vrc.origin.text);
-            
+
             if (vrc.translate != null)
             {
                 var translationLyric = parseLrc(vrc.translate.text);

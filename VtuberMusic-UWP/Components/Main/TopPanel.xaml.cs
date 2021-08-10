@@ -1,7 +1,6 @@
 ﻿using VtuberMusic_UWP.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace VtuberMusic_UWP.Components.Main
 {

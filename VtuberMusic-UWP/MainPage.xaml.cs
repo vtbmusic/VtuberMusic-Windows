@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Numerics;
 using VtuberMusic_UWP.Pages;
 using Windows.Foundation;
-using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Controls;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -128,7 +124,7 @@ namespace VtuberMusic_UWP
 
         private void NavigationFrame_Navigated(object sender, NavigationEventArgs e)
         {
-             Navigation.IsBackEnabled = ContentFrame.CanGoBack;
+            Navigation.IsBackEnabled = ContentFrame.CanGoBack;
 
             if (e.Content is Settings)
             {

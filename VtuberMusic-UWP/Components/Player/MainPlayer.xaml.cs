@@ -1,7 +1,6 @@
 ﻿using System;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Pages;
-using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -178,7 +177,7 @@ namespace VtuberMusic_UWP.Components.Player
             if (player.NowPlayingMusic.like)
             {
                 LikeMusicIcon.Glyph = "\uE00B";
-            }   
+            }
             else
             {
                 LikeMusicIcon.Glyph = "\uE006";

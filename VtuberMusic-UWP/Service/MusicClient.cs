@@ -1,7 +1,6 @@
 ﻿using RestSharp;
 using System;
 using System.Threading.Tasks;
-using VtuberMusic_UWP.Components.Player;
 using VtuberMusic_UWP.Models.VtuberMusic;
 
 namespace VtuberMusic_UWP.Service

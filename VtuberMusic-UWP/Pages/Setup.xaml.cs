@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System.Numerics;
 using VtuberMusic_UWP.Models.Main;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -36,7 +24,7 @@ namespace VtuberMusic_UWP.Pages
         private void SetupPageFrame_Navigated(object sender, NavigationEventArgs e)
         {
             var page = (ISetupStep)e.Content;
-            
+
             IconOut.Completed += delegate
             {
                 Icon.Content = page.Icon;

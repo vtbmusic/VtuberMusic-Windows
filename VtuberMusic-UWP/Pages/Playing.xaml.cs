@@ -1,20 +1,17 @@
 ﻿using RestSharp;
 using System;
 using System.Diagnostics;
-using System.Net;
 using System.Numerics;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Components.Lyric;
 using VtuberMusic_UWP.Models.Lyric;
 using Windows.Foundation;
-using Windows.Media;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Windows.Web.Http;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -128,7 +125,7 @@ namespace VtuberMusic_UWP.Pages
 
             try
             {
-                lyrics = await Task.Run<Models.Lyric.Lyric[]>( () => LyricPaser.Parse(response.Content));
+                lyrics = await Task.Run<Models.Lyric.Lyric[]>(() => LyricPaser.Parse(response.Content));
                 LyricView.ItemsSource = lyrics;
 
                 startTick();
