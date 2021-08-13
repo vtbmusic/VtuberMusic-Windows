@@ -13,7 +13,7 @@
         <local:HideConverter x:Key="HideConverter"/>
 
         <Style x:Name="NormalSourceLyric" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="LightGray"/>
+            <Setter Property="Foreground" Value="DarkGray"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="24"/>
         </Style>
@@ -25,11 +25,11 @@
 
         <Style x:Name="NowSourceLyric" BasedOn="{StaticResource NormalSourceLyric}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
-            <!--<Setter Property="FontSize" Value="26"/>-->
+            <Setter Property="FontSize" Value="26"/>
         </Style>
         <Style x:Name="NowTranslationLyric" BasedOn="{StaticResource NormalTranslationLyric}" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
-            <!--<Setter Property="FontSize" Value="20"/>-->
+            <Setter Property="FontSize" Value="20"/>
         </Style>
     </UserControl.Resources>
 

@@ -2,11 +2,4 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Color x:Key="ThemeColor">#f77850</Color>
-    <SolidColorBrush x:Key="ThemeColorBrush" Color="{StaticResource ThemeColor}"/>
-    <SolidColorBrush x:Key="Foreground" Color="White"/>
-
-    <Style TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{ThemeResource Foreground}"/>
-    </Style>
 </ResourceDictionary>

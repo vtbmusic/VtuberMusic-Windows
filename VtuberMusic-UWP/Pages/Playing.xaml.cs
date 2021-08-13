@@ -7,6 +7,7 @@ using VtuberMusic_UWP.Components.Lyric;
 using VtuberMusic_UWP.Models.Lyric;
 using Windows.Foundation;
 using Windows.Media.Playback;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -22,12 +23,10 @@ namespace VtuberMusic_UWP.Pages
     /// </summary>
     public sealed partial class Playing : Page
     {
-        private bool loaded = false;
         private Lyric[] lyrics;
+        private int nowLyricIndex = -1;
         private LyricItem nowLyricItem = null;
-        private DispatcherTimer lyricTimer = new DispatcherTimer();
         private bool canUpdatePosition = true;
-        private int tickMs = 200;
 
         public Playing()
         {
@@ -37,8 +36,7 @@ namespace VtuberMusic_UWP.Pages
             ShareShadow.Receivers.Add(ShadowBackground);
             CoverImgGrid.Translation = new Vector3(0, 0, 32);
 
-            lyricTimer.Interval = TimeSpan.FromMilliseconds(tickMs);
-            lyricTimer.Tick += lyricTick;
+            App.Player.PositionChanged += lyricTick;
 
             switch (App.Player.PlayState)
             {
@@ -54,7 +52,6 @@ namespace VtuberMusic_UWP.Pages
             {
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
                 {
-                    stopTick();
                     init();
                 }));
             };
@@ -63,15 +60,6 @@ namespace VtuberMusic_UWP.Pages
             {
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
                 {
-                    if (e == MediaPlaybackState.Playing && App.Player.NowPlayingMusic != null && lyrics != null && App.RootFrame.Content.GetType() == typeof(Playing))
-                    {
-                        startTick();
-                    }
-                    else
-                    {
-                        stopTick();
-                    }
-
                     switch (e)
                     {
                         case MediaPlaybackState.Playing:
@@ -127,9 +115,6 @@ namespace VtuberMusic_UWP.Pages
             {
                 lyrics = await Task.Run<Models.Lyric.Lyric[]>(() => LyricPaser.Parse(response.Content));
                 LyricView.ItemsSource = lyrics;
-
-                startTick();
-                loaded = true;
             }
             catch (Exception ex)
             {
@@ -137,72 +122,49 @@ namespace VtuberMusic_UWP.Pages
             }
         }
 
-        private async void startTick()
+        private async void lyricTick(object sender, TimeSpan args)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
-            {
-                lyricTimer.Start();
-            }));
-        }
-
-        private async void stopTick()
-        {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
-            {
-                lyricTimer.Stop();
-            }));
-        }
-
-        private void lyricTick(object sender, object args)
-        {
-            var watch = Stopwatch.StartNew();
+            if (lyrics == null) return;
             for (int i = 0; i != lyrics.Length; i++)
             {
-                if (i == lyrics.Length - 1)
+                if (lyrics[i].Time >= App.Player.Position)
                 {
-                    ToLyric(i);
-                    return;
-                }
+                    if (nowLyricIndex == i - 1) return;
 
-                Debug.WriteLine(App.Player.Position);
-                if (lyrics[i].Time <= App.Player.Position && lyrics[i + 1].Time >= App.Player.Position)
-                {
-                    ToLyric(i);
+                    await Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
+                    {
+                        ToLyric(i - 1);
+                    }));
+
                     return;
                 }
             }
-
-            ToLyric(-1);
-            watch.Stop();
-            Debug.WriteLine("{0}ms now:{1}", watch.ElapsedMilliseconds, App.Player.Position);
         }
 
         private void ToLyric(int index)
         {
+            nowLyricIndex = index;
             if (nowLyricItem != null) nowLyricItem.Hide();
-            if (index == -1) return;
-            UpdateLayout();
+            if (index < 0) return;
 
             var itemContainer = (UIElement)LyricView.ContainerFromItem(lyrics[index]);
+            if (itemContainer == null) return;
+
+            LyricView.UpdateLayout();
+
             GeneralTransform generalTransform = LyricScrollViwer.TransformToVisual(itemContainer);
             Point point = generalTransform.TransformPoint(new Point());
 
-            if (itemContainer == null) return;
             try
             {
-                if (itemContainer is ContentPresenter)
-                {
-                    nowLyricItem = FindVisualChild<LyricItem>(itemContainer);
-                    nowLyricItem.Show();
-                }
+                nowLyricItem = FindVisualChild<LyricItem>(itemContainer);
+                nowLyricItem.Show();
 
                 LyricScrollViwer.ChangeView(0,
                 -point.Y + LyricScrollViwer.VerticalOffset - (LyricScrollViwer.ActualHeight / 3),
                 null);
             }
             catch { }
-
-            UpdateLayout();
         }
 
         private ChildType FindVisualChild<ChildType>(DependencyObject obj)
@@ -229,18 +191,6 @@ namespace VtuberMusic_UWP.Pages
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.GoBack();
-        }
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-            stopTick();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            if (loaded && App.Player.PlayStateInfo == MediaPlaybackState.Playing) startTick();
         }
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e) => App.Player.Previous();

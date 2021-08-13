@@ -77,7 +77,10 @@
             </controls:Expander>
             <controls:Expander Header="关于和反馈" CornerRadius="10" Margin="0 0 0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <Image Source="/Assets/Icon/Original/Icon-with-title.png" MaxWidth="500"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Source="/Assets/Icon/Original/Icon.png" Height="80"/>
+                        <TextBlock Text="VtuberMusic" FontFamily="Comic Sans MS" VerticalAlignment="Center" FontSize="36" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"/>
+                    </StackPanel>
                     <TextBlock x:Name="Version" Text="VtuberMusic UWP | v2.0-main-13c8fc5" HorizontalAlignment="Center" FontSize="16" Margin="5 5 0 0" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
                         <Button Margin="3 0">
