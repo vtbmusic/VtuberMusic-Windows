@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace VtuberMusic_UWP
 {
@@ -89,6 +90,13 @@ namespace VtuberMusic_UWP
                 Window.Current.Activate();
             }
 
+            if (e.PreviousExecutionState != ApplicationExecutionState.Running)
+            {
+                bool loadState = (e.PreviousExecutionState == ApplicationExecutionState.Terminated);
+                ExtendedSplash extendedSplash = new ExtendedSplash(e.SplashScreen, loadState);
+                RootFrame.Content = extendedSplash;
+            }
+
 #if !DEBUG
             AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
                        typeof(Analytics), typeof(Crashes));
@@ -117,16 +125,16 @@ namespace VtuberMusic_UWP
                 try
                 {
                     await Client.Account.Login(username, password);
-                    RootFrame.Navigate(typeof(MainPage));
+                    RootFrame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
                 }
                 catch
                 {
-                    RootFrame.Navigate(typeof(Setup));
+                    RootFrame.Navigate(typeof(Setup), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                 }
             }
             else
             {
-                RootFrame.Navigate(typeof(Setup));
+                RootFrame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
             }
         }
 

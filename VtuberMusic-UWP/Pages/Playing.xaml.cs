@@ -1,5 +1,7 @@
-﻿using RestSharp;
+﻿using Microsoft.AppCenter.Crashes;
+using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -36,8 +38,6 @@ namespace VtuberMusic_UWP.Pages
             ShareShadow.Receivers.Add(ShadowBackground);
             CoverImgGrid.Translation = new Vector3(0, 0, 32);
 
-            App.Player.PositionChanged += lyricTick;
-
             switch (App.Player.PlayState)
             {
                 case MediaPlaybackState.Playing:
@@ -50,7 +50,7 @@ namespace VtuberMusic_UWP.Pages
 
             App.Player.NowPlayingMusicChanged += async delegate
             {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
                 {
                     init();
                 }));
@@ -58,7 +58,7 @@ namespace VtuberMusic_UWP.Pages
 
             App.Player.PlayStateChanged += async delegate (object sender, MediaPlaybackState e)
             {
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
                 {
                     switch (e)
                     {
@@ -70,21 +70,6 @@ namespace VtuberMusic_UWP.Pages
                             break;
                     }
                 }));
-            };
-
-            App.Player.PositionChanged += async delegate (object sender, TimeSpan e)
-            {
-                if (!canUpdatePosition) return;
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, delegate
-                {
-                    if (App.RootFrame.Content.GetType() != typeof(Playing)) return;
-
-                    NowPlayTime.Text = App.Player.Position.ToString("mm\\:ss");
-                    Position.Value = App.Player.Position.TotalMilliseconds;
-
-                    Duration.Text = App.Player.Duration.ToString("mm\\:ss");
-                    Position.Maximum = App.Player.Duration.TotalMilliseconds;
-                });
             };
 
             init();
@@ -107,21 +92,68 @@ namespace VtuberMusic_UWP.Pages
             PageBackground.ImageSource = image;
             CoverImg.ImageSource = image;
 
-            var client = new RestClient();
-            var request = new RestRequest(App.Player.NowPlayingMusic.vrcUrl, Method.GET);
-            var response = await client.ExecuteAsync(request);
-
-            try
+            if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl))
             {
-                lyrics = await Task.Run<Models.Lyric.Lyric[]>(() => LyricPaser.Parse(response.Content));
-                LyricView.ItemsSource = lyrics;
+                lyrics = new Lyric[]
+                {
+                    new Lyric { Source = "暂无歌词", Time = TimeSpan.Zero, Translation = "" }
+                };
             }
-            catch (Exception ex)
+            else
             {
+                var client = new RestClient();
+                var request = new RestRequest(App.Player.NowPlayingMusic.vrcUrl, Method.GET);
+                var response = await client.ExecuteAsync(request);
 
+                if (response.IsSuccessful)
+                {
+                    try
+                    {
+                        lyrics = await Task.Run(() => LyricPaser.Parse(response.Content));
+                    }
+                    catch (Exception ex)
+                    {
+                        Crashes.TrackError(ex, new Dictionary<string, string>()
+                        {
+                            { "Song_Id", App.Player.NowPlayingMusic.id },
+                            { "Lyric_Url", App.Player.NowPlayingMusic.vrcUrl },
+                            { "LyricRaw", response.Content }
+                        });
+                    }
+                }
+                else
+                {
+                    lyrics = new Lyric[]
+                    {
+                        new Lyric { Source = $"获取歌词失败: { response.ErrorMessage }", Time = TimeSpan.Zero, Translation = "" }
+                    };
+
+                    Crashes.TrackError(response.ErrorException, new Dictionary<string, string>(){
+                        { "Song_Id", App.Player.NowPlayingMusic.id },
+                        { "Lyric_Url", App.Player.NowPlayingMusic.vrcUrl }
+                    });
+                };
             }
+            
+            LyricView.ItemsSource = lyrics;
         }
 
+        private async void positionUpdate(object sender, TimeSpan e)
+        {
+            if (!canUpdatePosition) return;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
+            {
+                if (App.RootFrame.Content.GetType() != typeof(Playing)) return;
+
+                NowPlayTime.Text = e.ToString("mm\\:ss");
+                Position.Value = e.TotalMilliseconds;
+
+                Duration.Text = App.Player.Duration.ToString("mm\\:ss");
+                Position.Maximum = App.Player.Duration.TotalMilliseconds;
+            });
+        }
+
+        #region Lyric
         private async void lyricTick(object sender, TimeSpan args)
         {
             if (lyrics == null) return;
@@ -131,7 +163,7 @@ namespace VtuberMusic_UWP.Pages
                 {
                     if (nowLyricIndex == i - 1) return;
 
-                    await Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
+                    await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
                     {
                         ToLyric(i - 1);
                     }));
@@ -187,14 +219,24 @@ namespace VtuberMusic_UWP.Pages
 
             return (null);
         }
+        #endregion
 
-        private void BackButton_Click(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            Frame.GoBack();
+            base.OnNavigatedFrom(e);
+            App.Player.PositionChanged -= lyricTick;
+            App.Player.PositionChanged -= positionUpdate;
         }
 
-        private void PreviousButton_Click(object sender, RoutedEventArgs e) => App.Player.Previous();
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            App.Player.PositionChanged += lyricTick;
+            App.Player.PositionChanged += positionUpdate;
+        }
 
+        private void BackButton_Click(object sender, RoutedEventArgs e) => Frame.GoBack();
+        private void PreviousButton_Click(object sender, RoutedEventArgs e) => App.Player.Previous();
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             switch (App.Player.PlayState)
@@ -209,21 +251,13 @@ namespace VtuberMusic_UWP.Pages
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) => App.Player.Next();
-
-        private void Position_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
-        {
-            canUpdatePosition = false;
-        }
-
+        private void Position_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e) => canUpdatePosition = false;
         private void Position_PointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             App.Player.Position = TimeSpan.FromMilliseconds(Position.Value);
             canUpdatePosition = true;
         }
 
-        private void Position_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
-        {
-            canUpdatePosition = true;
-        }
+        private void Position_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e) => canUpdatePosition = true;
     }
 }

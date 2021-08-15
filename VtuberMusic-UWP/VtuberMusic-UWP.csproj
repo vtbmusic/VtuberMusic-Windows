@@ -140,9 +140,6 @@
     <Compile Include="Components\Lyric\LyricItem.xaml.cs">
       <DependentUpon>LyricItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\Main\BlockTitle.xaml.cs">
-      <DependentUpon>BlockTitle.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Components\MarqueeText.xaml.cs">
       <DependentUpon>MarqueeText.xaml</DependentUpon>
     </Compile>
@@ -170,6 +167,9 @@
     <Compile Include="Models\VtuberMusic\Profile.cs" />
     <Compile Include="Pages\Artist.xaml.cs">
       <DependentUpon>Artist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ExtendedSplash.xaml.cs">
+      <DependentUpon>ExtendedSplash.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
@@ -304,10 +304,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Components\Main\BlockTitle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Components\MarqueeText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -325,6 +321,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Artist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ExtendedSplash.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
