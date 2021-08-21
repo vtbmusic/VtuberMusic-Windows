@@ -10,8 +10,8 @@
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:pages ="using:VtuberMusic_UWP.Pages"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
-    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals">
+    mc:Ignorable="d">
+    
     <Page.Resources>
         <Style x:Key="NavigationViewItemHeaderButtonStyle" TargetType="muxc:NavigationViewItemHeader">
             <Setter Property="Foreground" Value="{ThemeResource NavigationViewItemHeaderForeground}"/>
@@ -82,6 +82,24 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Storyboard x:Name="PlayerIn">
+            <DoubleAnimation Duration="00:00:00.5" From="100" To="0"
+                             Storyboard.TargetName="PlayerTranslation" Storyboard.TargetProperty="Y">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Name="PlayerOut">
+            <DoubleAnimation Duration="00:00:00.5" From="0" To="100"
+                             Storyboard.TargetName="PlayerTranslation" Storyboard.TargetProperty="Y">
+                <DoubleAnimation.EasingFunction>
+                    <BackEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
     
     <Grid>
@@ -101,7 +119,7 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItemHeader Content="我的音乐"/>
-                <muxc:NavigationViewItem Content="下载" Icon="Download"/>
+                <muxc:NavigationViewItem Content="下载" Icon="Download" Tag="{local:NavigationItemTag PageType=pages:Download}"/>
                 <muxc:NavigationViewItem Content="我喜欢的音乐" x:Name="LikeMusic" Tag="{local:NavigationItemTag PageType=pages:Album}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE006;" FontFamily="Segoe MDL2 Assets"/>
@@ -141,7 +159,12 @@
                         </Grid.Resources>
 
                         <Frame Name="NavigationFrame"/>
-                        <player:MainPlayer x:Name="MainPlayer" Margin="15" Loaded="MainPlayer_Loaded" Shadow="{StaticResource ShareShadow}" VerticalAlignment="Bottom"/>
+                        <player:MainPlayer x:Name="MainPlayer" Margin="15" Loaded="MainPlayer_Loaded"
+                                           Shadow="{StaticResource ShareShadow}" VerticalAlignment="Bottom">
+                            <player:MainPlayer.RenderTransform>
+                                <TranslateTransform x:Name="PlayerTranslation"/>
+                            </player:MainPlayer.RenderTransform>
+                        </player:MainPlayer>
                     </Grid>
                 </Grid>
             </muxc:NavigationView.Content>

@@ -140,6 +140,9 @@
     <Compile Include="Components\Dialog\CreateAlbumDialog.xaml.cs">
       <DependentUpon>CreateAlbumDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\InfoBarPopup.xaml.cs">
+      <DependentUpon>InfoBarPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Lyric\LyricItem.xaml.cs">
       <DependentUpon>LyricItem.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,9 @@
     <Compile Include="Models\VtuberMusic\Profile.cs" />
     <Compile Include="Pages\Artist.xaml.cs">
       <DependentUpon>Artist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Download.xaml.cs">
+      <DependentUpon>Download.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ExtendedSplash.xaml.cs">
       <DependentUpon>ExtendedSplash.xaml</DependentUpon>
@@ -307,6 +313,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\InfoBarPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\Lyric\LyricItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -328,6 +338,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Artist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Download.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

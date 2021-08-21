@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Media.Animation;
+using VtuberMusic_UWP.Components;
 
 namespace VtuberMusic_UWP
 {
@@ -32,9 +33,14 @@ namespace VtuberMusic_UWP
             App.Current.UnhandledException += Current_UnhandledException;
         }
 
-        private void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
+
+            await Window.Current.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
+            {
+                InfoBarPopup.Show($"发生了一个异常: { e.Exception.Message }", e.Exception.StackTrace);
+            }));
         }
 
         private async void showCrashReport()

@@ -34,10 +34,30 @@ namespace VtuberMusic_UWP
 
             Navigation.SelectionChanged += Navigation_SelectionChanged;
             NavigationFrame.Navigated += NavigationFrame_Navigated;
-
             Navigation.SelectedItem = Navigation.MenuItems[1];
 
+            App.Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
+            PlayerOut.Completed += delegate
+            {
+                MainPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            };
+
             Load();
+        }
+
+        private void NowPlayingMusicChanged(object sender, Models.VtuberMusic.Music e)
+        {
+            if (e == null)
+            {
+                PlayerOut.Begin();
+            }
+            else
+            {
+                if (MainPlayer.Visibility == Windows.UI.Xaml.Visibility.Visible) return;
+
+                MainPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                PlayerIn.Begin();
+            }
         }
 
         #region 加载导航歌单列表

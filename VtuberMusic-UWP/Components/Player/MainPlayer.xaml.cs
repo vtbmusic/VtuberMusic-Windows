@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Crashes;
+using System;
+using System.Collections.Generic;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Pages;
 using Windows.Media.Playback;
@@ -100,12 +102,6 @@ namespace VtuberMusic_UWP.Components.Player
                 {
                     LikeMusicIcon.Glyph = "\uE006";
                 }
-
-                this.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                this.Visibility = Visibility.Collapsed;
             }
 
             DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
@@ -127,7 +123,7 @@ namespace VtuberMusic_UWP.Components.Player
             DurationSliderIsDrag = false;
         }
 
-        private void DurationSlider_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) { DurationSliderIsDrag = true; }
+        private void DurationSlider_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) => DurationSliderIsDrag = true;
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
@@ -145,14 +141,10 @@ namespace VtuberMusic_UWP.Components.Player
         }
 
         private void Next_Click(object sender, RoutedEventArgs e) => player.Next();
-
         private void Prev_Click(object sender, RoutedEventArgs e) => player.Previous();
-
-        private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) { player.Volume = Volume.Value; }
-
-        private void Volume_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) { VolSliderIsDrag = true; }
-
-        private void Volume_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) { VolSliderIsDrag = false; }
+        private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) => player.Volume = Volume.Value;
+        private void Volume_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) => VolSliderIsDrag = true;
+        private void Volume_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) => VolSliderIsDrag = false;
 
         private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -165,19 +157,36 @@ namespace VtuberMusic_UWP.Components.Player
         private async void LikeMusicButton_Click(object sender, RoutedEventArgs e)
         {
             LikeMusicButton.IsEnabled = false;
-            await App.Client.Account.LikeMusic(player.NowPlayingMusic.id, !player.NowPlayingMusic.like);
-            player.NowPlayingMusic.like = !player.NowPlayingMusic.like;
 
-            if (player.NowPlayingMusic.like)
+            try
             {
-                LikeMusicIcon.Glyph = "\uE00B";
-            }
-            else
-            {
-                LikeMusicIcon.Glyph = "\uE006";
-            }
+                await App.Client.Account.LikeMusic(player.NowPlayingMusic.id, !player.NowPlayingMusic.like);
+                player.NowPlayingMusic.like = !player.NowPlayingMusic.like;
 
-            LikeMusicButton.IsEnabled = true;
+                if (player.NowPlayingMusic.like)
+                {
+                    LikeMusicIcon.Glyph = "\uE00B";
+                }
+                else
+                {
+                    LikeMusicIcon.Glyph = "\uE006";
+                }
+
+                LikeMusicButton.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                LikeMusicButton.IsEnabled = true;
+                InfoBarPopup.Show("无法喜欢音乐", ex.Message);
+
+                var data = new Dictionary<string, string>()
+                {
+                    { "Music_Id", player.NowPlayingMusic.id },
+                    { "Like", (!player.NowPlayingMusic.like).ToString() }
+                };
+
+                Crashes.TrackError(ex, data);
+            }
         }
     }
 

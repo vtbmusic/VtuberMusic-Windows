@@ -130,7 +130,7 @@ namespace VtuberMusic_UWP.Service
         {
             var request = new RestRequest(ApiUri.LikeMusic, Method.POST);
             request.AddParameter("id", id, ParameterType.QueryString);
-            request.AddParameter("like", like, ParameterType.QueryString);
+            request.AddParameter("like", like.ToString().ToLower(), ParameterType.QueryString);
 
             var response = await _restClient.ExecuteAsync<ApiResponse>(request);
 
