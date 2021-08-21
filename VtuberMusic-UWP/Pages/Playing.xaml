@@ -59,7 +59,7 @@
                         <ImageBrush x:Name="CoverImg" ImageSource="https://cdn.aqua.chat/image/754443bca897f76766543d28fc8cdc8d.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
                     </Grid.Background>
                 </Grid>
-                <StackPanel Grid.Row="2" Margin="10 20 0 0">
+                <StackPanel Grid.Row="2" Margin="0 20 0 0">
                     <TextBlock x:Name="MusicName" Foreground="White" Text="箱庭～ミニチュアガーデン～" FontSize="24" FontWeight="Bold"/>
                     <TextBlock x:Name="Artist" Foreground="White" FontSize="18" Text="健屋花那"/>
                 </StackPanel>

@@ -144,6 +144,25 @@ namespace VtuberMusic_UWP.Service
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        public async Task<ApiResponse> CreateAlbum(string name, bool isPrivate = false)
+        {
+            var request = new RestRequest(ApiUri.CreateAlbum, Method.POST);
+            request.AddParameter("name", name, ParameterType.QueryString);
+            if (isPrivate) request.AddParameter("privacy", isPrivate, ParameterType.QueryString);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
     }
 
     public class TokenPack

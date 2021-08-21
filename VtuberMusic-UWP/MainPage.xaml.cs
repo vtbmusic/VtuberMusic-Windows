@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
+using VtuberMusic_UWP.Components.Dialog;
 using VtuberMusic_UWP.Pages;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
@@ -18,8 +20,10 @@ namespace VtuberMusic_UWP
     public sealed partial class MainPage : Page
     {
         public TypedEventHandler<object, NavigationEventArgs> Navigated;
-        public Frame PageFrame => NavigationFrame;
         public Frame ContentFrame => NavigationFrame;
+
+        private List<Microsoft.UI.Xaml.Controls.NavigationViewItem> MyAlbumNavigationItemList = new List<Microsoft.UI.Xaml.Controls.NavigationViewItem>();
+        private List<Microsoft.UI.Xaml.Controls.NavigationViewItem> FavouriteNavigationItemList = new List<Microsoft.UI.Xaml.Controls.NavigationViewItem>();
 
         public MainPage()
         {
@@ -27,11 +31,9 @@ namespace VtuberMusic_UWP
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
             App.ViewModel.MainPage = this;
-            //App.ViewModel.TopPanel.Init();
 
             Navigation.SelectionChanged += Navigation_SelectionChanged;
             NavigationFrame.Navigated += NavigationFrame_Navigated;
-            Navigation.ItemInvoked += Navigation_ItemInvoked;
 
             Navigation.SelectedItem = Navigation.MenuItems[1];
 
@@ -39,7 +41,7 @@ namespace VtuberMusic_UWP
         }
 
         #region 加载导航歌单列表
-        private async void Load()
+        public async void Load()
         {
             var likeMusicAlbum = await App.Client.Account.GetLikeMusicSong();
             LikeMusic.Tag = new NavigationItemTag
@@ -51,40 +53,60 @@ namespace VtuberMusic_UWP
             var myAlbum = await App.Client.Account.GetMyCreatePlayList();
             var myFavouriteAlbum = await App.Client.Account.GetMyFavouritePlayList();
 
+            foreach (var item in MyAlbumNavigationItemList)
+            {
+                Navigation.MenuItems.Remove(item);
+            }
+            MyAlbumNavigationItemList.Clear();
+
+            foreach (var item in FavouriteNavigationItemList)
+            {
+                Navigation.MenuItems.Remove(item);
+            }
+            FavouriteNavigationItemList.Clear();
+
             var myAlbumHeaderIndex = Navigation.MenuItems.IndexOf(MyAlbumTitle);
             foreach (var album in myAlbum.Data)
             {
                 myAlbumHeaderIndex++;
                 if (album.privacy == 0)
                 {
-                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new Microsoft.UI.Xaml.Controls.NavigationViewItem
+                    var item = new Microsoft.UI.Xaml.Controls.NavigationViewItem
                     {
                         Icon = new SymbolIcon(Symbol.MusicInfo),
                         Content = album.name,
                         Tag = new NavigationItemTag { PageType = typeof(Album), Args = album }
-                    });
+                    };
+
+                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, item);
+                    MyAlbumNavigationItemList.Add(item);
                 }
                 else
                 {
-                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, new Microsoft.UI.Xaml.Controls.NavigationViewItem
+                    var item = new Microsoft.UI.Xaml.Controls.NavigationViewItem
                     {
                         Icon = new FontIcon { FontFamily = new FontFamily("Segoe MDL2 Assets"), Glyph = "\uE1F6" },
                         Content = album.name,
                         Tag = new NavigationItemTag { PageType = typeof(Album), Args = album }
-                    });
+                    };
+
+                    Navigation.MenuItems.Insert(myAlbumHeaderIndex, item);
+                    MyAlbumNavigationItemList.Add(item);
                 }
             }
 
             var myFavouriteAlbumIndex = Navigation.MenuItems.IndexOf(FavouriteAlbum) + 1;
             for (int i = myFavouriteAlbum.Data.Length - 1; i != -1; i--)
             {
-                Debug.WriteLine(myFavouriteAlbumIndex);
-                Navigation.MenuItems.Insert(myFavouriteAlbumIndex, new Microsoft.UI.Xaml.Controls.NavigationViewItem
+                var item = new Microsoft.UI.Xaml.Controls.NavigationViewItem
                 {
                     Icon = new SymbolIcon(Symbol.MusicInfo),
                     Content = myFavouriteAlbum.Data[i].name,
                     Tag = new NavigationItemTag { PageType = typeof(Album), Args = myFavouriteAlbum.Data[i] }
-                });
+                };
+
+                Navigation.MenuItems.Insert(myFavouriteAlbumIndex, item);
+                FavouriteNavigationItemList.Add(item);
 
                 myFavouriteAlbumIndex++;
             }
@@ -94,26 +116,13 @@ namespace VtuberMusic_UWP
         #region 导航
         private void Navigation_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            var item = (Microsoft.UI.Xaml.Controls.NavigationViewItemBase)args.SelectedItem;
-            if (item != null && item.Tag != null && item.Tag is NavigationItemTag)
-            {
-                var tag = (NavigationItemTag)item.Tag;
-                var page = (Page)ContentFrame.Content;
-
-                if (page == null || tag.PageType != page.GetType() || tag.Args != page.Tag) ContentFrame.Navigate(tag.PageType, tag.Args);
-            }
-        }
-
-        private void Navigation_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
-        {
-            if (args.IsSettingsInvoked && ContentFrame.Content.GetType() != typeof(Settings))
+            if (args.IsSettingsSelected)
             {
                 ContentFrame.Navigate(typeof(Settings));
-                return;
             }
 
-            var item = args.InvokedItemContainer;
-            if (item.Tag is NavigationItemTag)
+            var item = (Microsoft.UI.Xaml.Controls.NavigationViewItemBase)args.SelectedItem;
+            if (item != null && item.Tag != null && item.Tag is NavigationItemTag)
             {
                 var tag = (NavigationItemTag)item.Tag;
                 var page = (Page)ContentFrame.Content;
@@ -146,34 +155,16 @@ namespace VtuberMusic_UWP
         }
         #endregion
 
-        #region 插入导航菜单歌单
-        public void InsertMyCreateAlbum(Models.VtuberMusic.Album album)
-        {
-
-        }
-
-        public void InsertFavouriteAlbum(Models.VtuberMusic.Album album)
-        {
-
-        }
-        #endregion
-
         private void MainPlayer_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ShareShadow.Receivers.Add(NavigationFrame);
             MainPlayer.Translation = new Vector3(0, 0, 25);
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            //Window.Current.SetTitleBar(AppTitleBar);
-        }
-
-        private void Navigation_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
-        {
+        private void Navigation_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args) =>
             NavigationFrame.GoBack();
-        }
+
+        private void AddAlbum_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) => new CreateAlbumDialog().ShowAsync();
     }
 
     [MarkupExtensionReturnType(ReturnType = typeof(NavigationItemTag))]

@@ -137,6 +137,9 @@
     <Compile Include="Components\Collections\MusicDataList.xaml.cs">
       <DependentUpon>MusicDataList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Dialog\CreateAlbumDialog.xaml.cs">
+      <DependentUpon>CreateAlbumDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Lyric\LyricItem.xaml.cs">
       <DependentUpon>LyricItem.xaml</DependentUpon>
     </Compile>
@@ -297,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\Collections\MusicDataList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Dialog\CreateAlbumDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

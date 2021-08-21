@@ -25,7 +25,7 @@ namespace VtuberMusic_UWP.Models.Main
         {
             var transition = navigationTransitionInfo;
             if (navigationTransitionInfo == null) transition = new DrillInNavigationTransitionInfo();
-            MainPage.PageFrame.Navigate(page, args, transition);
+            MainPage.ContentFrame.Navigate(page, args, transition);
         }
     }
 }

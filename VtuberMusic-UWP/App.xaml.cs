@@ -134,7 +134,7 @@ namespace VtuberMusic_UWP
             }
             else
             {
-                RootFrame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+                RootFrame.Navigate(typeof(Setup), null, new DrillInNavigationTransitionInfo());
             }
         }
 
