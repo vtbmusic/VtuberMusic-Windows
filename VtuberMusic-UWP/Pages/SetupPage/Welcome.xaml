@@ -16,7 +16,7 @@
             <StackPanel Margin="10 0" VerticalAlignment="Center" CornerRadius="3">
                 <ListView SelectedIndex="0" Background="Transparent">
                     <ListView.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
+                        <Style TargetType="ListViewItemPresenter">
                             <Setter Property="CornerRadius" Value="10"/>
                         </Style>
                     </ListView.ItemContainerStyle>
