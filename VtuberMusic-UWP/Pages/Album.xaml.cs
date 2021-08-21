@@ -15,7 +15,7 @@ namespace VtuberMusic_UWP.Pages
         public Album()
         {
             this.InitializeComponent();
-            CoverImg.Translation = new System.Numerics.Vector3(0, 0, 32);
+            CoverImgBorder.Translation = new System.Numerics.Vector3(0, 0, 32);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -46,7 +46,7 @@ namespace VtuberMusic_UWP.Pages
 
             var image = new BitmapImage();
             image.UriSource = new Uri(album.coverImgUrl);
-            CoverImg.Source = image;
+            CoverImg.ImageSource = image;
 
             ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
             if (imageAnimation == null)
@@ -79,7 +79,7 @@ namespace VtuberMusic_UWP.Pages
 
             if (!turnOffConnectedAnimation && e.SourcePageType == typeof(Home) | e.SourcePageType == typeof(Search))
             {
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", CoverImg);
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", CoverImgBorder);
             }
         }
 

@@ -22,15 +22,15 @@ jobs:
       with:
         fetch-depth: 0
         
-    # 缓存 obj
-    - name: Cache Obj
-      uses: actions/cache@v2.1.6
-      env:
-          cache-name: cache-obj
-      with:
-          path: .\VtuberMusic-UWP\obj
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.run_number }}
-          restore-keys : ${{ runner.os }}-build-${{ env.cache-name }}-
+    # # 缓存 obj
+    # - name: Cache Obj
+    #   uses: actions/cache@v2.1.6
+    #   env:
+    #       cache-name: cache-obj
+    #   with:
+    #       path: .\VtuberMusic-UWP\obj
+    #       key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.run_number }}
+    #       restore-keys : ${{ runner.os }}-build-${{ env.cache-name }}-
 
     # 安装 .NET Core 环境
     - name: Install .NET Core

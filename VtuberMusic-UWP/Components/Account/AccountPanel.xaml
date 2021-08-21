@@ -22,7 +22,7 @@
             </PersonPicture>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
                 <TextBlock x:Name="Nickname" Text="Misaka-L" FontSize="16"/>
-                <TextBlock x:Name="Signature" Text="呜喵！如果在凌晨一点钟后看到我请直接把我提到床上" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                <TextBlock x:Name="Signature" Text="一句个人签名" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                 <Grid Margin="0 2 0 0">
                     <TextBlock x:Name="LevelText" Text="Lv.9" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <TextBlock x:Name="LevelExpText" Text="100 / 100" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Right"/>

@@ -34,8 +34,10 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Grid Height="170" Background="White" CornerRadius="10">
-                        <Image x:Name="Image" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
+                    <Grid Height="170" CornerRadius="10">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="{x:Bind picUrl}" Stretch="UniformToFill"/>
+                        </Grid.Background>
                     </Grid>
                     <StackPanel Grid.Row="1" CornerRadius="10" Height="50" Margin="0 10 0 0" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
                         <ItemsControl ItemsSource="{x:Bind artists}">

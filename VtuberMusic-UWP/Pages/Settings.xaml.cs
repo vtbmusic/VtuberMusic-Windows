@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,6 +16,12 @@ namespace VtuberMusic_UWP.Pages
     /// </summary>
     public sealed partial class Settings : Page
     {
+        private const string web = "https://vtbmusic.com/";
+        private const string bilibili = "https://space.bilibili.com/8003519/";
+        private const string qq = "https://jq.qq.com/?_wv=1027&k=qLjO1BCu";
+        private const string twitter = "https://twitter.com/VtuberMusic";
+        private const string email = "";
+
         public Settings()
         {
             this.InitializeComponent();
@@ -23,6 +30,11 @@ namespace VtuberMusic_UWP.Pages
             Username.Text = App.Client.Account.Account.userName;
             Nickname.Text = App.Client.Account.Profile.nickname;
             Avatar.ProfilePicture = new BitmapImage(new Uri(App.Client.Account.Profile.avatarUrl));
+
+            if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported())
+            {
+                FeadBackCenter.Visibility = Visibility.Visible;
+            }
         }
 
         private string getGitCommitInfo()
@@ -35,17 +47,21 @@ namespace VtuberMusic_UWP.Pages
 
         private void ForceGC_Click(object sender, RoutedEventArgs e)
         {
-            GC.Collect();
+            GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+            GC.Collect(GC.MaxGeneration);
         }
 
-        private async void EditProfile_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://vtbmusic.com/"));
-        }
+        private async void EditProfile_Click(object sender, RoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri("https://vtbmusic.com/user"));
 
-        private void LogOut_Click(object sender, RoutedEventArgs e)
-        {
+        private void LogOut_Click(object sender, RoutedEventArgs e) { }
 
+        private async void BiliBili_Click(object sender, RoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri(bilibili));
+        private async void QQ_Click(object sender, RoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri(qq));
+        private async void Twitter_Click(object sender, RoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri(twitter));
+        private async void FeadBackCenter_Click(object sender, RoutedEventArgs e)
+        {
+            var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
+            await launcher.LaunchAsync();
         }
     }
 

@@ -13,7 +13,7 @@
 
     <ScrollViewer>
         <StackPanel Margin="0 0 0 100">
-            <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1"
+            <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" Height="250"
                   BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" CornerRadius="8" Padding="20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.8*" MaxWidth="465"/>
@@ -21,11 +21,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="CoverImgBorder" CornerRadius="10">
-                    <Image x:Name="CoverImg" MaxHeight="230" Stretch="UniformToFill">
-                        <Image.Shadow>
-                            <ThemeShadow/>
-                        </Image.Shadow>
-                    </Image>
+                    <StackPanel.Background>
+                        <ImageBrush x:Name="CoverImg" ImageSource="https://cdn.aqua.chat/image/default.jpg" Stretch="UniformToFill"/>
+                    </StackPanel.Background>
+                    <StackPanel.Shadow>
+                        <ThemeShadow/>
+                    </StackPanel.Shadow>
                 </StackPanel>
                 <Grid Grid.Column="1" Margin="20 15 0 0" x:Name="InfoPanel">
                     <Grid.RowDefinitions>

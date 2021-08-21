@@ -16,13 +16,15 @@
     <ScrollViewer CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
         <StackPanel Margin="25">
             <Grid CornerRadius="10" Height="150">
-                <Image Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Image.Source>
-                        <BitmapImage UriSource="https://pixiv.cat/90538771.png"
+                <Grid.Background>
+                    <ImageBrush Stretch="UniformToFill">
+                        <ImageBrush.ImageSource>
+                            <BitmapImage UriSource="https://pixiv.cat/90538771.png"
                                      DecodePixelHeight="38"/>
-                    </Image.Source>
-                </Image>
-                <Grid Margin="0 0 0 0" Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
+                </Grid.Background>
+                <Grid Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -71,6 +73,14 @@
             </controls:Expander>
             <controls:Expander Header="高级" CornerRadius="10" Margin="0 0 0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                 <StackPanel>
+                    <controls:InfoBar
+                        Margin="0 0 0 10"
+                        Severity="Warning"
+                        IsClosable="False"
+                        IsOpen="True"
+                        Title="这些选项仅供调试和排障使用，除非你知道你在干什么，不要使用！"
+                        Message="VtuberMusic 不对 * 在非技术支持指导下 * 使用这些选项造成的问题负责"
+                        />
                     <Button x:Name="ForceGC" Content="强制 GC (内存回收)" Click="ForceGC_Click" HorizontalAlignment="Stretch"/>
                     <Button Content="查看日志" HorizontalAlignment="Stretch" Margin="0 5"/>
                 </StackPanel>
@@ -83,36 +93,36 @@
                     </StackPanel>
                     <TextBlock x:Name="Version" Text="VtuberMusic UWP | v2.0-main-13c8fc5" HorizontalAlignment="Center" FontSize="16" Margin="5 5 0 0" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
-                        <Button Margin="3 0">
+                        <Button x:Name="BiliBili" Click="BiliBili_Click" Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon Glyph="&#xe6e9;" FontFamily="{StaticResource Icon}"/>
                                 <TextBlock Text="哔哩哔哩" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Margin="3 0">
+                        <Button x:Name="QQ" Click="QQ_Click" Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon Glyph="&#xe62e;" FontFamily="{StaticResource Icon}"/>
                                 <TextBlock Text="QQ 群" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Margin="3 0">
+                        <Button x:Name="Twitter" Click="Twitter_Click" Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon Glyph="&#xe600;" FontFamily="{StaticResource Icon}"/>
                                 <TextBlock Text="Twitter" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Margin="3 0">
+                        <Button x:Name="FeadBackCenter" Click="FeadBackCenter_Click" Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon Glyph="&#xE939;" FontFamily="Segoe MDL2 Assets"/>
                                 <TextBlock Text="反馈中心" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Margin="3 0">
+                        <!--<Button Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Mail"/>
                                 <TextBlock Text="邮件" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
-                        </Button>
+                        </Button>-->
                     </StackPanel>
                     <HyperlinkButton Content="https://vtbmusic.com" HorizontalAlignment="Center" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com"/>
                 </StackPanel>
