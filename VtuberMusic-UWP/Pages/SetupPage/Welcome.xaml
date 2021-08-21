@@ -15,11 +15,6 @@
             </StackPanel>
             <StackPanel Margin="10 0" VerticalAlignment="Center" CornerRadius="3">
                 <ListView SelectedIndex="0" Background="Transparent">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItemPresenter">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
                     <ListView.Items>
                         <ListViewItem Height="50">
                             <TextBlock Text="简体中文" FontSize="14" FontWeight="SemiLight" Margin="0 0 0 -2" VerticalAlignment="Center"/>
