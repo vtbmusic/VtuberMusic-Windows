@@ -33,12 +33,6 @@
                             <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
-                    <GridView.ItemContainerStyle>
-                        <Style TargetType="GridViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Margin" Value="0"/>
-                        </Style>
-                    </GridView.ItemContainerStyle>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vtubermusic:Music">
                             <SwipeControl Tag="{x:Bind}" Padding="10 0">
