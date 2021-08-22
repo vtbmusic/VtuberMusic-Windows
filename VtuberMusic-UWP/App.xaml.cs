@@ -16,6 +16,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Media.Animation;
 using VtuberMusic_UWP.Components;
+using System.Collections.Generic;
 
 namespace VtuberMusic_UWP
 {
@@ -36,6 +37,13 @@ namespace VtuberMusic_UWP
         private async void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
+
+            var data = new Dictionary<string, string>()
+            {
+                { "Crash_Message", e.Message }
+            };
+
+            Crashes.TrackError(e.Exception, data);
 
             await Window.Current.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
             {
@@ -159,7 +167,14 @@ namespace VtuberMusic_UWP
         ///<param name="e">有关导航失败的详细信息</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            e.Handled = true;
+
+            var data = new Dictionary<string, string>()
+            {
+                { "page", e.SourcePageType.FullName }
+            };
+
+            Crashes.TrackError(e.Exception, data);
         }
     }
 }
