@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
-    xmlns:player="using:VtuberMusic_UWP.Components.Player"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -27,7 +26,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="播放列表" FontSize="24" Margin="10 2 0 10"/>
-                <GridView x:Name="DataView" Grid.Row="1" Loaded="DataView_Loaded" ItemsSource="{x:Bind Player.PlayList}">
+                <GridView x:Name="DataView" Grid.Row="1" Loaded="DataView_Loaded">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -35,7 +34,7 @@
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vtubermusic:Music">
-                            <SwipeControl Tag="{x:Bind}" Padding="10 0">
+                            <SwipeControl Height="50" Tag="{x:Bind}" Padding="10 5">
                                 <SwipeControl.RightItems>
                                     <SwipeItems Mode="Execute">
                                         <SwipeItem x:Name="DeleteSwipeItem" Background="Red" Text="移除" Invoked="DeleteSwipeItem_Invoked">
@@ -45,35 +44,42 @@
                                         </SwipeItem>
                                     </SwipeItems>
                                 </SwipeControl.RightItems>
-                                <Grid Height="50" Margin="5">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid CornerRadius="10">
-                                        <StackPanel Width="50" >
-                                            <Image x:Name="CoverImage" Height="50" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
-                                        </StackPanel>
+                                        <Grid Width="50" Height="50">
+                                            <Grid.Background>
+                                                <ImageBrush ImageSource="{x:Bind picUrl}" Stretch="UniformToFill"/>
+                                            </Grid.Background>
+                                        </Grid>
                                         <Grid Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource VisibilityConver}}">
                                             <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </Grid>
                                     </Grid>
-                                    <StackPanel Grid.Column="1" Margin="5 0 0 0" VerticalAlignment="Center">
-                                        <TextBlock Margin="5 0" Text="{x:Bind name}" FontWeight="Medium" VerticalAlignment="Center"/>
-                                        <ItemsControl Height="20" Margin="5 0" ItemsSource="{x:Bind artists}">
+                                    <Grid Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{x:Bind name}" FontWeight="Medium"/>
+                                        <ItemsControl Grid.Row="1" ItemsSource="{x:Bind artists}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate x:DataType="vtubermusic:Artist">
-                                                    <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13" Margin="0 0 5 0"/>
+                                                    <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}"
+                                                               FontSize="13" Margin="0 0 5 0"/>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <ItemsStackPanel Orientation="Horizontal"/>
+                                                    <StackPanel Orientation="Horizontal"/>
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
-                                    </StackPanel>
+                                    </Grid>
                                     <AppBarButton x:Name="DeleteMusic" Click="DeleteMusic_Click" Grid.Column="2" Tag="{x:Bind}" Icon="Delete"/>
                                 </Grid>
                             </SwipeControl>

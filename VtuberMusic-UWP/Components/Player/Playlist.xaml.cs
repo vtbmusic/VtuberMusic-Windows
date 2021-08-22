@@ -1,4 +1,8 @@
-﻿using System;
+﻿using MetroLog;
+using MetroLog.Targets;
+using Microsoft.AppCenter;
+using System;
+using System.Diagnostics;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,14 +16,13 @@ namespace VtuberMusic_UWP.Components.Player
 {
     public sealed partial class Playlist : UserControl
     {
-        private Popup popup = new Popup();
-        private Service.Player Player = App.Player;
-
         public Playlist()
         {
             this.InitializeComponent();
-            Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
-            Player.PlayList.CollectionChanged += PlayList_CollectionChanged;
+
+            App.Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
+            App.Player.PlayList.CollectionChanged += PlayList_CollectionChanged;
+            DataView.ItemsSource = App.Player.PlayList;
 
             if (App.Player.PlayList.Count == 0)
             {
@@ -29,7 +32,7 @@ namespace VtuberMusic_UWP.Components.Player
 
         private void PlayList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (Player.PlayList.Count != 0)
+            if (App.Player.PlayList.Count != 0)
             {
                 None.Visibility = Visibility.Collapsed;
             }
@@ -41,7 +44,7 @@ namespace VtuberMusic_UWP.Components.Player
 
         private void NowPlayingMusicChanged(object sender, Music e)
         {
-            if (Player.PlayList.Count == 0) None.Visibility = Visibility.Visible;
+            if (App.Player.PlayList.Count == 0) None.Visibility = Visibility.Visible;
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
@@ -61,7 +64,7 @@ namespace VtuberMusic_UWP.Components.Player
 
         private void DataView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataView.ScrollIntoView(Player.NowPlayingMusic, ScrollIntoViewAlignment.Leading);
+            DataView.ScrollIntoView(App.Player.NowPlayingMusic, ScrollIntoViewAlignment.Leading);
         }
     }
 
