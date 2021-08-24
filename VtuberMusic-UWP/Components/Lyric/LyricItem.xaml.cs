@@ -13,6 +13,12 @@ namespace VtuberMusic_UWP.Components.Lyric
             DependencyProperty.Register("Lyric", typeof(Models.Lyric.Lyric), typeof(LyricItem), new PropertyMetadata(null,
                 new PropertyChangedCallback(LyricChanged)));
 
+        private Style NowSourceLyric => (Style)Application.Current.Resources["NowSourceLyric"];
+        private Style NowTranslationLyric => (Style)Application.Current.Resources["NowTranslationLyric"];
+        private Style NormalSourceLyric => (Style)Application.Current.Resources["NormalSourceLyric"];
+        private Style NormalTranslationLyric => (Style)Application.Current.Resources["NormalTranslationLyric"];
+
+
         private static void LyricChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((LyricItem)d).onLyricChanged((Models.Lyric.Lyric)e.NewValue);
@@ -47,23 +53,4 @@ namespace VtuberMusic_UWP.Components.Lyric
             TranslationLyric.Style = NormalTranslationLyric;
         }
     }
-
-    public class HideConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string culture)
-        {
-            if (value != null && value.GetType() == typeof(string))
-            {
-                if (string.IsNullOrWhiteSpace(((string)value))) return Visibility.Collapsed;
-            }
-
-            return Visibility.Visible;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
-    }
-
 }

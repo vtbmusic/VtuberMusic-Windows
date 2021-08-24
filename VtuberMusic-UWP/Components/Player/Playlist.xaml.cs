@@ -67,25 +67,4 @@ namespace VtuberMusic_UWP.Components.Player
             DataView.ScrollIntoView(App.Player.NowPlayingMusic, ScrollIntoViewAlignment.Leading);
         }
     }
-
-    public class VisibilityConver : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string culture)
-        {
-            if (value == null && value.GetType() != typeof(bool))
-                return DependencyProperty.UnsetValue;
-
-            if ((bool)value)
-            {
-                return Visibility.Visible;
-            }
-
-            return Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
-    }
 }

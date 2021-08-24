@@ -45,19 +45,22 @@ namespace VtuberMusic_UWP
             Load();
         }
 
-        private void NowPlayingMusicChanged(object sender, Models.VtuberMusic.Music e)
+        private async void NowPlayingMusicChanged(object sender, Models.VtuberMusic.Music e)
         {
-            if (e == null)
+            await Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
             {
-                PlayerOut.Begin();
-            }
-            else
-            {
-                if (MainPlayer.Visibility == Windows.UI.Xaml.Visibility.Visible) return;
+                if (e == null)
+                {
+                    PlayerOut.Begin();
+                }
+                else
+                {
+                    if (MainPlayer.Visibility == Windows.UI.Xaml.Visibility.Visible) return;
 
-                MainPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                PlayerIn.Begin();
-            }
+                    MainPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    PlayerIn.Begin();
+                }
+            }));
         }
 
         #region 加载导航歌单列表

@@ -10,10 +10,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <UserControl.Resources>
-        <player:VisibilityConver x:Key="VisibilityConver"/>
-    </UserControl.Resources>
-
     <Grid x:Name="MainContent" Width="350" Height="500">
         <Grid>
             <StackPanel x:Name="None" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -57,7 +53,7 @@
                                                 <ImageBrush ImageSource="{x:Bind picUrl}" Stretch="UniformToFill"/>
                                             </Grid.Background>
                                         </Grid>
-                                        <Grid Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource VisibilityConver}}">
+                                        <Grid Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource PlaylistItemVisibilityConver}}">
                                             <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </Grid>
                                     </Grid>

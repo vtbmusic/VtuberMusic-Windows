@@ -220,6 +220,8 @@
     <Compile Include="Service\AccountService.cs" />
     <Compile Include="Service\MusicClient.cs" />
     <Compile Include="Service\Player.cs" />
+    <Compile Include="Tools\Converter.cs" />
+    <Compile Include="Tools\UsefullTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -405,9 +407,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Template\Silder.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Template\Converter.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\LyricItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\Icon.xaml">
       <SubType>Designer</SubType>

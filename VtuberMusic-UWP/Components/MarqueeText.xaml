@@ -10,7 +10,7 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-        <Storyboard x:Name="TextContentMove" Duration="00:00:01.5" AutoReverse="True">
+        <Storyboard x:Key="TextContentMove" Duration="00:00:01.5" AutoReverse="True">
             <DoubleAnimation Storyboard.TargetName="Translate" Storyboard.TargetProperty="X"
                                                      From="0">
                 <DoubleAnimation.EasingFunction>
@@ -18,16 +18,8 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        <Storyboard x:Name="TextContentMoveBack" Duration="00:00:01.5">
-            <DoubleAnimation Storyboard.TargetName="Translate" Storyboard.TargetProperty="X"
-                                                     To="0">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
     </UserControl.Resources>
-
+    
     <Canvas x:Name="Canvas" SizeChanged="Canvas_SizeChanged">
         <StackPanel x:Name="Panel">
             <TextBlock PointerEntered="TextContent_PointerEntered" PointerExited="TextContent_PointerExited" x:Name="TextContent">

@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Name="NormalSourceLyric" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="DarkGray"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="24"/>
+    </Style>
+    <Style x:Name="NormalTranslationLyric" BasedOn="{StaticResource NormalSourceLyric}" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Margin" Value="0 2 0 0"/>
+    </Style>
+
+    <Style x:Name="NowSourceLyric" BasedOn="{StaticResource NormalSourceLyric}" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="26"/>
+    </Style>
+    <Style x:Name="NowTranslationLyric" BasedOn="{StaticResource NormalTranslationLyric}" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+</ResourceDictionary>

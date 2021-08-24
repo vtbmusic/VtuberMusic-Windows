@@ -17,6 +17,7 @@ using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Media.Animation;
 using VtuberMusic_UWP.Components;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace VtuberMusic_UWP
 {

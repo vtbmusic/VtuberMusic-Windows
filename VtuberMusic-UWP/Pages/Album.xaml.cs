@@ -1,4 +1,5 @@
 ﻿using System;
+using VtuberMusic_UWP.Tools;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -34,7 +35,7 @@ namespace VtuberMusic_UWP.Pages
         private async void loadData(Models.VtuberMusic.Album album, bool likeMusic = false)
         {
             AlbumName.Text = album.name;
-            CreatorInfo.Text = $"{ album.creator.nickname } 创建于 { ConvertUnixTimeStamp(album.createTime).ToString("yyyy/M/d") }";
+            CreatorInfo.Text = $"{ album.creator.nickname } 创建于 { UsefullTools.ConvertUnixTimeStamp(album.createTime).ToString("yyyy/M/d") }";
             if (album.description != null)
             {
                 Introduction.Text = album.description;
@@ -44,9 +45,7 @@ namespace VtuberMusic_UWP.Pages
                 Introduction.Text = "这个作者很懒没写简介哦～";
             }
 
-            var image = new BitmapImage();
-            image.UriSource = new Uri(album.coverImgUrl);
-            CoverImg.ImageSource = image;
+            CoverImg.ImageSource = new BitmapImage(new Uri(album.coverImgUrl));
 
             ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
             if (imageAnimation == null)
@@ -66,11 +65,6 @@ namespace VtuberMusic_UWP.Pages
             {
                 DataView.ItemsSource = (await App.Client.GetPlayListSong(album.id)).Data.songs;
             }
-        }
-
-        private DateTime ConvertUnixTimeStamp(long time)
-        {
-            return new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(time);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

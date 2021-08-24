@@ -11,16 +11,16 @@
                 <muxc:XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" ControlsResourcesVersion="Version2"/>
                 <ResourceDictionary Source="/Template/Common.xaml"/>
                 <ResourceDictionary Source="/Template/Button.xaml"/>
-                <ResourceDictionary Source="/Template/Silder.xaml"/>
                 <ResourceDictionary Source="/Template/Icon.xaml"/>
-                <ResourceDictionary>
-                    <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>
-                </ResourceDictionary>
+                <ResourceDictionary Source="/Template/LyricItem.xaml"/>
+                <ResourceDictionary Source="/Template/Converter.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light" Source="/Theme/Light.xaml"/>
                 <ResourceDictionary x:Key="Dark" Source="/Theme/Dark.xaml"/>
             </ResourceDictionary.ThemeDictionaries>
+            
+            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

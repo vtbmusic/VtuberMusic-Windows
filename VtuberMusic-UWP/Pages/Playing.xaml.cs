@@ -50,7 +50,7 @@ namespace VtuberMusic_UWP.Pages
 
             App.Player.NowPlayingMusicChanged += async delegate
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
                 {
                     init();
                 }));

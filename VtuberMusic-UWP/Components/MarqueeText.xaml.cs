@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System.Diagnostics;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -13,6 +14,8 @@ namespace VtuberMusic_UWP.Components
     {
         public static readonly DependencyProperty TextProperty =
        DependencyProperty.Register("Text", typeof(string), typeof(MarqueeText), new PropertyMetadata("Text", new PropertyChangedCallback(TextChangedEvntHandler)));
+
+        private Storyboard TextContentMove => this.Resources["TextContentMove"] as Storyboard;
 
         private static void TextChangedEvntHandler(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
