@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Media.Animation;
 using VtuberMusic_UWP.Components;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.UI.Core;
+using Windows.System;
+using VtuberMusic_UWP.Models.DebugCommand;
 
 namespace VtuberMusic_UWP
 {
@@ -27,6 +30,7 @@ namespace VtuberMusic_UWP
         public static MusicClient Client = new MusicClient();
         public static Player Player = new Player();
         public static Frame RootFrame;
+        public static DebugCommandManager DebugCommandManager = new DebugCommandManager();
 
         public App()
         {
@@ -48,7 +52,14 @@ namespace VtuberMusic_UWP
 
             await Window.Current.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
             {
-                InfoBarPopup.Show($"发生了一个异常: { e.Exception.Message }", e.Exception.StackTrace);
+                if (e.Exception.StackTrace == null)
+                {
+                    InfoBarPopup.Show("发生了一个异常", e.Exception.Message, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
+                }
+                else
+                {
+                    InfoBarPopup.Show($"发生了一个异常: { e.Exception.Message }", e.Exception.StackTrace, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
+                }
             }));
         }
 
@@ -83,6 +94,8 @@ namespace VtuberMusic_UWP
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+
             // 扩展到标题栏
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
             ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -129,6 +142,16 @@ namespace VtuberMusic_UWP
 #endif
 
             init();
+        }
+
+        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftControl) != CoreVirtualKeyStates.None &&
+                Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftShift) == CoreVirtualKeyStates.Down &&
+                args.VirtualKey == VirtualKey.P)
+            {
+                new DebugPanel().Show();
+            }
         }
 
         private async void init()

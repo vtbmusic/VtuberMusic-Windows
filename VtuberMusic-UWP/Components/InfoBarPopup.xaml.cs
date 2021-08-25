@@ -70,7 +70,7 @@ namespace VtuberMusic_UWP.Components
             PopupOut.Begin();
         }
 
-        public static void Show(string title, string message, bool isIconVisible = true, InfoBarSeverity severity = InfoBarSeverity.Informational)
+        public static void Show(string title, string message, InfoBarSeverity severity = InfoBarSeverity.Informational, bool isIconVisible = true)
         {
             var popup = new InfoBarPopup();
             

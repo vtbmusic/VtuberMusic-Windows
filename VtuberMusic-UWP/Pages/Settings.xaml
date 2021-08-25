@@ -78,7 +78,7 @@
                         Severity="Warning"
                         IsClosable="False"
                         IsOpen="True"
-                        Title="这些选项仅供调试和排障使用，除非你知道你在干什么，不要使用！"
+                        Title="这些选项仅供调试和排障使用，除非你知道你在干什么，否则不要使用！"
                         Message="VtuberMusic 不对 * 在非技术支持指导下 * 使用这些选项造成的问题负责"
                         />
                     <Button x:Name="ForceGC" Content="强制 GC (内存回收)" Click="ForceGC_Click" HorizontalAlignment="Stretch"/>

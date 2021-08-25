@@ -137,6 +137,9 @@
     <Compile Include="Components\Collections\MusicDataList.xaml.cs">
       <DependentUpon>MusicDataList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\DebugPanel.xaml.cs">
+      <DependentUpon>DebugPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Dialog\CreateAlbumDialog.xaml.cs">
       <DependentUpon>CreateAlbumDialog.xaml</DependentUpon>
     </Compile>
@@ -158,9 +161,14 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\DebugCommand\DebugCommandManager.cs" />
+    <Compile Include="Models\DebugCommand\ForeGC.cs" />
+    <Compile Include="Models\DebugCommand\Navigation.cs" />
+    <Compile Include="Models\DebugCommand\ShowLog.cs" />
     <Compile Include="Models\Lyric\Lyric.cs" />
     <Compile Include="Models\Lyric\LyricPaser.cs" />
     <Compile Include="Models\Lyric\Vrc.cs" />
+    <Compile Include="Models\DebugCommand\IDebugCommand.cs" />
     <Compile Include="Models\Main\ISetupStep.cs" />
     <Compile Include="Models\Main\ViewModel.cs" />
     <Compile Include="Models\VtuberMusic\Account.cs" />
@@ -308,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\Collections\MusicDataList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DebugPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,7 +8,7 @@
   IgnorableNamespaces="uap mp uap3">
 
   <Identity
-    Name="d0a417bf-8346-4bec-aad8-d72a0e209f88"
+    Name="VtuberMusic"
     Publisher="CN=VtuberMusic-Dev"
     Version="2.0.0.0" />
 
