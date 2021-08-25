@@ -8,6 +8,24 @@ using Windows.UI.Xaml.Data;
 
 namespace VtuberMusic_UWP.Tools
 {
+    public class LikeMusicIconConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string culture)
+        {
+            if (value != null && value.GetType() == typeof(bool))
+            {
+                if ((bool)value) return "\uE00B";
+            }
+
+            return "\uE006";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture)
+        {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
     public class LyricHideConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string culture)

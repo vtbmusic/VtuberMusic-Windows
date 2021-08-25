@@ -229,6 +229,7 @@
     <Compile Include="Service\MusicClient.cs" />
     <Compile Include="Service\Player.cs" />
     <Compile Include="Tools\Converter.cs" />
+    <Compile Include="Tools\ShareTools.cs" />
     <Compile Include="Tools\UsefullTools.cs" />
   </ItemGroup>
   <ItemGroup>
