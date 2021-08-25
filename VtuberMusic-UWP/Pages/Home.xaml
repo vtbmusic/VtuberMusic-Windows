@@ -88,9 +88,11 @@
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Album">
                         <StackPanel>
-                            <StackPanel x:Name="CoverImgBorder" CornerRadius="10">
-                                <Image Source="{x:Bind coverImgUrl}" Height="150" Width="280" Stretch="UniformToFill"/>
-                            </StackPanel>
+                            <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10">
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
+                                </Grid.Background>
+                            </Grid>
                             <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
                                 <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind creator.nickname}"/>
                                 <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>

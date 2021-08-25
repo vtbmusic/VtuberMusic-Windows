@@ -24,10 +24,7 @@ namespace VtuberMusic_UWP.Components.Player
             App.Player.PlayList.CollectionChanged += PlayList_CollectionChanged;
             DataView.ItemsSource = App.Player.PlayList;
 
-            if (App.Player.PlayList.Count == 0)
-            {
-                None.Visibility = Visibility.Visible;
-            }
+            if (App.Player.PlayList.Count == 0) None.Visibility = Visibility.Visible;
         }
 
         private void PlayList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -47,24 +44,10 @@ namespace VtuberMusic_UWP.Components.Player
             if (App.Player.PlayList.Count == 0) None.Visibility = Visibility.Visible;
         }
 
-        private void Remove_Click(object sender, RoutedEventArgs e)
-        {
-            App.Player.PlayList.Remove((Music)DataView.SelectedItem);
-        }
-
-        private void DeleteMusic_Click(object sender, RoutedEventArgs e)
-        {
-            App.Player.PlayList.Remove((Music)((AppBarButton)sender).Tag);
-        }
-
-        private void DeleteSwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
-        {
-            App.Player.PlayList.Remove((Music)args.SwipeControl.Tag);
-        }
-
-        private void DataView_Loaded(object sender, RoutedEventArgs e)
-        {
-            DataView.ScrollIntoView(App.Player.NowPlayingMusic, ScrollIntoViewAlignment.Leading);
-        }
+        private void Remove_Click(object sender, RoutedEventArgs e) => App.Player.PlayList.Remove((Music)DataView.SelectedItem);
+        private void DeleteMusic_Click(object sender, RoutedEventArgs e) => App.Player.PlayList.Remove((Music)((AppBarButton)sender).Tag);
+        private void DeleteSwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args) => App.Player.PlayList.Remove((Music)args.SwipeControl.Tag);
+        private void DataView_Loaded(object sender, RoutedEventArgs e) => DataView.ScrollIntoView(App.Player.NowPlayingMusic, ScrollIntoViewAlignment.Leading);
+        private void ArtistButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
     }
 }

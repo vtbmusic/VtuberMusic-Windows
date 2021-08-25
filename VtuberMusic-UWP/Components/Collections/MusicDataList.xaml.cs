@@ -84,6 +84,8 @@ namespace VtuberMusic_UWP.Components.Collections
             _count++;
             text.Text = _count.ToString();
         }
+
+        private void ArtistButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
     }
 
     public enum MusicDataListMode

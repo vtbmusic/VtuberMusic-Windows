@@ -14,6 +14,8 @@ namespace VtuberMusic_UWP.Pages
     /// </summary>
     public sealed partial class Artist : Page
     {
+        private ConnectedAnimation imageAnimation = null;
+
         public Artist()
         {
             this.InitializeComponent();
@@ -54,7 +56,7 @@ namespace VtuberMusic_UWP.Pages
 
             Avater.ProfilePicture = new BitmapImage(new Uri(artist.imgUrl));
 
-            ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ArtistForwardConnectedAnimation");
+            imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ArtistForwardConnectedAnimation");
             if (imageAnimation != null) imageAnimation.TryStart(Avater, new UIElement[] { InfoPanel });
 
             MusicCount.Text = artist.musicSize.ToString();
@@ -68,7 +70,7 @@ namespace VtuberMusic_UWP.Pages
         {
             base.OnNavigatingFrom(e);
 
-            if (e.SourcePageType == typeof(Home) || e.SourcePageType == typeof(Search))
+            if ((e.SourcePageType == typeof(Home) || (e.SourcePageType == typeof(Search))) && imageAnimation != null)
             {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ArtistBackConnectedAnimation", Avater);
             }

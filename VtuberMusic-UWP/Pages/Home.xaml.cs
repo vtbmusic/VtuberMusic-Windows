@@ -12,6 +12,8 @@ namespace VtuberMusic_UWP.Pages
         private object _albumItem;
         private object _artistItem;
 
+        private bool cachePage = false;
+
         public Home()
         {
             this.InitializeComponent();
@@ -25,10 +27,12 @@ namespace VtuberMusic_UWP.Pages
             var bannerData = await App.Client.GetBanner();
             BannerPipsPager.NumberOfPages = bannerData.Data.Length;
             BannerDataView.ItemsSource = bannerData.Data;
-            App.ViewModel.SetAppBackgroundImage(new Uri(bannerData.Data.First().BannerImg));
+            var bannerImageUri = new Uri(bannerData.Data.First().BannerImg);
+
+            if (App.ViewModel.BackgroundImageUri != bannerImageUri)
+                App.ViewModel.SetAppBackgroundImage(bannerImageUri);
 
             var newMusicData = await App.Client.GetNewSong(12);
-            //SubMusicDataView.ItemsSource = newMusicData.Data;
             NewMusicDataView.ItemsSource = newMusicData.Data;
 
             var artistData = await App.Client.GetArtistList();
@@ -40,6 +44,8 @@ namespace VtuberMusic_UWP.Pages
 
         private void AlbumDataView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            cachePage = true;
+
             _albumItem = ((GridViewItem)AlbumDataView.ContainerFromItem(e.ClickedItem)).Content;
             var animation = AlbumDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
                 _albumItem,
@@ -50,6 +56,8 @@ namespace VtuberMusic_UWP.Pages
 
         private async void AlbumDataView_Loaded(object sender, RoutedEventArgs e)
         {
+            cachePage = false;
+
             AlbumDataView.ScrollIntoView(_albumItem);
             AlbumDataView.UpdateLayout();
 
@@ -62,6 +70,8 @@ namespace VtuberMusic_UWP.Pages
 
         private void VtuberDataView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            cachePage = true;
+
             _artistItem = ((GridViewItem)VtuberDataView.ContainerFromItem(e.ClickedItem)).Content;
             var animation = VtuberDataView.PrepareConnectedAnimation("ArtistForwardConnectedAnimation",
                 _artistItem,
@@ -72,6 +82,8 @@ namespace VtuberMusic_UWP.Pages
 
         private async void VtuberDataView_Loaded(object sender, RoutedEventArgs e)
         {
+            cachePage = false;
+
             VtuberDataView.ScrollIntoView(_artistItem);
             VtuberDataView.UpdateLayout();
 
@@ -80,6 +92,12 @@ namespace VtuberMusic_UWP.Pages
             {
                 await VtuberDataView.TryStartConnectedAnimationAsync(animation, _artistItem, "Avater");
             }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            if (!cachePage) this.NavigationCacheMode = NavigationCacheMode.Disabled;
         }
     }
 }

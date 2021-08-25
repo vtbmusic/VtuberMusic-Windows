@@ -311,7 +311,7 @@ namespace VtuberMusic_UWP.Service
                 var artists = "";
                 foreach (var temp in music.artists)
                 {
-                    artists += temp.name.origin + "";
+                    artists += temp.name.origin + " ";
                 }
 
                 pros.MusicProperties.AlbumArtist = artists;

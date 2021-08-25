@@ -33,7 +33,6 @@ namespace VtuberMusic_UWP.Pages
         public Playing()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
             ShareShadow.Receivers.Add(ShadowBackground);
             CoverImgGrid.Translation = new Vector3(0, 0, 32);
@@ -48,29 +47,9 @@ namespace VtuberMusic_UWP.Pages
                     break;
             }
 
-            App.Player.NowPlayingMusicChanged += async delegate
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-                {
-                    init();
-                }));
-            };
-
-            App.Player.PlayStateChanged += async delegate (object sender, MediaPlaybackState e)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
-                {
-                    switch (e)
-                    {
-                        case MediaPlaybackState.Playing:
-                            PlayButtonIcon.Symbol = Symbol.Pause;
-                            break;
-                        default:
-                            PlayButtonIcon.Symbol = Symbol.Play;
-                            break;
-                    }
-                }));
-            };
+            App.Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
+            App.Player.PlayStateChanged += PlayStateChanged;
+            App.Player.PositionChanged += positionUpdate;
 
             init();
         }
@@ -138,6 +117,30 @@ namespace VtuberMusic_UWP.Pages
             LyricView.ItemsSource = lyrics;
         }
 
+        private async void PlayStateChanged(object sender, MediaPlaybackState e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
+            {
+                switch (e)
+                {
+                    case MediaPlaybackState.Playing:
+                        PlayButtonIcon.Symbol = Symbol.Pause;
+                        break;
+                    default:
+                        PlayButtonIcon.Symbol = Symbol.Play;
+                        break;
+                }
+            }));
+        }
+
+        private async void NowPlayingMusicChanged(object sender, Models.VtuberMusic.Music e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
+            {
+                init();
+            }));
+        }
+
         private async void positionUpdate(object sender, TimeSpan e)
         {
             if (!canUpdatePosition) return;
@@ -150,15 +153,29 @@ namespace VtuberMusic_UWP.Pages
 
                 Duration.Text = App.Player.Duration.ToString("mm\\:ss");
                 Position.Maximum = App.Player.Duration.TotalMilliseconds;
+
+                lyricTick();
             });
         }
 
         #region Lyric
-        private async void lyricTick(object sender, TimeSpan args)
+        private async void lyricTick()
         {
             if (lyrics == null) return;
             for (int i = 0; i != lyrics.Length; i++)
             {
+                if (i == lyrics.Length - 1 && lyrics[i].Time <= App.Player.Position)
+                {
+                    if (nowLyricIndex == i) return;
+
+                    await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
+                    {
+                        ToLyric(i);
+                    }));
+
+                    return;
+                }
+
                 if (lyrics[i].Time >= App.Player.Position)
                 {
                     if (nowLyricIndex == i - 1) return;
@@ -224,15 +241,9 @@ namespace VtuberMusic_UWP.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            App.Player.PositionChanged -= lyricTick;
             App.Player.PositionChanged -= positionUpdate;
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            App.Player.PositionChanged += lyricTick;
-            App.Player.PositionChanged += positionUpdate;
+            App.Player.NowPlayingMusicChanged -= NowPlayingMusicChanged;
+            App.Player.PlayStateChanged -= PlayStateChanged;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e) => Frame.GoBack();

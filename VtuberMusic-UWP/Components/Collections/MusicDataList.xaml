@@ -44,9 +44,15 @@
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel CornerRadius="10" Width="50" >
-                    <Image x:Name="CoverImage" Height="50" Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
-                </StackPanel>
+                <Grid CornerRadius="10" Width="50" Height="50">
+                    <Grid.Background>
+                        <ImageBrush Stretch="UniformToFill">
+                            <ImageBrush.ImageSource>
+                                <BitmapImage UriSource="{x:Bind picUrl}" DecodePixelHeight="50" DecodePixelWidth="80"/>
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Grid.Background>
+                </Grid>
                 <Grid Grid.Column="1" Margin="5 0 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="30" Width="Auto"/>
@@ -60,7 +66,9 @@
                     <ItemsControl ItemsSource="{x:Bind artists}" Grid.Column="3">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vtubermusic:Artist">
-                                <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13" Margin="0 0 5 0"/>
+                                <HyperlinkButton x:Name="ArtistButton" Click="ArtistButton_Click" Padding="2" Tag="{x:Bind}">
+                                    <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13"/>
+                                </HyperlinkButton>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

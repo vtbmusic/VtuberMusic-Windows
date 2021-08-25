@@ -88,10 +88,10 @@ namespace VtuberMusic_UWP.Components.Player
             var data = player.NowPlayingMusic;
             if (data != null)
             {
-                var image = new BitmapImage();
+                var image = new BitmapImage() { DecodePixelHeight = 55, DecodePixelWidth = 90 };
+                CoverImg.ImageSource = image;
                 image.UriSource = new Uri(data.picUrl);
 
-                CoverImg.Source = image;
                 MusicName.Text = data.name;
                 Vocal.ItemsSource = data.artists;
                 if (data.like)
@@ -188,6 +188,8 @@ namespace VtuberMusic_UWP.Components.Player
                 Crashes.TrackError(ex, data);
             }
         }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
     }
 
     public class PercentagesConverter : IValueConverter

@@ -20,7 +20,7 @@
                     <ImageBrush Stretch="UniformToFill">
                         <ImageBrush.ImageSource>
                             <BitmapImage UriSource="https://pixiv.cat/90538771.png"
-                                     DecodePixelHeight="38"/>
+                                     DecodePixelHeight="28" DecodePixelWidth="100"/>
                         </ImageBrush.ImageSource>
                     </ImageBrush>
                 </Grid.Background>

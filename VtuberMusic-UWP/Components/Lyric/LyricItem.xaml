@@ -15,7 +15,7 @@
                 <Vector3Transition/>
             </TextBlock.ScaleTransition>
         </TextBlock>
-        <TextBlock x:Name="TranslationLyric" Visibility="{x:Bind TranslationLyric.Text, Mode=OneWay, Converter={StaticResource HideConverter}}"
+        <TextBlock x:Name="TranslationLyric" Visibility="{x:Bind TranslationLyric.Text, Mode=OneWay, Converter={StaticResource LyricHideConverter}}"
                    TextWrapping="Wrap" Style="{StaticResource NormalTranslationLyric}">
             <TextBlock.ScaleTransition>
                 <Vector3Transition/>
