@@ -1,11 +1,14 @@
 ﻿using Microsoft.AppCenter.Crashes;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Tools;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 
@@ -34,20 +37,17 @@ namespace VtuberMusic_UWP.Components.Collections
             set { SetValue(ModeProperty, value); }
         }
 
+        public Album[] albums = null;
+
         public MusicDataList()
         {
             this.InitializeComponent();
+            load();
         }
 
-        private static void ModeChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MusicDataList)d).ModeChange(e);
-        }
-
-        private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MusicDataList)d).ItemsSourceChange(e);
-        }
+        public async void load() => albums = (await App.Client.Account.GetMyCreatePlayList()).Data;
+        private static void ModeChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((MusicDataList)d).ModeChange(e);
+        private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((MusicDataList)d).ItemsSourceChange(e);
 
         private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e)
         {
@@ -144,10 +144,69 @@ namespace VtuberMusic_UWP.Components.Collections
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            var button = (Button)sender;
+            var music = (Music)button.Tag;
+            var menuFlyout = new MenuFlyout() { Placement = FlyoutPlacementMode.Bottom };
+            var nextItem = new MenuFlyoutItem
+            {
+                Icon = new SymbolIcon(Symbol.Next),
+                Text = "下一首播放",
+                Tag = new FlyoutItemTag { Playlist = true, Music = music },
+            };
 
+            nextItem.Click += FlyoutItem_Click;
+            menuFlyout.Items.Add(nextItem);
+            menuFlyout.Items.Add(new MenuFlyoutSeparator());
+
+            foreach (var item in albums)
+            {
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Text = item.name,
+                    Icon = new SymbolIcon(Symbol.MusicInfo),
+                    Tag = new FlyoutItemTag { AlbumId = item.id, Music = music }
+                };
+
+                flyoutItem.Click += FlyoutItem_Click;
+                menuFlyout.Items.Add(flyoutItem);
+            }
+
+            button.Flyout = menuFlyout;
         }
 
         private void Share_Click(object sender, RoutedEventArgs e) => ShareTools.ShareMusic((Music)((Control)sender).Tag);
+
+        private async void FlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var tag = (FlyoutItemTag)((MenuFlyoutItem)sender).Tag;
+            if (tag.Playlist)
+            {
+                if (!App.Player.PlayList.Contains(tag.Music))
+                {
+                    int index = 0;
+                    if (App.Player.PlayList.Contains(App.Player.NowPlayingMusic)) index = App.Player.PlayList.IndexOf(App.Player.NowPlayingMusic) + 1;
+                    App.Player.PlayList.Insert(index, tag.Music); ;
+
+                    if (App.Player.NowPlayingMusic == null) App.Player.SetMusic(App.Player.PlayList[0]);
+                }
+                else
+                {
+                    InfoBarPopup.Show("添加失败", "歌曲已存在", InfoBarSeverity.Error);
+                }
+            }
+            else
+            {
+                try
+                {
+                    await App.Client.Account.TrackMusic(tag.AlbumId, Service.TrackType.add, new string[] { tag.Music.id });
+                    InfoBarPopup.Show("添加成功", "", InfoBarSeverity.Success);
+                }
+                catch (Exception ex)
+                {
+                    InfoBarPopup.Show("无法添加到歌单", ex.Message, InfoBarSeverity.Error);
+                }
+            }
+        }
     }
 
     public enum MusicDataListMode
@@ -155,6 +214,13 @@ namespace VtuberMusic_UWP.Components.Collections
         Small,
         Large,
         Card
+    }
+
+    public class FlyoutItemTag
+    {
+        public bool Playlist { get; set; } = false;
+        public string AlbumId { get; set; }
+        public Music Music { get; set; }
     }
 
     public class TimeConver : IValueConverter

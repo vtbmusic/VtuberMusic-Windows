@@ -3,6 +3,7 @@ using RestSharp.Authenticators;
 using System;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Models.VtuberMusic;
+using VtuberMusic_UWP.Tools;
 
 namespace VtuberMusic_UWP.Service
 {
@@ -163,11 +164,37 @@ namespace VtuberMusic_UWP.Service
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        public async Task<ApiResponse> TrackMusic(string pid, TrackType type, string[] musicIds)
+        {
+            var request = new RestRequest(ApiUri.TrackMusic, Method.POST);
+            request.AddParameter("pid", pid, ParameterType.QueryString);
+            request.AddParameter("type", type.ToString(), ParameterType.QueryString);
+            request.AddParameter("tracks", UsefullTools.ConvertStringArrayToString(musicIds), ParameterType.QueryString);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
     }
 
     public class TokenPack
     {
         public string access_token { get; set; }
         public string refresh_token { get; set; }
+    }
+
+    public enum TrackType
+    {
+        add,
+        del
     }
 }

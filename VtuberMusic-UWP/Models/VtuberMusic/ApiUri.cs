@@ -38,5 +38,7 @@
         public static string SubCount = BaseUrl + "/v2/user/subcount";
 
         public static string CreateAlbum = BaseUrl + "/v2/playlist/create";
+
+        public static string TrackMusic = BaseUrl + "/v2/playlist/tracks";
     }
 }

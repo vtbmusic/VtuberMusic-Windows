@@ -24,5 +24,17 @@ namespace VtuberMusic_UWP.Tools
 
             return artist;
         }
+
+        public static string ConvertStringArrayToString(string[] strings)
+        {
+            var result = "";
+            for (int i = 0; i != strings.Length; i++)
+            {
+                result += strings[i];
+                if (i != strings.Length - 1) result += ",";
+            }
+
+            return result;
+        }
     }
 }
