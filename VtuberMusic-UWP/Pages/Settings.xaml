@@ -14,7 +14,7 @@
     </Page.Resources>
 
     <ScrollViewer CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
-        <StackPanel Margin="25">
+        <StackPanel Margin="25" Padding="0 0 0 80">
             <Grid CornerRadius="10" Height="150">
                 <Grid.Background>
                     <ImageBrush Stretch="UniformToFill">

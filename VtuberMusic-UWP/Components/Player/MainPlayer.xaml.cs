@@ -1,6 +1,7 @@
 ﻿using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Pages;
 using Windows.Media.Playback;
@@ -39,6 +40,8 @@ namespace VtuberMusic_UWP.Components.Player
             App.ViewModel.MainPlayer = this;
 
             if (player.NowPlayingMusic == null) this.Visibility = Visibility.Collapsed;
+            ShareShadow.Receivers.Add(ShadowBackground);
+            CoverImgGrid.Translation = new Vector3(0, 0, 32);
         }
 
         private async void volumeChanged(object sender, double e)

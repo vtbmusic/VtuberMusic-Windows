@@ -14,6 +14,7 @@
     <UserControl.Resources>
         <local:PercentagesConverter x:Key="PercentagesConverter"/>
         <local:TimeConverter x:Key="TimeConverter"/>
+        <ThemeShadow x:Name="ShareShadow"/>
     </UserControl.Resources>
 
     <Grid Padding="10" CornerRadius="10" Background="{ThemeResource SystemControlAcrylicElementBrush}">
@@ -27,7 +28,8 @@
                 <ColumnDefinition Width="90"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid CornerRadius="10" Height="55" Tapped="MusicInfo_Tapped">
+            <Rectangle x:Name="ShadowBackground" Margin="-10"/>
+            <Grid x:Name="CoverImgGrid" CornerRadius="10" Height="55" Tapped="MusicInfo_Tapped" Shadow="{StaticResource ShareShadow}">
                 <Grid.Background>
                     <ImageBrush x:Name="CoverImg" Stretch="UniformToFill"/>
                 </Grid.Background>
@@ -46,7 +48,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vtubermusic:Artist">
-                            <HyperlinkButton Padding="2 0" Tag="{x:Bind}" Click="HyperlinkButton_Click">
+                            <HyperlinkButton Padding="2 0" Margin="-2 0 0 0" Tag="{x:Bind}" Click="HyperlinkButton_Click">
                                 <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"/>
                             </HyperlinkButton>
                         </DataTemplate>

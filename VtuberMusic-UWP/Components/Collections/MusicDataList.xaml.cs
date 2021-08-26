@@ -17,8 +17,6 @@ namespace VtuberMusic_UWP.Components.Collections
 {
     public partial class MusicDataList : UserControl
     {
-        private int _count = 0;
-
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
@@ -85,8 +83,16 @@ namespace VtuberMusic_UWP.Components.Collections
         private void Count_Loaded(object sender, RoutedEventArgs e)
         {
             var text = (TextBlock)sender;
-            _count++;
-            text.Text = _count.ToString();
+            var tag = (Music)text.Tag;
+
+            for (int i = 0; i != ItemsSource.Length; i++)
+            {
+                if (tag == ItemsSource[i])
+                {
+                    text.Text = (i + 1).ToString();
+                    return;
+                }
+            }
         }
 
         private void ArtistButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
