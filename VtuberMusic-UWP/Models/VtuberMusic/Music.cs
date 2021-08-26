@@ -1,4 +1,8 @@
-﻿namespace VtuberMusic_UWP.Models.VtuberMusic
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
+namespace VtuberMusic_UWP.Models.VtuberMusic
 {
     public class Music
     {

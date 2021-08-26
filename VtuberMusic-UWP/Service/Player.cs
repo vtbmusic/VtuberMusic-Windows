@@ -119,10 +119,7 @@ namespace VtuberMusic_UWP.Service
             private set
             {
                 _nowPlayingMusic = value;
-                if (NowPlayingMusicChanged != null)
-                {
-                    NowPlayingMusicChanged(this, value);
-                }
+                NowPlayingMusicChanged?.Invoke(this, value);
 
                 if (NowPlayingMusic != null) App.ViewModel.SetAppBackgroundImage(new Uri(NowPlayingMusic.picUrl));
             }

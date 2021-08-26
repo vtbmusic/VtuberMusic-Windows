@@ -10,16 +10,8 @@
     d:DesignWidth="400">
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-        <TextBlock x:Name="SourceLyric" TextWrapping="Wrap" Style="{StaticResource NormalSourceLyric}">
-            <TextBlock.ScaleTransition>
-                <Vector3Transition/>
-            </TextBlock.ScaleTransition>
-        </TextBlock>
-        <TextBlock x:Name="TranslationLyric" Visibility="{x:Bind TranslationLyric.Text, Mode=OneWay, Converter={StaticResource LyricHideConverter}}"
-                   TextWrapping="Wrap" Style="{StaticResource NormalTranslationLyric}">
-            <TextBlock.ScaleTransition>
-                <Vector3Transition/>
-            </TextBlock.ScaleTransition>
-        </TextBlock>
+        <TextBlock x:Name="SourceLyric" TextWrapping="Wrap" Style="{StaticResource NormalSourceLyric}"/>
+        <TextBlock x:Name="TranslationLyric" Visibility="{x:Bind TranslationLyric.Text, Mode=OneTime, Converter={StaticResource LyricHideConverter}}"
+                   TextWrapping="Wrap" Style="{StaticResource NormalTranslationLyric}"/>
     </StackPanel>
 </UserControl>

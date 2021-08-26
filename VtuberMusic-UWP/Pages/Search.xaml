@@ -27,7 +27,7 @@
                         <TextBlock Text="Loading..." Margin="0 10" FontSize="14" Foreground="{ThemeResource SystemBaseMediumHighColor}" HorizontalAlignment="Center"/>
                     </StackPanel>
                     <ScrollViewer>
-                        <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Mode="Large" Margin="0 0 0 100"/>
+                        <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Margin="0 0 0 100"/>
                     </ScrollViewer>
                 </Grid>
             </PivotItem>

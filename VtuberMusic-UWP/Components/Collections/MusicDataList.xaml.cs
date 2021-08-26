@@ -20,22 +20,14 @@ namespace VtuberMusic_UWP.Components.Collections
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
-        public static readonly DependencyProperty ModeProperty =
-            DependencyProperty.Register("Mode", typeof(MusicDataListMode), typeof(MusicDataList), new PropertyMetadata("Mode", new PropertyChangedCallback(ModeChangeEventHandle)));
-
         public Music[] ItemsSource
         {
             get { return (Music[])GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
-        public MusicDataListMode Mode
-        {
-            get { return (MusicDataListMode)GetValue(ModeProperty); }
-            set { SetValue(ModeProperty, value); }
-        }
-
         public Album[] albums = null;
+        private List<MenuFlyoutItem> flyoutItems = new List<MenuFlyoutItem>();
 
         public MusicDataList()
         {
@@ -44,7 +36,6 @@ namespace VtuberMusic_UWP.Components.Collections
         }
 
         public async void load() => albums = (await App.Client.Account.GetMyCreatePlayList()).Data;
-        private static void ModeChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((MusicDataList)d).ModeChange(e);
         private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((MusicDataList)d).ItemsSourceChange(e);
 
         private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e)
@@ -59,19 +50,6 @@ namespace VtuberMusic_UWP.Components.Collections
             }
         }
 
-        private protected void ModeChange(DependencyPropertyChangedEventArgs args)
-        {
-            switch ((MusicDataListMode)args.NewValue)
-            {
-                case MusicDataListMode.Small:
-                    DataList.ItemTemplate = Small;
-                    break;
-                case MusicDataListMode.Large:
-                    DataList.ItemTemplate = Large;
-                    break;
-            }
-        }
-
         private void DataList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (DataList.SelectedItem != null)
@@ -82,20 +60,17 @@ namespace VtuberMusic_UWP.Components.Collections
 
         private void Count_Loaded(object sender, RoutedEventArgs e)
         {
-            var text = (TextBlock)sender;
-            var tag = (Music)text.Tag;
+            var item = sender as TextBlock;
 
             for (int i = 0; i != ItemsSource.Length; i++)
             {
-                if (tag == ItemsSource[i])
+                if (item.Tag as Music == ItemsSource[i])
                 {
-                    text.Text = (i + 1).ToString();
+                    item.Text = (i + 1).ToString();
                     return;
                 }
             }
         }
-
-        private void ArtistButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
 
         private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -103,11 +78,10 @@ namespace VtuberMusic_UWP.Components.Collections
                 VisualStateManager.GoToState(sender as Control, "Hover", true);
         }
 
-        private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
+        private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e) =>
             VisualStateManager.GoToState(sender as Control, "Normal", true);
-        }
 
+        private void ArtistButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
         private void Play_Click(object sender, RoutedEventArgs e) => App.Player.SetMusic((Music)(sender as Control).Tag);
 
         private async void Like_Click(object sender, RoutedEventArgs e)
@@ -147,7 +121,6 @@ namespace VtuberMusic_UWP.Components.Collections
             }
 
         }
-
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -162,6 +135,7 @@ namespace VtuberMusic_UWP.Components.Collections
 
             nextItem.Click += FlyoutItem_Click;
             menuFlyout.Items.Add(nextItem);
+            flyoutItems.Add(nextItem);
             menuFlyout.Items.Add(new MenuFlyoutSeparator());
 
             foreach (var item in albums)
@@ -175,6 +149,7 @@ namespace VtuberMusic_UWP.Components.Collections
 
                 flyoutItem.Click += FlyoutItem_Click;
                 menuFlyout.Items.Add(flyoutItem);
+                flyoutItems.Add(flyoutItem);
             }
 
             button.Flyout = menuFlyout;
@@ -213,13 +188,15 @@ namespace VtuberMusic_UWP.Components.Collections
                 }
             }
         }
-    }
 
-    public enum MusicDataListMode
-    {
-        Small,
-        Large,
-        Card
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in flyoutItems) item.Click -= FlyoutItem_Click;
+
+            flyoutItems.Clear();
+            DataList.ItemsSource = null;
+            albums = null;
+        }
     }
 
     public class FlyoutItemTag
@@ -227,21 +204,5 @@ namespace VtuberMusic_UWP.Components.Collections
         public bool Playlist { get; set; } = false;
         public string AlbumId { get; set; }
         public Music Music { get; set; }
-    }
-
-    public class TimeConver : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string culture)
-        {
-            if (value == null && value.GetType() != typeof(double))
-                return DependencyProperty.UnsetValue;
-
-            return TimeSpan.FromSeconds((float)value).ToString(@"mm\:ss");
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
     }
 }

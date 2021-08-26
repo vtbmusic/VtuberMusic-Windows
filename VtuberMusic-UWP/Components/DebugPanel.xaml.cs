@@ -35,8 +35,6 @@ namespace VtuberMusic_UWP.Components
                 this.Width = Window.Current.Bounds.Width;
             };
 
-            this.KeyDown += DebugPanel_KeyDown;
-
             popup.Child = this;
             ShareShadow.Receivers.Add(ShadowBackground);
 

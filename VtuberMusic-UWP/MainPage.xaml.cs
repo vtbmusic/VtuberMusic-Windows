@@ -39,7 +39,10 @@ namespace VtuberMusic_UWP
             App.Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
             PlayerOut.Completed += delegate
             {
-                MainPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                if (App.Player.NowPlayingMusic == null)
+                    MainPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                else
+                    PlayerIn.Begin();
             };
 
             Load();

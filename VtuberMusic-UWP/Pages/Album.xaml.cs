@@ -83,6 +83,12 @@ namespace VtuberMusic_UWP.Pages
                 App.Player.SetMusic(App.Player.PlayList[0]);
             }
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            DataView.ItemsSource = null;
+        }
     }
 
     public class AlbumPageArgs

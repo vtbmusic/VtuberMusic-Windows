@@ -48,7 +48,7 @@
             <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1"
                   BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                   CornerRadius="8" Margin="0 10 0 0" Padding="20">
-                <collections:MusicDataList x:Name="DataView" Mode="Large"/>
+                <collections:MusicDataList x:Name="DataView"/>
             </Grid>
         </StackPanel>
     </ScrollViewer>

@@ -54,7 +54,7 @@
                 </Grid>
             </Grid>
             <Grid Margin="0 0 0 50" Padding="10" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
-                <collections:MusicDataList x:Name="DataView" Mode="Large"/>
+                <collections:MusicDataList x:Name="DataView"/>
             </Grid>
         </StackPanel>
     </ScrollViewer>

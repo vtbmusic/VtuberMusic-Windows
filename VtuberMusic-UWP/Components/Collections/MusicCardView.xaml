@@ -36,14 +36,14 @@
                     </Grid.RowDefinitions>
                     <Grid Height="170" CornerRadius="10">
                         <Grid.Background>
-                            <ImageBrush ImageSource="{x:Bind picUrl}" Stretch="UniformToFill"/>
+                            <ImageBrush ImageSource="{x:Bind picUrl, Mode=OneTime}" Stretch="UniformToFill"/>
                         </Grid.Background>
                     </Grid>
                     <StackPanel Grid.Row="1" CornerRadius="10" Height="50" Margin="0 10 0 0" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                        <ItemsControl ItemsSource="{x:Bind artists}">
+                        <ItemsControl ItemsSource="{x:Bind artists, Mode=OneTime}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:Artist">
-                                    <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind name.origin}"/>
+                                    <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind name.origin, Mode=OneTime}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
@@ -52,7 +52,7 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
-                        <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
+                        <components:MarqueeText Text="{x:Bind name, Mode=OneTime}" FontSize="16"/>
                     </StackPanel>
                 </Grid>
             </DataTemplate>

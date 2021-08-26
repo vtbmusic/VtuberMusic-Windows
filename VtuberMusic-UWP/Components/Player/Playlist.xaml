@@ -23,7 +23,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="播放列表" FontSize="24" Margin="10 2 0 10"/>
-                <GridView x:Name="DataView" Grid.Row="1" Loaded="DataView_Loaded">
+                <GridView x:Name="DataView" Grid.Row="1" Loaded="DataView_Loaded" CanDragItems="True" CanReorderItems="True" AllowDrop="True">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
@@ -31,7 +31,7 @@
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vtubermusic:Music">
-                            <SwipeControl Height="60" Tag="{x:Bind}" Padding="10 5">
+                            <SwipeControl Height="60" Tag="{x:Bind Mode=OneTime}" Padding="10 5">
                                 <SwipeControl.RightItems>
                                     <SwipeItems Mode="Execute">
                                         <SwipeItem x:Name="DeleteSwipeItem" Background="Red" Text="移除" Invoked="DeleteSwipeItem_Invoked">
@@ -52,12 +52,12 @@
                                             <Grid.Background>
                                                 <ImageBrush Stretch="UniformToFill">
                                                     <ImageBrush.ImageSource>
-                                                        <BitmapImage UriSource="{x:Bind picUrl}" DecodePixelHeight="50" DecodePixelWidth="80"/>
+                                                        <BitmapImage UriSource="{x:Bind picUrl, Mode=OneTime}" DecodePixelHeight="50" DecodePixelWidth="80"/>
                                                     </ImageBrush.ImageSource>
                                                 </ImageBrush>
                                             </Grid.Background>
                                         </Grid>
-                                        <Grid RequestedTheme="Dark" Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource PlaylistItemVisibilityConver}}">
+                                        <Grid RequestedTheme="Dark" Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource PlaylistItemVisibilityConver}, Mode=OneWay}">
                                             <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </Grid>
                                     </Grid>
