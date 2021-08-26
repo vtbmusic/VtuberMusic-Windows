@@ -147,7 +147,7 @@ namespace VtuberMusic_UWP
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             if (Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftControl) != CoreVirtualKeyStates.None &&
-                Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftShift) == CoreVirtualKeyStates.Down &&
+                Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftShift) != CoreVirtualKeyStates.None &&
                 args.VirtualKey == VirtualKey.P)
             {
                 new DebugPanel().Show();
