@@ -40,5 +40,7 @@
         public static string CreateAlbum = BaseUrl + "/v2/playlist/create";
 
         public static string TrackMusic = BaseUrl + "/v2/playlist/tracks";
+
+        public static string EditAlbum = BaseUrl + "/v2/playlist/update";
     }
 }

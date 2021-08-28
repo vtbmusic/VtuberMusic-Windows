@@ -184,6 +184,28 @@ namespace VtuberMusic_UWP.Service
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        public async Task<ApiResponse> EditAlbumInfo(string id, string name, string desc, string[] tags = null)
+        {
+            tags = new string[] { "tag" };
+            var request = new RestRequest(ApiUri.EditAlbum, Method.POST);
+            request.AddParameter("id", id, ParameterType.QueryString);
+            request.AddParameter("name", name, ParameterType.QueryString);
+            request.AddParameter("desc", desc, ParameterType.QueryString);
+            request.AddParameter("tags", UsefullTools.ConvertStringArrayToString(tags), ParameterType.QueryString);
+
+            var response = await _restClient.ExecuteAsync<ApiResponse>(request);
+
+            if (response.IsSuccessful)
+            {
+                if (response.Data.Success) return response.Data;
+
+                throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
     }
 
     public class TokenPack

@@ -27,5 +27,22 @@ namespace VtuberMusic_UWP.Tools
                 args.Request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(data.picUrl));
             };
         }
+
+        public static void ShareAlbum(Album data)
+        {
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            DataTransferManager.ShowShareUI();
+
+            dataTransferManager.DataRequested += delegate (DataTransferManager s, DataRequestedEventArgs args)
+            {
+                args.Request.Data.SetWebLink(new Uri("https://vtbmusic.com/songlist?id=" + data.id));
+                args.Request.Data.SetText(data.name + " - " + data.creator.nickname + " 创建的歌单");
+
+                args.Request.Data.Properties.Title = data.name;
+                args.Request.Data.Properties.Description = data.creator.nickname + " 创建的歌单";
+                args.Request.Data.Properties.ApplicationName = "VtuberMusic";
+                args.Request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(data.coverImgUrl));
+            };
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using VtuberMusic_UWP.Components.Dialog;
 using VtuberMusic_UWP.Tools;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,6 +13,8 @@ namespace VtuberMusic_UWP.Pages
     public sealed partial class Album : Page
     {
         private ConnectedAnimation imageAnimation = null;
+        private Models.VtuberMusic.Album album = null;
+        private bool isLkeMusic = false;
 
         public Album()
         {
@@ -25,15 +28,20 @@ namespace VtuberMusic_UWP.Pages
             if (e.Parameter.GetType() == typeof(AlbumPageArgs))
             {
                 var args = (AlbumPageArgs)e.Parameter;
-                loadData(args.Album, args.IsLikeMusic);
+                album = args.Album;
+                isLkeMusic = true;
+
+                loadData(args.IsLikeMusic);
                 return;
             }
 
-            loadData((Models.VtuberMusic.Album)e.Parameter);
+            album = e.Parameter as Models.VtuberMusic.Album;
+            loadData();
         }
 
-        private async void loadData(Models.VtuberMusic.Album album, bool likeMusic = false)
+        private async void loadData(bool likeMusic = false)
         {
+            if (album.creator.userId == App.Client.Account.Account.id && !isLkeMusic) Edit.Visibility = Visibility.Visible;
             AlbumName.Text = album.name;
             CreatorInfo.Text = $"{ album.creator.nickname } 创建于 { UsefullTools.ConvertUnixTimeStamp(album.createTime).ToString("yyyy/M/d") }";
             if (album.description != null)
@@ -89,6 +97,17 @@ namespace VtuberMusic_UWP.Pages
             base.OnNavigatedFrom(e);
             DataView.ItemsSource = null;
         }
+
+        private async void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            await new EditAlbumInfoDialog().ShowAsync(album.id);
+            album = (await App.Client.GetPlayListSong(album.id)).Data.playlist;
+
+            loadData();
+        }
+
+        private void Share_Click(object sender, RoutedEventArgs e) =>
+            ShareTools.ShareAlbum(album);
     }
 
     public class AlbumPageArgs
