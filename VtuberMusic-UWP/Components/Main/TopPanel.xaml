@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:account="using:VtuberMusic_UWP.Components.Account"
     xmlns:player="using:VtuberMusic_UWP.Components.Player"
-    mc:Ignorable="d" Background="{x:Null}"
+    mc:Ignorable="d" Background="{x:Null}" Loaded="UserControl_Loaded"
     d:DesignHeight="48"
     d:DesignWidth="1920">
 

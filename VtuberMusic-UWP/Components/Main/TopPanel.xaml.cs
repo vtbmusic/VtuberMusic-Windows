@@ -1,4 +1,5 @@
-﻿using VtuberMusic_UWP.Pages;
+﻿using System;
+using VtuberMusic_UWP.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -9,10 +10,6 @@ namespace VtuberMusic_UWP.Components.Main
         public TopPanel()
         {
             this.InitializeComponent();
-            Window.Current.SetTitleBar(TitleBar);
-            App.ViewModel.TopPanel = this;
-
-            Avatar.UriSource = new System.Uri(App.Client.Account.Profile.avatarUrl);
         }
 
         private void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
@@ -28,6 +25,14 @@ namespace VtuberMusic_UWP.Components.Main
 
                 App.ViewModel.NavigateToPage(typeof(Search), SearchKeyword.Text);
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(TitleBar);
+            App.ViewModel.TopPanel = this;
+
+            if (App.Client.Account.Logged) Avatar.UriSource = new Uri(App.Client.Account.Profile.avatarUrl);
         }
     }
 }

@@ -21,7 +21,8 @@
         </ListView.ItemContainerStyle>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="vtubermusic:Music">
-                <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
+                <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited" RightTapped="UserControl_RightTapped"
+                             Tag="{x:Bind}">
                     <SwipeControl>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="HoveringStates">

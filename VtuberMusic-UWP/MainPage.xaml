@@ -11,7 +11,7 @@
     xmlns:pages ="using:VtuberMusic_UWP.Pages"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
         <Style x:Key="NavigationViewItemHeaderButtonStyle" TargetType="muxc:NavigationViewItemHeader">
             <Setter Property="Foreground" Value="{ThemeResource NavigationViewItemHeaderForeground}"/>
@@ -101,7 +101,7 @@
             </DoubleAnimation>
         </Storyboard>
     </Page.Resources>
-    
+
     <Grid>
         <main:TopPanel Margin="48 0 0 0" VerticalAlignment="Top" Canvas.ZIndex="1"/>
         <muxc:NavigationView Name="Navigation" Background="{ThemeResource SystemControlAcrylicElementBrush}"
@@ -111,15 +111,16 @@
                 <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent"/>
             </muxc:NavigationView.Resources>
             <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItemHeader Content="发现"/>
-                <muxc:NavigationViewItem x:Name="HomeItem" Content="首页" Icon="Home" Tag="{local:NavigationItemTag PageType=pages:Home}"/>
-                <muxc:NavigationViewItem Content="电台" Tag="{local:NavigationItemTag PageType=pages:Radio}">
+                <muxc:NavigationViewItemHeader Content="浏览"/>
+                <muxc:NavigationViewItem Content="发现" Icon="Home" Tag="{local:NavigationItemTag PageType=pages:Home}"/>
+                <muxc:NavigationViewItem Content="日推" Tag="{local:NavigationItemTag PageType=pages:Radio}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC44;" FontFamily="Segoe MDL2 Assets"/>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItemHeader Content="我的音乐"/>
                 <muxc:NavigationViewItem Content="下载" Icon="Download" Tag="{local:NavigationItemTag PageType=pages:Download}"/>
+                <!--<muxc:NavigationViewItem Content="我的收藏" Icon="Library" Tag="{local:NavigationItemTag PageType=pages:Download}"/>-->
                 <muxc:NavigationViewItem Content="我喜欢的音乐" x:Name="LikeMusic" Tag="{local:NavigationItemTag PageType=pages:Album}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE006;" FontFamily="Segoe MDL2 Assets"/>

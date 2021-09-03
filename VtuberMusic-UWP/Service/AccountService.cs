@@ -12,6 +12,7 @@ namespace VtuberMusic_UWP.Service
         public Account Account;
         public Profile Profile;
         public TokenPack Token;
+        public bool Logged { get { return Account != null ? true : false; } }
         private RestClient _restClient;
 
         public AccountService(RestClient restClient)
