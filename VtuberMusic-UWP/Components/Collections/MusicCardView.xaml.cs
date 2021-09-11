@@ -6,56 +6,51 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-
-namespace VtuberMusic_UWP.Components.Collections
-{
-    public partial class MusicCardView : UserControl
-    {
+namespace VtuberMusic_UWP.Components.Collections {
+    /// <summary>
+    /// 歌曲卡片列表
+    /// </summary>
+    public partial class MusicCardView : UserControl {
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
-        public Music[] ItemsSource
-        {
-            get { return (Music[])GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+        /// <summary>
+        /// 数据源
+        /// </summary>
+        public Music[] ItemsSource {
+            get { return (Music[])this.GetValue(ItemsSourceProperty); }
+            set { this.SetValue(ItemsSourceProperty, value); }
         }
 
-        private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MusicCardView)d).ItemsSourceChange(e);
+        private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            ( (MusicCardView)d ).ItemsSourceChange(e);
         }
 
-        private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue.GetType() == typeof(Music[]))
-            {
-                DataView.ItemsSource = e.NewValue;
+        private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e) {
+            if (e.NewValue.GetType() == typeof(Music[])) {
+                this.DataView.ItemsSource = e.NewValue;
             }
         }
 
-        public MusicCardView()
-        {
+        public MusicCardView() {
             this.InitializeComponent();
         }
 
-        private void GridView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            args.ItemContainer.Loaded += ItemContainer_Loaded;
+        private void GridView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args) {
+            args.ItemContainer.Loaded += this.ItemContainer_Loaded;
         }
 
-        private void ItemContainer_Loaded(object sender, RoutedEventArgs e)
-        {
-            var itemsPanel = (ItemsStackPanel)DataView.ItemsPanelRoot;
+        private void ItemContainer_Loaded(object sender, RoutedEventArgs e) {
+            var itemsPanel = (ItemsStackPanel)this.DataView.ItemsPanelRoot;
             var itemContainer = (GridViewItem)sender;
 
-            var itemIndex = DataView.IndexFromContainer(itemContainer);
+            var itemIndex = this.DataView.IndexFromContainer(itemContainer);
 
             var relativeIndex = itemIndex - itemsPanel.FirstVisibleIndex;
 
             var uc = itemContainer.ContentTemplateRoot as Grid;
 
-            if (itemIndex != -1 && itemIndex >= 0 && itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
-            {
+            if (itemIndex != -1 && itemIndex >= 0 && itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex) {
                 var itemVisual = ElementCompositionPreview.GetElementVisual(uc);
                 ElementCompositionPreview.SetIsTranslationEnabled(uc, true);
 
@@ -83,8 +78,7 @@ namespace VtuberMusic_UWP.Components.Collections
             itemContainer.Loaded -= this.ItemContainer_Loaded;
         }
 
-        private void DataView_ItemClick(object sender, ItemClickEventArgs e)
-        {
+        private void DataView_ItemClick(object sender, ItemClickEventArgs e) {
             App.Player.SetMusic((Music)e.ClickedItem);
         }
     }

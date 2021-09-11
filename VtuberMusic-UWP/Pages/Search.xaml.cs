@@ -4,101 +4,90 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
-
-namespace VtuberMusic_UWP.Pages
-{
+namespace VtuberMusic_UWP.Pages {
     /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
+    /// 搜索页
     /// </summary>
-    public sealed partial class Search : Page
-    {
+    public sealed partial class Search : Page {
         private string keyWord = "";
         private object _artistItem = null;
         private object _albumItem = null;
 
-        public Search()
-        {
+        public Search() {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
-        public async void SearchKeyword(string keyword)
-        {
-            MusicDataList.ItemsSource = null;
-            VtuberDataView.ItemsSource = null;
-            PlayListDataView.ItemsSource = null;
+        /// <summary>
+        /// 搜索关键词
+        /// </summary>
+        /// <param name="keyword">关键词</param>
+        public async void SearchKeyword(string keyword) {
+            this.MusicDataList.ItemsSource = null;
+            this.VtuberDataView.ItemsSource = null;
+            this.PlayListDataView.ItemsSource = null;
 
-            MusicLoading.Visibility = Visibility.Visible;
-            MusicDataList.ItemsSource = (await App.Client.SearchMusic(keyword)).Data;
-            MusicLoading.Visibility = Visibility.Collapsed;
+            this.MusicLoading.Visibility = Visibility.Visible;
+            this.MusicDataList.ItemsSource = ( await App.Client.SearchMusic(keyword) ).Data;
+            this.MusicLoading.Visibility = Visibility.Collapsed;
 
-            VtuberLoading.Visibility = Visibility.Visible;
-            VtuberDataView.ItemsSource = (await App.Client.SearchArtist(keyword)).Data;
-            VtuberLoading.Visibility = Visibility.Collapsed;
+            this.VtuberLoading.Visibility = Visibility.Visible;
+            this.VtuberDataView.ItemsSource = ( await App.Client.SearchArtist(keyword) ).Data;
+            this.VtuberLoading.Visibility = Visibility.Collapsed;
 
-            PlayListLoading.Visibility = Visibility.Visible;
-            PlayListDataView.ItemsSource = (await App.Client.SearchPlaylist(keyword)).Data;
-            PlayListLoading.Visibility = Visibility.Collapsed;
+            this.PlayListLoading.Visibility = Visibility.Visible;
+            this.PlayListDataView.ItemsSource = ( await App.Client.SearchPlaylist(keyword) ).Data;
+            this.PlayListLoading.Visibility = Visibility.Collapsed;
 
         }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
             var keyword = (string)e.Parameter;
-            if (keyword == keyWord) return;
+            if (keyword == this.keyWord) return;
 
-            keyWord = keyword;
-            SearchKeyword((string)e.Parameter);
+            this.keyWord = keyword;
+            this.SearchKeyword((string)e.Parameter);
         }
 
-        private void VtuberDataView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            _artistItem = ((GridViewItem)VtuberDataView.ContainerFromItem(e.ClickedItem)).Content;
-            var animation = VtuberDataView.PrepareConnectedAnimation("ArtistForwardConnectedAnimation",
-                _artistItem,
+        private void VtuberDataView_ItemClick(object sender, ItemClickEventArgs e) {
+            this._artistItem = ( (GridViewItem)this.VtuberDataView.ContainerFromItem(e.ClickedItem) ).Content;
+            var animation = this.VtuberDataView.PrepareConnectedAnimation("ArtistForwardConnectedAnimation",
+                this._artistItem,
                 "ArtistAvater");
 
-            Frame.Navigate(typeof(Artist), e.ClickedItem, new DrillInNavigationTransitionInfo());
+            this.Frame.Navigate(typeof(Artist), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
 
-        private async void VtuberDataView_Loaded(object sender, RoutedEventArgs e)
-        {
-            VtuberDataView.ScrollIntoView(_artistItem);
-            VtuberDataView.UpdateLayout();
+        private async void VtuberDataView_Loaded(object sender, RoutedEventArgs e) {
+            this.VtuberDataView.ScrollIntoView(this._artistItem);
+            this.VtuberDataView.UpdateLayout();
 
             ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ArtistBackConnectedAnimation");
-            if (animation != null)
-            {
-                await VtuberDataView.TryStartConnectedAnimationAsync(animation, _artistItem, "ArtistAvater");
+            if (animation != null) {
+                await this.VtuberDataView.TryStartConnectedAnimationAsync(animation, this._artistItem, "ArtistAvater");
             }
         }
 
-        private void PlayListDataView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            _albumItem = ((GridViewItem)PlayListDataView.ContainerFromItem(e.ClickedItem)).Content;
-            var animation = PlayListDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
-                _albumItem,
+        private void PlayListDataView_ItemClick(object sender, ItemClickEventArgs e) {
+            this._albumItem = ( (GridViewItem)this.PlayListDataView.ContainerFromItem(e.ClickedItem) ).Content;
+            var animation = this.PlayListDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
+                this._albumItem,
                 "CoverImgBorder");
 
-            Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
+            this.Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
 
-        private async void PlayListDataView_Loaded(object sender, RoutedEventArgs e)
-        {
-            PlayListDataView.ScrollIntoView(_albumItem);
-            PlayListDataView.UpdateLayout();
+        private async void PlayListDataView_Loaded(object sender, RoutedEventArgs e) {
+            this.PlayListDataView.ScrollIntoView(this._albumItem);
+            this.PlayListDataView.UpdateLayout();
 
             ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
-            if (animation != null)
-            {
-                await PlayListDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "CoverImgBorder");
+            if (animation != null) {
+                await this.PlayListDataView.TryStartConnectedAnimationAsync(animation, this._albumItem, "CoverImgBorder");
             }
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            if (e.SourcePageType != typeof(Album) && e.SourcePageType != typeof(Artist))
-            {
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
+            if (e.SourcePageType != typeof(Album) && e.SourcePageType != typeof(Artist)) {
                 this.NavigationCacheMode = NavigationCacheMode.Disabled;
                 GC.Collect();
             }

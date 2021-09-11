@@ -5,99 +5,91 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace VtuberMusic_UWP.Pages
-{
-    public sealed partial class Home : Page
-    {
+namespace VtuberMusic_UWP.Pages {
+    /// <summary>
+    /// 首页
+    /// </summary>
+    public sealed partial class Home : Page {
         private object _albumItem;
         private object _artistItem;
 
         private bool cachePage = false;
 
-        public Home()
-        {
+        public Home() {
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
-            loadData();
+            this.loadData();
         }
 
-        private async void loadData()
-        {
+        private async void loadData() {
             var bannerData = await App.Client.GetBanner();
-            BannerPipsPager.NumberOfPages = bannerData.Data.Length;
-            BannerDataView.ItemsSource = bannerData.Data;
+            this.BannerPipsPager.NumberOfPages = bannerData.Data.Length;
+            this.BannerDataView.ItemsSource = bannerData.Data;
             var bannerImageUri = new Uri(bannerData.Data.First().BannerImg);
 
             if (App.ViewModel.BackgroundImageUri != bannerImageUri)
                 App.ViewModel.SetAppBackgroundImage(bannerImageUri);
 
             var newMusicData = await App.Client.GetNewSong(12);
-            NewMusicDataView.ItemsSource = newMusicData.Data;
+            this.NewMusicDataView.ItemsSource = newMusicData.Data;
 
             var artistData = await App.Client.GetArtistList();
-            VtuberDataView.ItemsSource = artistData.Data;
+            this.VtuberDataView.ItemsSource = artistData.Data;
 
             var albumData = await App.Client.GetPlayListList();
-            AlbumDataView.ItemsSource = albumData.Data;
+            this.AlbumDataView.ItemsSource = albumData.Data;
         }
 
-        private void AlbumDataView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            cachePage = true;
+        private void AlbumDataView_ItemClick(object sender, ItemClickEventArgs e) {
+            this.cachePage = true;
 
-            _albumItem = ((GridViewItem)AlbumDataView.ContainerFromItem(e.ClickedItem)).Content;
-            var animation = AlbumDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
-                _albumItem,
+            this._albumItem = ( (GridViewItem)this.AlbumDataView.ContainerFromItem(e.ClickedItem) ).Content;
+            var animation = this.AlbumDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
+                this._albumItem,
                 "CoverImgBorder");
 
-            Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
+            this.Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
 
-        private async void AlbumDataView_Loaded(object sender, RoutedEventArgs e)
-        {
-            cachePage = false;
+        private async void AlbumDataView_Loaded(object sender, RoutedEventArgs e) {
+            this.cachePage = false;
 
-            AlbumDataView.ScrollIntoView(_albumItem);
-            AlbumDataView.UpdateLayout();
+            this.AlbumDataView.ScrollIntoView(this._albumItem);
+            this.AlbumDataView.UpdateLayout();
 
             ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
-            if (animation != null)
-            {
-                await AlbumDataView.TryStartConnectedAnimationAsync(animation, _albumItem, "CoverImgBorder");
+            if (animation != null) {
+                await this.AlbumDataView.TryStartConnectedAnimationAsync(animation, this._albumItem, "CoverImgBorder");
             }
         }
 
-        private void VtuberDataView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            cachePage = true;
+        private void VtuberDataView_ItemClick(object sender, ItemClickEventArgs e) {
+            this.cachePage = true;
 
-            _artistItem = ((GridViewItem)VtuberDataView.ContainerFromItem(e.ClickedItem)).Content;
-            var animation = VtuberDataView.PrepareConnectedAnimation("ArtistForwardConnectedAnimation",
-                _artistItem,
+            this._artistItem = ( (GridViewItem)this.VtuberDataView.ContainerFromItem(e.ClickedItem) ).Content;
+            var animation = this.VtuberDataView.PrepareConnectedAnimation("ArtistForwardConnectedAnimation",
+                this._artistItem,
                 "Avater");
 
-            Frame.Navigate(typeof(Artist), e.ClickedItem, new DrillInNavigationTransitionInfo());
+            this.Frame.Navigate(typeof(Artist), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
 
-        private async void VtuberDataView_Loaded(object sender, RoutedEventArgs e)
-        {
-            cachePage = false;
+        private async void VtuberDataView_Loaded(object sender, RoutedEventArgs e) {
+            this.cachePage = false;
 
-            VtuberDataView.ScrollIntoView(_artistItem);
-            VtuberDataView.UpdateLayout();
+            this.VtuberDataView.ScrollIntoView(this._artistItem);
+            this.VtuberDataView.UpdateLayout();
 
             ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ArtistBackConnectedAnimation");
-            if (animation != null)
-            {
-                await VtuberDataView.TryStartConnectedAnimationAsync(animation, _artistItem, "Avater");
+            if (animation != null) {
+                await this.VtuberDataView.TryStartConnectedAnimationAsync(animation, this._artistItem, "Avater");
             }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
+        protected override void OnNavigatedFrom(NavigationEventArgs e) {
             base.OnNavigatedFrom(e);
-            if (!cachePage) this.NavigationCacheMode = NavigationCacheMode.Disabled;
+            if (!this.cachePage) this.NavigationCacheMode = NavigationCacheMode.Disabled;
         }
     }
 }

@@ -2,78 +2,66 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Tools;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
-namespace VtuberMusic_UWP.Components.Collections
-{
-    public partial class MusicDataList : UserControl
-    {
+namespace VtuberMusic_UWP.Components.Collections {
+    /// <summary>
+    /// 音乐列表
+    /// </summary>
+    public partial class MusicDataList : UserControl {
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
-        public Music[] ItemsSource
-        {
-            get { return (Music[])GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+        /// <summary>
+        /// 数据源
+        /// </summary>
+        public Music[] ItemsSource {
+            get { return (Music[])this.GetValue(ItemsSourceProperty); }
+            set { this.SetValue(ItemsSourceProperty, value); }
         }
 
+        /// <summary>
+        /// 歌单列表
+        /// </summary>
         public Album[] albums = null;
         private List<MenuFlyoutItem> flyoutItems = new List<MenuFlyoutItem>();
 
-        public MusicDataList()
-        {
+        public MusicDataList() {
             this.InitializeComponent();
-            load();
+            this.load();
         }
 
-        public async void load() => albums = (await App.Client.Account.GetMyCreatePlayList()).Data;
-        private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) => ((MusicDataList)d).ItemsSourceChange(e);
+        private async void load() => this.albums = ( await App.Client.Account.GetMyCreatePlayList() ).Data;
+        private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) => ( (MusicDataList)d ).ItemsSourceChange(e);
 
-        private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue != null && e.NewValue.GetType() == typeof(Music[]))
-            {
-                DataList.ItemsSource = e.NewValue;
-            }
-            else
-            {
-                DataList.ItemsSource = null;
+        private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e) {
+            this.DataList.ItemsSource = e.NewValue != null && e.NewValue.GetType() == typeof(Music[]) ? e.NewValue : null;
+        }
+
+        private void DataList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
+            if (this.DataList.SelectedItem != null) {
+                App.Player.SetMusic((Music)this.DataList.SelectedItem);
             }
         }
 
-        private void DataList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            if (DataList.SelectedItem != null)
-            {
-                App.Player.SetMusic((Music)DataList.SelectedItem);
-            }
-        }
-
-        private void Count_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void Count_Loaded(object sender, RoutedEventArgs e) {
             var item = sender as TextBlock;
 
-            for (int i = 0; i != ItemsSource.Length; i++)
-            {
-                if (item.Tag as Music == ItemsSource[i])
-                {
-                    item.Text = (i + 1).ToString();
+            for (int i = 0; i != this.ItemsSource.Length; i++) {
+                if (item.Tag as Music == this.ItemsSource[i]) {
+                    item.Text = ( i + 1 ).ToString();
                     return;
                 }
             }
         }
 
-        private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
+        private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e) {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
                 VisualStateManager.GoToState(sender as Control, "Hover", true);
         }
@@ -81,33 +69,22 @@ namespace VtuberMusic_UWP.Components.Collections
         private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e) =>
             VisualStateManager.GoToState(sender as Control, "Normal", true);
 
-        private void ArtistButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
-        private void Play_Click(object sender, RoutedEventArgs e) => App.Player.SetMusic((Music)(sender as Control).Tag);
+        private void ArtistButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ( (HyperlinkButton)sender ).Tag);
+        private void Play_Click(object sender, RoutedEventArgs e) => App.Player.SetMusic((Music)( sender as Control ).Tag);
 
-        private async void Like_Click(object sender, RoutedEventArgs e)
-        {
+        private async void Like_Click(object sender, RoutedEventArgs e) {
             var button = (Button)sender;
             var music = (Music)button.Tag;
             button.IsEnabled = false;
 
-            try
-            {
+            try {
                 await App.Client.Account.LikeMusic(music.id, !music.like);
-                ((Music)button.Tag).like = !music.like;
+                ( (Music)button.Tag ).like = !music.like;
 
-                if (((Music)button.Tag).like)
-                {
-                    ((FontIcon)(button.Content)).Glyph = "\uE00B";
-                }
-                else
-                {
-                    ((FontIcon)(button.Content)).Glyph = "\uE006";
-                }
+                ( (FontIcon)( button.Content ) ).Glyph = ( (Music)button.Tag ).like ? "\uE00B" : "\uE006";
 
                 button.IsEnabled = true;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 button.IsEnabled = true;
                 InfoBarPopup.Show("无法喜欢音乐", ex.Message);
 
@@ -119,88 +96,74 @@ namespace VtuberMusic_UWP.Components.Collections
 
                 Crashes.TrackError(ex, data);
             }
-
         }
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
+        private void Add_Click(object sender, RoutedEventArgs e) {
             var button = (Button)sender;
             var music = (Music)button.Tag;
             var menuFlyout = new MenuFlyout() { Placement = FlyoutPlacementMode.Bottom };
-            var nextItem = new MenuFlyoutItem
-            {
+            var nextItem = new MenuFlyoutItem {
                 Icon = new SymbolIcon(Symbol.Next),
                 Text = "下一首播放",
                 Tag = new FlyoutItemTag { Mode = FlyoutItemMode.AddNextPlay, Music = music },
             };
 
-            nextItem.Click += FlyoutItem_Click;
+            nextItem.Click += this.FlyoutItem_Click;
             menuFlyout.Items.Add(nextItem);
-            flyoutItems.Add(nextItem);
+            this.flyoutItems.Add(nextItem);
             menuFlyout.Items.Add(new MenuFlyoutSeparator());
 
-            foreach (var item in albums)
-            {
-                var flyoutItem = new MenuFlyoutItem
-                {
+            foreach (var item in this.albums) {
+                var flyoutItem = new MenuFlyoutItem {
                     Text = item.name,
                     Icon = new SymbolIcon(Symbol.MusicInfo),
                     Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Add, AlbumId = item.id, Music = music }
                 };
 
-                flyoutItem.Click += FlyoutItem_Click;
+                flyoutItem.Click += this.FlyoutItem_Click;
                 menuFlyout.Items.Add(flyoutItem);
-                flyoutItems.Add(flyoutItem);
+                this.flyoutItems.Add(flyoutItem);
             }
 
             button.Flyout = menuFlyout;
         }
 
-        private void Share_Click(object sender, RoutedEventArgs e) => ShareTools.ShareMusic((Music)((Control)sender).Tag);
+        private void Share_Click(object sender, RoutedEventArgs e) => ShareTools.ShareMusic((Music)( (Control)sender ).Tag);
 
-        private async void FlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            var tag = (FlyoutItemTag)((MenuFlyoutItem)sender).Tag;
-            switch (tag.Mode)
-            {
+        private async void FlyoutItem_Click(object sender, RoutedEventArgs e) {
+            var tag = (FlyoutItemTag)( (MenuFlyoutItem)sender ).Tag;
+            switch (tag.Mode) {
                 case FlyoutItemMode.AddNextPlay:
-                    if (!App.Player.PlayList.Contains(tag.Music))
-                    {
+                    if (!App.Player.PlayList.Contains(tag.Music)) {
                         int index = 0;
                         if (App.Player.PlayList.Contains(App.Player.NowPlayingMusic)) index = App.Player.PlayList.IndexOf(App.Player.NowPlayingMusic) + 1;
                         App.Player.PlayList.Insert(index, tag.Music); ;
 
                         if (App.Player.NowPlayingMusic == null) App.Player.SetMusic(App.Player.PlayList[0]);
-                    }
-                    else
-                    {
+                    } else {
                         InfoBarPopup.Show("添加失败", "歌曲已存在", InfoBarSeverity.Error);
                     }
 
                     break;
                 case FlyoutItemMode.Add:
-                    try
-                    {
+                    try {
                         await App.Client.Account.TrackMusic(tag.AlbumId, Service.TrackType.add, new string[] { tag.Music.id });
                         InfoBarPopup.Show("添加成功", "", InfoBarSeverity.Success);
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         InfoBarPopup.Show("无法添加到歌单", ex.Message, InfoBarSeverity.Error);
                     }
+
                     break;
                 case FlyoutItemMode.Play:
                     App.Player.SetMusic(tag.Music);
                     break;
                 case FlyoutItemMode.Like:
-                    try
-                    {
+                    try {
                         await App.Client.Account.LikeMusic(tag.Music.id);
                         InfoBarPopup.Show("喜欢成功", "", InfoBarSeverity.Success);
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
                         InfoBarPopup.Show("喜欢音乐失败", ex.Message, InfoBarSeverity.Error);
                     }
+
                     break;
                 case FlyoutItemMode.Share:
                     ShareTools.ShareMusic(tag.Music);
@@ -208,50 +171,46 @@ namespace VtuberMusic_UWP.Components.Collections
             }
         }
 
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in flyoutItems) item.Click -= FlyoutItem_Click;
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
+            foreach (var item in this.flyoutItems) item.Click -= this.FlyoutItem_Click;
 
-            flyoutItems.Clear();
-            DataList.ItemsSource = null;
-            albums = null;
+            this.flyoutItems.Clear();
+            this.DataList.ItemsSource = null;
+            this.albums = null;
         }
 
-        private void UserControl_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
+        private void UserControl_RightTapped(object sender, RightTappedRoutedEventArgs e) {
             var control = sender as UserControl;
             var tag = control.Tag as Music;
             var flyout = new MenuFlyout() { Placement = FlyoutPlacementMode.Bottom };
 
             var playItem = new MenuFlyoutItem { Icon = new SymbolIcon(Symbol.Play), Text = "播放", Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Play, Music = tag } };
-            playItem.Click += FlyoutItem_Click;
+            playItem.Click += this.FlyoutItem_Click;
 
             var addItem = new MenuFlyoutSubItem() { Icon = new SymbolIcon(Symbol.Add), Text = "添加到..." };
-            var nextPlayItem = new MenuFlyoutItem()
-            {
+            var nextPlayItem = new MenuFlyoutItem() {
                 Icon = new SymbolIcon(Symbol.Next),
                 Text = "下一首播放",
                 Tag = new FlyoutItemTag { Mode = FlyoutItemMode.AddNextPlay, Music = tag }
             };
 
-            nextPlayItem.Click += FlyoutItem_Click;
+            nextPlayItem.Click += this.FlyoutItem_Click;
             addItem.Items.Add(nextPlayItem);
             addItem.Items.Add(new MenuFlyoutSeparator());
 
             var likeItem = new MenuFlyoutItem() { Text = "我喜欢的音乐", Icon = new FontIcon() { Glyph = "\uEB51", FontFamily = new FontFamily("Segoe MDL2 Assets") }, Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Like, Music = tag } };
-            likeItem.Click += FlyoutItem_Click;
+            likeItem.Click += this.FlyoutItem_Click;
             addItem.Items.Add(likeItem);
 
-            foreach (var album in albums)
-            {
+            foreach (var album in this.albums) {
                 var item = new MenuFlyoutItem() { Icon = new SymbolIcon(Symbol.MusicInfo), Text = album.name, Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Add, AlbumId = album.id, Music = tag } };
-                item.Click += FlyoutItem_Click;
+                item.Click += this.FlyoutItem_Click;
 
                 addItem.Items.Add(item);
             }
 
             var shareItem = new MenuFlyoutItem() { Icon = new SymbolIcon(Symbol.Share), Text = "分享", Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Share, Music = tag } };
-            shareItem.Click += FlyoutItem_Click;
+            shareItem.Click += this.FlyoutItem_Click;
 
             flyout.Items.Add(playItem);
             flyout.Items.Add(new MenuFlyoutSeparator());
@@ -263,20 +222,48 @@ namespace VtuberMusic_UWP.Components.Collections
         }
     }
 
-    public class FlyoutItemTag
-    {
+    /// <summary>
+    /// 音乐列表 Item Flyout
+    /// </summary>
+    public class FlyoutItemTag {
+        /// <summary>
+        /// Flyout Item 操作
+        /// </summary>
         public FlyoutItemMode Mode { get; set; }
+        /// <summary>
+        /// 歌单 id
+        /// </summary>
         public string AlbumId { get; set; }
+        /// <summary>
+        /// 音乐 Music Object
+        /// </summary>
         public Music Music { get; set; }
     }
 
-    public enum FlyoutItemMode
-    {
+    public enum FlyoutItemMode {
+        /// <summary>
+        /// 添加到歌单
+        /// </summary>
         Add,
+        /// <summary>
+        /// 添加到下一曲播放
+        /// </summary>
         AddNextPlay,
+        /// <summary>
+        /// 喜欢音乐
+        /// </summary>
         Like,
+        /// <summary>
+        /// 分享音乐
+        /// </summary>
         Share,
+        /// <summary>
+        /// 播放音乐
+        /// </summary>
         Play,
+        /// <summary>
+        /// 从歌单删除
+        /// </summary>
         Remove
     }
 }

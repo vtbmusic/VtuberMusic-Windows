@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VtuberMusic_UWP.Components;
+﻿using VtuberMusic_UWP.Components;
 
-namespace VtuberMusic_UWP.Models.DebugCommand
-{
-    public class ShowLog : IDebugCommand
-    {
+namespace VtuberMusic_UWP.Models.DebugCommand {
+    /// <summary>
+    /// 显示日志 Debug 命令
+    /// </summary>
+    public class ShowLog : IDebugCommand {
         public string Title { get; } = "Show Log";
         public string Description { get; } = "显示日志";
 
-        public void Do()
-        {
+        public void Do() {
             InfoBarPopup.Show("Todo", "咕咕咕");
         }
     }

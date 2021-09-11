@@ -1,58 +1,55 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
-//https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
+namespace VtuberMusic_UWP.Components {
+    /// <summary>
+    /// 消息提示气泡
+    /// </summary>
+    public sealed partial class InfoBarPopup : UserControl {
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string Title {
+            get { return this.Info.Title; }
+            set { this.Info.Title = value; }
+        }
+        /// <summary>
+        /// 消息
+        /// </summary>
+        public string Message {
+            get { return this.Info.Message; }
+            set { this.Info.Message = value; }
+        }
+        /// <summary>
+        /// Icon 是否可见
+        /// </summary>
+        public bool IsIconVisible {
+            get { return this.Info.IsIconVisible; }
+            set { this.Info.IsIconVisible = value; }
+        }
+        /// <summary>
+        /// 等级
+        /// </summary>
+        public InfoBarSeverity Severity {
+            get { return this.Info.Severity; }
+            set { this.Info.Severity = value; }
+        }
 
-namespace VtuberMusic_UWP.Components
-{
-    public sealed partial class InfoBarPopup : UserControl
-    {
-        public string Title
-        {
-            get { return Info.Title; }
-            set { Info.Title = value; }
-        }
-        public string Message
-        {
-            get { return Info.Message; }
-            set { Info.Message = value; }
-        }
-        public bool IsIconVisible
-        {
-            get { return Info.IsIconVisible; }
-            set { Info.IsIconVisible = value; }
-        }
-        public InfoBarSeverity Severity
-        {
-            get { return Info.Severity; }
-            set { Info.Severity = value; }
-        }
-
-        public InfoBarPopup()
-        {
+        public InfoBarPopup() {
             this.InitializeComponent();
 
-            ShareShadow.Receivers.Add(ShadowBackground);
-            Info.Translation = new Vector3(0, 0, 25);
+            this.ShareShadow.Receivers.Add(this.ShadowBackground);
+            this.Info.Translation = new Vector3(0, 0, 25);
         }
 
-        public async void Show()
-        {
+        /// <summary>
+        /// 显示气泡
+        /// </summary>
+        public async void Show() {
             var popup = new Popup();
             popup.IsOpen = true;
             popup.Child = this;
@@ -60,20 +57,25 @@ namespace VtuberMusic_UWP.Components
             this.Width = Window.Current.Bounds.Width;
             this.Height = Window.Current.Bounds.Height;
 
-            PopupOut.Completed += delegate
-            {
+            this.PopupOut.Completed += delegate {
                 popup.IsOpen = false;
             };
 
-            PopupIn.Begin();
+            this.PopupIn.Begin();
             await Task.Delay(2000);
-            PopupOut.Begin();
+            this.PopupOut.Begin();
         }
 
-        public static void Show(string title, string message, InfoBarSeverity severity = InfoBarSeverity.Informational, bool isIconVisible = true)
-        {
+        /// <summary>
+        /// 显示奇葩
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="message">消息</param>
+        /// <param name="severity">等级</param>
+        /// <param name="isIconVisible">Icon 是否可见</param>
+        public static void Show(string title, string message, InfoBarSeverity severity = InfoBarSeverity.Informational, bool isIconVisible = true) {
             var popup = new InfoBarPopup();
-            
+
             popup.Title = title;
             popup.Message = message;
             popup.IsIconVisible = isIconVisible;

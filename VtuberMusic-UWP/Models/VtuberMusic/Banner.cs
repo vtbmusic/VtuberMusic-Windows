@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace VtuberMusic_UWP.Models.VtuberMusic
-{
-    public class Banner
-    {
+namespace VtuberMusic_UWP.Models.VtuberMusic {
+    public class Banner {
         public string Id { get; set; }
         public DateTime CreateTime { get; set; }
         public string CreatorId { get; set; }

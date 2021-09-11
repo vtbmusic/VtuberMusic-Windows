@@ -1,46 +1,41 @@
-﻿using System;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Analytics;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
+using VtuberMusic_UWP.Components;
+using VtuberMusic_UWP.Models.DebugCommand;
 using VtuberMusic_UWP.Models.Main;
 using VtuberMusic_UWP.Pages;
 using VtuberMusic_UWP.Service;
-using Microsoft.AppCenter;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Media.Animation;
-using VtuberMusic_UWP.Components;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Windows.UI.Core;
-using Windows.System;
-using VtuberMusic_UWP.Models.DebugCommand;
+using Windows.UI.Xaml.Navigation;
 
-namespace VtuberMusic_UWP
-{
-    sealed partial class App : Application
-    {
+namespace VtuberMusic_UWP {
+    sealed partial class App : Application {
         public static ViewModel ViewModel = new ViewModel();
         public static MusicClient Client = new MusicClient();
         public static Player Player = new Player();
         public static Frame RootFrame;
         public static DebugCommandManager DebugCommandManager = new DebugCommandManager();
 
-        public App()
-        {
-            InitializeComponent();
+        public App() {
+            this.InitializeComponent();
 
-            App.Current.UnhandledException += Current_UnhandledException;
+            App.Current.UnhandledException += this.Current_UnhandledException;
         }
 
-        private async void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
-        {
+        private async void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) {
             e.Handled = true;
 
             var data = new Dictionary<string, string>()
@@ -50,23 +45,17 @@ namespace VtuberMusic_UWP
 
             Crashes.TrackError(e.Exception, data);
 
-            await Window.Current.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
-            {
-                if (e.Exception.StackTrace == null)
-                {
+            await Window.Current.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate {
+                if (e.Exception.StackTrace == null) {
                     InfoBarPopup.Show("发生了一个异常", e.Exception.Message, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
-                }
-                else
-                {
+                } else {
                     InfoBarPopup.Show($"发生了一个异常: { e.Exception.Message }", e.Exception.StackTrace, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
                 }
             }));
         }
 
-        private async void showCrashReport()
-        {
-            await RootFrame.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async delegate
-            {
+        private async void showCrashReport() {
+            await RootFrame.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async delegate {
                 var dialog = new ContentDialog();
                 dialog.Title = "是否要上传错误报告？";
                 dialog.PrimaryButtonText = "总是";
@@ -77,8 +66,7 @@ namespace VtuberMusic_UWP
 
                 var result = await dialog.ShowAsync();
 
-                switch (result)
-                {
+                switch (result) {
                     case ContentDialogResult.Primary:
                         Crashes.NotifyUserConfirmation(UserConfirmation.AlwaysSend);
                         break;
@@ -92,9 +80,8 @@ namespace VtuberMusic_UWP
             }));
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
-        {
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+        protected override void OnLaunched(LaunchActivatedEventArgs e) {
+            Window.Current.CoreWindow.KeyDown += this.CoreWindow_KeyDown;
 
             // 扩展到标题栏
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
@@ -104,23 +91,20 @@ namespace VtuberMusic_UWP
 
             RootFrame = Window.Current.Content as Frame;
 
-            if (RootFrame == null)
-            {
+            if (RootFrame == null) {
                 RootFrame = new Frame();
 
-                RootFrame.NavigationFailed += OnNavigationFailed;
+                RootFrame.NavigationFailed += this.OnNavigationFailed;
 
                 Window.Current.Content = RootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
-            {
+            if (e.PrelaunchActivated == false) {
                 Window.Current.Activate();
             }
 
-            if (e.PreviousExecutionState != ApplicationExecutionState.Running)
-            {
-                bool loadState = (e.PreviousExecutionState == ApplicationExecutionState.Terminated);
+            if (e.PreviousExecutionState != ApplicationExecutionState.Running) {
+                bool loadState = ( e.PreviousExecutionState == ApplicationExecutionState.Terminated );
                 ExtendedSplash extendedSplash = new ExtendedSplash(e.SplashScreen, loadState);
                 RootFrame.Content = extendedSplash;
             }
@@ -141,47 +125,35 @@ namespace VtuberMusic_UWP
             };
 #endif
 
-            init();
+            this.init();
         }
 
-        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
-        {
+        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args) {
             if (Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftControl) != CoreVirtualKeyStates.None &&
                 Window.Current.CoreWindow.GetKeyState(VirtualKey.LeftShift) != CoreVirtualKeyStates.None &&
-                args.VirtualKey == VirtualKey.P)
-            {
+                args.VirtualKey == VirtualKey.P) {
                 new DebugPanel().Show();
             }
         }
 
-        private async void init()
-        {
+        private async void init() {
             var username = (string)ApplicationData.Current.LocalSettings.Values["Username"];
             var password = (string)ApplicationData.Current.LocalSettings.Values["Password"];
-            if (username != null && password != null)
-            {
-                try
-                {
+            if (username != null && password != null) {
+                try {
                     await Client.Account.Login(username, password);
                     RootFrame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
-                }
-                catch
-                {
+                } catch {
                     RootFrame.Navigate(typeof(Setup), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                 }
-            }
-            else
-            {
+            } else {
                 RootFrame.Navigate(typeof(Setup), null, new DrillInNavigationTransitionInfo());
             }
         }
 
-        private string getGitCommitInfo()
-        {
+        private string getGitCommitInfo() {
             var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
-            if (attributes.Length != 0) return ((AssemblyFileVersionAttribute)attributes[0]).Version;
-
-            return "Nan";
+            return attributes.Length != 0 ? ( (AssemblyFileVersionAttribute)attributes[0] ).Version : "Nan";
         }
 
         /// <summary>
@@ -189,8 +161,7 @@ namespace VtuberMusic_UWP
         /// </summary>
         ///<param name="sender">导航失败的框架</param>
         ///<param name="e">有关导航失败的详细信息</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e) {
             e.Handled = true;
 
             var data = new Dictionary<string, string>()

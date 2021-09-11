@@ -7,84 +7,63 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-
-namespace VtuberMusic_UWP.Pages
-{
-    public sealed partial class Album : Page
-    {
+namespace VtuberMusic_UWP.Pages {
+    /// <summary>
+    /// 歌单页
+    /// </summary>
+    public sealed partial class Album : Page {
         private ConnectedAnimation imageAnimation = null;
         private Models.VtuberMusic.Album album = null;
         private bool isLkeMusic = false;
 
-        public Album()
-        {
+        public Album() {
             this.InitializeComponent();
-            CoverImgBorder.Translation = new System.Numerics.Vector3(0, 0, 32);
+            this.CoverImgBorder.Translation = new System.Numerics.Vector3(0, 0, 32);
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            Tag = e.Parameter;
-            if (e.Parameter.GetType() == typeof(AlbumPageArgs))
-            {
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            this.Tag = e.Parameter;
+            if (e.Parameter.GetType() == typeof(AlbumPageArgs)) {
                 var args = (AlbumPageArgs)e.Parameter;
-                album = args.Album;
-                isLkeMusic = true;
+                this.album = args.Album;
+                this.isLkeMusic = true;
 
-                loadData(args.IsLikeMusic);
+                this.loadData(args.IsLikeMusic);
                 return;
             }
 
-            album = e.Parameter as Models.VtuberMusic.Album;
-            loadData();
+            this.album = e.Parameter as Models.VtuberMusic.Album;
+            this.loadData();
         }
 
-        private async void loadData(bool likeMusic = false)
-        {
-            if (album.creator.userId == App.Client.Account.Account.id && !isLkeMusic) Edit.Visibility = Visibility.Visible;
-            AlbumName.Text = album.name;
-            CreatorInfo.Text = $"{ album.creator.nickname } 创建于 { UsefullTools.ConvertUnixTimeStamp(album.createTime).ToString("yyyy/M/d") }";
-            if (album.description != null)
-            {
-                Introduction.Text = album.description;
-            }
-            else
-            {
-                Introduction.Text = "这个作者很懒没写简介哦～";
-            }
+        private async void loadData(bool likeMusic = false) {
+            if (this.album.creator.userId == App.Client.Account.Account.id && !this.isLkeMusic) this.Edit.Visibility = Visibility.Visible;
+            this.AlbumName.Text = this.album.name;
+            this.CreatorInfo.Text = $"{ this.album.creator.nickname } 创建于 { UsefullTools.ConvertUnixTimeStamp(this.album.createTime).ToString("yyyy/M/d") }";
+            this.Introduction.Text = this.album.description != null ? this.album.description : "这个作者很懒没写简介哦～";
 
-            CoverImg.ImageSource = new BitmapImage(new Uri(album.coverImgUrl));
+            this.CoverImg.ImageSource = new BitmapImage(new Uri(this.album.coverImgUrl));
 
-            imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
-            if (imageAnimation != null) imageAnimation.TryStart(CoverImgBorder, new UIElement[] { InfoPanel });
+            this.imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
+            if (this.imageAnimation != null) this.imageAnimation.TryStart(this.CoverImgBorder, new UIElement[] { this.InfoPanel });
 
-            if (likeMusic)
-            {
-                DataView.ItemsSource = (await App.Client.Account.GetLikeMusicSong()).Data.songs;
-            }
-            else
-            {
-                DataView.ItemsSource = (await App.Client.GetPlayListSong(album.id)).Data.songs;
-            }
+            this.DataView.ItemsSource = likeMusic
+                ? ( await App.Client.Account.GetLikeMusicSong() ).Data.songs
+                : ( await App.Client.GetPlayListSong(this.album.id) ).Data.songs;
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
             base.OnNavigatingFrom(e);
 
-            if ((e.SourcePageType == typeof(Home) | e.SourcePageType == typeof(Search)) && imageAnimation != null)
-            {
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", CoverImgBorder);
+            if (( e.SourcePageType == typeof(Home) | e.SourcePageType == typeof(Search) ) && this.imageAnimation != null) {
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", this.CoverImgBorder);
             }
         }
 
-        private void PlayAll_Click(object sender, RoutedEventArgs e)
-        {
-            if (DataView.ItemsSource.Length != 0)
-            {
+        private void PlayAll_Click(object sender, RoutedEventArgs e) {
+            if (this.DataView.ItemsSource.Length != 0) {
                 App.Player.PlayList.Clear();
-                foreach (var music in DataView.ItemsSource)
-                {
+                foreach (var music in this.DataView.ItemsSource) {
                     App.Player.PlayList.Add(music);
                 }
 
@@ -92,26 +71,23 @@ namespace VtuberMusic_UWP.Pages
             }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
+        protected override void OnNavigatedFrom(NavigationEventArgs e) {
             base.OnNavigatedFrom(e);
-            DataView.ItemsSource = null;
+            this.DataView.ItemsSource = null;
         }
 
-        private async void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            await new EditAlbumInfoDialog().ShowAsync(album.id);
-            album = (await App.Client.GetPlayListSong(album.id)).Data.playlist;
+        private async void Edit_Click(object sender, RoutedEventArgs e) {
+            await new EditAlbumInfoDialog().ShowAsync(this.album.id);
+            this.album = ( await App.Client.GetPlayListSong(this.album.id) ).Data.playlist;
 
-            loadData();
+            this.loadData();
         }
 
         private void Share_Click(object sender, RoutedEventArgs e) =>
-            ShareTools.ShareAlbum(album);
+            ShareTools.ShareAlbum(this.album);
     }
 
-    public class AlbumPageArgs
-    {
+    public class AlbumPageArgs {
         public Models.VtuberMusic.Album Album { get; set; }
         public bool IsLikeMusic { get; set; }
     }

@@ -1,47 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
-namespace VtuberMusic_UWP.Components.Dialog
-{
-    public sealed partial class CreateAlbumDialog : UserControl
-    {
+namespace VtuberMusic_UWP.Components.Dialog {
+    public sealed partial class CreateAlbumDialog : UserControl {
         private ContentDialog dialog = new ContentDialog();
 
-        public CreateAlbumDialog()
-        {
+        public CreateAlbumDialog() {
             this.InitializeComponent();
         }
 
-        public async void ShowAsync()
-        {
-            dialog.Title = "创建歌单";
-            dialog.PrimaryButtonText = "创建";
-            dialog.IsPrimaryButtonEnabled = false;
-            dialog.CloseButtonText = "取消";
-            dialog.DefaultButton = ContentDialogButton.Primary;
-            dialog.Content = this;
+        /// <summary>
+        /// 显示 Dialog
+        /// </summary>
+        public async void ShowAsync() {
+            this.dialog.Title = "创建歌单";
+            this.dialog.PrimaryButtonText = "创建";
+            this.dialog.IsPrimaryButtonEnabled = false;
+            this.dialog.CloseButtonText = "取消";
+            this.dialog.DefaultButton = ContentDialogButton.Primary;
+            this.dialog.Content = this;
 
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-            {
-                await App.Client.Account.CreateAlbum(AlbumName.Text, IsPrivateAlbum.IsChecked.GetValueOrDefault());
+            if (await this.dialog.ShowAsync() == ContentDialogResult.Primary) {
+                await App.Client.Account.CreateAlbum(this.AlbumName.Text, this.IsPrivateAlbum.IsChecked.GetValueOrDefault());
                 App.ViewModel.MainPage.Load();
             }
         }
 
-        private void AlbumName_TextChanged(object sender, TextChangedEventArgs e) => dialog.IsPrimaryButtonEnabled = !string.IsNullOrWhiteSpace(AlbumName.Text);
+        private void AlbumName_TextChanged(object sender, TextChangedEventArgs e) => this.dialog.IsPrimaryButtonEnabled = !string.IsNullOrWhiteSpace(this.AlbumName.Text);
     }
 }

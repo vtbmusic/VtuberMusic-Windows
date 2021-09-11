@@ -1,16 +1,11 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
-
-namespace VtuberMusic_UWP.Pages
-{
+namespace VtuberMusic_UWP.Pages {
     /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
+    /// 电台页
     /// </summary>
-    public sealed partial class Radio : Page
-    {
-        public Radio()
-        {
+    public sealed partial class Radio : Page {
+        public Radio() {
             this.InitializeComponent();
         }
     }

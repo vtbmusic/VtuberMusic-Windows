@@ -14,212 +14,167 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace VtuberMusic_UWP.Components.Player
-{
-    public sealed partial class MainPlayer : UserControl
-    {
+namespace VtuberMusic_UWP.Components.Player {
+    /// <summary>
+    /// 主播放器控件
+    /// </summary>
+    public sealed partial class MainPlayer : UserControl {
         private bool DurationSliderIsDrag = false;
         private bool VolSliderIsDrag = false;
 
-        private Service.Player player
-        {
-            get
-            {
+        private Service.Player player {
+            get {
                 return App.Player;
             }
         }
 
-        public MainPlayer()
-        {
+        public MainPlayer() {
             this.InitializeComponent();
-            player.NowPlayingMusicChanged += nowPlayingMusicChange;
-            player.PositionChanged += positionChanged;
-            player.PlayStateChanged += playStateChanged;
-            player.VolumeChanged += volumeChanged;
-            Volume.Value = player.Volume;
+            this.player.NowPlayingMusicChanged += this.nowPlayingMusicChange;
+            this.player.PositionChanged += this.positionChanged;
+            this.player.PlayStateChanged += this.playStateChanged;
+            this.player.VolumeChanged += this.volumeChanged;
+            this.Volume.Value = this.player.Volume;
             App.ViewModel.MainPlayer = this;
 
-            if (player.NowPlayingMusic == null) this.Visibility = Visibility.Collapsed;
-            ShareShadow.Receivers.Add(ShadowBackground);
-            CoverImgGrid.Translation = new Vector3(0, 0, 32);
+            if (this.player.NowPlayingMusic == null) this.Visibility = Visibility.Collapsed;
+            this.ShareShadow.Receivers.Add(this.ShadowBackground);
+            this.CoverImgGrid.Translation = new Vector3(0, 0, 32);
         }
 
-        private async void volumeChanged(object sender, double e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-            {
-                if (!VolSliderIsDrag)
-                {
-                    Volume.Value = e;
+        private async void volumeChanged(object sender, double e) {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                if (!this.VolSliderIsDrag) {
+                    this.Volume.Value = e;
                 }
             }));
         }
 
-        private async void playStateChanged(object sender, MediaPlaybackState e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-            {
-                switch (e)
-                {
+        private async void playStateChanged(object sender, MediaPlaybackState e) {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                switch (e) {
                     case MediaPlaybackState.Paused:
-                        PlayButtonIocn.Symbol = Symbol.Play;
+                        this.PlayButtonIocn.Symbol = Symbol.Play;
                         break;
                     case MediaPlaybackState.Playing:
-                        PlayButtonIocn.Symbol = Symbol.Pause;
+                        this.PlayButtonIocn.Symbol = Symbol.Pause;
                         break;
                 }
             }));
         }
 
-        private async void positionChanged(object sender, TimeSpan e)
-        {
-            if (!DurationSliderIsDrag)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-                {
-                    PositionText.Text = App.Player.Position.ToString("mm\\:ss");
-                    DurationSlider.Value = App.Player.Position.TotalMilliseconds;
+        private async void positionChanged(object sender, TimeSpan e) {
+            if (!this.DurationSliderIsDrag) {
+                await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                    this.PositionText.Text = App.Player.Position.ToString("mm\\:ss");
+                    this.DurationSlider.Value = App.Player.Position.TotalMilliseconds;
 
-                    DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
-                    DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
+                    this.DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
+                    this.DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
                 }));
             }
         }
 
-        private void update()
-        {
-            var data = player.NowPlayingMusic;
-            if (data != null)
-            {
+        private void update() {
+            var data = this.player.NowPlayingMusic;
+            if (data != null) {
                 var image = new BitmapImage() { DecodePixelHeight = 55, DecodePixelWidth = 90 };
-                CoverImg.ImageSource = image;
+                this.CoverImg.ImageSource = image;
                 image.UriSource = new Uri(data.picUrl);
 
-                MusicName.Text = data.name;
-                Vocal.ItemsSource = data.artists;
-                if (data.like)
-                {
-                    LikeMusicIcon.Glyph = "\uE00B";
-                }
-                else
-                {
-                    LikeMusicIcon.Glyph = "\uE006";
-                }
+                this.MusicName.Text = data.name;
+                this.Vocal.ItemsSource = data.artists;
+                this.LikeMusicIcon.Glyph = data.like ? "\uE00B" : "\uE006";
             }
 
-            DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
-            DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
-            DurationSlider.Value = App.Player.Position.Milliseconds;
+            this.DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
+            this.DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
+            this.DurationSlider.Value = App.Player.Position.Milliseconds;
         }
 
-        private async void nowPlayingMusicChange(object sender, Music e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-            {
-                update();
+        private async void nowPlayingMusicChange(object sender, Music e) {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                this.update();
             }));
         }
 
-        private void DurationSlider_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
-        {
-            App.Player.Position = TimeSpan.FromMilliseconds(DurationSlider.Value);
-            DurationSliderIsDrag = false;
+        private void DurationSlider_PointerCaptureLost(object sender, PointerRoutedEventArgs e) {
+            App.Player.Position = TimeSpan.FromMilliseconds(this.DurationSlider.Value);
+            this.DurationSliderIsDrag = false;
         }
 
-        private void DurationSlider_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) => DurationSliderIsDrag = true;
+        private void DurationSlider_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) => this.DurationSliderIsDrag = true;
 
-        private void Play_Click(object sender, RoutedEventArgs e)
-        {
-            switch (player.PlayState)
-            {
+        private void Play_Click(object sender, RoutedEventArgs e) {
+            switch (this.player.PlayState) {
                 case MediaPlaybackState.Paused:
-                    PlayButtonIocn.Symbol = Symbol.Play;
-                    player.Play();
+                    this.PlayButtonIocn.Symbol = Symbol.Play;
+                    this.player.Play();
                     break;
                 case MediaPlaybackState.Playing:
-                    PlayButtonIocn.Symbol = Symbol.Pause;
-                    player.Pause();
+                    this.PlayButtonIocn.Symbol = Symbol.Pause;
+                    this.player.Pause();
                     break;
             }
         }
 
-        private void Next_Click(object sender, RoutedEventArgs e) => player.Next();
-        private void Prev_Click(object sender, RoutedEventArgs e) => player.Previous();
-        private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) => player.Volume = Volume.Value;
-        private void Volume_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) => VolSliderIsDrag = true;
-        private void Volume_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) => VolSliderIsDrag = false;
+        private void Next_Click(object sender, RoutedEventArgs e) => this.player.Next();
+        private void Prev_Click(object sender, RoutedEventArgs e) => this.player.Previous();
+        private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) => this.player.Volume = this.Volume.Value;
+        private void Volume_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) => this.VolSliderIsDrag = true;
+        private void Volume_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) => this.VolSliderIsDrag = false;
 
-        private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            if (App.RootFrame.Content.GetType() != typeof(Playing))
-            {
-                App.RootFrame.Navigate(typeof(Playing), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromBottom } );
+        private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e) {
+            if (App.RootFrame.Content.GetType() != typeof(Playing)) {
+                App.RootFrame.Navigate(typeof(Playing), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromBottom });
             }
         }
 
-        private async void LikeMusicButton_Click(object sender, RoutedEventArgs e)
-        {
-            LikeMusicButton.IsEnabled = false;
+        private async void LikeMusicButton_Click(object sender, RoutedEventArgs e) {
+            this.LikeMusicButton.IsEnabled = false;
 
-            try
-            {
-                await App.Client.Account.LikeMusic(player.NowPlayingMusic.id, !player.NowPlayingMusic.like);
-                player.NowPlayingMusic.like = !player.NowPlayingMusic.like;
+            try {
+                await App.Client.Account.LikeMusic(this.player.NowPlayingMusic.id, !this.player.NowPlayingMusic.like);
+                this.player.NowPlayingMusic.like = !this.player.NowPlayingMusic.like;
 
-                if (player.NowPlayingMusic.like)
-                {
-                    LikeMusicIcon.Glyph = "\uE00B";
-                }
-                else
-                {
-                    LikeMusicIcon.Glyph = "\uE006";
-                }
+                this.LikeMusicIcon.Glyph = this.player.NowPlayingMusic.like ? "\uE00B" : "\uE006";
 
-                LikeMusicButton.IsEnabled = true;
-            }
-            catch (Exception ex)
-            {
-                LikeMusicButton.IsEnabled = true;
+                this.LikeMusicButton.IsEnabled = true;
+            } catch (Exception ex) {
+                this.LikeMusicButton.IsEnabled = true;
                 InfoBarPopup.Show("无法喜欢音乐", ex.Message);
 
                 var data = new Dictionary<string, string>()
                 {
-                    { "Music_Id", player.NowPlayingMusic.id },
-                    { "Like", (!player.NowPlayingMusic.like).ToString() }
+                    { "Music_Id", this.player.NowPlayingMusic.id },
+                    { "Like", (!this.player.NowPlayingMusic.like).ToString() }
                 };
 
                 Crashes.TrackError(ex, data);
             }
         }
 
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ((HyperlinkButton)sender).Tag);
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e) => App.ViewModel.NavigateToPage(typeof(Pages.Artist), ( (HyperlinkButton)sender ).Tag);
     }
 
-    public class PercentagesConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string culture)
-        {
-            if (value != null && value.GetType() == typeof(double))
-            {
+    public class PercentagesConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string culture) {
+            if (value != null && value.GetType() == typeof(double)) {
                 var convertValue = (double)value;
-                return ((int)(convertValue * 100)).ToString() + "%";
+                return ( (int)( convertValue * 100 ) ).ToString() + "%";
             }
 
             return DependencyProperty.UnsetValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string culture)
-        {
+        public object ConvertBack(object value, Type targetType, object parameter, string culture) {
             return DependencyProperty.UnsetValue;
         }
     }
 
-    public class TimeConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string culture)
-        {
-            if (value != null && value.GetType() == typeof(double))
-            {
+    public class TimeConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string culture) {
+            if (value != null && value.GetType() == typeof(double)) {
                 var convertValue = (double)value;
                 return TimeSpan.FromMilliseconds(convertValue).ToString("mm\\:ss");
             }
@@ -227,8 +182,7 @@ namespace VtuberMusic_UWP.Components.Player
             return DependencyProperty.UnsetValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string culture)
-        {
+        public object ConvertBack(object value, Type targetType, object parameter, string culture) {
             return DependencyProperty.UnsetValue;
         }
     }

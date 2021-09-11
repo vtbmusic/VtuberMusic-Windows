@@ -2,7 +2,6 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Numerics;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Components.Lyric;
@@ -16,82 +15,67 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
-
-namespace VtuberMusic_UWP.Pages
-{
+namespace VtuberMusic_UWP.Pages {
     /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
+    /// 播放中页面
     /// </summary>
-    public sealed partial class Playing : Page
-    {
+    public sealed partial class Playing : Page {
         private Lyric[] lyrics;
         private int nowLyricIndex = -1;
         private LyricItem nowLyricItem = null;
         private bool canUpdatePosition = true;
 
-        public Playing()
-        {
+        public Playing() {
             this.InitializeComponent();
 
-            ShareShadow.Receivers.Add(ShadowBackground);
-            CoverImgGrid.Translation = new Vector3(0, 0, 32);
+            this.ShareShadow.Receivers.Add(this.ShadowBackground);
+            this.CoverImgGrid.Translation = new Vector3(0, 0, 32);
 
-            switch (App.Player.PlayState)
-            {
+            switch (App.Player.PlayState) {
                 case MediaPlaybackState.Playing:
-                    PlayButtonIcon.Symbol = Symbol.Pause;
+                    this.PlayButtonIcon.Symbol = Symbol.Pause;
                     break;
                 default:
-                    PlayButtonIcon.Symbol = Symbol.Play;
+                    this.PlayButtonIcon.Symbol = Symbol.Play;
                     break;
             }
 
-            App.Player.NowPlayingMusicChanged += NowPlayingMusicChanged;
-            App.Player.PlayStateChanged += PlayStateChanged;
-            App.Player.PositionChanged += positionUpdate;
+            App.Player.NowPlayingMusicChanged += this.NowPlayingMusicChanged;
+            App.Player.PlayStateChanged += this.PlayStateChanged;
+            App.Player.PositionChanged += this.positionUpdate;
 
-            init();
+            this.init();
         }
 
-        public async void init()
-        {
+        public async void init() {
             if (App.Player.NowPlayingMusic == null) return;
 
             string artist = "";
-            foreach (var item in App.Player.NowPlayingMusic.artists)
-            {
+            foreach (var item in App.Player.NowPlayingMusic.artists) {
                 artist += item.name.origin + " ";
             }
 
-            MusicName.Text = App.Player.NowPlayingMusic.name;
-            Artist.Text = artist;
+            this.MusicName.Text = App.Player.NowPlayingMusic.name;
+            this.Artist.Text = artist;
 
             var image = new BitmapImage(new Uri(App.Player.NowPlayingMusic.picUrl));
-            PageBackground.ImageSource = image;
-            CoverImg.ImageSource = image;
+            this.PageBackground.ImageSource = image;
+            this.CoverImg.ImageSource = image;
 
-            if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl))
-            {
-                lyrics = new Lyric[]
+            if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl)) {
+                this.lyrics = new Lyric[]
                 {
                     new Lyric { Source = "暂无歌词", Time = TimeSpan.Zero, Translation = "" }
                 };
-            }
-            else
-            {
+            } else {
                 var client = new RestClient();
                 var request = new RestRequest(App.Player.NowPlayingMusic.vrcUrl, Method.GET);
                 var response = await client.ExecuteAsync(request);
 
-                if (response.IsSuccessful)
-                {
-                    try
-                    {
-                        lyrics = await Task.Run(() => LyricPaser.Parse(response.Content));
-                    }
-                    catch (Exception ex)
-                    {
+                if (response.IsSuccessful) {
+                    try {
+                        this.lyrics = await Task.Run(() => LyricPaser.Parse(response.Content));
+                    } catch (Exception ex) {
                         Crashes.TrackError(ex, new Dictionary<string, string>()
                         {
                             { "Song_Id", App.Player.NowPlayingMusic.id },
@@ -99,10 +83,8 @@ namespace VtuberMusic_UWP.Pages
                             { "LyricRaw", response.Content }
                         });
                     }
-                }
-                else
-                {
-                    lyrics = new Lyric[]
+                } else {
+                    this.lyrics = new Lyric[]
                     {
                         new Lyric { Source = $"获取歌词失败: { response.ErrorMessage }", Time = TimeSpan.Zero, Translation = "" }
                     };
@@ -113,76 +95,63 @@ namespace VtuberMusic_UWP.Pages
                     });
                 };
             }
-            
-            LyricView.ItemsSource = lyrics;
+
+            this.LyricView.ItemsSource = this.lyrics;
         }
 
-        private async void PlayStateChanged(object sender, MediaPlaybackState e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate
-            {
-                switch (e)
-                {
+        private async void PlayStateChanged(object sender, MediaPlaybackState e) {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate {
+                switch (e) {
                     case MediaPlaybackState.Playing:
-                        PlayButtonIcon.Symbol = Symbol.Pause;
+                        this.PlayButtonIcon.Symbol = Symbol.Pause;
                         break;
                     default:
-                        PlayButtonIcon.Symbol = Symbol.Play;
+                        this.PlayButtonIcon.Symbol = Symbol.Play;
                         break;
                 }
             }));
         }
 
-        private async void NowPlayingMusicChanged(object sender, Models.VtuberMusic.Music e)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-            {
-                init();
+        private async void NowPlayingMusicChanged(object sender, Models.VtuberMusic.Music e) {
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                this.init();
             }));
         }
 
-        private async void positionUpdate(object sender, TimeSpan e)
-        {
-            if (!canUpdatePosition) return;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate
-            {
+        private async void positionUpdate(object sender, TimeSpan e) {
+            if (!this.canUpdatePosition) return;
+            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate {
                 if (App.RootFrame.Content.GetType() != typeof(Playing)) return;
 
-                NowPlayTime.Text = e.ToString("mm\\:ss");
-                Position.Value = e.TotalMilliseconds;
+                this.NowPlayTime.Text = e.ToString("mm\\:ss");
+                this.Position.Value = e.TotalMilliseconds;
 
-                Duration.Text = App.Player.Duration.ToString("mm\\:ss");
-                Position.Maximum = App.Player.Duration.TotalMilliseconds;
+                this.Duration.Text = App.Player.Duration.ToString("mm\\:ss");
+                this.Position.Maximum = App.Player.Duration.TotalMilliseconds;
 
-                lyricTick();
+                this.lyricTick();
             });
         }
 
         #region Lyric
-        private async void lyricTick()
-        {
-            if (lyrics == null) return;
-            for (int i = 0; i != lyrics.Length; i++)
-            {
-                if (i == lyrics.Length - 1 && lyrics[i].Time <= App.Player.Position)
-                {
-                    if (nowLyricIndex == i) return;
+        private async void lyricTick() {
+            if (this.lyrics == null) return;
+            for (int i = 0; i != this.lyrics.Length; i++) {
+                if (i == this.lyrics.Length - 1 && this.lyrics[i].Time <= App.Player.Position) {
+                    if (this.nowLyricIndex == i) return;
 
-                    await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-                    {
-                        ToLyric(i);
+                    await this.Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                        this.ToLyric(i);
                     }));
 
                     return;
                 }
 
-                if (lyrics[i].Time >= App.Player.Position)
-                {
-                    if (nowLyricIndex == i - 1) return;
+                if (this.lyrics[i].Time >= App.Player.Position) {
+                    if (this.nowLyricIndex == i - 1) return;
 
-                    await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate
-                    {
-                        ToLyric(i - 1);
+                    await this.Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                        this.ToLyric(i - 1);
                     }));
 
                     return;
@@ -190,68 +159,57 @@ namespace VtuberMusic_UWP.Pages
             }
         }
 
-        private void ToLyric(int index)
-        {
-            nowLyricIndex = index;
-            if (nowLyricItem != null) nowLyricItem.Hide();
+        private void ToLyric(int index) {
+            this.nowLyricIndex = index;
+            if (this.nowLyricItem != null) this.nowLyricItem.Hide();
             if (index < 0) return;
 
-            var itemContainer = (UIElement)LyricView.ContainerFromItem(lyrics[index]);
+            var itemContainer = (UIElement)this.LyricView.ContainerFromItem(this.lyrics[index]);
             if (itemContainer == null) return;
 
-            LyricView.UpdateLayout();
+            this.LyricView.UpdateLayout();
 
-            GeneralTransform generalTransform = LyricScrollViwer.TransformToVisual(itemContainer);
+            GeneralTransform generalTransform = this.LyricScrollViwer.TransformToVisual(itemContainer);
             Point point = generalTransform.TransformPoint(new Point());
 
-            try
-            {
-                nowLyricItem = FindVisualChild<LyricItem>(itemContainer);
-                nowLyricItem.Show();
+            try {
+                this.nowLyricItem = this.FindVisualChild<LyricItem>(itemContainer);
+                this.nowLyricItem.Show();
 
-                LyricScrollViwer.ChangeView(0,
-                -point.Y + LyricScrollViwer.VerticalOffset - (LyricScrollViwer.ActualHeight / 3),
+                this.LyricScrollViwer.ChangeView(0,
+                -point.Y + this.LyricScrollViwer.VerticalOffset - ( this.LyricScrollViwer.ActualHeight / 3 ),
                 null);
-            }
-            catch { }
+            } catch { }
         }
 
         private ChildType FindVisualChild<ChildType>(DependencyObject obj)
-        where ChildType : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
+        where ChildType : DependencyObject {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++) {
                 DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is ChildType)
-                {
-                    return (child as ChildType);
-                }
-                else
-                {
-                    ChildType childOfChild = FindVisualChild<ChildType>(child);
+                if (child != null && child is ChildType) {
+                    return ( child as ChildType );
+                } else {
+                    ChildType childOfChild = this.FindVisualChild<ChildType>(child);
                     if (childOfChild != null)
-                        return (childOfChild);
+                        return ( childOfChild );
                 }
             }
 
-            return (null);
+            return ( null );
         }
         #endregion
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
+        protected override void OnNavigatedFrom(NavigationEventArgs e) {
             base.OnNavigatedFrom(e);
-            App.Player.PositionChanged -= positionUpdate;
-            App.Player.NowPlayingMusicChanged -= NowPlayingMusicChanged;
-            App.Player.PlayStateChanged -= PlayStateChanged;
+            App.Player.PositionChanged -= this.positionUpdate;
+            App.Player.NowPlayingMusicChanged -= this.NowPlayingMusicChanged;
+            App.Player.PlayStateChanged -= this.PlayStateChanged;
         }
 
-        private void BackButton_Click(object sender, RoutedEventArgs e) => Frame.GoBack();
+        private void BackButton_Click(object sender, RoutedEventArgs e) => this.Frame.GoBack();
         private void PreviousButton_Click(object sender, RoutedEventArgs e) => App.Player.Previous();
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            switch (App.Player.PlayState)
-            {
+        private void PlayButton_Click(object sender, RoutedEventArgs e) {
+            switch (App.Player.PlayState) {
                 case MediaPlaybackState.Playing:
                     App.Player.Pause();
                     break;
@@ -262,13 +220,12 @@ namespace VtuberMusic_UWP.Pages
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) => App.Player.Next();
-        private void Position_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e) => canUpdatePosition = false;
-        private void Position_PointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            App.Player.Position = TimeSpan.FromMilliseconds(Position.Value);
-            canUpdatePosition = true;
+        private void Position_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e) => this.canUpdatePosition = false;
+        private void Position_PointerCaptureLost(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e) {
+            App.Player.Position = TimeSpan.FromMilliseconds(this.Position.Value);
+            this.canUpdatePosition = true;
         }
 
-        private void Position_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e) => canUpdatePosition = true;
+        private void Position_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e) => this.canUpdatePosition = true;
     }
 }

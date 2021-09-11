@@ -1,11 +1,5 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-
-namespace VtuberMusic_UWP.Models.VtuberMusic
-{
-    public class Music
-    {
+﻿namespace VtuberMusic_UWP.Models.VtuberMusic {
+    public class Music {
         public string id { get; set; }
         public string name { get; set; }
         public object alias { get; set; }
@@ -17,17 +11,14 @@ namespace VtuberMusic_UWP.Models.VtuberMusic
         public Artist[] artists { get; set; }
         public MusicStatis statis { get; set; }
 
-        public bool IsPlaying
-        {
-            get
-            {
+        public bool IsPlaying {
+            get {
                 return this == App.Player.NowPlayingMusic;
             }
         }
     }
 
-    public class MusicStatis
-    {
+    public class MusicStatis {
         public int playCount { get; set; }
         public int commentCount { get; set; }
         public int likeCount { get; set; }

@@ -4,50 +4,43 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace VtuberMusic_UWP.Models.Lyric
-{
-    public class LyricPaser
-    {
+namespace VtuberMusic_UWP.Models.Lyric {
+    /// <summary>
+    /// 歌词解析器
+    /// </summary>
+    public class LyricPaser {
         /// <summary>
         /// 解析歌词
         /// </summary>
         /// <param name="lyricString">歌词 string</param>
         /// <returns></returns>
-        public static Lyric[] Parse(string lyricString)
-        {
+        public static Lyric[] Parse(string lyricString) {
             var vrc = JsonConvert.DeserializeObject<Vrc>(lyricString);
             var lyrics = new List<Lyric>();
             var sourceLyric = parseLrc(vrc.origin.text);
 
-            if (vrc.translate != null)
-            {
+            if (vrc.translate != null) {
                 var translationLyric = parseLrc(vrc.translate.text);
-                for (int i = 0; i < sourceLyric.Length || i < translationLyric.Length; i++)
-                {
+                for (int i = 0; i < sourceLyric.Length || i < translationLyric.Length; i++) {
                     Debug.WriteLine(i);
                     TimeSpan time = TimeSpan.Zero;
                     string source = "";
                     string translation = "";
 
-                    if (i < sourceLyric.Length)
-                    {
+                    if (i < sourceLyric.Length) {
                         time = sourceLyric[i].Time;
                         source = sourceLyric[i].Text;
                     }
 
-                    if (i < translationLyric.Length)
-                    {
+                    if (i < translationLyric.Length) {
                         time = translationLyric[i].Time;
                         translation = translationLyric[i].Text;
                     }
 
                     lyrics.Add(new Lyric { Time = time, Source = source, Translation = translation });
                 }
-            }
-            else
-            {
-                for (int i = 0; i != sourceLyric.Length; i++)
-                {
+            } else {
+                for (int i = 0; i != sourceLyric.Length; i++) {
                     lyrics.Add(new Lyric { Time = sourceLyric[i].Time, Source = sourceLyric[i].Text, Translation = "" });
                 }
             }
@@ -55,16 +48,13 @@ namespace VtuberMusic_UWP.Models.Lyric
             return lyrics.ToArray();
         }
 
-        private static LrcLyric[] parseLrc(string lrcString)
-        {
+        private static LrcLyric[] parseLrc(string lrcString) {
             var offset = TimeSpan.Zero;
             var lyrics = new List<LrcLyric>();
             string[] contentLines = lrcString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (string temp in contentLines)
-            {
-                if (temp.StartsWith("[offset:"))
-                {
+            foreach (string temp in contentLines) {
+                if (temp.StartsWith("[offset:")) {
                     offset = TimeSpan.FromMilliseconds(int.Parse(SplitInfo(temp)));
                     break;
                 }
@@ -73,8 +63,7 @@ namespace VtuberMusic_UWP.Models.Lyric
             Regex regex = new Regex(@"\[(.*?)\]([^[\]]*)\s*", RegexOptions.Compiled);
             var mc = regex.Matches(lrcString);
 
-            foreach (Match temp in mc)
-            {
+            foreach (Match temp in mc) {
                 var time = TimeTransition(temp.Groups[1].Value, offset);
                 var word = temp.Groups[2].Value.Replace("\n", "");
 
@@ -84,11 +73,9 @@ namespace VtuberMusic_UWP.Models.Lyric
             return lyrics.ToArray();
         }
 
-        private static TimeSpan TimeTransition(string time, TimeSpan offset)
-        {
+        private static TimeSpan TimeTransition(string time, TimeSpan offset) {
             string[] splited = time.Split(":");
-            switch (splited.Length)
-            {
+            switch (splited.Length) {
                 // 00:00.00
                 case 2:
                     string[] seconds = splited[1].Split(".");
@@ -105,13 +92,11 @@ namespace VtuberMusic_UWP.Models.Lyric
             }
         }
 
-        private static string SplitInfo(string line)
-        {
+        private static string SplitInfo(string line) {
             return line.Substring(line.IndexOf(":") + 1).TrimEnd(']');
         }
 
-        private class LrcLyric
-        {
+        private class LrcLyric {
             public TimeSpan Time { get; set; }
             public string Text { get; set; }
         }

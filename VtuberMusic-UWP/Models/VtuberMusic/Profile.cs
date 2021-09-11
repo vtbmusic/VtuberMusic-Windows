@@ -1,7 +1,5 @@
-﻿namespace VtuberMusic_UWP.Models.VtuberMusic
-{
-    public class Profile
-    {
+﻿namespace VtuberMusic_UWP.Models.VtuberMusic {
+    public class Profile {
         public string userId { get; set; }
         public int userType { get; set; }
         public string nickname { get; set; }
