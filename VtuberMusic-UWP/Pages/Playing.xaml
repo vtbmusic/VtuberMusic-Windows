@@ -105,6 +105,9 @@
                             </Button>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                            <Button x:Name="CompactOverlayButton" Click="CompactOverlayButton_Click" Style="{StaticResource CircleButton}" Height="50" Width="50">
+                                <FontIcon Foreground="White" Glyph="&#xE944;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Button>
                             <Button Style="{StaticResource CircleButton}" Height="50" Width="50">
                                 <FontIcon Foreground="White" x:Name="LikeMusicIcon" FontFamily="{StaticResource Icon}" Glyph="&#xe601;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>

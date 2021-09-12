@@ -185,6 +185,9 @@
     <Compile Include="Pages\Artist.xaml.cs">
       <DependentUpon>Artist.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CompactOverlay.xaml.cs">
+      <DependentUpon>CompactOverlay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Download.xaml.cs">
       <DependentUpon>Download.xaml</DependentUpon>
     </Compile>
@@ -360,6 +363,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Artist.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CompactOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

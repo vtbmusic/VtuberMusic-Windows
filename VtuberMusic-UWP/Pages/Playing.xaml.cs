@@ -12,6 +12,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -227,5 +228,6 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         private void Position_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e) => this.canUpdatePosition = true;
+        private void CompactOverlayButton_Click(object sender, RoutedEventArgs e) => this.Frame.Navigate(typeof(CompactOverlay), null, new DrillInNavigationTransitionInfo());
     }
 }
