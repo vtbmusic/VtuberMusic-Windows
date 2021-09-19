@@ -22,19 +22,12 @@ namespace VtuberMusic_UWP.Components.Player {
         private bool DurationSliderIsDrag = false;
         private bool VolSliderIsDrag = false;
 
-        private Service.Player player {
-            get {
-                return App.Player;
-            }
-        }
+        private Service.Player player => App.Player;
 
         public MainPlayer() {
             this.InitializeComponent();
-            this.player.NowPlayingMusicChanged += this.nowPlayingMusicChange;
+
             this.player.PositionChanged += this.positionChanged;
-            this.player.PlayStateChanged += this.playStateChanged;
-            this.player.VolumeChanged += this.volumeChanged;
-            this.Volume.Value = this.player.Volume;
             App.ViewModel.MainPlayer = this;
 
             if (this.player.NowPlayingMusic == null) this.Visibility = Visibility.Collapsed;
@@ -42,60 +35,12 @@ namespace VtuberMusic_UWP.Components.Player {
             this.CoverImgGrid.Translation = new Vector3(0, 0, 32);
         }
 
-        private async void volumeChanged(object sender, double e) {
-            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
-                if (!this.VolSliderIsDrag) {
-                    this.Volume.Value = e;
-                }
-            }));
-        }
-
-        private async void playStateChanged(object sender, MediaPlaybackState e) {
-            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
-                switch (e) {
-                    case MediaPlaybackState.Paused:
-                        this.PlayButtonIocn.Symbol = Symbol.Play;
-                        break;
-                    case MediaPlaybackState.Playing:
-                        this.PlayButtonIocn.Symbol = Symbol.Pause;
-                        break;
-                }
-            }));
-        }
-
         private async void positionChanged(object sender, TimeSpan e) {
             if (!this.DurationSliderIsDrag) {
                 await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
-                    this.PositionText.Text = App.Player.Position.ToString("mm\\:ss");
                     this.DurationSlider.Value = App.Player.Position.TotalMilliseconds;
-
-                    this.DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
-                    this.DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
                 }));
             }
-        }
-
-        private void update() {
-            var data = this.player.NowPlayingMusic;
-            if (data != null) {
-                var image = new BitmapImage() { DecodePixelHeight = 55, DecodePixelWidth = 90 };
-                this.CoverImg.ImageSource = image;
-                image.UriSource = new Uri(data.picUrl);
-
-                this.MusicName.Text = data.name;
-                this.Vocal.ItemsSource = data.artists;
-                this.LikeMusicIcon.Glyph = data.like ? "\uE00B" : "\uE006";
-            }
-
-            this.DurationText.Text = App.Player.Duration.ToString("mm\\:ss");
-            this.DurationSlider.Maximum = App.Player.Duration.TotalMilliseconds;
-            this.DurationSlider.Value = App.Player.Position.Milliseconds;
-        }
-
-        private async void nowPlayingMusicChange(object sender, Music e) {
-            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
-                this.update();
-            }));
         }
 
         private void DurationSlider_PointerCaptureLost(object sender, PointerRoutedEventArgs e) {
@@ -108,11 +53,9 @@ namespace VtuberMusic_UWP.Components.Player {
         private void Play_Click(object sender, RoutedEventArgs e) {
             switch (this.player.PlayState) {
                 case MediaPlaybackState.Paused:
-                    this.PlayButtonIocn.Symbol = Symbol.Play;
                     this.player.Play();
                     break;
                 case MediaPlaybackState.Playing:
-                    this.PlayButtonIocn.Symbol = Symbol.Pause;
                     this.player.Pause();
                     break;
             }
@@ -136,8 +79,6 @@ namespace VtuberMusic_UWP.Components.Player {
             try {
                 await App.Client.Account.LikeMusic(this.player.NowPlayingMusic.id, !this.player.NowPlayingMusic.like);
                 this.player.NowPlayingMusic.like = !this.player.NowPlayingMusic.like;
-
-                this.LikeMusicIcon.Glyph = this.player.NowPlayingMusic.like ? "\uE00B" : "\uE006";
 
                 this.LikeMusicButton.IsEnabled = true;
             } catch (Exception ex) {

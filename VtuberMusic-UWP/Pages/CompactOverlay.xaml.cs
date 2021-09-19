@@ -8,7 +8,9 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Components;
 using VtuberMusic_UWP.Components.Lyric;
+using VtuberMusic_UWP.Components.Player;
 using VtuberMusic_UWP.Models.Lyric;
+using VtuberMusic_UWP.Service;
 using VtuberMusic_UWP.Tools;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -24,8 +26,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
-
 namespace VtuberMusic_UWP.Pages {
     /// <summary>
     /// 画中画模式页
@@ -35,12 +35,12 @@ namespace VtuberMusic_UWP.Pages {
         public Lyric[] lyrics;
         private LyricItem nowLyricItem;
         private int nowLyricIndex = -1;
+        private Player player => App.Player;
 
         public CompactOverlay() {
             this.InitializeComponent();
 
             App.Player.PositionChanged += this.positionUpdate;
-            App.Player.PlayStateChanged += this.PlayStateChanged;
             App.Player.NowPlayingMusicChanged += this.Player_NowPlayingMusicChanged;
         }
 
@@ -54,21 +54,7 @@ namespace VtuberMusic_UWP.Pages {
 
             App.Player.PositionChanged -= this.positionUpdate;
             App.Player.NowPlayingMusicChanged -= this.Player_NowPlayingMusicChanged;
-            App.Player.PlayStateChanged -= this.PlayStateChanged;
             await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
-        }
-
-        private async void PlayStateChanged(object sender, MediaPlaybackState e) {
-            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate {
-                switch (e) {
-                    case MediaPlaybackState.Playing:
-                        this.PlayButtonIcon.Symbol = Symbol.Pause;
-                        break;
-                    default:
-                        this.PlayButtonIcon.Symbol = Symbol.Play;
-                        break;
-                }
-            }));
         }
 
         private async void positionUpdate(object sender, TimeSpan e) {
@@ -78,9 +64,6 @@ namespace VtuberMusic_UWP.Pages {
 
                 this.NowPlayTime.Text = e.ToString("mm\\:ss");
                 this.Position.Value = e.TotalMilliseconds;
-
-                this.Duration.Text = App.Player.Duration.ToString("mm\\:ss");
-                this.Position.Maximum = App.Player.Duration.TotalMilliseconds;
 
                 this.lyricTick();
             });
@@ -92,15 +75,6 @@ namespace VtuberMusic_UWP.Pages {
             }));
 
         private async void load() {
-            this.MusicName.Text = App.Player.NowPlayingMusic.name;
-            this.Artist.Text = UsefullTools.GetArtistsString(App.Player.NowPlayingMusic.artists);
-
-            var brush = new ImageBrush() { Stretch = Stretch.UniformToFill };
-            var image = new BitmapImage();
-            brush.ImageSource = image;
-
-            image.UriSource = new Uri(App.Player.NowPlayingMusic.picUrl);
-
             if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl)) {
                 this.lyrics = new Lyric[]
                 {
@@ -225,7 +199,7 @@ namespace VtuberMusic_UWP.Pages {
             Like.IsEnabled = false;
             try {
                 await App.Client.Account.LikeMusic(App.Player.NowPlayingMusic.id, !App.Player.NowPlayingMusic.like);
-                LikeMusicIcon.Glyph = App.Player.NowPlayingMusic.like ? "\uE00B" : "\uE006";
+                App.Player.NowPlayingMusic.like = !App.Player.NowPlayingMusic.like;
             } catch (Exception ex) {
                 Crashes.TrackError(ex, new Dictionary<string, string>() { { "music_id", App.Player.NowPlayingMusic.id } });
                 InfoBarPopup.Show("无法喜欢音乐", ex.Message, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
@@ -245,8 +219,6 @@ namespace VtuberMusic_UWP.Pages {
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e) {
-            load();
-        }
+        private void Page_Loaded(object sender, RoutedEventArgs e) => this.load();
     }
 }

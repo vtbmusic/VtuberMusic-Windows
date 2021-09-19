@@ -81,8 +81,6 @@ namespace VtuberMusic_UWP.Components.Collections {
                 await App.Client.Account.LikeMusic(music.id, !music.like);
                 ( (Music)button.Tag ).like = !music.like;
 
-                ( (FontIcon)( button.Content ) ).Glyph = ( (Music)button.Tag ).like ? "\uE00B" : "\uE006";
-
                 button.IsEnabled = true;
             } catch (Exception ex) {
                 button.IsEnabled = true;

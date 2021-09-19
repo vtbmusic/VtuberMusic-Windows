@@ -6,5 +6,9 @@
     <converter:LyricHideConverter x:Key="LyricHideConverter"/>
     <converter:PlaylistItemVisibilityConver x:Key="PlaylistItemVisibilityConver"/>
     <converter:LikeMusicIconConverter x:Key="LikeMusicIconConverter"/>
-    <converter:TimeConver x:Key="TimeConver"/>
+    <converter:GetTimeSpanMsConverter x:Key="GetTimeSpanMsConverter"/>
+    <converter:DoubleTimeStringConverter x:Key="TimeConver"/>
+    <converter:TimeSpanStringConverter x:Key="TimeSpanStringConverter"/>
+    <converter:PlayStateSymbolConverter x:Key="PlayStateSymbolConverter"/>
+    <converter:ArtistStringConverter x:Key="ArtistStringConverter"/>
 </ResourceDictionary>

@@ -17,11 +17,6 @@
               ContainerContentChanging="GridView_ContainerContentChanging"
               ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled"
               ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-        <GridView.ItemContainerStyle>
-            <Style TargetType="GridViewItem">
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-        </GridView.ItemContainerStyle>
         <GridView.ItemsPanel>
             <ItemsPanelTemplate>
                 <ItemsStackPanel Orientation="Horizontal"/>
@@ -29,7 +24,7 @@
         </GridView.ItemsPanel>
         <GridView.ItemTemplate>
             <DataTemplate x:DataType="models:Music">
-                <Grid Width="170">
+                <Grid Width="170" Margin="5 0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

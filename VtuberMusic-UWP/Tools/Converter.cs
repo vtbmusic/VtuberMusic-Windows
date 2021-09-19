@@ -1,13 +1,66 @@
 ﻿using System;
+using VtuberMusic_UWP.Models.VtuberMusic;
+using Windows.Media.Playback;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace VtuberMusic_UWP.Tools {
-    public class TimeConver : IValueConverter {
+    public class ArtistStringConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string culture) {
-            return value == null && value.GetType() != typeof(double)
+            return value != null && value.GetType() == typeof(Artist[])
+                ? UsefullTools.GetArtistsString((Artist[])value)
+                : DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class PlayStateSymbolConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string culture) {
+            return value != null && value.GetType() == typeof(MediaPlaybackState)
+                ? (MediaPlaybackState)value == MediaPlaybackState.Playing
+                    ? Symbol.Pause
+                    : Symbol.Play
+                : DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter ,string culture) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class TimeSpanStringConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string culture) {
+            return value == null && value.GetType() != typeof(TimeSpan)
                 ? DependencyProperty.UnsetValue
-                : TimeSpan.FromSeconds((float)value).ToString(@"mm\:ss");
+                : ((TimeSpan)value).ToString(@"mm\:ss");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class DoubleTimeStringConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string culture) {
+            return value == null && value.GetType() != typeof(float)
+                ? DependencyProperty.UnsetValue
+                : TimeSpan.FromSeconds((int)(float)value).ToString(@"mm\:ss");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string culture) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class GetTimeSpanMsConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string culture) {
+            return value != null && value.GetType() == typeof(TimeSpan)
+                ? ( (TimeSpan)value ).TotalMilliseconds
+                : DependencyProperty.UnsetValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string culture) {

@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Components.Lyric;
 using VtuberMusic_UWP.Models.Lyric;
+using VtuberMusic_UWP.Service;
 using Windows.Foundation;
 using Windows.Media.Playback;
 using Windows.UI.Core;
@@ -25,6 +26,7 @@ namespace VtuberMusic_UWP.Pages {
         private int nowLyricIndex = -1;
         private LyricItem nowLyricItem = null;
         private bool canUpdatePosition = true;
+        private Player player => App.Player;
 
         public Playing() {
             this.InitializeComponent();
@@ -42,27 +44,12 @@ namespace VtuberMusic_UWP.Pages {
             }
 
             App.Player.NowPlayingMusicChanged += this.NowPlayingMusicChanged;
-            App.Player.PlayStateChanged += this.PlayStateChanged;
             App.Player.PositionChanged += this.positionUpdate;
 
             this.init();
         }
 
         public async void init() {
-            if (App.Player.NowPlayingMusic == null) return;
-
-            string artist = "";
-            foreach (var item in App.Player.NowPlayingMusic.artists) {
-                artist += item.name.origin + " ";
-            }
-
-            this.MusicName.Text = App.Player.NowPlayingMusic.name;
-            this.Artist.Text = artist;
-
-            var image = new BitmapImage(new Uri(App.Player.NowPlayingMusic.picUrl));
-            this.PageBackground.ImageSource = image;
-            this.CoverImg.ImageSource = image;
-
             if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl)) {
                 this.lyrics = new Lyric[]
                 {
@@ -100,19 +87,6 @@ namespace VtuberMusic_UWP.Pages {
             this.LyricView.ItemsSource = this.lyrics;
         }
 
-        private async void PlayStateChanged(object sender, MediaPlaybackState e) {
-            await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate {
-                switch (e) {
-                    case MediaPlaybackState.Playing:
-                        this.PlayButtonIcon.Symbol = Symbol.Pause;
-                        break;
-                    default:
-                        this.PlayButtonIcon.Symbol = Symbol.Play;
-                        break;
-                }
-            }));
-        }
-
         private async void NowPlayingMusicChanged(object sender, Models.VtuberMusic.Music e) {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
                 this.init();
@@ -124,11 +98,7 @@ namespace VtuberMusic_UWP.Pages {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate {
                 if (App.RootFrame.Content.GetType() != typeof(Playing)) return;
 
-                this.NowPlayTime.Text = e.ToString("mm\\:ss");
                 this.Position.Value = e.TotalMilliseconds;
-
-                this.Duration.Text = App.Player.Duration.ToString("mm\\:ss");
-                this.Position.Maximum = App.Player.Duration.TotalMilliseconds;
 
                 this.lyricTick();
             });
@@ -204,7 +174,6 @@ namespace VtuberMusic_UWP.Pages {
             base.OnNavigatedFrom(e);
             App.Player.PositionChanged -= this.positionUpdate;
             App.Player.NowPlayingMusicChanged -= this.NowPlayingMusicChanged;
-            App.Player.PlayStateChanged -= this.PlayStateChanged;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e) => this.Frame.GoBack();

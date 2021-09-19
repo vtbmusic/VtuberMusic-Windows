@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric"
     xmlns:lyric="using:VtuberMusic_UWP.Models.Lyric"
+    xmlns:tools="using:VtuberMusic_UWP.Tools"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
 
@@ -14,7 +15,7 @@
         <ThemeShadow x:Name="ShareShadow"/>
     </Page.Resources>
     <Page.Background>
-        <ImageBrush ImageSource="https://cdn.aqua.chat/image/d8c90d4d0ab2e16969edc0cbde4da242.jpg" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="{x:Bind player.NowPlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill"/>
     </Page.Background>
     <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}" Padding="20 20 20 0">
         <Grid.ColumnDefinitions>
@@ -23,8 +24,8 @@
         </Grid.ColumnDefinitions>
         <StackPanel VerticalAlignment="Center">
             <StackPanel Margin="0 5 0 10" HorizontalAlignment="Center">
-                <TextBlock x:Name="MusicName" Text="霽れを待つ（等待雨晴）" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBlock x:Name="Artist" Text="森中花咲 / 雪城眞尋" FontSize="14" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="MusicName" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="Artist" Text="{x:Bind player.NowPlayingMusic.artists, Mode=OneWay, Converter={StaticResource ArtistStringConverter}}" FontSize="14" HorizontalAlignment="Center"/>
             </StackPanel>
             <Grid Margin="0 0 10 0">
                 <Grid.RowDefinitions>
@@ -32,20 +33,20 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid>
-                    <TextBlock x:Name="NowPlayTime" Text="00:00"/>
-                    <TextBlock x:Name="Duration" Text="04:00" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="NowPlayTime" Text="{x:Bind player.Position, Converter={StaticResource TimeSpanStringConverter}, Mode=OneWay}"/>
+                    <TextBlock x:Name="Duration" Text="{x:Bind player.Duration, Converter={StaticResource TimeSpanStringConverter}, Mode=OneWay}" HorizontalAlignment="Right"/>
                 </Grid>
                 <Slider x:Name="Position" ManipulationMode="All" Grid.Row="1"
                                 ManipulationStarted="Position_ManipulationStarted" PointerCaptureLost="Position_PointerCaptureLost"
                                 ManipulationCompleted="Position_ManipulationCompleted" IsThumbToolTipEnabled="False"
-                                Margin="0 -5 0 -10"/>
+                                Margin="0 -5 0 -10" Maximum="{x:Bind player.Duration, Mode=OneWay, Converter={StaticResource GetTimeSpanMsConverter}}"/>
             </Grid>
             <StackPanel Margin="0 5 0 0" HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button x:Name="PreviousButton" Style="{StaticResource CircleButton}" Height="40" Width="40" Click="PreviousButton_Click">
                     <SymbolIcon Symbol="Previous" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <Button x:Name="PlayButton" Style="{StaticResource CircleButton}" Height="40" Width="40" Margin="10 0" Click="PlayButton_Click">
-                    <SymbolIcon x:Name="PlayButtonIcon" Symbol="Play" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <SymbolIcon x:Name="PlayButtonIcon" Symbol="{x:Bind player.PlayState, Converter={StaticResource PlayStateSymbolConverter}, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <Button x:Name="NextButton" Style="{StaticResource CircleButton}" Height="40" Width="40" Click="NextButton_Click">
                     <SymbolIcon Symbol="Next" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -58,7 +59,7 @@
                 </Button>
                 <Button x:Name="Like" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent" Click="Like_Click"
                                         ToolTipService.ToolTip="喜欢">
-                    <FontIcon x:Name="LikeMusicIcon" Glyph="&#xEB51;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                    <FontIcon x:Name="LikeMusicIcon" Glyph="{x:Bind player.NowPlayingMusic.like, Converter={StaticResource LikeMusicIconConverter}, Mode=OneWay}" FontSize="12"/>
                 </Button>
                 <Button x:Name="Add" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
                                         ToolTipService.ToolTip="添加到..." Click="Add_Click">

@@ -2,15 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace VtuberMusic_UWP.Service {
-    public class Player {
+    public class Player : INotifyPropertyChanged {
         #region 播放器核心
         private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
         private MediaPlaybackItem _mediaPlaybackItem;
@@ -29,9 +33,8 @@ namespace VtuberMusic_UWP.Service {
             get { return this._mediaPlayer.Volume; }
             set {
                 this._mediaPlayer.Volume = value;
-                if (VolumeChanged != null) {
-                    VolumeChanged(this, this._mediaPlayer.Volume);
-                }
+                VolumeChanged?.Invoke(this, this._mediaPlayer.Volume);
+                this.NotifyPropertyChanged();
             }
         }
 
@@ -45,6 +48,7 @@ namespace VtuberMusic_UWP.Service {
         public TimeSpan Position {
             get { return this._mediaPlayer.PlaybackSession.Position; }
             set {
+                this.NotifyPropertyChanged();
                 this._mediaPlayer.PlaybackSession.Position = value;
             }
         }
@@ -109,12 +113,14 @@ namespace VtuberMusic_UWP.Service {
             private set {
                 this._nowPlayingMusic = value;
                 NowPlayingMusicChanged?.Invoke(this, value);
+                this.NotifyPropertyChanged();
 
                 if (this.NowPlayingMusic != null) App.ViewModel.SetAppBackgroundImage(new Uri(this.NowPlayingMusic.picUrl));
             }
         }
         #endregion
 
+        public event PropertyChangedEventHandler PropertyChanged;
         public Player() {
             this.InitSMTC();
             // 设置核心
@@ -122,16 +128,28 @@ namespace VtuberMusic_UWP.Service {
             this._mediaPlayer.MediaEnded += this._mediaPlayer_MediaEnded;
             this._mediaPlayer.VolumeChanged += this._mediaPlayer_VolumeChanged;
             this._mediaPlayer.PlaybackSession.PlaybackStateChanged += this._mediaPlayer_StateChanged;
+            this._mediaPlayer.MediaOpened += this._mediaPlayer_MediaOpened;
             // 绑定事件
             PlayListChanged += this.playListChanged;
             this.PlayList.CollectionChanged += delegate {
-                if (PlayListChanged != null) this.playListChanged(this, null);
+                this.playListChanged(this, null);
             };
         }
 
         #region 事件处理
-        private void _mediaPlayer_StateChanged(MediaPlaybackSession sender, object args) => PlayStateChanged?.Invoke(this, sender.PlaybackState);
-        private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args) => VolumeChanged?.Invoke(this, this._mediaPlayer.Volume);
+        private void _mediaPlayer_StateChanged(MediaPlaybackSession sender, object args) {
+            PlayStateChanged?.Invoke(this, sender.PlaybackState);
+            this.NotifyPropertyChanged("PlayState");
+        }
+
+        private void _mediaPlayer_MediaOpened(MediaPlayer sender, object args) =>
+            this.NotifyPropertyChanged("Duration");
+
+        private void _mediaPlayer_VolumeChanged(MediaPlayer sender, object args) {
+            VolumeChanged?.Invoke(this, this._mediaPlayer.Volume);
+            this.NotifyPropertyChanged("Volume");
+        }
+
         private void _mediaPlayer_MediaEnded(MediaPlayer sender, object args) {
             switch (this.PlayMode) {
                 case PlayMode.ListRepeat:
@@ -149,6 +167,7 @@ namespace VtuberMusic_UWP.Service {
             this.updateSMTCTimeline();
 
             PositionChanged?.Invoke(this, this.Position);
+            this.NotifyPropertyChanged("Position");
         }
 
         private void playListChanged(object sender, object args) {
@@ -326,6 +345,14 @@ namespace VtuberMusic_UWP.Service {
                         break;
                 }
             }
+        }
+        #endregion
+
+        #region ViewModel
+        private async void NotifyPropertyChanged([CallerMemberName] string propertyName = "") {
+            await App.RootFrame.Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }));
         }
         #endregion
     }

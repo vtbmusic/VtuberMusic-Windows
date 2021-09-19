@@ -22,7 +22,7 @@
     
     <Canvas x:Name="Canvas" SizeChanged="Canvas_SizeChanged">
         <StackPanel x:Name="Panel">
-            <TextBlock PointerEntered="TextContent_PointerEntered" PointerExited="TextContent_PointerExited" x:Name="TextContent">
+            <TextBlock PointerEntered="TextContent_PointerEntered" PointerExited="TextContent_PointerExited" Margin="0 -1 0 0" x:Name="TextContent">
                 <TextBlock.RenderTransform>
                     <TranslateTransform x:Name="Translate"/>
                 </TextBlock.RenderTransform>
