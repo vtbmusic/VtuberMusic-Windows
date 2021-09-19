@@ -108,8 +108,8 @@
                             <Button x:Name="CompactOverlayButton" Click="CompactOverlayButton_Click" Style="{StaticResource CircleButton}" Height="50" Width="50">
                                 <FontIcon Foreground="White" Glyph="&#xE944;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>
-                            <Button Style="{StaticResource CircleButton}" Height="50" Width="50">
-                                <FontIcon Foreground="White" x:Name="LikeMusicIcon" FontFamily="{StaticResource Icon}" Glyph="&#xe601;" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button x:Name="LikeButton" Style="{StaticResource CircleButton}" Height="50" Width="50" Click="LikeButton_Click">
+                                <FontIcon Foreground="White" x:Name="LikeMusicIcon" Glyph="{x:Bind player.NowPlayingMusic.like, Converter={StaticResource LikeMusicIconConverter}, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Button>
                         </StackPanel>
                     </Grid>

@@ -20,7 +20,6 @@ namespace VtuberMusic_UWP.Components.Player {
     /// </summary>
     public sealed partial class MainPlayer : UserControl {
         private bool DurationSliderIsDrag = false;
-        private bool VolSliderIsDrag = false;
 
         private Service.Player player => App.Player;
 
@@ -63,9 +62,6 @@ namespace VtuberMusic_UWP.Components.Player {
 
         private void Next_Click(object sender, RoutedEventArgs e) => this.player.Next();
         private void Prev_Click(object sender, RoutedEventArgs e) => this.player.Previous();
-        private void Volume_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) => this.player.Volume = this.Volume.Value;
-        private void Volume_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) => this.VolSliderIsDrag = true;
-        private void Volume_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) => this.VolSliderIsDrag = false;
 
         private void MusicInfo_Tapped(object sender, TappedRoutedEventArgs e) {
             if (App.RootFrame.Content.GetType() != typeof(Playing)) {

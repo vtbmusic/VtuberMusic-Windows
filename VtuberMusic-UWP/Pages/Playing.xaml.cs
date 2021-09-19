@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
+using VtuberMusic_UWP.Components;
 using VtuberMusic_UWP.Components.Lyric;
 using VtuberMusic_UWP.Models.Lyric;
 using VtuberMusic_UWP.Service;
@@ -198,5 +199,18 @@ namespace VtuberMusic_UWP.Pages {
 
         private void Position_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e) => this.canUpdatePosition = true;
         private void CompactOverlayButton_Click(object sender, RoutedEventArgs e) => this.Frame.Navigate(typeof(CompactOverlay), null, new DrillInNavigationTransitionInfo());
+
+        private async void LikeButton_Click(object sender, RoutedEventArgs e) {
+            LikeButton.IsEnabled = false;
+            try {
+                await App.Client.Account.LikeMusic(this.player.NowPlayingMusic.id, !this.player.NowPlayingMusic.like);
+                this.player.NowPlayingMusic.like = !this.player.NowPlayingMusic.like;
+            } catch (Exception ex) {
+                InfoBarPopup.Show("喜欢音乐失败", ex.Message);
+                Crashes.TrackError(ex, new Dictionary<string, string>() { { "song_id", this.player.NowPlayingMusic.id }, { "like", ( !this.player.NowPlayingMusic.like ).ToString() } });
+            }
+
+            LikeButton.IsEnabled = true;
+        }
     }
 }

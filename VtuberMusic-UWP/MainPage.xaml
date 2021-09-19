@@ -149,7 +149,7 @@
                 <muxc:NavigationViewItemHeader x:Name="FavouriteAlbum" Content="我收藏的歌单"/>
             </muxc:NavigationView.MenuItems>
             <muxc:NavigationView.Content>
-                <Grid Margin="0 50 10 10" CornerRadius="10">
+                <Grid Margin="0 50 10 0" CornerRadius="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
