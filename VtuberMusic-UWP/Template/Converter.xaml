@@ -11,4 +11,6 @@
     <converter:TimeSpanStringConverter x:Key="TimeSpanStringConverter"/>
     <converter:PlayStateSymbolConverter x:Key="PlayStateSymbolConverter"/>
     <converter:ArtistStringConverter x:Key="ArtistStringConverter"/>
+    <converter:ProfileExpStringConverter x:Key="ProfileExpStringConverter"/>
+    <converter:NullVisabilityConverter x:Key="NullVisabilityConverter"/>
 </ResourceDictionary>

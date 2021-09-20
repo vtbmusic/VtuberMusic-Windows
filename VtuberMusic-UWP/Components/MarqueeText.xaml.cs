@@ -46,7 +46,6 @@ namespace VtuberMusic_UWP.Components {
                 var current = this.TextContentMove.GetCurrentTime();
 
                 ( (DoubleAnimation)this.TextContentMove.Children[0] ).To = offest;
-                this.TextContentMove.Completed += this.TextContentMove_Completed;
                 this.TextContentMove.Begin();
 
                 if (current != null) {
@@ -57,13 +56,6 @@ namespace VtuberMusic_UWP.Components {
                     }
                 }
             }
-        }
-
-        private void TextContentMove_Completed(object sender, object e) {
-            //TextContentMove.Stop();
-
-            //((DoubleAnimation)TextContentMoveBack.Children[0]).From = -TextContent.ActualWidth + ActualWidth;
-            //TextContentMoveBack.Begin();
         }
 
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e) {

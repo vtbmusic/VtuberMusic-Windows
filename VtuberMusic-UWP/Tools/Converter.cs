@@ -6,6 +6,35 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace VtuberMusic_UWP.Tools {
+    public class NullVisabilityConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            return value == null
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class ProfileExpStringConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            if (value != null && value.GetType() == typeof(Profile)) {
+                var profile = (Profile) value;
+                return profile.nextexperience.GetValueOrDefault() == 0
+                ? $"{ profile.experience.GetValueOrDefault().ToString() } / -"
+                : $"{ profile.experience.GetValueOrDefault().ToString() } / { profile.nextexperience.GetValueOrDefault().ToString() }";
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value,  Type targetType, object parameter, string language) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
     public class ArtistStringConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string culture) {
             return value != null && value.GetType() == typeof(Artist[])

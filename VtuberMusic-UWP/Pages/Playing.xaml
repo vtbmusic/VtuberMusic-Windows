@@ -6,13 +6,42 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lyric="using:VtuberMusic_UWP.Models.Lyric"
-    xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric"
+    xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric" xmlns:comment="using:VtuberMusic_UWP.Components.Comment"
     mc:Ignorable="d">
 
     <Page.Background>
         <ImageBrush x:Name="PageBackground" AlignmentX="Center" AlignmentY="Center" ImageSource="{x:Bind player.NowPlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill"/>
     </Page.Background>
     <Page.Resources>
+        <Storyboard x:Name="CommentShow">
+            <DoubleAnimation Storyboard.TargetName="Comment" Storyboard.TargetProperty="Opacity"
+                             Duration="00:00:00.1" From="0" To="1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="LyricScrollViwer" Storyboard.TargetProperty="Opacity"
+                             Duration="00:00:00.1" From="1" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="CommentHide">
+            <DoubleAnimation Storyboard.TargetName="Comment" Storyboard.TargetProperty="Opacity"
+                             Duration="00:00:00.1" From="1" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="LyricScrollViwer" Storyboard.TargetProperty="Opacity"
+                             Duration="00:00:00.1" From="0" To="1">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
         <Style x:Key="NormalLyric" TargetType="TextBlock">
             <Setter Target="SourceLyric" Property="Foreground" Value="LightGray"/>
             <Setter Target="TranslationLyric" Property="Foreground" Value="LightGray"/>
@@ -115,6 +144,13 @@
                     </Grid>
                 </Grid>
             </Grid>
+            <StackPanel Margin="0 0 0 40" Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                        Canvas.ZIndex="1">
+                <ToggleButton x:Name="CommentButton" Height="35" Width="35" Padding="0" Click="CommentButton_Click">
+                    <FontIcon Glyph="&#xE90A;" FontSize="16"/>
+                </ToggleButton>
+            </StackPanel>
+            <comment:MusicCommentList x:Name="Comment" Grid.Column="2" Visibility="Collapsed"/>
             <ScrollViewer x:Name="LyricScrollViwer" Grid.Column="2" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <ItemsControl x:Name="LyricView" Margin="0 0 0 400">
                     <ItemsControl.ItemTemplate>

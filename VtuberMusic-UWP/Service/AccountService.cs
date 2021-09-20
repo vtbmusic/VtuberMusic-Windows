@@ -1,6 +1,8 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Tools;
@@ -9,19 +11,44 @@ namespace VtuberMusic_UWP.Service {
     /// <summary>
     /// 账户服务
     /// </summary>
-    public class AccountService {
+    public class AccountService : INotifyPropertyChanged {
+        private Account _account {  get; set; }
         /// <summary>
         /// 当前登录账户的账户信息
         /// </summary>
-        public Account Account { get; private set; }
+        public Account Account {
+            get { return this._account; }
+            set {
+                this._account = value;
+                this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(this.Logged));
+            }
+        }
+
+        private Profile _profile { get; set; }
         /// <summary>
         /// 当前登录账户的账户资料
         /// </summary>
-        public Profile Profile;
+        public Profile Profile {
+            get {  return this._profile; }
+            set {
+                this._profile = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private TokenPack _tokenPack {  get; set; }
         /// <summary>
         /// Token 包
         /// </summary>
-        public TokenPack Token;
+        public TokenPack Token {
+            get {  return this._tokenPack; }
+            set {
+                this._tokenPack = value;
+                this.OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// 是否登录
         /// </summary>
@@ -31,6 +58,14 @@ namespace VtuberMusic_UWP.Service {
         public AccountService(RestClient restClient) {
             this._restClient = restClient;
         }
+
+        #region ViewModel
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "") {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
 
         /// <summary>
         /// 登录

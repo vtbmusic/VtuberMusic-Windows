@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Models.VtuberMusic;
+using VtuberMusic_UWP.Models.VtuberMusic.v1;
 
 namespace VtuberMusic_UWP.Service {
     /// <summary>
@@ -282,5 +283,27 @@ namespace VtuberMusic_UWP.Service {
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        #region v1
+        public async Task<ApiResponseList<Comment[]>> GetMusicComment(string musicId, string parentId = "") {
+            var request = new RestRequest(ApiUri.GetMusicCommentsV1, Method.POST);
+            request.AddJsonBody(new {
+                pageIndex = 1,
+                pageRows = 1000,
+                search = new {
+                    musicId = musicId
+                }
+            });
+
+            var response = await this._restClient.ExecuteAsync<ApiResponseList<Comment[]>>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+        #endregion
     }
 }

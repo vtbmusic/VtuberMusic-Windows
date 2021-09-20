@@ -1,14 +1,17 @@
 ﻿using VtuberMusic_UWP.Pages;
+using VtuberMusic_UWP.Service;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
 namespace VtuberMusic_UWP.Components.Account {
+    /// <summary>
+    /// 账户面板
+    /// </summary>
     public sealed partial class AccountPanel : UserControl {
-        /// <summary>
-        /// 账户面板
-        /// </summary>
+        private AccountService account => App.Client.Account;
+
         public AccountPanel() {
             this.InitializeComponent();
 
@@ -16,18 +19,6 @@ namespace VtuberMusic_UWP.Components.Account {
         }
 
         private async void load() {
-            this.Nickname.Text = App.Client.Account.Profile.nickname;
-            this.LevelText.Text = $"Lv.{ App.Client.Account.Profile.level }";
-
-            this.LevelExpText.Text = App.Client.Account.Profile.nextexperience.GetValueOrDefault() == 0
-                ? $"{ App.Client.Account.Profile.experience.GetValueOrDefault().ToString() } / -"
-                : $"{ App.Client.Account.Profile.experience.GetValueOrDefault().ToString() } / { App.Client.Account.Profile.nextexperience.GetValueOrDefault().ToString() }";
-
-            this.LevelExp.Value = App.Client.Account.Profile.experience.GetValueOrDefault();
-            this.LevelExp.MaxHeight = App.Client.Account.Profile.nextexperience.GetValueOrDefault();
-
-            this.Avatar.UriSource = new System.Uri(App.Client.Account.Profile.avatarUrl);
-
             var subcount = await App.Client.Account.GetAccountSubCouent();
             this.ArtistSubCount.Text = subcount.Data.artistCount.ToString();
             this.PlaylistCount.Text = subcount.Data.createdPlaylistCount.ToString();

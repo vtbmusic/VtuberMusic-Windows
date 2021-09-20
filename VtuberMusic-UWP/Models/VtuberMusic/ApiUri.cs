@@ -97,5 +97,12 @@
         /// 编辑歌单信息
         /// </summary>
         public static string EditAlbum = BaseUrl + "/v2/playlist/update";
+
+        #region v1
+        /// <summary>
+        /// 获取音乐评论 (v1)
+        /// </summary>
+        public static string GetMusicCommentsV1 = BaseUrl + "/v1/GetMusicCommentList";
+        #endregion
     }
 }

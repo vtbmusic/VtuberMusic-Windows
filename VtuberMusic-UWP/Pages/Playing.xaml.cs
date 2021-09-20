@@ -48,9 +48,18 @@ namespace VtuberMusic_UWP.Pages {
             App.Player.PositionChanged += this.positionUpdate;
 
             this.init();
+
+            this.CommentShow.Completed += delegate {
+                LyricScrollViwer.Visibility = Visibility.Collapsed;
+            };
+            this.CommentHide.Completed += delegate {
+                Comment.Visibility = Visibility.Collapsed;
+            };
         }
 
         public async void init() {
+            Comment.ItemsSource = (await App.Client.GetMusicComment(this.player.NowPlayingMusic.id)).Data;
+
             if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl)) {
                 this.lyrics = new Lyric[]
                 {
@@ -211,6 +220,19 @@ namespace VtuberMusic_UWP.Pages {
             }
 
             LikeButton.IsEnabled = true;
+        }
+
+        private void CommentButton_Click(object sender, RoutedEventArgs e) {
+            this.CommentShow.Stop();
+            this.CommentHide.Stop();
+
+            if (this.CommentButton.IsChecked.GetValueOrDefault()) {
+                this.Comment.Visibility = Visibility.Visible;
+                this.CommentShow.Begin();
+            } else {
+                this.LyricScrollViwer.Visibility = Visibility.Visible;
+                this.CommentHide.Begin();
+            }
         }
     }
 }

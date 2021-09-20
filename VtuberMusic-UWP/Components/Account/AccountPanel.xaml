@@ -17,17 +17,20 @@
             </Grid.ColumnDefinitions>
             <PersonPicture Height="50" VerticalAlignment="Top">
                 <PersonPicture.ProfilePicture>
-                    <BitmapImage x:Name="Avatar" UriSource="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg" DecodePixelHeight="50" DecodePixelWidth="50"/>
+                    <BitmapImage x:Name="Avatar" UriSource="{x:Bind account.Profile.avatarUrl, Mode=OneWay, TargetNullValue=https://cdn.aqua.chat/user/Deforuto.png}" DecodePixelHeight="50" DecodePixelWidth="50"/>
                 </PersonPicture.ProfilePicture>
             </PersonPicture>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
-                <TextBlock x:Name="Nickname" Text="Misaka-L" FontSize="16"/>
-                <TextBlock x:Name="Signature" Text="一句个人签名" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname, Mode=OneWay, TargetNullValue=未登录}" FontWeight="Bold" FontSize="16"/>
+                <TextBlock x:Name="Signature" Text="{x:Bind account.Profile.signature, Mode=OneWay, TargetNullValue=这个人并没有个人签名}" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                 <Grid Margin="0 2 0 0">
-                    <TextBlock x:Name="LevelText" Text="Lv.9" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                    <TextBlock x:Name="LevelExpText" Text="100 / 100" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="LevelText" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}">
+                        <Run Text="Lv."/>
+                        <Run Text="{x:Bind account.Profile.level}"/>
+                    </TextBlock>
+                    <TextBlock x:Name="LevelExpText" Text="{x:Bind account.Profile, Converter={StaticResource ProfileExpStringConverter}, Mode=OneWay}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Right"/>
                 </Grid>
-                <ProgressBar x:Name="LevelExp" Margin="0 2 0 0" CornerRadius="2" Value="100"/>
+                <ProgressBar x:Name="LevelExp" Margin="0 2 0 0" CornerRadius="2" Value="{x:Bind account.Profile.experience.Value}" Maximum="{x:Bind account.Profile.nextexperience.Value}"/>
             </StackPanel>
         </Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"

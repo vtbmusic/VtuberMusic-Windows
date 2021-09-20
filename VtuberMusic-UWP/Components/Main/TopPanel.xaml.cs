@@ -1,5 +1,6 @@
 ﻿using System;
 using VtuberMusic_UWP.Pages;
+using VtuberMusic_UWP.Service;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -8,6 +9,8 @@ namespace VtuberMusic_UWP.Components.Main {
     /// 顶部面板
     /// </summary>
     public sealed partial class TopPanel : UserControl {
+        private AccountService account => App.Client.Account;
+
         public TopPanel() {
             this.InitializeComponent();
         }
@@ -27,8 +30,6 @@ namespace VtuberMusic_UWP.Components.Main {
         private void UserControl_Loaded(object sender, RoutedEventArgs e) {
             Window.Current.SetTitleBar(this.TitleBar);
             App.ViewModel.TopPanel = this;
-
-            if (App.Client.Account.Logged) this.Avatar.UriSource = new Uri(App.Client.Account.Profile.avatarUrl);
         }
     }
 }
