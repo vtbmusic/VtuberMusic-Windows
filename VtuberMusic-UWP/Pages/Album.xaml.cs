@@ -61,14 +61,12 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         private void PlayAll_Click(object sender, RoutedEventArgs e) {
-            if (this.DataView.ItemsSource.Length != 0) {
-                App.Player.PlayList.Clear();
-                foreach (var music in this.DataView.ItemsSource) {
-                    App.Player.PlayList.Add(music);
-                }
-
-                App.Player.SetMusic(App.Player.PlayList[0]);
+            App.Player.PlayList.Clear();
+            foreach (var music in this.DataView.ItemsSource) {
+                App.Player.PlayList.Add(music);
             }
+
+            App.Player.SetMusic(App.Player.PlayList[0]);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e) {

@@ -16,13 +16,13 @@ namespace VtuberMusic_UWP.Components.Collections {
     /// </summary>
     public partial class MusicDataList : UserControl {
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
+            DependencyProperty.Register("ItemsSource", typeof(IEnumerable<Music>), typeof(MusicDataList), new PropertyMetadata(null, new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
         /// <summary>
         /// 数据源
         /// </summary>
-        public Music[] ItemsSource {
-            get { return (Music[])this.GetValue(ItemsSourceProperty); }
+        public IEnumerable<Music> ItemsSource {
+            get { return (IEnumerable<Music>)this.GetValue(ItemsSourceProperty); }
             set { this.SetValue(ItemsSourceProperty, value); }
         }
 
@@ -34,14 +34,13 @@ namespace VtuberMusic_UWP.Components.Collections {
 
         public MusicDataList() {
             this.InitializeComponent();
-            this.load();
         }
 
         private async void load() => this.albums = ( await App.Client.Account.GetMyCreatePlayList() ).Data;
         private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) => ( (MusicDataList)d ).ItemsSourceChange(e);
 
         private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e) {
-            this.DataList.ItemsSource = e.NewValue != null && e.NewValue.GetType() == typeof(Music[]) ? e.NewValue : null;
+            this.DataList.ItemsSource = e.NewValue;
         }
 
         private void DataList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
@@ -53,12 +52,7 @@ namespace VtuberMusic_UWP.Components.Collections {
         private void Count_Loaded(object sender, RoutedEventArgs e) {
             var item = sender as TextBlock;
 
-            for (int i = 0; i != this.ItemsSource.Length; i++) {
-                if (item.Tag as Music == this.ItemsSource[i]) {
-                    item.Text = ( i + 1 ).ToString();
-                    return;
-                }
-            }
+            item.Text = ( DataList.IndexFromContainer(DataList.ContainerFromItem(item.Tag)) + 1 ).ToString();
         }
 
         private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e) {
@@ -217,6 +211,11 @@ namespace VtuberMusic_UWP.Components.Collections {
             flyout.Items.Add(new MenuFlyoutSeparator());
 
             control.ContextFlyout = flyout;
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+            this.load();
+            DataList.ItemsSource = this.ItemsSource;
         }
     }
 

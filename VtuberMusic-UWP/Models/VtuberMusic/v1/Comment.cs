@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VtuberMusic_UWP.Models.VtuberMusic.v1 {
+﻿namespace VtuberMusic_UWP.Models.VtuberMusic.v1 {
     public class Comment {
         public string Id { get; set; }
         public string ParentId { get; set; }

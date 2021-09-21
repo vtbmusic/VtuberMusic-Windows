@@ -10,7 +10,7 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
-    <ScrollViewer>
+    <ScrollViewer x:Name="RootScrollViewer" ViewChanged="ScrollViewer_ViewChanged">
         <StackPanel Margin="0 0 0 50">
             <Grid Margin="0 0 0 20" Padding="20" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
                 <Grid.ColumnDefinitions>
@@ -54,7 +54,7 @@
                 </Grid>
             </Grid>
             <Grid Margin="0 0 0 50" Padding="10" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
-                <collections:MusicDataList x:Name="DataView"/>
+                <collections:MusicDataList x:Name="DataView" ItemsSource="{x:Bind dataList}"/>
             </Grid>
         </StackPanel>
     </ScrollViewer>

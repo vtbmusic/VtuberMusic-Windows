@@ -21,7 +21,7 @@ namespace VtuberMusic_UWP.Tools {
     public class ProfileExpStringConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
             if (value != null && value.GetType() == typeof(Profile)) {
-                var profile = (Profile) value;
+                var profile = (Profile)value;
                 return profile.nextexperience.GetValueOrDefault() == 0
                 ? $"{ profile.experience.GetValueOrDefault().ToString() } / -"
                 : $"{ profile.experience.GetValueOrDefault().ToString() } / { profile.nextexperience.GetValueOrDefault().ToString() }";
@@ -30,7 +30,7 @@ namespace VtuberMusic_UWP.Tools {
             return DependencyProperty.UnsetValue;
         }
 
-        public object ConvertBack(object value,  Type targetType, object parameter, string language) {
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
             return DependencyProperty.UnsetValue;
         }
     }
@@ -56,7 +56,7 @@ namespace VtuberMusic_UWP.Tools {
                 : DependencyProperty.UnsetValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter ,string culture) {
+        public object ConvertBack(object value, Type targetType, object parameter, string culture) {
             return DependencyProperty.UnsetValue;
         }
     }
@@ -65,7 +65,7 @@ namespace VtuberMusic_UWP.Tools {
         public object Convert(object value, Type targetType, object parameter, string culture) {
             return value == null && value.GetType() != typeof(TimeSpan)
                 ? DependencyProperty.UnsetValue
-                : ((TimeSpan)value).ToString(@"mm\:ss");
+                : ( (TimeSpan)value ).ToString(@"mm\:ss");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string culture) {

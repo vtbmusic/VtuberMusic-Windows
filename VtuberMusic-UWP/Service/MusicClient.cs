@@ -157,9 +157,12 @@ namespace VtuberMusic_UWP.Service {
         /// <param name="limit">数量</param>
         /// <param name="offest">偏移量</param>
         /// <returns>歌手歌曲列表</returns>
-        public async Task<ApiResponse<Music[]>> GetArtistSong(string id, string order = "time", int limit = 50, int offest = 1) {
+        public async Task<ApiResponse<Music[]>> GetArtistSong(string id, string order = "time", int limit = 50, int offset = 0) {
             var request = new RestRequest(ApiUri.ArtistSongs);
             request.AddParameter("id", id);
+            request.AddParameter("order", order);
+            request.AddParameter("limit", limit);
+            request.AddParameter("offset", offset);
 
             var response = await this._restClient.ExecuteAsync<ApiResponse<Music[]>>(request);
 

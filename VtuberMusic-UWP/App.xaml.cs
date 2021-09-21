@@ -1,6 +1,6 @@
 ﻿using Microsoft.AppCenter;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -114,13 +114,13 @@ namespace VtuberMusic_UWP {
                        typeof(Analytics), typeof(Crashes));
 
             var properties = new CustomProperties();
-            properties.Set("Commit", getGitCommitInfo());
+            properties.Set("Commit", this.getGitCommitInfo());
 
             AppCenter.SetCustomProperties(properties);
 
             Crashes.ShouldAwaitUserConfirmation = () =>
             {
-                showCrashReport();
+                this.showCrashReport();
                 return true;
             };
 #endif

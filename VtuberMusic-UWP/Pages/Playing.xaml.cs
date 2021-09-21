@@ -15,7 +15,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace VtuberMusic_UWP.Pages {
@@ -58,7 +57,7 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         public async void init() {
-            Comment.ItemsSource = (await App.Client.GetMusicComment(this.player.NowPlayingMusic.id)).Data;
+            Comment.ItemsSource = ( await App.Client.GetMusicComment(this.player.NowPlayingMusic.id) ).Data;
 
             if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl)) {
                 this.lyrics = new Lyric[]

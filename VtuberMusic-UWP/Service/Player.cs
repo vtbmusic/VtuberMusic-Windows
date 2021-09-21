@@ -11,7 +11,6 @@ using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
 namespace VtuberMusic_UWP.Service {
     public class Player : INotifyPropertyChanged {

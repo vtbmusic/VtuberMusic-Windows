@@ -6,19 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
-    mc:Ignorable="d" Unloaded="UserControl_Unloaded"
+    mc:Ignorable="d" Unloaded="UserControl_Unloaded" Loaded="UserControl_Loaded"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ListView x:Name="DataList" ScrollViewer.VerticalScrollMode="Disabled" DoubleTapped="DataList_DoubleTapped">
-        <ListView.ItemContainerStyle>
-            <Style TargetType="ListViewItem">
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="CornerRadius" Value="10"/>
-            </Style>
-        </ListView.ItemContainerStyle>
+    <ListView x:Name="DataList" DoubleTapped="DataList_DoubleTapped" ScrollViewer.VerticalScrollMode="Disabled">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="vtubermusic:Music">
                 <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited" RightTapped="UserControl_RightTapped"

@@ -2,28 +2,19 @@
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Components;
 using VtuberMusic_UWP.Components.Lyric;
-using VtuberMusic_UWP.Components.Player;
 using VtuberMusic_UWP.Models.Lyric;
 using VtuberMusic_UWP.Service;
 using VtuberMusic_UWP.Tools;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace VtuberMusic_UWP.Pages {
@@ -155,9 +146,9 @@ namespace VtuberMusic_UWP.Pages {
                 this.nowLyricItem = this.FindVisualChild<LyricItem>(itemContainer);
                 this.nowLyricItem.Show();
 
-               this.LyricScrollViwer.ChangeView(0,
-                -point.Y + this.LyricScrollViwer.VerticalOffset - ( this.LyricScrollViwer.ActualHeight / 5),
-                null);
+                this.LyricScrollViwer.ChangeView(0,
+                 -point.Y + this.LyricScrollViwer.VerticalOffset - ( this.LyricScrollViwer.ActualHeight / 5 ),
+                 null);
             } catch { }
         }
 

@@ -30,14 +30,9 @@
                           Background="{ThemeResource SystemControlAcrylicElementBrush}" SelectedIndex="0"
                           ItemsSource="{x:Bind commandList, Mode=OneWay}" ItemClick="CommandList_ItemClick"
                           IsItemClickEnabled="True">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding" Value="0"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="debugcommand:IDebugCommand">
-                            <StackPanel Padding="10">
+                            <StackPanel Padding="0 10">
                                 <TextBlock Text="{x:Bind Title, Mode=OneTime}"/>
                                 <TextBlock Text="{x:Bind Description, Mode=OneTime}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                             </StackPanel>

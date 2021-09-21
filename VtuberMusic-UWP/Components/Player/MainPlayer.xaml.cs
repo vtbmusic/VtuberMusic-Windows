@@ -2,17 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Pages;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace VtuberMusic_UWP.Components.Player {
     /// <summary>

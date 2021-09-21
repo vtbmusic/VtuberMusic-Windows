@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -11,12 +13,19 @@ namespace VtuberMusic_UWP.Pages {
     /// </summary>
     public sealed partial class Artist : Page {
         private ConnectedAnimation imageAnimation = null;
+        private Models.VtuberMusic.Artist artist;
+        private ObservableCollection<Music> dataList = new ObservableCollection<Music>();
+
+        private bool isLoading = false;
+        private int offset = 0;
+        private int limit = 20;
 
         public Artist() {
             this.InitializeComponent();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
+            artist = (Models.VtuberMusic.Artist)e.Parameter;
             this.loadData((Models.VtuberMusic.Artist)e.Parameter);
         }
 
@@ -52,7 +61,12 @@ namespace VtuberMusic_UWP.Pages {
             this.AlbumCount.Text = artist.albumSize.ToString();
             this.FanCount.Text = artist.likeSize.ToString();
 
-            this.DataView.ItemsSource = ( await App.Client.GetArtistSong(artist.id, "time", 1000) ).Data;
+            foreach (var temp in ( await App.Client.GetArtistSong(this.artist.id) ).Data) {
+                dataList.Add(temp);
+            }
+
+            this.offset++;
+            this.isLoading = false;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
@@ -60,6 +74,20 @@ namespace VtuberMusic_UWP.Pages {
 
             if (( e.SourcePageType == typeof(Home) || ( e.SourcePageType == typeof(Search) ) ) && this.imageAnimation != null) {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ArtistBackConnectedAnimation", this.Avater);
+            }
+        }
+
+        private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+            if (!this.isLoading) {
+                if (RootScrollViewer.VerticalOffset <= RootScrollViewer.ScrollableHeight - 500) return;
+                this.isLoading = true;
+
+                foreach (var temp in ( await App.Client.GetArtistSong(this.artist.id, "time", this.limit, this.offset) ).Data) {
+                    dataList.Add(temp);
+                }
+
+                this.offset++;
+                this.isLoading = false;
             }
         }
     }

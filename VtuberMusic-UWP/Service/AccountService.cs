@@ -12,7 +12,7 @@ namespace VtuberMusic_UWP.Service {
     /// 账户服务
     /// </summary>
     public class AccountService : INotifyPropertyChanged {
-        private Account _account {  get; set; }
+        private Account _account { get; set; }
         /// <summary>
         /// 当前登录账户的账户信息
         /// </summary>
@@ -30,19 +30,19 @@ namespace VtuberMusic_UWP.Service {
         /// 当前登录账户的账户资料
         /// </summary>
         public Profile Profile {
-            get {  return this._profile; }
+            get { return this._profile; }
             set {
                 this._profile = value;
                 this.OnPropertyChanged();
             }
         }
 
-        private TokenPack _tokenPack {  get; set; }
+        private TokenPack _tokenPack { get; set; }
         /// <summary>
         /// Token 包
         /// </summary>
         public TokenPack Token {
-            get {  return this._tokenPack; }
+            get { return this._tokenPack; }
             set {
                 this._tokenPack = value;
                 this.OnPropertyChanged();
