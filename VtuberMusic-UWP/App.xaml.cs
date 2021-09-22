@@ -11,6 +11,7 @@ using VtuberMusic_UWP.Pages;
 using VtuberMusic_UWP.Service;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
@@ -33,6 +34,11 @@ namespace VtuberMusic_UWP {
             this.InitializeComponent();
 
             App.Current.UnhandledException += this.Current_UnhandledException;
+            Client.Account.LoginStatueChanged += this.Account_LoginStatueChanged;
+        }
+
+        private void Account_LoginStatueChanged(object sender, Models.VtuberMusic.AccountProfileData e) {
+            if (e.account != null) AppCenter.SetUserId(e.account.id);
         }
 
         private async void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) {
@@ -45,7 +51,7 @@ namespace VtuberMusic_UWP {
 
             Crashes.TrackError(e.Exception, data);
 
-            await Window.Current.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(delegate {
+            await Window.Current.Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
                 if (e.Exception.StackTrace == null) {
                     InfoBarPopup.Show("发生了一个异常", e.Exception.Message, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
                 } else {
@@ -55,7 +61,7 @@ namespace VtuberMusic_UWP {
         }
 
         private async void showCrashReport() {
-            await RootFrame.Dispatcher.TryRunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(async delegate {
+            await RootFrame.Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(async delegate {
                 var dialog = new ContentDialog();
                 dialog.Title = "是否要上传错误报告？";
                 dialog.PrimaryButtonText = "总是";
@@ -109,23 +115,8 @@ namespace VtuberMusic_UWP {
                 RootFrame.Content = extendedSplash;
             }
 
-#if !DEBUG
-            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
-                       typeof(Analytics), typeof(Crashes));
-
-            var properties = new CustomProperties();
-            properties.Set("Commit", this.getGitCommitInfo());
-
-            AppCenter.SetCustomProperties(properties);
-
-            Crashes.ShouldAwaitUserConfirmation = () =>
-            {
-                this.showCrashReport();
-                return true;
-            };
-#endif
-
             this.init();
+            this.initAppCenter();
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args) {
@@ -149,6 +140,40 @@ namespace VtuberMusic_UWP {
             } else {
                 RootFrame.Navigate(typeof(Setup), null, new DrillInNavigationTransitionInfo());
             }
+        }
+
+        private void initAppCenter() {
+            var countryCode = new GeographicRegion().CodeTwoLetter;
+            AppCenter.SetCountryCode(countryCode);
+#if DEBUG
+            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
+                       typeof(Analytics), typeof(Crashes));
+
+            var properties = new CustomProperties();
+            properties.Set("Commit", this.getGitCommitInfo());
+
+            AppCenter.SetCustomProperties(properties);
+
+            Crashes.ShouldAwaitUserConfirmation = () => {
+                this.showCrashReport();
+                return true;
+            };
+#endif
+#if !DEBUG
+            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
+                       typeof(Analytics), typeof(Crashes));
+
+            var properties = new CustomProperties();
+            properties.Set("Commit", this.getGitCommitInfo());
+
+            AppCenter.SetCustomProperties(properties);
+
+            Crashes.ShouldAwaitUserConfirmation = () =>
+            {
+                this.showCrashReport();
+                return true;
+            };
+#endif
         }
 
         private string getGitCommitInfo() {

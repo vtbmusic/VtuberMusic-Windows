@@ -18,8 +18,8 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <PersonPicture Width="60" Height="60" ProfilePicture="{x:Bind account.Profile.avatarUrl, Mode=OneWay}"/>
-                <TextBox Margin="10 0" Grid.Column="1" PlaceholderText="喵？" AcceptsReturn="True" Height="60"/>
-                <Button Grid.Column="2" VerticalAlignment="Stretch" Content="发送"/>
+                <TextBox IsEnabled="False" Margin="10 0" Grid.Column="1" PlaceholderText="&quot;评论发表&quot; 在该版本不可用" AcceptsReturn="True" Height="60"/>
+                <Button IsEnabled="False" Grid.Column="2" VerticalAlignment="Stretch" Content="发送"/>
             </Grid>
             <ItemsControl x:Name="CommentList">
                 <ItemsControl.ItemTemplate>

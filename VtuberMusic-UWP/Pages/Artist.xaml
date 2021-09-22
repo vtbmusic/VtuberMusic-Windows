@@ -9,7 +9,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
-
+    
     <ScrollViewer x:Name="RootScrollViewer" ViewChanged="ScrollViewer_ViewChanged">
         <StackPanel Margin="0 0 0 50">
             <Grid Margin="0 0 0 20" Padding="20" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
@@ -17,7 +17,11 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <PersonPicture x:Name="Avater" Height="200" Width="200" BorderThickness="0" BorderBrush="{x:Null}"/>
+                <PersonPicture x:Name="Avater" Height="200" Width="200" BorderThickness="0" CornerRadius="100" BorderBrush="{x:Null}">
+                    <PersonPicture.Shadow>
+                        <ThemeShadow/>
+                    </PersonPicture.Shadow>
+                </PersonPicture>
                 <Grid x:Name="InfoPanel" Grid.Column="1" Margin="20 20 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -28,12 +32,8 @@
                         <TextBlock x:Name="ArtistName" FontSize="36" FontWeight="SemiBold"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                        <Button CornerRadius="10" Padding="12 9" Margin="0 0 0 5">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Margin=" 0 0 5 0" FontSize="16" FontFamily="{StaticResource Icon}" Text="&#xe601;" VerticalAlignment="Center"/>
-                                <TextBlock FontSize="18" Text="关注"/>
-                            </StackPanel>
-                        </Button>
+                        <AppBarButton Icon="Like" Label="关注" IsEnabled="False"/>
+                        <AppBarButton Icon="Share" Label="分享" Click="AppBarButton_Click"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                         <StackPanel>

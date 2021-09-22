@@ -19,7 +19,7 @@
                 <Grid.Background>
                     <ImageBrush Stretch="UniformToFill">
                         <ImageBrush.ImageSource>
-                            <BitmapImage UriSource="https://pixiv.cat/90538771.png"
+                            <BitmapImage UriSource="/Assets/SetupBackground/66681407_p0.jpg"
                                      DecodePixelHeight="28" DecodePixelWidth="100"/>
                         </ImageBrush.ImageSource>
                     </ImageBrush>
@@ -30,10 +30,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <PersonPicture x:Name="Avatar" Margin="15" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
+                    <PersonPicture x:Name="Avatar" Margin="15" ProfilePicture="{x:Bind account.Profile.avatarUrl}"/>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock x:Name="Username" Text="misaka-l@vtbmusic.icu" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                        <TextBlock x:Name="Nickname" Text="Misaka-L" FontWeight="Bold" FontSize="24"/>
+                        <TextBlock x:Name="Username" Text="{x:Bind account.Account.userName}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                        <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname}" FontWeight="Bold" FontSize="24"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="30 0" Grid.Column="2">
                         <Button x:Name="EditProfile" Margin="10 0" Click="EditProfile_Click">
@@ -93,30 +93,32 @@
                     </StackPanel>
                     <TextBlock x:Name="Version" Text="VtuberMusic UWP | v2.0-main-13c8fc5" HorizontalAlignment="Center" FontSize="16" Margin="5 5 0 0" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
-                        <Button x:Name="BiliBili" Click="BiliBili_Click" Margin="3 0">
-                            <StackPanel Orientation="Horizontal">
+                        <AppBarButton x:Name="BiliBili" Click="BiliBili_Click" Label="哔哩哔哩">
+                            <AppBarButton.Icon>
                                 <FontIcon Glyph="&#xe6e9;" FontFamily="{StaticResource Icon}"/>
-                                <TextBlock Text="哔哩哔哩" Margin="5 0 0 0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-                        <Button x:Name="QQ" Click="QQ_Click" Margin="3 0">
-                            <StackPanel Orientation="Horizontal">
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="QQ" Click="QQ_Click" Label="QQ 群">
+                            <AppBarButton.Icon>
                                 <FontIcon Glyph="&#xe62e;" FontFamily="{StaticResource Icon}"/>
-                                <TextBlock Text="QQ 群" Margin="5 0 0 0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-                        <Button x:Name="Twitter" Click="Twitter_Click" Margin="3 0">
-                            <StackPanel Orientation="Horizontal">
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="Twitter" Click="Twitter_Click" Label="Twitter">
+                            <AppBarButton.Icon>
                                 <FontIcon Glyph="&#xe600;" FontFamily="{StaticResource Icon}"/>
-                                <TextBlock Text="Twitter" Margin="5 0 0 0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-                        <Button x:Name="FeadBackCenter" Click="FeadBackCenter_Click" Margin="3 0">
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="Tencent" Click="Tencent_Click" Label="提供反馈">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE939;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <!--<Button x:Name="FeadBackCenter" Click="FeadBackCenter_Click" Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon Glyph="&#xE939;" FontFamily="Segoe MDL2 Assets"/>
                                 <TextBlock Text="反馈中心" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
-                        </Button>
+                        </Button>-->
                         <!--<Button Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Mail"/>

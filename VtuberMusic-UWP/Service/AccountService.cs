@@ -53,6 +53,9 @@ namespace VtuberMusic_UWP.Service {
         /// 是否登录
         /// </summary>
         public bool Logged { get { return this.Account != null ? true : false; } }
+
+        public event EventHandler<AccountProfileData> LoginStatueChanged;
+
         private RestClient _restClient;
 
         public AccountService(RestClient restClient) {
@@ -90,6 +93,7 @@ namespace VtuberMusic_UWP.Service {
                     this.Token = new TokenPack { access_token = response.Data.Data.access_token, refresh_token = response.Data.Data.refresh_token };
 
                     this._restClient.Authenticator = new JwtAuthenticator(this.Token.access_token);
+                    this.LoginStatueChanged?.Invoke(this, new AccountProfileData { account = this.Account, profile = this.Profile });
                     return response.Data;
                 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using VtuberMusic_UWP.Models.VtuberMusic;
+using VtuberMusic_UWP.Tools;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -22,6 +23,9 @@ namespace VtuberMusic_UWP.Pages {
 
         public Artist() {
             this.InitializeComponent();
+
+            //this.ShareShadow.Receivers
+            this.Avater.Translation = new System.Numerics.Vector3(0, 0, 32);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
@@ -90,5 +94,8 @@ namespace VtuberMusic_UWP.Pages {
                 this.isLoading = false;
             }
         }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e) =>
+            ShareTools.ShareArtist(artist);
     }
 }

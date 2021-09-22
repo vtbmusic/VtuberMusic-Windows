@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using System.Runtime;
+using VtuberMusic_UWP.Service;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
-
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
 namespace VtuberMusic_UWP.Pages {
     /// <summary>
@@ -20,17 +19,15 @@ namespace VtuberMusic_UWP.Pages {
         private const string twitter = "https://twitter.com/VtuberMusic";
         private const string email = "";
 
+        private AccountService account => App.Client.Account;
+
         public Settings() {
             this.InitializeComponent();
             this.Version.Text = "VtuberMusic | v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + "-" + this.getGitCommitInfo();
 
-            this.Username.Text = App.Client.Account.Account.userName;
-            this.Nickname.Text = App.Client.Account.Profile.nickname;
-            this.Avatar.ProfilePicture = new BitmapImage(new Uri(App.Client.Account.Profile.avatarUrl));
-
-            if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported()) {
-                this.FeadBackCenter.Visibility = Visibility.Visible;
-            }
+            //if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported()) {
+            //    this.FeadBackCenter.Visibility = Visibility.Visible;
+            //}
         }
 
         private string getGitCommitInfo() {
@@ -54,6 +51,8 @@ namespace VtuberMusic_UWP.Pages {
             var launcher = Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.GetDefault();
             await launcher.LaunchAsync();
         }
+
+        private async void Tencent_Click(object sender, RoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri("https://wj.qq.com/s2/9062724/e2a8/"));
     }
 
     public class BlurBackgroundPixelConvert : IValueConverter {

@@ -45,5 +45,20 @@ namespace VtuberMusic_UWP.Tools {
                 args.Request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(data.coverImgUrl));
             };
         }
+
+        public static void ShareArtist(Artist data) {
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            DataTransferManager.ShowShareUI();
+
+            dataTransferManager.DataRequested += delegate (DataTransferManager s, DataRequestedEventArgs args) {
+                args.Request.Data.SetWebLink(new Uri("https://vtbmusic.com/vtuber?id=" + data.id));
+                args.Request.Data.SetText(data.name.origin + " - " + data.groupName);
+
+                args.Request.Data.Properties.Title = data.name.origin;
+                args.Request.Data.Properties.Description = data.groupName;
+                args.Request.Data.Properties.ApplicationName = "VtuberMusic";
+                args.Request.Data.Properties.Thumbnail = RandomAccessStreamReference.CreateFromUri(new Uri(data.imgUrl));
+            };
+        }
     }
 }
