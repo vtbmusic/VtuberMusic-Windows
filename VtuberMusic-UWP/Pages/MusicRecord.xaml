@@ -13,7 +13,7 @@
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <ScrollViewer>
-        <StackPanel Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="20 0 20 100">
+        <StackPanel Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="20 20 20 100">
             <TextBlock Text="历史播放" FontSize="24" Margin="10 0 0 20"/>
             <ListView x:Name="DataView" DoubleTapped="DataView_DoubleTapped" ScrollViewer.VerticalScrollMode="Disabled">
                 <ListView.ItemTemplate>

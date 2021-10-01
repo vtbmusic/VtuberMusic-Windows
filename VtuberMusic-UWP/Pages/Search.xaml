@@ -22,10 +22,7 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <StackPanel x:Name="MusicLoading" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <muxc:ProgressBar Width="200" IsIndeterminate="True"/>
-                        <TextBlock Text="Loading..." Margin="0 10" FontSize="14" Foreground="{ThemeResource SystemBaseMediumHighColor}" HorizontalAlignment="Center"/>
-                    </StackPanel>
+                    <components:Loading x:Name="MusicLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <ScrollViewer>
                         <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Margin="0 0 0 100"/>
                     </ScrollViewer>
@@ -39,10 +36,7 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <StackPanel x:Name="PlayListLoading" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <muxc:ProgressBar Width="200" IsIndeterminate="True"/>
-                        <TextBlock Text="Loading..." Margin="0 10" FontSize="14" Foreground="{ThemeResource SystemBaseMediumHighColor}" HorizontalAlignment="Center"/>
-                    </StackPanel>
+                    <components:Loading x:Name="PlayListLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <GridView x:Name="PlayListDataView" IsItemClickEnabled="True" ItemClick="PlayListDataView_ItemClick"
                               Loaded="PlayListDataView_Loaded">
                         <GridView.ItemContainerStyle>
@@ -74,10 +68,7 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <StackPanel x:Name="VtuberLoading" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <muxc:ProgressBar Width="200" IsIndeterminate="True"/>
-                        <TextBlock Text="Loading..." Margin="0 10" FontSize="14" Foreground="{ThemeResource SystemBaseMediumHighColor}" HorizontalAlignment="Center"/>
-                    </StackPanel>
+                    <components:Loading x:Name="VtuberLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <GridView x:Name="VtuberDataView" Padding="0 0 0 100"
                               IsItemClickEnabled="True" Loaded="VtuberDataView_Loaded" ItemClick="VtuberDataView_ItemClick">
                         <GridView.ItemContainerStyle>
