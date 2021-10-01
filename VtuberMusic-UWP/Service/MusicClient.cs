@@ -287,6 +287,63 @@ namespace VtuberMusic_UWP.Service {
             throw new Exception(response.ErrorMessage);
         }
 
+        /// <summary>
+        /// 获取该账户创建的歌单列表
+        /// </summary>
+        /// <returns>该账户创建的歌单列表</returns>
+        public async Task<ApiResponseList<Album[]>> GetMyCreatePlayList(string uid) {
+            var request = new RestRequest(ApiUri.MyCreatePlayList);
+            request.AddQueryParameter("uid", uid);
+
+            var response = await this._restClient.ExecuteAsync<ApiResponseList<Album[]>>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
+        /// <summary>
+        /// 获取该账户收藏的歌单列表
+        /// </summary>
+        /// <returns>该账户收藏的歌单列表</returns>
+        public async Task<ApiResponseList<Album[]>> GetMyFavouritePlayList(string uid) {
+            var request = new RestRequest(ApiUri.MyFavouitePlayList);
+            request.AddQueryParameter("uid", uid);
+
+            var response = await this._restClient.ExecuteAsync<ApiResponseList<Album[]>>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
+        /// <summary>
+        /// 获取历史播放音乐
+        /// </summary>
+        /// <param name="uid">用户 uid</param>
+        /// <param name="type">type=0 时返回 allData，type=1 时只返回最近一周数据</param>
+        /// <returns>播放历史记录</returns>
+        public async Task<ApiResponse<RecordMusic[]>> GetMusicRecordList(string uid, int type = 1) {
+            var request = new RestRequest(ApiUri.GetRecord);
+            request.AddQueryParameter("type", type.ToString());
+            request.AddQueryParameter("uid", uid);
+
+            var response = await this._restClient.ExecuteAsync<ApiResponse<RecordMusic[]>>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
         #region v1
         public async Task<ApiResponseList<Comment[]>> GetMusicComment(string musicId, string parentId = "") {
             var request = new RestRequest(ApiUri.GetMusicCommentsV1, Method.POST);

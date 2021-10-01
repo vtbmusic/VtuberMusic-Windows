@@ -23,7 +23,7 @@ namespace VtuberMusic_UWP.Pages {
 
         public Settings() {
             this.InitializeComponent();
-            this.Version.Text = "VtuberMusic | v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + "-" + this.getGitCommitInfo();
+            this.Version.Text = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " & " + this.getGitCommitInfo();
 
             //if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported()) {
             //    this.FeadBackCenter.Visibility = Visibility.Visible;

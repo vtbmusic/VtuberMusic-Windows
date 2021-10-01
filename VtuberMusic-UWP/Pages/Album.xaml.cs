@@ -55,7 +55,7 @@ namespace VtuberMusic_UWP.Pages {
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e) {
             base.OnNavigatingFrom(e);
 
-            if (( e.SourcePageType == typeof(Home) | e.SourcePageType == typeof(Search) ) && this.imageAnimation != null) {
+            if (( e.SourcePageType == typeof(Home) | e.SourcePageType == typeof(Search) | e.SourcePageType == typeof(Profile) ) && this.imageAnimation != null) {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("BackConnectedAnimation", this.CoverImgBorder);
             }
         }

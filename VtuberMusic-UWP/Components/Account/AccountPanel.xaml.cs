@@ -19,16 +19,17 @@ namespace VtuberMusic_UWP.Components.Account {
         }
 
         private async void load() {
-            var subcount = await App.Client.Account.GetAccountSubCouent();
-            this.ArtistSubCount.Text = subcount.Data.artistCount.ToString();
-            this.PlaylistCount.Text = subcount.Data.createdPlaylistCount.ToString();
-            this.LikeMusicCount.Text = subcount.Data.songCount.ToString();
-
+            try {
+                var subcount = await App.Client.Account.GetAccountSubCouent();
+                this.ArtistSubCount.Text = subcount.Data.artistCount.ToString();
+                this.PlaylistCount.Text = subcount.Data.createdPlaylistCount.ToString();
+                this.LikeMusicCount.Text = subcount.Data.songCount.ToString();
+            } catch { }
         }
 
         private void Grid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e) {
             if (App.ViewModel.MainPage.ContentFrame.Content.GetType() != typeof(Profile)) {
-                App.ViewModel.MainPage.ContentFrame.Navigate(typeof(Profile), App.Client.Account.Account.id, new DrillInNavigationTransitionInfo());
+                App.ViewModel.MainPage.ContentFrame.Navigate(typeof(Profile), App.Client.Account.Profile, new DrillInNavigationTransitionInfo());
             }
         }
     }

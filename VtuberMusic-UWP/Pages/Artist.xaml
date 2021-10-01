@@ -32,7 +32,7 @@
                         <TextBlock x:Name="ArtistName" FontSize="36" FontWeight="SemiBold"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                        <AppBarButton Icon="Like" Label="关注" IsEnabled="False"/>
+                        <AppBarButton Icon="AddFriend" Label="关注" IsEnabled="False"/>
                         <AppBarButton Icon="Share" Label="分享" Click="AppBarButton_Click"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">

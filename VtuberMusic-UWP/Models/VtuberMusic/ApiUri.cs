@@ -98,6 +98,11 @@
         /// </summary>
         public static string EditAlbum = BaseUrl + "/v2/playlist/update";
 
+        /// <summary>
+        /// 获取播放记录
+        /// </summary>
+        public static string GetRecord = BaseUrl + "/v2/user/record";
+
         #region v1
         /// <summary>
         /// 获取音乐评论 (v1)

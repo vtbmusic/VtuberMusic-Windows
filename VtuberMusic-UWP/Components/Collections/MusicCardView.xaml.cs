@@ -12,13 +12,13 @@ namespace VtuberMusic_UWP.Components.Collections {
     /// </summary>
     public partial class MusicCardView : UserControl {
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(Music[]), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
+            DependencyProperty.Register("ItemsSource", typeof(object), typeof(MusicDataList), new PropertyMetadata("ItemsSource", new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
         /// <summary>
         /// 数据源
         /// </summary>
-        public Music[] ItemsSource {
-            get { return (Music[])this.GetValue(ItemsSourceProperty); }
+        public object ItemsSource {
+            get { return this.GetValue(ItemsSourceProperty); }
             set { this.SetValue(ItemsSourceProperty, value); }
         }
 
@@ -27,9 +27,10 @@ namespace VtuberMusic_UWP.Components.Collections {
         }
 
         private protected void ItemsSourceChange(DependencyPropertyChangedEventArgs e) {
-            if (e.NewValue.GetType() == typeof(Music[])) {
-                this.DataView.ItemsSource = e.NewValue;
-            }
+            if (e.NewValue.GetType() == typeof(Music[])) this.DataView.ItemTemplate = Normal;
+            if (e.NewValue.GetType() == typeof(RecordMusic[])) this.DataView.ItemTemplate = Record;
+
+            this.DataView.ItemsSource = e.NewValue;
         }
 
         public MusicCardView() {
@@ -79,6 +80,11 @@ namespace VtuberMusic_UWP.Components.Collections {
         }
 
         private void DataView_ItemClick(object sender, ItemClickEventArgs e) {
+            if (e.ClickedItem.GetType() == typeof(RecordMusic)) {
+                App.Player.SetMusic(((RecordMusic)e.ClickedItem).song);
+                return;
+            }
+
             App.Player.SetMusic((Music)e.ClickedItem);
         }
     }

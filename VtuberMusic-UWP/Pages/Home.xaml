@@ -6,7 +6,6 @@
     xmlns:main="using:VtuberMusic_UWP.Components.Main"
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:collections="using:VtuberMusic_UWP.Components.Collections" xmlns:controls="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:VtuberMusic_UWP.Components"
     mc:Ignorable="d">

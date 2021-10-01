@@ -185,6 +185,7 @@
     <Compile Include="Models\VtuberMusic\Album.cs" />
     <Compile Include="Models\VtuberMusic\Artist.cs" />
     <Compile Include="Models\VtuberMusic\Profile.cs" />
+    <Compile Include="Models\VtuberMusic\RecordMusic.cs" />
     <Compile Include="Models\VtuberMusic\v1\Comment.cs" />
     <Compile Include="Pages\Artist.xaml.cs">
       <DependentUpon>Artist.xaml</DependentUpon>
@@ -206,6 +207,9 @@
     </Compile>
     <Compile Include="Pages\Album.xaml.cs">
       <DependentUpon>Album.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MusicRecord.xaml.cs">
+      <DependentUpon>MusicRecord.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Playing.xaml.cs">
       <DependentUpon>Playing.xaml</DependentUpon>
@@ -395,6 +399,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Album.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MusicRecord.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

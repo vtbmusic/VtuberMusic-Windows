@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using VtuberMusic_UWP.Components;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.Media;
 using Windows.Media.Core;
@@ -128,11 +129,26 @@ namespace VtuberMusic_UWP.Service {
             this._mediaPlayer.VolumeChanged += this._mediaPlayer_VolumeChanged;
             this._mediaPlayer.PlaybackSession.PlaybackStateChanged += this._mediaPlayer_StateChanged;
             this._mediaPlayer.MediaOpened += this._mediaPlayer_MediaOpened;
+            this._mediaPlayer.MediaFailed += this._mediaPlayer_MediaFailed;
             // 绑定事件
             PlayListChanged += this.playListChanged;
             this.PlayList.CollectionChanged += delegate {
                 this.playListChanged(this, null);
             };
+        }
+
+        private async void _mediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args) {
+            Crashes.TrackError(args.ExtendedErrorCode,
+                new Dictionary<string, string>() {
+                    { "error_type", args.Error.ToString() },
+                    { "error_message", args.ErrorMessage },
+                    { "music_url", this._mediaPlaybackItem.Source.Uri.ToString() },
+                    { "music_id", this.NowPlayingMusic.id }
+                });
+
+            await App.RootFrame.Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
+                InfoBarPopup.Show($"播放失败: { args.Error.ToString() }", args.ErrorMessage + "\n" + args.ExtendedErrorCode.ToString(), Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
+            }));
         }
 
         #region 事件处理

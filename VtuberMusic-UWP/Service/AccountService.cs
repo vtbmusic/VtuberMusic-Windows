@@ -148,35 +148,13 @@ namespace VtuberMusic_UWP.Service {
         /// 获取该账户创建的歌单列表
         /// </summary>
         /// <returns>该账户创建的歌单列表</returns>
-        public async Task<ApiResponseList<Album[]>> GetMyCreatePlayList() {
-            var request = new RestRequest(ApiUri.MyCreatePlayList);
-
-            var response = await this._restClient.ExecuteAsync<ApiResponseList<Album[]>>(request);
-
-            if (response.IsSuccessful) {
-                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
-            }
-
-            if (response.ErrorException != null) throw response.ErrorException;
-            throw new Exception(response.ErrorMessage);
-        }
+        public async Task<ApiResponseList<Album[]>> GetMyCreatePlayList() => await App.Client.GetMyCreatePlayList(this.Profile.userId);
 
         /// <summary>
         /// 获取该账户收藏的歌单列表
         /// </summary>
         /// <returns>该账户收藏的歌单列表</returns>
-        public async Task<ApiResponseList<Album[]>> GetMyFavouritePlayList() {
-            var request = new RestRequest(ApiUri.MyFavouitePlayList);
-
-            var response = await this._restClient.ExecuteAsync<ApiResponseList<Album[]>>(request);
-
-            if (response.IsSuccessful) {
-                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
-            }
-
-            if (response.ErrorException != null) throw response.ErrorException;
-            throw new Exception(response.ErrorMessage);
-        }
+        public async Task<ApiResponseList<Album[]>> GetMyFavouritePlayList() => await App.Client.GetMyFavouritePlayList(this.Profile.userId);
 
         /// <summary>
         /// 获取 "我喜欢的音乐" 歌单信息
@@ -280,6 +258,13 @@ namespace VtuberMusic_UWP.Service {
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
+
+        /// <summary>
+        /// 获取历史播放音乐
+        /// </summary>
+        /// <param name="type">type=0 时返回 allData，type=1 时只返回最近一周数据</param>
+        /// <returns>播放历史记录</returns>
+        public async Task<ApiResponse<RecordMusic[]>> GetRecord(int type = 1) => await App.Client.GetMusicRecordList(this.Account.id, type);
     }
 
     /// <summary>

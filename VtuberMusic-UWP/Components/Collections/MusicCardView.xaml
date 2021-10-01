@@ -7,11 +7,75 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:main="using:VtuberMusic_UWP.Components.Main"
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations" xmlns:components="using:VtuberMusic_UWP.Components"
+    xmlns:components="using:VtuberMusic_UWP.Components"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <DataTemplate x:Name="Normal" x:DataType="models:Music">
+            <Grid Width="170" Margin="5 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Height="170" CornerRadius="10">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="{x:Bind picUrl, Mode=OneTime}" Stretch="UniformToFill"/>
+                    </Grid.Background>
+                </Grid>
+                <StackPanel Grid.Row="1" CornerRadius="10" Height="50" Margin="0 10 0 0" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                    <ItemsControl ItemsSource="{x:Bind artists, Mode=OneTime}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:Artist">
+                                <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind name.origin, Mode=OneTime}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <components:MarqueeText Text="{x:Bind name, Mode=OneTime}" FontSize="16"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Name="Record" x:DataType="models:RecordMusic">
+            <Grid Width="170" Margin="5 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Height="170" CornerRadius="10">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="{x:Bind song.picUrl, Mode=OneTime}" Stretch="UniformToFill"/>
+                    </Grid.Background>
+                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                          Margin="5" Padding="10 5" CornerRadius="10" Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE768;" FontSize="14"/>
+                        <TextBlock Text="{x:Bind playCount}" Margin="5 0 0 0" FontSize="12"/>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Grid.Row="1" CornerRadius="10" Height="50" Margin="0 10 0 0" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                    <ItemsControl ItemsSource="{x:Bind song.artists, Mode=OneTime}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:Artist">
+                                <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind name.origin, Mode=OneTime}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <components:MarqueeText Text="{x:Bind song.name, Mode=OneTime}" FontSize="16"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    
     <GridView x:Name="DataView" Height="255"
               SelectionMode="None" IsItemClickEnabled="True" ItemClick="DataView_ItemClick"
               ContainerContentChanging="GridView_ContainerContentChanging"
@@ -22,35 +86,5 @@
                 <ItemsStackPanel Orientation="Horizontal"/>
             </ItemsPanelTemplate>
         </GridView.ItemsPanel>
-        <GridView.ItemTemplate>
-            <DataTemplate x:DataType="models:Music">
-                <Grid Width="170" Margin="5 0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid Height="170" CornerRadius="10">
-                        <Grid.Background>
-                            <ImageBrush ImageSource="{x:Bind picUrl, Mode=OneTime}" Stretch="UniformToFill"/>
-                        </Grid.Background>
-                    </Grid>
-                    <StackPanel Grid.Row="1" CornerRadius="10" Height="50" Margin="0 10 0 0" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                        <ItemsControl ItemsSource="{x:Bind artists, Mode=OneTime}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="models:Artist">
-                                    <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" Margin="0 0 5 0" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind name.origin, Mode=OneTime}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsStackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <components:MarqueeText Text="{x:Bind name, Mode=OneTime}" FontSize="16"/>
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
-        </GridView.ItemTemplate>
     </GridView>
 </UserControl>

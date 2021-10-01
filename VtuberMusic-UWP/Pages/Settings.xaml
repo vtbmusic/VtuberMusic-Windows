@@ -89,10 +89,12 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Image Source="/Assets/Icon/Original/Icon.png" Height="80"/>
-                        <TextBlock Text="VtuberMusic" FontFamily="Comic Sans MS" VerticalAlignment="Center" FontSize="36" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="Version" Text="v2.0.2.0 &amp; main-13c8fc5" Margin="0 0 0 -10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                            <TextBlock Text="VtuberMusic" FontFamily="Comic Sans MS" VerticalAlignment="Center" FontSize="36" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"/>
+                        </StackPanel>
                     </StackPanel>
-                    <TextBlock x:Name="Version" Text="VtuberMusic UWP | v2.0-main-13c8fc5" HorizontalAlignment="Center" FontSize="16" Margin="5 5 0 0" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <AppBarButton x:Name="BiliBili" Click="BiliBili_Click" Label="哔哩哔哩">
                             <AppBarButton.Icon>
                                 <FontIcon Glyph="&#xe6e9;" FontFamily="{StaticResource Icon}"/>
