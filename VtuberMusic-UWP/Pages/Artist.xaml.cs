@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Analytics;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Tools;
@@ -34,6 +36,10 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         private async void loadData(Models.VtuberMusic.Artist artist) {
+            Analytics.TrackEvent("浏览歌手", new Dictionary<string, string>() {
+                { "artist_id", artist.id }
+            });
+
             this.ArtistName.Text = artist.name.origin;
             // awsl
             if (artist.name.cn != artist.name.origin && !string.IsNullOrEmpty(artist.name.cn)) {

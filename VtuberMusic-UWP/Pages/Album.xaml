@@ -34,11 +34,15 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="AlbumName" FontSize="24" FontWeight="SemiBold"/>
-                        <TextBlock x:Name="CreatorInfo" Text="Misaka-L 创建于 2021/5/23" FontSize="24" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal">
+                            <HyperlinkButton x:Name="CreatorLink" Padding="5 0" Margin="-5 0 0 0" Click="CreatorLink_Click" FontSize="24" FontWeight="Bold"/>
+                            <TextBlock x:Name="CreatorInfo" Text="Misaka-L 创建于 2021/5/23" FontSize="24" FontWeight="Bold"/>
+                        </StackPanel>
                         <TextBlock x:Name="Introduction" Margin="0 10" Text="这是一个简介"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Bottom">
                         <AppBarButton x:Name="PlayAll" Click="PlayAll_Click" Icon="Play" Label="播放全部"/>
+                        <AppBarButton x:Name="Like" Icon="Favorite" Click="Like_Click" Visibility="Collapsed" Label="收藏"/>
                         <AppBarButton x:Name="Edit" Visibility="Collapsed" Click="Edit_Click" Icon="Edit" Label="编辑信息"/>
                         <AppBarButton x:Name="Share" Click="Share_Click" Icon="Share" Label="分享"/>
                     </StackPanel>

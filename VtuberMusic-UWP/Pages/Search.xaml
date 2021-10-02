@@ -38,7 +38,7 @@
                 <Grid>
                     <components:Loading x:Name="PlayListLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <GridView x:Name="PlayListDataView" IsItemClickEnabled="True" ItemClick="PlayListDataView_ItemClick"
-                              Loaded="PlayListDataView_Loaded">
+                              Loaded="PlayListDataView_Loaded" Padding="0 0 0 100">
                         <GridView.ItemContainerStyle>
                             <Style TargetType="GridViewItem">
                                 <Setter Property="Margin" Value="5 0 5 10"/>

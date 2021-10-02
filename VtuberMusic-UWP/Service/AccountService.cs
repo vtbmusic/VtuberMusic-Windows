@@ -1,6 +1,8 @@
-﻿using RestSharp;
+﻿using Microsoft.AppCenter.Analytics;
+using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -175,6 +177,11 @@ namespace VtuberMusic_UWP.Service {
         /// <param name="like">是否喜欢</param>
         /// <returns>操作是否成功</returns>
         public async Task<ApiResponse> LikeMusic(string id, bool like = true) {
+            Analytics.TrackEvent("喜欢音乐", new Dictionary<string, string>() {
+                { "music_id", id },
+                { "like", like.ToString() }
+            });
+
             var request = new RestRequest(ApiUri.LikeMusic, Method.POST);
             request.AddParameter("id", id, ParameterType.QueryString);
             request.AddParameter("like", like.ToString().ToLower(), ParameterType.QueryString);
@@ -218,6 +225,8 @@ namespace VtuberMusic_UWP.Service {
         /// <param name="musicIds">音乐 id</param>
         /// <returns>操作是否成功</returns>
         public async Task<ApiResponse> TrackMusic(string pid, TrackType type, string[] musicIds) {
+            Analytics.TrackEvent("添加音乐到歌单");
+
             var request = new RestRequest(ApiUri.TrackMusic, Method.POST);
             request.AddParameter("pid", pid, ParameterType.QueryString);
             request.AddParameter("type", type.ToString(), ParameterType.QueryString);
@@ -242,12 +251,34 @@ namespace VtuberMusic_UWP.Service {
         /// <param name="tags">标签</param>
         /// <returns>操作是否成功</returns>
         public async Task<ApiResponse> EditAlbumInfo(string id, string name, string desc, string[] tags = null) {
+            Analytics.TrackEvent("编辑歌单信息");
+
             tags = new string[] { "tag" };
             var request = new RestRequest(ApiUri.EditAlbum, Method.POST);
             request.AddParameter("id", id, ParameterType.QueryString);
             request.AddParameter("name", name, ParameterType.QueryString);
             request.AddParameter("desc", desc, ParameterType.QueryString);
             request.AddParameter("tags", UsefullTools.ConvertStringArrayToString(tags), ParameterType.QueryString);
+
+            var response = await this._restClient.ExecuteAsync<ApiResponse>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
+        public async Task<ApiResponse> SubscribeAlbum(string id, bool like) {
+            Analytics.TrackEvent("收藏歌单", new Dictionary<string, string>() {
+                { "Album_Id", id },
+                { "Like", like.ToString() }
+            });
+
+            var request = new RestRequest(ApiUri.SubscribeAlbum, Method.POST);
+            request.AddQueryParameter("id", id);
+            request.AddQueryParameter("like", like.ToString());
 
             var response = await this._restClient.ExecuteAsync<ApiResponse>(request);
 

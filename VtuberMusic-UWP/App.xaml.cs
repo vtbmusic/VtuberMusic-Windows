@@ -177,8 +177,8 @@ namespace VtuberMusic_UWP {
         }
 
         private string getGitCommitInfo() {
-            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
-            return attributes.Length != 0 ? ( (AssemblyFileVersionAttribute)attributes[0] ).Version : "Nan";
+            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
+            return attributes.Length != 0 ? ( (AssemblyInformationalVersionAttribute)attributes[0] ).InformationalVersion : "Nan";
         }
 
         /// <summary>

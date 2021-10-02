@@ -103,6 +103,11 @@
         /// </summary>
         public static string GetRecord = BaseUrl + "/v2/user/record";
 
+        /// <summary>
+        /// 收藏歌单
+        /// </summary>
+        public static string SubscribeAlbum = BaseUrl + "/v2/playlist/subscribe";
+
         #region v1
         /// <summary>
         /// 获取音乐评论 (v1)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Analytics;
+using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
@@ -25,6 +27,10 @@ namespace VtuberMusic_UWP.Pages {
             if (e.Parameter != null && e.Parameter.GetType() == typeof(Models.VtuberMusic.Profile)) {
                 profile = e.Parameter as Models.VtuberMusic.Profile;
                 this.load();
+
+                Analytics.TrackEvent("浏览个人资料", new Dictionary<string, string>() {
+                    { "user_id", profile.userId }
+                });
             }
         }
 
@@ -37,7 +43,8 @@ namespace VtuberMusic_UWP.Pages {
         private async void load() {
             this.Nickname.Text = profile.nickname;
             this.LevelText.Text = $"Lv.{ profile.level.ToString() }";
-            
+            this.LikeMusicTitle.Text = this.profile.nickname + " 喜欢的音乐";
+
             if (this.profile.nextexperience.GetValueOrDefault() != 0) {
                 this.LevelExp.Maximum = this.profile.nextexperience.GetValueOrDefault();
             } else {
@@ -59,8 +66,6 @@ namespace VtuberMusic_UWP.Pages {
             this.FavouriteAlbumCount.Text = "共 " + favouriteAlbum.Data.Length + " 项";
 
             this.LikeMusicAlbumDataView.ItemsSource = new Models.VtuberMusic.Album[] { likeMusicAlbum.Data.playlist };
-            this.LikeMusicTitle.Text = this.profile.nickname + " 喜欢的音乐";
-
             this.RecntPlay.ItemsSource = recentPlay.Data;
         }
 

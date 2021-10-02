@@ -1,4 +1,5 @@
-﻿using Microsoft.AppCenter.Crashes;
+﻿using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,8 @@ namespace VtuberMusic_UWP.Pages {
 
         protected async override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+
+            Analytics.TrackEvent("进入画中画");
             await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
         }
 

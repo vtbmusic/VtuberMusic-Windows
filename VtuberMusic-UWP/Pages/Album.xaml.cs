@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using System;
+using System.Collections.Generic;
 using VtuberMusic_UWP.Components.Dialog;
 using VtuberMusic_UWP.Tools;
 using Windows.UI.Xaml;
@@ -37,10 +40,21 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         private async void loadData(bool likeMusic = false) {
+            var analyticsData = new Dictionary<string, string>() {
+                { "LikeMusicList", likeMusic.ToString() }
+            };
+
+            if (likeMusic) analyticsData.Add("Album_Id", $"Like_{ album.id }"); else analyticsData.Add("Album_Id", album.id);
+            Analytics.TrackEvent("浏览歌单", analyticsData);
+
             if (this.album.creator.userId == App.Client.Account.Account.id && !this.isLkeMusic) this.Edit.Visibility = Visibility.Visible;
+            if (!this.isLkeMusic && this.album.creator.userId != App.Client.Account.Account.id) this.Like.Visibility = Visibility.Visible;
+
             this.AlbumName.Text = this.album.name;
-            this.CreatorInfo.Text = $"{ this.album.creator.nickname } 创建于 { UsefullTools.ConvertUnixTimeStamp(this.album.createTime).ToString("yyyy/M/d") }";
+            this.CreatorLink.Content = this.album.creator.nickname;
+            this.CreatorInfo.Text = $"创建于 { UsefullTools.ConvertUnixTimeStamp(this.album.createTime).ToString("yyyy/M/d") }";
             this.Introduction.Text = this.album.description != null ? this.album.description : "这个作者很懒没写简介哦～";
+            this.Like.Icon = this.album.like ? new FontIcon { Glyph = "\uE735" } : new FontIcon { Glyph = "\uE734" };
 
             this.CoverImg.ImageSource = new BitmapImage(new Uri(this.album.coverImgUrl));
 
@@ -48,7 +62,7 @@ namespace VtuberMusic_UWP.Pages {
             if (this.imageAnimation != null) this.imageAnimation.TryStart(this.CoverImgBorder, new UIElement[] { this.InfoPanel });
 
             this.DataView.ItemsSource = likeMusic
-                ? ( await App.Client.Account.GetLikeMusicSong() ).Data.songs
+                ? ( await App.Client.GetLikeMusicSong(this.album.id) ).Data.songs
                 : ( await App.Client.GetPlayListSong(this.album.id) ).Data.songs;
         }
 
@@ -83,6 +97,23 @@ namespace VtuberMusic_UWP.Pages {
 
         private void Share_Click(object sender, RoutedEventArgs e) =>
             ShareTools.ShareAlbum(this.album);
+
+        private void CreatorLink_Click(object sender, RoutedEventArgs e) => this.Frame.Navigate(typeof(Profile), this.album.creator, new DrillInNavigationTransitionInfo());
+
+        private async void Like_Click(object sender, RoutedEventArgs e) {
+            try {
+                await App.Client.Account.SubscribeAlbum(this.album.id, !this.album.like);
+                this.album.like = !this.album.like;
+
+                this.Like.Icon = this.album.like ? new FontIcon { Glyph = "\uE735" } : new FontIcon { Glyph = "\uE734" };
+                App.ViewModel.MainPage.Load();
+            } catch (Exception ex) {
+                Crashes.TrackError(ex, new Dictionary<string, string>() {
+                    { "Album_Id", this.album.id },
+                    { "Like", (!this.album.like).ToString() }
+                });
+            }
+        }
     }
 
     public class AlbumPageArgs {

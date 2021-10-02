@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Analytics;
+using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -23,6 +25,10 @@ namespace VtuberMusic_UWP.Pages {
         /// </summary>
         /// <param name="keyword">关键词</param>
         public async void SearchKeyword(string keyword) {
+            Analytics.TrackEvent("搜索关键词", new Dictionary<string, string>() {
+                { "keyword", keyword }
+            });
+
             this.MusicDataList.ItemsSource = null;
             this.VtuberDataView.ItemsSource = null;
             this.PlayListDataView.ItemsSource = null;
