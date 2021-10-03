@@ -9,7 +9,6 @@
     xmlns:components="using:VtuberMusic_UWP.Components"
     xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d"
     d:Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
@@ -52,11 +51,12 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <StackPanel Margin="10">
+            <StackPanel Margin="0 10">
                 <ScrollViewer VerticalScrollMode="Disabled" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" CornerRadius="8" Padding="10"
+                                Background="{ThemeResource LayerFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <StackPanel>
-                            <TextBlock Text="音乐品味" FontSize="24" Margin="10 10 0 0"/>
+                            <TextBlock Text="音乐品味" FontSize="24" Margin="10 0 0 0"/>
                             <TextBlock x:Name="LikeMusicTitle" Text="Misaka_L 喜欢的音乐" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                             <GridView x:Name="LikeMusicAlbumDataView" Loaded="LikeMusicAlbumDataView_Loaded" Margin="0 5 0 0"
                                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="LikeMusicAlbumDataView_ItemClick"
@@ -84,65 +84,71 @@
                             </GridView>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="最近在听" FontSize="24" Margin="10 10 0 0"/>
+                            <TextBlock Text="最近在听" FontSize="24" Margin="10 0 0 0"/>
                             <TextBlock Text="一周数据" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                             <collections:MusicCardView x:Name="RecntPlay"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
-                <TextBlock Text="创建的歌单" FontSize="24" Margin="10 20 0 0"/>
-                <TextBlock x:Name="CreateAlbumCount" Text="共 2 项" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                <GridView x:Name="CreateAlbumDataView" Loaded="CreateAlbumDataView_Loaded"
+                <StackPanel CornerRadius="8" Padding="10" Margin="0 10"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                    <TextBlock Text="创建的歌单" FontSize="24" Margin="10 10 0 0"/>
+                    <TextBlock x:Name="CreateAlbumCount" Text="共 2 项" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <GridView x:Name="CreateAlbumDataView" Loaded="CreateAlbumDataView_Loaded"
                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="CreateAlbumDataView_ItemClick"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Album">
-                            <StackPanel Margin="5 0">
-                                <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10">
-                                    <Grid.Background>
-                                        <ImageBrush ImageSource="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
-                                    </Grid.Background>
-                                </Grid>
-                                <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="35" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                                    <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Album">
+                                <StackPanel Margin="5 0">
+                                    <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10">
+                                        <Grid.Background>
+                                            <ImageBrush ImageSource="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
+                                        </Grid.Background>
+                                    </Grid>
+                                    <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="35" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                        <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-                <TextBlock Text="收藏的歌单" FontSize="24" Margin="10 20 0 0"/>
-                <TextBlock x:Name="FavouriteAlbumCount" Text="共 6 项" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                <GridView x:Name="FavourtiteAlbumDataView" Loaded="FavoutiteAlbumDataView_Loaded"
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+                <StackPanel CornerRadius="8" Padding="10"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                    <TextBlock Text="收藏的歌单" FontSize="24" Margin="10 10 0 0"/>
+                    <TextBlock x:Name="FavouriteAlbumCount" Text="共 6 项" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <GridView x:Name="FavourtiteAlbumDataView" Loaded="FavoutiteAlbumDataView_Loaded"
                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="FavoutiteAlbumDataView_ItemClick"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Album">
-                            <StackPanel Margin="5 0">
-                                <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10">
-                                    <Grid.Background>
-                                        <ImageBrush ImageSource="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
-                                    </Grid.Background>
-                                </Grid>
-                                <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                                    <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind creator.nickname}"/>
-                                    <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Album">
+                                <StackPanel Margin="5 0">
+                                    <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10">
+                                        <Grid.Background>
+                                            <ImageBrush ImageSource="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
+                                        </Grid.Background>
+                                    </Grid>
+                                    <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                        <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind creator.nickname}"/>
+                                        <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
