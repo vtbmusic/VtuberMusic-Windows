@@ -1,0 +1,26 @@
+﻿<ContentDialog
+    x:Class="VtuberMusic_UWP.Components.Dialog.UpdateCheckDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Components.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="发现新版本 - v"
+    DefaultButton="Primary"
+    PrimaryButtonText="前往外部链接更新"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>
+                <Bold>提交编号</Bold>
+            </TextBlock>
+            <TextBlock Margin="5 0" Text="{x:Bind info.commit}"/>
+        </StackPanel>
+        <TextBlock>
+            <Bold>更新日志</Bold>
+        </TextBlock>
+        <TextBlock Text="{x:Bind info.log}"/>
+    </StackPanel>
+</ContentDialog>

@@ -89,7 +89,7 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         private async void Edit_Click(object sender, RoutedEventArgs e) {
-            await new EditAlbumInfoDialog().ShowAsync(this.album.id);
+            await new EditAlbumInfoDialog(this.album.id).ShowAsync();
             this.album = ( await App.Client.GetPlayListSong(this.album.id) ).Data.playlist;
 
             this.loadData();

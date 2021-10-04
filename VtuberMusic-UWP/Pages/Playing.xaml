@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lyric="using:VtuberMusic_UWP.Models.Lyric"
-    xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric" xmlns:comment="using:VtuberMusic_UWP.Components.Comment"
+    xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric"
+    xmlns:comment="using:VtuberMusic_UWP.Components.Comment"
     mc:Ignorable="d">
 
     <Page.Background>
@@ -51,7 +52,7 @@
 
     <Grid>
         <Grid.Background>
-            <AcrylicBrush TintOpacity="0.5" TintColor="Black"/>
+            <AcrylicBrush TintOpacity="0.5" TintColor="Black" FallbackColor="Black"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.1*"/>

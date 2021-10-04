@@ -149,6 +149,9 @@
     <Compile Include="Components\Dialog\EditAlbumInfoDialog.xaml.cs">
       <DependentUpon>EditAlbumInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\Dialog\UpdateCheckDialog.xaml.cs">
+      <DependentUpon>UpdateCheckDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\InfoBarPopup.xaml.cs">
       <DependentUpon>InfoBarPopup.xaml</DependentUpon>
     </Compile>
@@ -179,6 +182,7 @@
     <Compile Include="Models\Lyric\Vrc.cs" />
     <Compile Include="Models\DebugCommand\IDebugCommand.cs" />
     <Compile Include="Models\Main\ISetupStep.cs" />
+    <Compile Include="Models\Main\UpdateCheck.cs" />
     <Compile Include="Models\Main\ViewModel.cs" />
     <Compile Include="Models\VtuberMusic\Account.cs" />
     <Compile Include="Models\VtuberMusic\ApiResponse.cs" />
@@ -350,6 +354,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\Dialog\EditAlbumInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\Dialog\UpdateCheckDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

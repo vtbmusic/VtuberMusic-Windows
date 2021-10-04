@@ -1,10 +1,12 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using VtuberMusic_UWP.Components;
+using VtuberMusic_UWP.Components.Dialog;
 using VtuberMusic_UWP.Models.DebugCommand;
 using VtuberMusic_UWP.Models.Main;
 using VtuberMusic_UWP.Pages;
@@ -28,6 +30,7 @@ namespace VtuberMusic_UWP {
         public static MusicClient Client = new MusicClient();
         public static Player Player = new Player();
         public static Frame RootFrame;
+        public static RestClient PublicClient = new RestClient();
         public static DebugCommandManager DebugCommandManager = new DebugCommandManager();
 
         public App() {
@@ -128,6 +131,17 @@ namespace VtuberMusic_UWP {
         }
 
         private async void init() {
+            var request = new RestRequest("https://vtbmusic.github.io/UWP_UpdateCheck/update.json");
+            var response = await PublicClient.ExecuteAsync<UpdateCheck>(request);
+
+            if (response.IsSuccessful &&
+                (response.Data.version != Assembly.GetExecutingAssembly().GetName().Version.ToString() || response.Data.commit != this.getGitCommitInfo() )) {
+                await new UpdateCheckDialog(response.Data).ShowAsync();
+#if !DEBUG
+                Environment.Exit(0);
+#endif
+            }
+
             var username = (string)ApplicationData.Current.LocalSettings.Values["Username"];
             var password = (string)ApplicationData.Current.LocalSettings.Values["Password"];
             if (username != null && password != null) {
@@ -160,7 +174,7 @@ namespace VtuberMusic_UWP {
             };
 #endif
 #if !DEBUG
-            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
+            AppCenter.Start("b70c28c4-5a3a-4416-8eac-72106776951d",
                        typeof(Analytics), typeof(Crashes));
 
             var properties = new CustomProperties();
