@@ -62,7 +62,7 @@ jobs:
         $Build = ${{ github.run_number }}
         $Info = Get-Content $env:Wap_Project_Directory/Properties/AssemblyInfo.cs
         $Info = $Info -replace "GitCommit",$Git_Commit
-        $Info = $Info -replace "Date",$Build
+        $Info = $Info -replace "Build.Count",$Build
         Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
         
     
