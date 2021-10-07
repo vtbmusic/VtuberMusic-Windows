@@ -49,12 +49,6 @@ namespace VtuberMusic_UWP.Components.Collections {
             }
         }
 
-        private void Count_Loaded(object sender, RoutedEventArgs e) {
-            var item = sender as TextBlock;
-
-            item.Text = ( DataList.IndexFromContainer(DataList.ContainerFromItem(item.Tag)) + 1 ).ToString();
-        }
-
         private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e) {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Pen)
                 VisualStateManager.GoToState(sender as Control, "Hover", true);

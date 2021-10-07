@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -23,8 +24,9 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         private async void loadData() {
+            Date.Text = DateTime.Now.ToString("M");
+
             var bannerData = await App.Client.GetBanner();
-            this.BannerPipsPager.NumberOfPages = bannerData.Data.Length;
             this.BannerDataView.ItemsSource = bannerData.Data;
             var bannerImageUri = new Uri(bannerData.Data.First().BannerImg);
 
@@ -90,6 +92,10 @@ namespace VtuberMusic_UWP.Pages {
         protected override void OnNavigatedFrom(NavigationEventArgs e) {
             base.OnNavigatedFrom(e);
             if (!this.cachePage) this.NavigationCacheMode = NavigationCacheMode.Disabled;
+        }
+
+        private void Avater_Loaded(object sender, RoutedEventArgs e) {
+            ( sender as PersonPicture ).Translation = new Vector3(0, 0, 32);
         }
     }
 }

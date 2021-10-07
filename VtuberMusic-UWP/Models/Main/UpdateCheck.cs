@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VtuberMusic_UWP.Models.Main {
+﻿namespace VtuberMusic_UWP.Models.Main {
     /// <summary>
     /// 检查更新信息
     /// </summary>

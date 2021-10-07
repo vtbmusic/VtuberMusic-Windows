@@ -12,90 +12,78 @@
     mc:Ignorable="d"
     d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <ScrollViewer>
-        <StackPanel Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="20 20 20 100">
-            <TextBlock Text="历史播放" FontSize="24" Margin="10 0 0 20"/>
-            <ListView x:Name="DataView" DoubleTapped="DataView_DoubleTapped" ScrollViewer.VerticalScrollMode="Disabled">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vtubermusic:RecordMusic">
-                        <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited" RightTapped="UserControl_RightTapped"
-                             Tag="{x:Bind}">
-                            <SwipeControl>
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="HoveringStates">
-                                        <VisualState x:Name="Normal"/>
-                                        <VisualState x:Name="Hover">
-                                            <VisualState.Setters>
-                                                <Setter Target="ItemCommand.Visibility" Value="Visible"/>
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                                <Grid Padding="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid CornerRadius="10" Width="50" Height="50">
-                                        <Grid.Background>
-                                            <ImageBrush Stretch="UniformToFill">
-                                                <ImageBrush.ImageSource>
-                                                    <BitmapImage UriSource="{x:Bind song.picUrl, Mode=OneTime}" DecodePixelHeight="50" DecodePixelWidth="80"/>
-                                                </ImageBrush.ImageSource>
-                                            </ImageBrush>
-                                        </Grid.Background>
-                                    </Grid>
-                                    <Grid Grid.Column="1" Margin="5 0 0 0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition MinWidth="30" Width="Auto"/>
-                                            <ColumnDefinition Width="0.7*"/>
-                                            <ColumnDefinition Width="0.4*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="50"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Loaded="Count_Loaded" Tag="{x:Bind Mode=OneTime}" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <TextBlock Margin="5 0" Text="{x:Bind song.name, Mode=OneTime}" FontWeight="Medium" VerticalAlignment="Center" Grid.Column="1"/>
-                                        <StackPanel x:Name="ItemCommand" Grid.Column="2" Orientation="Horizontal" Visibility="Collapsed"
-                                        VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5 0">
-                                            <Button x:Name="Play" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
-                                        ToolTipService.ToolTip="播放" Tag="{x:Bind song, Mode=OneTime}" Click="Play_Click">
-                                                <FontIcon Glyph="&#xE102;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
-                                            </Button>
-                                            <Button x:Name="Like" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
-                                        ToolTipService.ToolTip="喜欢" Tag="{x:Bind song, Mode=OneTime}" Click="Like_Click">
-                                                <FontIcon Glyph="{x:Bind song.like, Converter={StaticResource LikeMusicIconConverter}, Mode=OneWay}" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
-                                            </Button>
-                                            <Button x:Name="Add" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
-                                    ToolTipService.ToolTip="添加到..." Tag="{x:Bind Mode=OneTime}" Click="Add_Click">
-                                                <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
-                                            </Button>
-                                            <Button x:Name="Share" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
-                                        ToolTipService.ToolTip="分享" Tag="{x:Bind Mode=OneTime}" Click="Share_Click">
-                                                <FontIcon Glyph="&#xE72D;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
-                                            </Button>
-                                        </StackPanel>
-                                        <ItemsControl ItemsSource="{x:Bind song.artists, Mode=OneTime}" Grid.Column="3">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate x:DataType="vtubermusic:Artist">
-                                                    <HyperlinkButton x:Name="ArtistButton" Click="ArtistButton_Click" Padding="2" Tag="{x:Bind Mode=OneTime}">
-                                                        <TextBlock Text="{x:Bind name.origin, Mode=OneTime}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13"/>
-                                                    </HyperlinkButton>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <ItemsStackPanel Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
-                                        <TextBlock Text="{x:Bind song.duration, Converter={StaticResource TimeConver}, Mode=OneTime}" Margin="10 0" VerticalAlignment="Center" FontSize="13" Grid.Column="4"/>
-                                    </Grid>
+    <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" Padding="0 10 10 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="历史播放" FontWeight="Bold" FontSize="24" Margin="20 0 0 10"/>
+        <ListView x:Name="DataView" Grid.Row="1" DoubleTapped="DataView_DoubleTapped" ScrollViewer.VerticalScrollMode="Auto" Padding="0 0 0 100">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vtubermusic:RecordMusic">
+                    <UserControl Tag="{x:Bind}" PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited" RightTapped="UserControl_RightTapped">
+                        <SwipeControl>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="HoveringStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Hover">
+                                        <VisualState.Setters>
+                                            <Setter Target="ItemCommand.Visibility" Value="Visible"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid Padding="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid CornerRadius="10" Width="50" Height="50">
+                                    <Grid.Background>
+                                        <ImageBrush Stretch="UniformToFill">
+                                            <ImageBrush.ImageSource>
+                                                <BitmapImage UriSource="{x:Bind song.picUrl, Mode=OneTime}" DecodePixelHeight="50" DecodePixelWidth="80"/>
+                                            </ImageBrush.ImageSource>
+                                        </ImageBrush>
+                                    </Grid.Background>
                                 </Grid>
-                            </SwipeControl>
-                        </UserControl>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackPanel>
-    </ScrollViewer>
+                                <Grid Grid.Column="1" Margin="5 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition MinWidth="30" Width="Auto"/>
+                                        <ColumnDefinition Width="0.7*"/>
+                                        <ColumnDefinition Width="0.4*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ListViewItemIndexConverter}}" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="5 0" Text="{x:Bind song.name, Mode=OneTime}" FontWeight="Medium" VerticalAlignment="Center" Grid.Column="1"/>
+                                    <StackPanel x:Name="ItemCommand" Grid.Column="2" Orientation="Horizontal" Visibility="Collapsed"
+                                        VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5 0">
+                                        <Button x:Name="Play" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                        ToolTipService.ToolTip="播放" Tag="{x:Bind song, Mode=OneTime}" Click="Play_Click">
+                                            <FontIcon Glyph="&#xE102;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                                        </Button>
+                                        <Button x:Name="Like" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                        ToolTipService.ToolTip="喜欢" Tag="{x:Bind song, Mode=OneTime}" Click="Like_Click">
+                                            <FontIcon Glyph="{x:Bind song.like, Converter={StaticResource LikeMusicIconConverter}, Mode=OneWay}" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                                        </Button>
+                                        <Button x:Name="Add" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                    ToolTipService.ToolTip="添加到..." Tag="{x:Bind Mode=OneTime}" Click="Add_Click">
+                                            <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                                        </Button>
+                                        <Button x:Name="Share" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                        ToolTipService.ToolTip="分享" Tag="{x:Bind Mode=OneTime}" Click="Share_Click">
+                                            <FontIcon Glyph="&#xE72D;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock Text="{x:Bind song.artists, Converter={StaticResource ArtistStringConverter}}" Grid.Column="3" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13"/>
+                                    <TextBlock Text="{x:Bind song.duration, Converter={StaticResource TimeConver}, Mode=OneTime}" Margin="10 0" VerticalAlignment="Center" FontSize="13" Grid.Column="4"/>
+                                </Grid>
+                            </Grid>
+                        </SwipeControl>
+                    </UserControl>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </Page>

@@ -8,6 +8,7 @@
     xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric"
     xmlns:lyric="using:VtuberMusic_UWP.Models.Lyric"
     xmlns:tools="using:VtuberMusic_UWP.Tools"
+    RequestedTheme="Dark"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
 

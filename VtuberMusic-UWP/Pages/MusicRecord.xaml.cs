@@ -2,22 +2,16 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using VtuberMusic_UWP.Components;
 using VtuberMusic_UWP.Components.Collections;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Tools;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace VtuberMusic_UWP.Pages {
     /// <summary>
@@ -25,6 +19,7 @@ namespace VtuberMusic_UWP.Pages {
     /// </summary>
     public sealed partial class MusicRecord : Page {
         private Models.VtuberMusic.Album[] albums;
+        private List<RecordMusic> data;
         private List<MenuFlyoutItem> flyoutItems = new List<MenuFlyoutItem>();
 
         public MusicRecord() {
@@ -34,19 +29,14 @@ namespace VtuberMusic_UWP.Pages {
 
         private async void load() {
             albums = ( await App.Client.Account.GetMyCreatePlayList() ).Data;
-            DataView.ItemsSource = ( await App.Client.Account.GetRecord(0) ).Data;
+            data = ( await App.Client.Account.GetRecord(0) ).Data.ToList();
+            DataView.ItemsSource = data;
         }
 
         private void DataView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
             if (this.DataView.SelectedItem != null) {
-                App.Player.SetMusic(((RecordMusic)this.DataView.SelectedItem).song);
+                App.Player.SetMusic(( (RecordMusic)this.DataView.SelectedItem ).song);
             }
-        }
-
-        private void Count_Loaded(object sender, RoutedEventArgs e) {
-            var item = sender as TextBlock;
-
-            item.Text = ( DataView.IndexFromContainer(DataView.ContainerFromItem(item.Tag)) + 1 ).ToString();
         }
 
         private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e) {
@@ -113,7 +103,7 @@ namespace VtuberMusic_UWP.Pages {
             button.Flyout = menuFlyout;
         }
 
-        private void Share_Click(object sender, RoutedEventArgs e) => ShareTools.ShareMusic(((RecordMusic)( (Control)sender ).Tag).song);
+        private void Share_Click(object sender, RoutedEventArgs e) => ShareTools.ShareMusic(( (RecordMusic)( (Control)sender ).Tag ).song);
 
         private async void FlyoutItem_Click(object sender, RoutedEventArgs e) {
             var tag = (FlyoutItemTag)( (MenuFlyoutItem)sender ).Tag;

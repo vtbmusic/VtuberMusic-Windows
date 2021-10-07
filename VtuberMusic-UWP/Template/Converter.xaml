@@ -13,4 +13,5 @@
     <converter:ArtistStringConverter x:Key="ArtistStringConverter"/>
     <converter:ProfileExpStringConverter x:Key="ProfileExpStringConverter"/>
     <converter:NullVisabilityConverter x:Key="NullVisabilityConverter"/>
+    <converter:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
 </ResourceDictionary>

@@ -3,9 +3,26 @@ using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace VtuberMusic_UWP.Tools {
+    public class ListViewItemIndexConverter : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            var presenter = value as ListViewItemPresenter;
+            var item = VisualTreeHelper.GetParent(presenter) as ListViewItem;
+
+            var listView = ItemsControl.ItemsControlFromItemContainer(item);
+            int index = listView.IndexFromContainer(item) + 1;
+            return index.ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
     public class NullVisabilityConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
             return value == null

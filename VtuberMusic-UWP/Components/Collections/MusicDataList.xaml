@@ -10,7 +10,12 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ListView x:Name="DataList" DoubleTapped="DataList_DoubleTapped" ScrollViewer.VerticalScrollMode="Disabled">
+    <ListView x:Name="DataList" DoubleTapped="DataList_DoubleTapped" ScrollViewer.VerticalScrollMode="Auto">
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <ItemsStackPanel/>
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="vtubermusic:Music">
                 <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited" RightTapped="UserControl_RightTapped"
@@ -46,9 +51,9 @@
                                     <ColumnDefinition Width="0.7*"/>
                                     <ColumnDefinition Width="0.4*"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Loaded="Count_Loaded" Tag="{x:Bind Mode=OneTime}" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ListViewItemIndexConverter}}" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <TextBlock Margin="5 0" Text="{x:Bind name, Mode=OneTime}" FontWeight="Medium" VerticalAlignment="Center" Grid.Column="1"/>
                                 <StackPanel x:Name="ItemCommand" Grid.Column="2" Orientation="Horizontal" Visibility="Collapsed"
                                         VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5 0">

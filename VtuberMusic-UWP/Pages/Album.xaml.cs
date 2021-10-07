@@ -51,7 +51,7 @@ namespace VtuberMusic_UWP.Pages {
             if (!this.isLkeMusic && this.album.creator.userId != App.Client.Account.Account.id) this.Like.Visibility = Visibility.Visible;
 
             this.AlbumName.Text = this.album.name;
-            this.CreatorLink.Content = this.album.creator.nickname;
+            this.CreatorLink.Text = this.album.creator.nickname;
             this.CreatorInfo.Text = $"创建于 { UsefullTools.ConvertUnixTimeStamp(this.album.createTime).ToString("yyyy/M/d") }";
             this.Introduction.Text = this.album.description != null ? this.album.description : "这个作者很懒没写简介哦～";
             this.Like.Icon = this.album.like ? new FontIcon { Glyph = "\uE735" } : new FontIcon { Glyph = "\uE734" };

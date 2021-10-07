@@ -46,14 +46,6 @@ namespace VtuberMusic_UWP {
 
         private async void Current_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) {
             e.Handled = true;
-
-            var data = new Dictionary<string, string>()
-            {
-                { "Crash_Message", e.Message }
-            };
-
-            Crashes.TrackError(e.Exception, data);
-
             await Window.Current.Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, new DispatchedHandler(delegate {
                 if (e.Exception.StackTrace == null) {
                     InfoBarPopup.Show("发生了一个异常", e.Exception.Message, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
@@ -119,7 +111,6 @@ namespace VtuberMusic_UWP {
             }
 
             this.init();
-            this.initAppCenter();
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args) {
@@ -135,13 +126,14 @@ namespace VtuberMusic_UWP {
             var response = await PublicClient.ExecuteAsync<UpdateCheck>(request);
 
             if (response.IsSuccessful &&
-                (response.Data.version != Assembly.GetExecutingAssembly().GetName().Version.ToString() || response.Data.commit != this.getGitCommitInfo() )) {
+                ( response.Data.version != Assembly.GetExecutingAssembly().GetName().Version.ToString() || response.Data.commit != this.getGitCommitInfo() )) {
                 await new UpdateCheckDialog(response.Data).ShowAsync();
 #if !DEBUG
-                Environment.Exit(0);
+                CoreApplication.Exit();
 #endif
             }
 
+            this.initAppCenter();
             var username = (string)ApplicationData.Current.LocalSettings.Values["Username"];
             var password = (string)ApplicationData.Current.LocalSettings.Values["Password"];
             if (username != null && password != null) {

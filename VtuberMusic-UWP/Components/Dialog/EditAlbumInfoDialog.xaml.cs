@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 
 namespace VtuberMusic_UWP.Components.Dialog {
     public sealed partial class EditAlbumInfoDialog : ContentDialog {

@@ -81,7 +81,7 @@ namespace VtuberMusic_UWP.Components.Collections {
 
         private void DataView_ItemClick(object sender, ItemClickEventArgs e) {
             if (e.ClickedItem.GetType() == typeof(RecordMusic)) {
-                App.Player.SetMusic(((RecordMusic)e.ClickedItem).song);
+                App.Player.SetMusic(( (RecordMusic)e.ClickedItem ).song);
                 return;
             }
 
