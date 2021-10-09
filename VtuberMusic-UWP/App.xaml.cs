@@ -26,6 +26,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace VtuberMusic_UWP {
     sealed partial class App : Application {
+        public static LocalSettingsManager LocalSettings = new LocalSettingsManager();
+        public static RoamingSettingsManager RoamingSettings = new RoamingSettingsManager();
         public static ViewModel ViewModel = new ViewModel();
         public static MusicClient Client = new MusicClient();
         public static Player Player = new Player();
@@ -110,6 +112,8 @@ namespace VtuberMusic_UWP {
                 RootFrame.Content = extendedSplash;
             }
 
+            RootFrame.RequestedTheme = RoamingSettings.Theme.GetValueOrDefault();
+
             this.init();
         }
 
@@ -134,8 +138,8 @@ namespace VtuberMusic_UWP {
             }
 
             this.initAppCenter();
-            var username = (string)ApplicationData.Current.LocalSettings.Values["Username"];
-            var password = (string)ApplicationData.Current.LocalSettings.Values["Password"];
+            var username = LocalSettings.Username;
+            var password = LocalSettings.Password;
             if (username != null && password != null) {
                 try {
                     await Client.Account.Login(username, password);
@@ -144,7 +148,7 @@ namespace VtuberMusic_UWP {
                     RootFrame.Navigate(typeof(Setup), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                 }
             } else {
-                RootFrame.Navigate(typeof(Setup), null, new DrillInNavigationTransitionInfo());
+                RootFrame.Navigate(typeof(Setup), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
 

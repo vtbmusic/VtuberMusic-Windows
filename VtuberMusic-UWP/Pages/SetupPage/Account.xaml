@@ -27,13 +27,14 @@
                                  HorizontalAlignment="Left" Padding="15 10 0 5" MinWidth="300"
                                  PlaceholderText="账号密码"/>
                     <muxc:InfoBar x:Name="ErrorInfoBar" IsOpen="False" Title="登录失败" Message="Error Message" Severity="Error"/>
+                    <HyperlinkButton Content="隐私政策" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com/privacy.html" Padding="0"/>
                     <HyperlinkButton Content="没有账号？无法登录？" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com" Padding="0"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                             Margin="0 0 15 30">
                 <Button x:Name="Back" Click="Back_Click" Content="上一步" MinWidth="110"/>
-                <Button x:Name="MicrosoftLogin" Content="使用 Microsoft 账户登录" IsEnabled="False" MinWidth="110" Style="{ThemeResource AccentButtonStyle}" Margin="5 0"/>
+                <Button x:Name="MicrosoftLogin" Content="使用第三方账户继续" IsEnabled="False" MinWidth="110" Style="{ThemeResource AccentButtonStyle}" Margin="5 0"/>
                 <Button x:Name="Next" Click="Next_Click" Content="登录" IsEnabled="False" MinWidth="110" Style="{ThemeResource AccentButtonStyle}"/>
             </StackPanel>
         </Grid>

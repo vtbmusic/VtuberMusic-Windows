@@ -182,6 +182,7 @@
     <Compile Include="Models\Lyric\Vrc.cs" />
     <Compile Include="Models\DebugCommand\IDebugCommand.cs" />
     <Compile Include="Models\Main\ISetupStep.cs" />
+    <Compile Include="Models\Main\SettingsManager.cs" />
     <Compile Include="Models\Main\UpdateCheck.cs" />
     <Compile Include="Models\Main\ViewModel.cs" />
     <Compile Include="Models\VtuberMusic\Account.cs" />

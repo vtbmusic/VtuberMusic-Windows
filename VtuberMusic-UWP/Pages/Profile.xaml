@@ -57,7 +57,7 @@
             <StackPanel Margin="0 10">
                 <ScrollViewer VerticalScrollMode="Disabled" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden">
                     <StackPanel Orientation="Horizontal" CornerRadius="8" Padding="10"
-                                Background="{ThemeResource LayerFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                                Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                         <StackPanel>
                             <TextBlock Text="音乐品味" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
                             <TextBlock x:Name="LikeMusicTitle" Text="Misaka_L 喜欢的音乐" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
@@ -96,7 +96,7 @@
                     </StackPanel>
                 </ScrollViewer>
                 <StackPanel CornerRadius="8" Padding="10" Margin="0 10"
-                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                     <TextBlock Text="创建的歌单" FontWeight="Bold" FontSize="24" Margin="10 10 0 0"/>
                     <TextBlock x:Name="CreateAlbumCount" Text="共 2 项" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <GridView x:Name="CreateAlbumDataView" Loaded="CreateAlbumDataView_Loaded"
@@ -126,7 +126,7 @@
                     </GridView>
                 </StackPanel>
                 <StackPanel CornerRadius="8" Padding="10"
-                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                     <TextBlock Text="收藏的歌单" FontWeight="Bold" FontSize="24" Margin="10 10 0 0"/>
                     <TextBlock x:Name="FavouriteAlbumCount" FontSize="12" Text="共 6 项" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <GridView x:Name="FavourtiteAlbumDataView" Loaded="FavoutiteAlbumDataView_Loaded"

@@ -32,8 +32,8 @@ namespace VtuberMusic_UWP.Pages.SetupPage {
 
             try {
                 await App.Client.Account.Login(this.Username.Text, this.Password.Password);
-                ApplicationData.Current.LocalSettings.Values["Username"] = this.Username.Text;
-                ApplicationData.Current.LocalSettings.Values["Password"] = this.Password.Password;
+                App.LocalSettings.Username = this.Username.Text;
+                App.LocalSettings.Password = this.Password.Password;
 
                 this.Frame.Navigate(typeof(Finsh), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             } catch (Exception ex) {

@@ -12,68 +12,69 @@
     <Page.Resources>
         <local:BlurBackgroundPixelConvert x:Key="BlurBackgroundPixelConvert"/>
     </Page.Resources>
-
-    <ScrollViewer CornerRadius="10">
-        <StackPanel Margin="25" Padding="0 0 0 80">
-            <Grid CornerRadius="10" Height="150">
-                <Grid.Background>
-                    <ImageBrush Stretch="UniformToFill">
-                        <ImageBrush.ImageSource>
-                            <BitmapImage UriSource="/Assets/SetupBackground/66681407_p0.jpg"
+    <Grid Margin="25">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <StackPanel Padding="0 0 0 80">
+                <Grid CornerRadius="10" Height="150">
+                    <Grid.Background>
+                        <ImageBrush Stretch="UniformToFill">
+                            <ImageBrush.ImageSource>
+                                <BitmapImage UriSource="/Assets/SetupBackground/66681407_p0.jpg"
                                      DecodePixelHeight="28" DecodePixelWidth="100"/>
-                        </ImageBrush.ImageSource>
-                    </ImageBrush>
-                </Grid.Background>
-                <Grid Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Grid.Background>
+                    <Grid Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <PersonPicture x:Name="Avatar" Margin="15" ProfilePicture="{x:Bind account.Profile.avatarUrl}"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock x:Name="Username" Text="{x:Bind account.Account.userName}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                            <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname}" FontWeight="Bold" FontSize="24"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="30 0" Grid.Column="2">
+                            <Button x:Name="EditProfile" Margin="10 0" Click="EditProfile_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="修改个人资料"/>
+                                    <FontIcon Glyph="&#xEC88;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="LogOut" Click="LogOut_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="退出登录"/>
+                                    <FontIcon Glyph="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <TextBlock Text="个性化" FontWeight="Bold" Margin="10"/>
+                <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Height="60" CornerRadius="8" Padding="20 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <PersonPicture x:Name="Avatar" Margin="15" ProfilePicture="{x:Bind account.Profile.avatarUrl}"/>
+                    <FontIcon Glyph="&#xE790;" VerticalAlignment="Center" Margin="0 0 20 0"/>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock x:Name="Username" Text="{x:Bind account.Account.userName}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                        <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname}" FontWeight="Bold" FontSize="24"/>
+                        <TextBlock Text="应用程序主题模式"/>
+                        <TextBlock Text="选择应用程序使用的主题模式" Foreground="{ThemeResource SystemBaseMediumHighColor}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="30 0" Grid.Column="2">
-                        <Button x:Name="EditProfile" Margin="10 0" Click="EditProfile_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="修改个人资料"/>
-                                <FontIcon Glyph="&#xEC88;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>
-                            </StackPanel>
-                        </Button>
-                        <Button x:Name="LogOut" Click="LogOut_Click">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="退出登录"/>
-                                <FontIcon Glyph="&#xE76C;" FontFamily="Segoe MDL2 Assets" FontSize="12" Margin="5 0 0 0"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
+                    <ComboBox x:Name="Theme" VerticalAlignment="Center" Grid.Column="2" Width="150" SelectionChanged="Theme_SelectionChanged">
+                        <ComboBoxItem>使用系统设置</ComboBoxItem>
+                        <ComboBoxItem>浅色</ComboBoxItem>
+                        <ComboBoxItem>深色</ComboBoxItem>
+                    </ComboBox>
                 </Grid>
-            </Grid>
-            <controls:Expander Header="音频" CornerRadius="10" Margin="0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="A setting item" VerticalAlignment="Center"/>
-                        <ToggleSwitch Margin="0 0 -80 0" Grid.Column="1" VerticalAlignment="Center"/>
-                    </Grid>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="A setting item" VerticalAlignment="Center"/>
-                        <ToggleSwitch Margin="0 0 -80 0" Grid.Column="1" VerticalAlignment="Center"/>
-                    </Grid>
-                </StackPanel>
-            </controls:Expander>
-            <controls:Expander Header="高级" CornerRadius="10" Margin="0 0 0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <controls:InfoBar
+                <TextBlock Text="高级" FontWeight="Bold" Margin="10"/>
+                <controls:InfoBar
                         Margin="0 0 0 10"
                         Severity="Warning"
                         IsClosable="False"
@@ -81,56 +82,80 @@
                         Title="这些选项仅供调试和排障使用，除非你知道你在干什么，否则不要使用！"
                         Message="VtuberMusic 不对 * 在非技术支持指导下 * 使用这些选项造成的问题负责"
                         />
-                    <Button x:Name="ForceGC" Content="强制 GC (内存回收)" Click="ForceGC_Click" HorizontalAlignment="Stretch"/>
-                    <Button Content="查看日志" HorizontalAlignment="Stretch" Margin="0 5"/>
-                </StackPanel>
-            </controls:Expander>
-            <controls:Expander Header="关于和反馈" CornerRadius="10" Margin="0 0 0 10" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image Source="/Assets/Icon/Original/Icon.png" Height="80"/>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Version" Text="v2.0.2.0 &amp; main-13c8fc5" Margin="0 0 0 -10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                            <TextBlock Text="VtuberMusic" FontFamily="Comic Sans MS" VerticalAlignment="Center" FontSize="36" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"/>
-                        </StackPanel>
+                <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Height="60" CornerRadius="8" Padding="20 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <FontIcon Glyph="&#xE950;" VerticalAlignment="Center" Margin="0 0 20 0"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="强制运行内存回收"/>
+                        <TextBlock Text="强制运行 GC.Collect()" Foreground="{ThemeResource SystemBaseMediumHighColor}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <AppBarButton x:Name="BiliBili" Click="BiliBili_Click" Label="哔哩哔哩">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xe6e9;" FontFamily="{StaticResource Icon}"/>
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <AppBarButton x:Name="QQ" Click="QQ_Click" Label="QQ 群">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xe62e;" FontFamily="{StaticResource Icon}"/>
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <AppBarButton x:Name="Twitter" Click="Twitter_Click" Label="Twitter">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xe600;" FontFamily="{StaticResource Icon}"/>
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <AppBarButton x:Name="Tencent" Click="Tencent_Click" Label="提供反馈">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE939;"/>
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                        <!--<Button x:Name="FeadBackCenter" Click="FeadBackCenter_Click" Margin="3 0">
+                    <Button x:Name="ForceGC" Content="运行内存回收" Click="ForceGC_Click" Grid.Column="2" Width="150"/>
+                </Grid>
+                <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  Height="60" CornerRadius="8" Padding="20 0" Margin="0 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <FontIcon Glyph="&#xE1A2;" VerticalAlignment="Center" Margin="0 0 20 0"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="查看日志"/>
+                        <TextBlock Text="查看应用程序运行日志" Foreground="{ThemeResource SystemBaseMediumHighColor}"/>
+                    </StackPanel>
+                    <Button Content="查看日志" IsEnabled="False" Grid.Column="2" Width="150"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Column="1" Padding="10">
+            <TextBlock Text="关于和反馈" FontWeight="Bold" Margin="10 0 0 10"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Source="/Assets/Icon/Original/Icon.png" Height="80"/>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="Version" Text="v2.0.2.0 &amp; main-13c8fc5" Margin="0 0 0 -10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <TextBlock Text="VtuberMusic" FontFamily="Comic Sans MS" VerticalAlignment="Center" FontSize="36" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <AppBarButton x:Name="BiliBili" Click="BiliBili_Click" Label="哔哩哔哩">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xe6e9;" FontFamily="{StaticResource Icon}"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="QQ" Click="QQ_Click" Label="QQ 群">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xe62e;" FontFamily="{StaticResource Icon}"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="Twitter" Click="Twitter_Click" Label="Twitter">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xe600;" FontFamily="{StaticResource Icon}"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton x:Name="Tencent" Click="Tencent_Click" Label="提供反馈">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE939;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <!--<Button x:Name="FeadBackCenter" Click="FeadBackCenter_Click" Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <FontIcon Glyph="&#xE939;" FontFamily="Segoe MDL2 Assets"/>
                                 <TextBlock Text="反馈中心" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>-->
-                        <!--<Button Margin="3 0">
+                <!--<Button Margin="3 0">
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Mail"/>
                                 <TextBlock Text="邮件" Margin="5 0 0 0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>-->
-                    </StackPanel>
-                    <HyperlinkButton Content="https://vtbmusic.com" HorizontalAlignment="Center" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com"/>
-                </StackPanel>
-            </controls:Expander>
+            </StackPanel>
+            <HyperlinkButton Content="VtuberMusic 隐私政策" Margin="5 0" NavigateUri="https://vtbmusic.com/privacy.html"/>
+            <HyperlinkButton Content="VtuberMusic 官方网站" Margin="5 0" NavigateUri="https://vtbmusic.com"/>
         </StackPanel>
-    </ScrollViewer>
+    </Grid>
 </Page>

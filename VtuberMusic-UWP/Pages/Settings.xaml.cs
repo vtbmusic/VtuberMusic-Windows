@@ -27,6 +27,8 @@ namespace VtuberMusic_UWP.Pages {
             //if (Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported()) {
             //    this.FeadBackCenter.Visibility = Visibility.Visible;
             //}
+
+            Theme.SelectedIndex = (int)App.RoamingSettings.Theme;
         }
 
         private string getGitCommitInfo() {
@@ -52,6 +54,8 @@ namespace VtuberMusic_UWP.Pages {
         }
 
         private async void Tencent_Click(object sender, RoutedEventArgs e) => await Launcher.LaunchUriAsync(new Uri("https://wj.qq.com/s2/9062724/e2a8/"));
+
+        private void Theme_SelectionChanged(object sender, SelectionChangedEventArgs e) => App.RoamingSettings.Theme = (ElementTheme)Theme.SelectedIndex;
     }
 
     public class BlurBackgroundPixelConvert : IValueConverter {
