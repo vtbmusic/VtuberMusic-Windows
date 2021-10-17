@@ -196,5 +196,10 @@ namespace VtuberMusic_UWP.Pages {
 
             control.ContextFlyout = flyout;
         }
+
+        private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args) {
+            if (args.NewValue == null) return;
+            ( sender as TextBlock ).Text = ( DataView.IndexFromContainer(DataView.ContainerFromItem(args.NewValue)) + 1 ).ToString();
+        }
     }
 }

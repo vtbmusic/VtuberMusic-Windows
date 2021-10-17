@@ -10,6 +10,7 @@ namespace VtuberMusic_UWP.Models.DebugCommand {
         public DebugCommandManager() {
             this.CommandList.Add(new ForeGC());
             this.CommandList.Add(new ShowLog());
+            this.CommandList.Add(new OpenProfile());
 
 #if DEBUG // 只有 Debug 版启用的命令
             this.CommandList.Add(new ContentFrameGoForward());

@@ -28,7 +28,11 @@ namespace VtuberMusic_UWP.Models.Main {
 
         public T GetSettingVlaue<T>([CallerMemberName] string key = "") {
             var data = ApplicationData.Current.LocalSettings.Values[key];
-            return data == null ? default(T) : (T)data;
+            try {
+                return data == null ? default : (T)data;
+            } catch {
+                return default;
+            }
         }
 
         public void SetSettingVlaue(object value, [CallerMemberName] string key = "") {
@@ -40,19 +44,12 @@ namespace VtuberMusic_UWP.Models.Main {
     public class RoamingSettingsManager : INotifyPropertyChanged {
         public ElementTheme? Theme {
             get {
-                var data = this.GetSettingVlaue<string>();
-                switch (data) {
-                    case "Dark":
-                        return ElementTheme.Dark;
-                    case "Light":
-                        return ElementTheme.Light;
-                    default:
-                        return ElementTheme.Default;
-                }
+                var data = this.GetSettingVlaue<int?>();
+                return (ElementTheme)data.GetValueOrDefault();
             }
             set {
                 App.RootFrame.RequestedTheme = value.GetValueOrDefault();
-                this.SetSettingVlaue(value.ToString());
+                this.SetSettingVlaue(((int?)value).GetValueOrDefault());
             }
         }
 
@@ -64,7 +61,11 @@ namespace VtuberMusic_UWP.Models.Main {
 
         public T GetSettingVlaue<T>([CallerMemberName] string key = "") {
             var data = ApplicationData.Current.RoamingSettings.Values[key];
-            return data == null ? default(T) : (T)data;
+            try {
+                return data == null ? default : (T)data;
+            } catch {
+                return default;
+            }
         }
 
         public void SetSettingVlaue(object value, [CallerMemberName] string key = "") {

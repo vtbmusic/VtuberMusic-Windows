@@ -23,9 +23,7 @@
                 </PivotItem.Header>
                 <Grid>
                     <components:Loading x:Name="MusicLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <ScrollViewer>
-                        <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Margin="0 0 0 100"/>
-                    </ScrollViewer>
+                    <collections:MusicDataList x:Name="MusicDataList" CornerRadius="10" Padding="0 0 0 100"/>
                 </Grid>
             </PivotItem>
             <PivotItem Margin="0 10 0 0">
@@ -39,14 +37,9 @@
                     <components:Loading x:Name="PlayListLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <GridView x:Name="PlayListDataView" IsItemClickEnabled="True" ItemClick="PlayListDataView_ItemClick"
                               Loaded="PlayListDataView_Loaded" Padding="0 0 0 100">
-                        <GridView.ItemContainerStyle>
-                            <Style TargetType="GridViewItem">
-                                <Setter Property="Margin" Value="5 0 5 10"/>
-                            </Style>
-                        </GridView.ItemContainerStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Album">
-                                <StackPanel>
+                                <StackPanel Margin="5 10">
                                     <StackPanel x:Name="CoverImgBorder" CornerRadius="10">
                                         <Image Source="{x:Bind coverImgUrl}" Height="150" Width="280" Stretch="UniformToFill"/>
                                     </StackPanel>
@@ -71,11 +64,6 @@
                     <components:Loading x:Name="VtuberLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <GridView x:Name="VtuberDataView" Padding="0 0 0 100"
                               IsItemClickEnabled="True" Loaded="VtuberDataView_Loaded" ItemClick="VtuberDataView_ItemClick">
-                        <GridView.ItemContainerStyle>
-                            <Style TargetType="GridViewItem">
-                                <Setter Property="Margin" Value="10 0 10 20"/>
-                            </Style>
-                        </GridView.ItemContainerStyle>
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <ItemsWrapGrid Orientation="Horizontal"/>
@@ -83,8 +71,8 @@
                         </GridView.ItemsPanel>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Artist">
-                                <StackPanel Width="110">
-                                    <PersonPicture x:Name="ArtistAvater" ProfilePicture="{x:Bind imgUrl}"/>
+                                <StackPanel Width="110" Margin="5 10">
+                                    <PersonPicture x:Name="ArtistAvater" ProfilePicture="{x:Bind imgUrl}" x:Phase="1"/>
                                     <StackPanel CornerRadius="10" Margin="0 10 0 0" Padding="10 5" Height="50" Background="{ThemeResource SystemControlAcrylicElementBrush}">
                                         <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind groupName}"/>
                                         <components:MarqueeText Text="{x:Bind name.origin}" FontSize="16"/>

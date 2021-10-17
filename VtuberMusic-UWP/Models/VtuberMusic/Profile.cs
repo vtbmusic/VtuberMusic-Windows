@@ -19,4 +19,8 @@
         public string description { get; set; }
         public string remarkName { get; set; }
     }
+
+    public class ProfileResponse {
+        public Profile profile { get; set; }
+    }
 }

@@ -108,6 +108,11 @@
         /// </summary>
         public static string SubscribeAlbum = BaseUrl + "/v2/playlist/subscribe";
 
+        /// <summary>
+        /// 获取个人资料
+        /// </summary>
+        public static string GetProfile = BaseUrl + "/v2/user/detail/";
+
         #region v1
         /// <summary>
         /// 获取音乐评论 (v1)

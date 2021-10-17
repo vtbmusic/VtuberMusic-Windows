@@ -55,7 +55,8 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="50"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ListViewItemIndexConverter}}" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               DataContext="{x:Bind}" DataContextChanged="TextBlock_DataContextChanged"/>
                                     <TextBlock Margin="5 0" Text="{x:Bind song.name, Mode=OneTime}" FontWeight="Medium" VerticalAlignment="Center" Grid.Column="1"/>
                                     <StackPanel x:Name="ItemCommand" Grid.Column="2" Orientation="Horizontal" Visibility="Collapsed"
                                         VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5 0">
@@ -76,7 +77,20 @@
                                             <FontIcon Glyph="&#xE72D;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
                                         </Button>
                                     </StackPanel>
-                                    <TextBlock Text="{x:Bind song.artists, Converter={StaticResource ArtistStringConverter}}" Grid.Column="3" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13"/>
+                                    <ItemsControl Grid.Column="3" ItemsSource="{x:Bind song.artists}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vtubermusic:Artist">
+                                                <HyperlinkButton x:Name="ArtistButton" Grid.Column="3" Click="ArtistButton_Click" Padding="2" Tag="{x:Bind}">
+                                                    <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13"/>
+                                                </HyperlinkButton>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                     <TextBlock Text="{x:Bind song.duration, Converter={StaticResource TimeConver}, Mode=OneTime}" Margin="10 0" VerticalAlignment="Center" FontSize="13" Grid.Column="4"/>
                                 </Grid>
                             </Grid>

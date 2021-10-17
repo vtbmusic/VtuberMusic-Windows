@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ListView x:Name="DataList" DoubleTapped="DataList_DoubleTapped" ScrollViewer.VerticalScrollMode="Auto">
+    <ListView x:Name="DataList" DoubleTapped="DataList_DoubleTapped">
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
                 <ItemsStackPanel/>
@@ -18,8 +18,22 @@
         </ListView.ItemsPanel>
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="vtubermusic:Music">
-                <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited" RightTapped="UserControl_RightTapped"
+                <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited"
                              Tag="{x:Bind}">
+                    <UserControl.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="{x:Bind name}" IsEnabled="False"/>
+                            <MenuFlyoutItem x:Name="FlyoutPlay" Icon="Play" Text="播放" Click="Play_Click" Tag="{x:Bind}"/>
+                            <MenuFlyoutSubItem x:Name="FlyoutAddTo" Icon="Add" Text="添加到..." Loaded="FlyoutAddTo_Loaded">
+                                <MenuFlyoutItem x:Name="FlyoutNext" Icon="Next" Text="下一首播放" Click="FlyoutNext_Click" Tag="{x:Bind}"/>
+                                <MenuFlyoutSeparator/>
+                            </MenuFlyoutSubItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutSubItem x:Name="FlyoutArtist" Loaded="FlyoutArtist_Loaded" Icon="Contact" Tag="{x:Bind}" Text="歌手"/>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem x:Name="FlyoutShare" Click="Share_Click" Icon="Share" Text="分享" Tag="{x:Bind}"/>
+                        </MenuFlyout>
+                    </UserControl.ContextFlyout>
                     <SwipeControl>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="HoveringStates">
@@ -53,7 +67,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource ListViewItemIndexConverter}}" Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock DataContext="{x:Bind}" DataContextChanged="TextBlock_DataContextChanged"
+                                           Foreground="{ThemeResource SystemBaseMediumColor}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <TextBlock Margin="5 0" Text="{x:Bind name, Mode=OneTime}" FontWeight="Medium" VerticalAlignment="Center" Grid.Column="1"/>
                                 <StackPanel x:Name="ItemCommand" Grid.Column="2" Orientation="Horizontal" Visibility="Collapsed"
                                         VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5 0">
@@ -74,19 +89,19 @@
                                         <FontIcon Glyph="&#xE72D;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
                                     </Button>
                                 </StackPanel>
-                                <ItemsControl ItemsSource="{x:Bind artists, Mode=OneTime}" Grid.Column="3">
+                                <ItemsControl Grid.Column="3" ItemsSource="{x:Bind artists}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="vtubermusic:Artist">
-                                            <HyperlinkButton x:Name="ArtistButton" Click="ArtistButton_Click" Padding="2" Tag="{x:Bind Mode=OneTime}">
-                                                <TextBlock Text="{x:Bind name.origin, Mode=OneTime}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13"/>
+                                            <HyperlinkButton x:Name="ArtistButton" Grid.Column="3" Tag="{x:Bind}" Click="ArtistButton_Click" Padding="2">
+                                                <TextBlock Text="{x:Bind name.origin}" Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Center" FontSize="13"/>
                                             </HyperlinkButton>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <ItemsStackPanel Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <TextBlock Text="{x:Bind duration, Converter={StaticResource TimeConver}, Mode=OneTime}" Margin="10 0" VerticalAlignment="Center" FontSize="13" Grid.Column="4"/>
                             </Grid>

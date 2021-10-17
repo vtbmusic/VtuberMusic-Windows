@@ -62,7 +62,9 @@ namespace VtuberMusic_UWP.Pages {
 
             ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
             if (animation != null) {
-                await this.AlbumDataView.TryStartConnectedAnimationAsync(animation, this._albumItem, "CoverImgBorder");
+                try {
+                    await this.AlbumDataView.TryStartConnectedAnimationAsync(animation, this._albumItem, "CoverImgBorder");
+                } catch { }
             }
         }
 

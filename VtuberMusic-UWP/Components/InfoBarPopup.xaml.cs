@@ -22,7 +22,7 @@ namespace VtuberMusic_UWP.Components {
         /// </summary>
         public string Message {
             get { return this.Info.Message; }
-            set { this.Info.Message = value; }
+            set { if (value != null) this.Info.Message = value; }
         }
         /// <summary>
         /// Icon 是否可见

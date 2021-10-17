@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;

@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
 namespace VtuberMusic_UWP.Components.Collections {
@@ -165,58 +166,67 @@ namespace VtuberMusic_UWP.Components.Collections {
             this.albums = null;
         }
 
-        private void UserControl_RightTapped(object sender, RightTappedRoutedEventArgs e) {
-            var control = sender as UserControl;
-            var tag = control.Tag as Music;
-            var flyout = new MenuFlyout() { Placement = FlyoutPlacementMode.Bottom };
-
-            var playItem = new MenuFlyoutItem { Icon = new SymbolIcon(Symbol.Play), Text = "播放", Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Play, Music = tag } };
-            playItem.Click += this.FlyoutItem_Click;
-
-            var addItem = new MenuFlyoutSubItem() { Icon = new SymbolIcon(Symbol.Add), Text = "添加到..." };
-            var nextPlayItem = new MenuFlyoutItem() {
-                Icon = new SymbolIcon(Symbol.Next),
-                Text = "下一首播放",
-                Tag = new FlyoutItemTag { Mode = FlyoutItemMode.AddNextPlay, Music = tag }
-            };
-
-            nextPlayItem.Click += this.FlyoutItem_Click;
-            addItem.Items.Add(nextPlayItem);
-            addItem.Items.Add(new MenuFlyoutSeparator());
-
-            var likeItem = new MenuFlyoutItem() { Text = "我喜欢的音乐", Icon = new FontIcon() { Glyph = "\uEB51", FontFamily = new FontFamily("Segoe MDL2 Assets") }, Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Like, Music = tag } };
-            likeItem.Click += this.FlyoutItem_Click;
-            addItem.Items.Add(likeItem);
-
-            foreach (var album in this.albums) {
-                var item = new MenuFlyoutItem() { Icon = new SymbolIcon(Symbol.MusicInfo), Text = album.name, Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Add, AlbumId = album.id, Music = tag } };
-                item.Click += this.FlyoutItem_Click;
-
-                addItem.Items.Add(item);
-            }
-
-            var shareItem = new MenuFlyoutItem() { Icon = new SymbolIcon(Symbol.Share), Text = "分享", Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Share, Music = tag } };
-            shareItem.Click += this.FlyoutItem_Click;
-
-            flyout.Items.Add(playItem);
-            flyout.Items.Add(new MenuFlyoutSeparator());
-            flyout.Items.Add(addItem);
-            flyout.Items.Add(shareItem);
-            flyout.Items.Add(new MenuFlyoutSeparator());
-
-            control.ContextFlyout = flyout;
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e) {
             this.load();
             DataList.ItemsSource = this.ItemsSource;
         }
+
+        private void TextBlock_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args) {
+            if (args.NewValue == null) return;
+            ( sender as TextBlock ).Text = (DataList.IndexFromContainer(DataList.ContainerFromItem(args.NewValue)) + 1).ToString();
+        }
+        private void FlyoutAddTo_Loaded(object sender, RoutedEventArgs e) {
+            var item = sender as MenuFlyoutSubItem;
+            if (item.Items.Count > 2) return;
+
+            var likeItem = new MenuFlyoutItem() { Text = "我喜欢的音乐", Icon = new FontIcon() { Glyph = "\uEB51", FontFamily = new FontFamily("Segoe MDL2 Assets") }, Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Like, Music = item.Tag as Music } };
+            likeItem.Click += this.FlyoutItem_Click;
+            item.Items.Add(likeItem);
+
+            foreach (var album in this.albums) {
+                var albumItem = new MenuFlyoutItem() { Icon = new SymbolIcon(Symbol.MusicInfo), Text = album.name, Tag = new FlyoutItemTag { Mode = FlyoutItemMode.Add, AlbumId = album.id, Music = item.Tag as Music } };
+                albumItem.Click += this.FlyoutItem_Click;
+
+                item.Items.Add(albumItem);
+            }
+        }
+
+        private void FlyoutNext_Click(object sender, RoutedEventArgs e) {
+            var tag = ( sender as MenuFlyoutItem ).Tag as Music;
+            if (!App.Player.PlayList.Contains(tag)) {
+                int index = 0;
+                if (App.Player.PlayList.Contains(App.Player.NowPlayingMusic)) index = App.Player.PlayList.IndexOf(App.Player.NowPlayingMusic) + 1;
+                App.Player.PlayList.Insert(index, tag);
+
+                if (App.Player.NowPlayingMusic == null) App.Player.SetMusic(App.Player.PlayList[0]);
+            } else {
+                InfoBarPopup.Show("添加失败", "歌曲已存在", InfoBarSeverity.Error);
+            }
+        }
+
+        private void FlyoutArtist_Loaded(object sender, RoutedEventArgs e) {
+            var item = sender as MenuFlyoutSubItem;
+            var tag = item.Tag as Music;
+
+            item.Items.Clear();
+            foreach (var temp in tag.artists) {
+                var artistItem = new MenuFlyoutItem() { Text = temp.name.origin, Tag = temp };
+                artistItem.Click += this.ArtistItem_Click;
+                item.Items.Add(artistItem);
+            }
+        }
+
+        private void ArtistItem_Click(object sender, RoutedEventArgs e) =>
+            App.ViewModel.NavigateToPage(typeof(Pages.Artist), ( sender as MenuFlyoutItemBase ).Tag as Artist);
     }
 
     /// <summary>
     /// 音乐列表 Item Flyout
     /// </summary>
-    public class FlyoutItemTag {
+    [MarkupExtensionReturnType(ReturnType = typeof(FlyoutItemTag))]
+    public class FlyoutItemTag : MarkupExtension {
+        protected override object ProvideValue() => this;
+
         /// <summary>
         /// Flyout Item 操作
         /// </summary>
