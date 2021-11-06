@@ -248,6 +248,23 @@ namespace VtuberMusic_UWP.Service {
             throw new Exception(response.ErrorMessage);
         }
 
+        public async Task<ApiResponse<Profile[]>> SearchUser(string keyword, int limit = 100, int offset = 0) {
+            var request = new RestRequest(ApiUri.Search);
+            request.AddParameter("keyword", keyword);
+            request.AddParameter("limit", limit);
+            request.AddParameter("offest", offset);
+            request.AddParameter("type", "user");
+
+            var response = await this._restClient.ExecuteAsync<ApiResponse<Profile[]>>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
         /// <summary>
         /// 获取喜欢的音乐歌单信息
         /// </summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using VtuberMusic_UWP.Components.Dialog;
+using VtuberMusic_UWP.Models.Main;
 using VtuberMusic_UWP.Pages;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
@@ -18,6 +19,7 @@ namespace VtuberMusic_UWP {
     public sealed partial class MainPage : Page {
         public TypedEventHandler<object, NavigationEventArgs> Navigated;
         public Frame ContentFrame => this.NavigationFrame;
+        private ViewModel ViewModel => App.ViewModel;
 
         private List<Microsoft.UI.Xaml.Controls.NavigationViewItem> MyAlbumNavigationItemList = new List<Microsoft.UI.Xaml.Controls.NavigationViewItem>();
         private List<Microsoft.UI.Xaml.Controls.NavigationViewItem> FavouriteNavigationItemList = new List<Microsoft.UI.Xaml.Controls.NavigationViewItem>();

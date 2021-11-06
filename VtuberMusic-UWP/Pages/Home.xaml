@@ -16,10 +16,8 @@
         <DataTemplate x:Key="BannerItemTemplate" x:DataType="models:Banner">
             <StackPanel Width="280" Margin="5 5 5 15">
                 <components:MarqueeText Text="{x:Bind OriginName}" FontWeight="Bold" Height="25" Margin="5 0 0 0"/>
-                <Grid CornerRadius="10" Height="150" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="{x:Bind BannerImg}" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
-                    </Grid.Background>
+                <Grid CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
+                    <Image Source="{x:Bind BannerImg}" Stretch="UniformToFill" Height="150"/>
                 </Grid>
             </StackPanel>
         </DataTemplate>
@@ -81,9 +79,7 @@
                     <DataTemplate x:DataType="models:Album">
                         <StackPanel Margin="5 0" Padding="0 10">
                             <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
-                                <Grid.Background>
-                                    <ImageBrush ImageSource="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
-                                </Grid.Background>
+                                <Image Source="{x:Bind coverImgUrl}" Stretch="UniformToFill" VerticalAlignment="Center"/>
                             </Grid>
                             <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}"
                                         Shadow="{StaticResource ShareShadow}" Translation="0,0,14">

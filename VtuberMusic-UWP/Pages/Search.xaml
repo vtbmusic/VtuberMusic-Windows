@@ -12,6 +12,9 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ThemeShadow x:Key="ShareShadow"/>
+    </Page.Resources>
     <Grid CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
         <Pivot Style="{StaticResource SearchPivotStyle}">
             <PivotItem>
@@ -36,7 +39,7 @@
                 <Grid>
                     <components:Loading x:Name="PlayListLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <GridView x:Name="PlayListDataView" IsItemClickEnabled="True" ItemClick="PlayListDataView_ItemClick"
-                              Loaded="PlayListDataView_Loaded" Padding="0 0 0 100">
+                              Loaded="PlayListDataView_Loaded" Padding="0 0 0 100" SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="model:Album">
                                 <StackPanel Margin="5 10">
@@ -62,7 +65,7 @@
                 </PivotItem.Header>
                 <Grid>
                     <components:Loading x:Name="VtuberLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <GridView x:Name="VtuberDataView" Padding="0 0 0 100"
+                    <GridView x:Name="VtuberDataView" Padding="0 0 0 100" SelectionMode="None"
                               IsItemClickEnabled="True" Loaded="VtuberDataView_Loaded" ItemClick="VtuberDataView_ItemClick">
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -103,11 +106,52 @@
                         <TextBlock Text="用户" FontSize="18"/>
                     </StackPanel>
                 </PivotItem.Header>
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <FontIcon Glyph="&#xE136;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
-                    <TextBlock Text="用户" FontSize="24" Margin="10" HorizontalAlignment="Center"/>
-                    <TextBlock Text="暂不支持搜索" FontSize="18" HorizontalAlignment="Center"/>
-                </StackPanel>
+                <Grid>
+                    <components:Loading x:Name="UserLoading" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <GridView x:Name="UserDataView" Padding="0 0 0 100" ItemClick="UserDataView_ItemClick"
+                              IsItemClickEnabled="True" SelectionMode="None">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Profile">
+                                <Grid Width="200" Background="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" CornerRadius="8"
+                                      Shadow="{StaticResource ShareShadow}" Translation="0,0,16" Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="/Assets/SetupBackground/66681407_p0.jpg" Stretch="UniformToFill"/>
+                                    <StackPanel Grid.Row="1" Padding="10">
+                                        <Grid Margin="0 -30 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <PersonPicture ProfilePicture="{x:Bind avatarUrl}" Height="50"
+                                                       CornerRadius="100"/>
+                                                <Button Content="关注" Style="{ThemeResource AccentButtonStyle}" FontSize="12" Padding="5 3" HorizontalAlignment="Center"
+                                                        Margin="0 10 0 0"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10 25 0 10" Grid.Column="1">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Lv." Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"/>
+                                                    <TextBlock Text="{x:Bind level}" Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{x:Bind nickname}" FontWeight="Bold"/>
+                                                <TextBlock Text="{x:Bind signature, TargetNullValue= 这个人没有个人签名哦}" Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Grid>
             </PivotItem>
         </Pivot>
     </Grid>

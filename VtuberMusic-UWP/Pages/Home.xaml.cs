@@ -28,10 +28,6 @@ namespace VtuberMusic_UWP.Pages {
 
             var bannerData = await App.Client.GetBanner();
             this.BannerDataView.ItemsSource = bannerData.Data;
-            var bannerImageUri = new Uri(bannerData.Data.First().BannerImg);
-
-            if (App.ViewModel.BackgroundImageUri != bannerImageUri)
-                App.ViewModel.SetAppBackgroundImage(bannerImageUri);
 
             var newMusicData = await App.Client.GetNewSong(12);
             this.NewMusicDataView.ItemsSource = newMusicData.Data;

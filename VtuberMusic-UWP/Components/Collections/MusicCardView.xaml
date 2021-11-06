@@ -21,9 +21,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid Height="170" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="{x:Bind picUrl, Mode=OneTime}" Stretch="UniformToFill"/>
-                    </Grid.Background>
+                    <Image Source="{x:Bind picUrl}" Stretch="UniformToFill"/>
                 </Grid>
                 <StackPanel Grid.Row="1" CornerRadius="10" Height="50" Margin="0 10 0 0" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}"
                              Shadow="{StaticResource ShareShadow}" Translation="0,0,14">
@@ -35,7 +33,7 @@
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal"/>
+                                <StackPanel Orientation="Horizontal"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
@@ -49,10 +47,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid Height="170" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32"> 
-                    <Grid.Background>
-                        <ImageBrush ImageSource="{x:Bind song.picUrl, Mode=OneTime}" Stretch="UniformToFill"/>
-                    </Grid.Background>
+                <Grid Height="170" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
+                    <Image Source="{x:Bind song.picUrl}" Stretch="UniformToFill"/>
                     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource SystemControlAcrylicElementBrush}"
                           Margin="5" Padding="10 5" CornerRadius="10" Orientation="Horizontal">
                         <FontIcon Glyph="&#xE768;" FontSize="14"/>
@@ -69,7 +65,7 @@
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal"/>
+                                <StackPanel Orientation="Horizontal"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>

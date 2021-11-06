@@ -29,10 +29,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Rectangle x:Name="ShadowBackground" Margin="-10"/>
-            <Grid x:Name="CoverImgGrid" CornerRadius="10" Height="55" Tapped="MusicInfo_Tapped" Shadow="{StaticResource ShareShadow}">
-                <Grid.Background>
-                    <ImageBrush x:Name="CoverImg" ImageSource="{x:Bind player.NowPlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill"/>
-                </Grid.Background>
+            <Grid x:Name="CoverImgGrid" CornerRadius="10" Tapped="MusicInfo_Tapped" Shadow="{StaticResource ShareShadow}">
+                <Image Source="{x:Bind player.NowPlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill" Height="55"/>
             </Grid>
             <Grid Grid.Column="1" Margin="10 0" VerticalAlignment="Center">
                 <Grid.RowDefinitions>

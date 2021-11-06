@@ -45,6 +45,10 @@ namespace VtuberMusic_UWP.Pages {
             this.PlayListDataView.ItemsSource = ( await App.Client.SearchPlaylist(keyword) ).Data;
             this.PlayListLoading.Visibility = Visibility.Collapsed;
 
+            this.UserLoading.Visibility = Visibility.Visible;
+            this.UserDataView.ItemsSource = ( await App.Client.SearchUser(keyword) ).Data;
+            this.UserLoading.Visibility = Visibility.Collapsed;
+
         }
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             var keyword = (string)e.Parameter;
@@ -97,6 +101,10 @@ namespace VtuberMusic_UWP.Pages {
                 this.NavigationCacheMode = NavigationCacheMode.Disabled;
                 GC.Collect();
             }
+        }
+
+        private void UserDataView_ItemClick(object sender, ItemClickEventArgs e) {
+            this.Frame.Navigate(typeof(Profile), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
     }
 }
