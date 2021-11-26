@@ -16,7 +16,6 @@ namespace VtuberMusic_UWP.Components.Dialog {
 
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args) {
             await Launcher.LaunchUriAsync(new Uri(info.url));
-            CoreApplication.Exit();
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace VtuberMusic_UWP.Models.VtuberMusic {
+﻿using PropertyChanged;
+
+namespace VtuberMusic_UWP.Models.VtuberMusic {
+    [AddINotifyPropertyChangedInterface]
     public class Profile {
         public string userId { get; set; }
         public int userType { get; set; }
@@ -20,6 +23,7 @@
         public string remarkName { get; set; }
     }
 
+    [AddINotifyPropertyChangedInterface]
     public class ProfileResponse {
         public Profile profile { get; set; }
     }

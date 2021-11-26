@@ -113,11 +113,6 @@
         /// </summary>
         public static string GetProfile = BaseUrl + "/v2/user/detail/";
 
-        #region v1
-        /// <summary>
-        /// 获取音乐评论 (v1)
-        /// </summary>
-        public static string GetMusicCommentsV1 = BaseUrl + "/v1/GetMusicCommentList";
-        #endregion
+        public static string GetMusicComments = BaseUrl + "/v3/comment/song";
     }
 }

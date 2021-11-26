@@ -1,7 +1,10 @@
-﻿namespace VtuberMusic_UWP.Models.VtuberMusic {
+﻿using PropertyChanged;
+
+namespace VtuberMusic_UWP.Models.VtuberMusic {
     /// <summary>
     /// 歌手
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class Artist {
         /// <summary>
         /// 歌手 id

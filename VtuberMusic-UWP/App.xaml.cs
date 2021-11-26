@@ -132,9 +132,6 @@ namespace VtuberMusic_UWP {
             if (response.IsSuccessful &&
                 ( response.Data.version != Assembly.GetExecutingAssembly().GetName().Version.ToString() || response.Data.commit != this.getGitCommitInfo() )) {
                 await new UpdateCheckDialog(response.Data).ShowAsync();
-#if !DEBUG
-                CoreApplication.Exit();
-#endif
             }
 
             this.initAppCenter();

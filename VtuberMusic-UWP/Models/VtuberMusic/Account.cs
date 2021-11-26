@@ -1,7 +1,10 @@
-﻿namespace VtuberMusic_UWP.Models.VtuberMusic {
+﻿using PropertyChanged;
+
+namespace VtuberMusic_UWP.Models.VtuberMusic {
     /// <summary>
     /// 账户 Object
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class Account {
         /// <summary>
         /// 账户 id

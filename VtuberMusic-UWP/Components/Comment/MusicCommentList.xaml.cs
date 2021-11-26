@@ -1,4 +1,5 @@
-﻿using VtuberMusic_UWP.Service;
+﻿using VtuberMusic_UWP.Models.VtuberMusic;
+using VtuberMusic_UWP.Service;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -9,21 +10,26 @@ namespace VtuberMusic_UWP.Components.Comment {
     public sealed partial class MusicCommentList : UserControl {
         private AccountService account => App.Client.Account;
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(Models.VtuberMusic.v1.Comment[]), typeof(MusicCommentList), new PropertyMetadata(null, new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
+            DependencyProperty.Register("ItemsSource", typeof(CommentResult), typeof(MusicCommentList), new PropertyMetadata(null, new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
         private static void ItemsSourceChangeEventHandle(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             ( d as MusicCommentList ).ItemsSourceChanged(e);
         }
 
         private void ItemsSourceChanged(DependencyPropertyChangedEventArgs e) {
-            CommentList.ItemsSource = (Models.VtuberMusic.v1.Comment[])e.NewValue;
+            if (e.NewValue == null) {
+                CommentList.ItemsSource = null;
+                return;
+            }
+
+            CommentList.ItemsSource = ((CommentResult)e.NewValue).comments;
         }
 
         /// <summary>
         /// 数据源
         /// </summary>
-        public Models.VtuberMusic.v1.Comment[] ItemsSource {
-            get { return (Models.VtuberMusic.v1.Comment[])this.GetValue(ItemsSourceProperty); }
+        public CommentResult ItemsSource {
+            get { return (CommentResult)this.GetValue(ItemsSourceProperty); }
             set { this.SetValue(ItemsSourceProperty, value); }
         }
 
@@ -32,7 +38,12 @@ namespace VtuberMusic_UWP.Components.Comment {
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e) {
-            CommentList.ItemsSource = this.ItemsSource;
+            if (this.ItemsSource == null) {
+                CommentList.ItemsSource = null;
+                return;
+            }
+
+            CommentList.ItemsSource = this.ItemsSource.comments;
         }
     }
 }

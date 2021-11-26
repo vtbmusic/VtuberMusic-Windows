@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Models.VtuberMusic;
-using VtuberMusic_UWP.Models.VtuberMusic.v1;
 
 namespace VtuberMusic_UWP.Service {
     /// <summary>
@@ -374,18 +373,14 @@ namespace VtuberMusic_UWP.Service {
 
         }
 
-        #region v1
-        public async Task<ApiResponseList<Comment[]>> GetMusicComment(string musicId, string parentId = "") {
-            var request = new RestRequest(ApiUri.GetMusicCommentsV1, Method.POST);
-            request.AddJsonBody(new {
-                pageIndex = 1,
-                pageRows = 1000,
-                search = new {
-                    musicId = musicId
-                }
-            });
+        public async Task<ApiResponse<CommentResult>> GetMusicComment(string musicId, int limit = 20, int offset = 0) {
+            var request = new RestRequest(ApiUri.GetMusicComments);
+            request.AddQueryParameter("id", musicId);
+            request.AddQueryParameter("type", "1");
+            request.AddQueryParameter("limit", limit.ToString());
+            request.AddQueryParameter("offset", offset.ToString());
 
-            var response = await this._restClient.ExecuteAsync<ApiResponseList<Comment[]>>(request);
+            var response = await this._restClient.ExecuteAsync<ApiResponse<CommentResult>>(request);
 
             if (response.IsSuccessful) {
                 return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
@@ -394,6 +389,5 @@ namespace VtuberMusic_UWP.Service {
             if (response.ErrorException != null) throw response.ErrorException;
             throw new Exception(response.ErrorMessage);
         }
-        #endregion
     }
 }

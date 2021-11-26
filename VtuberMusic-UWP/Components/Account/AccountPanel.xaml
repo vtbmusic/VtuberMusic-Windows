@@ -43,7 +43,7 @@
             </Button>
             <Button Background="Transparent" BorderBrush="Transparent" Padding="5">
                 <StackPanel>
-                    <TextBlock Text="喜欢音乐" FontSize="14"/>
+                    <TextBlock Text="收藏" FontSize="14"/>
                     <TextBlock x:Name="LikeMusicCount" Text="0" FontSize="12" HorizontalAlignment="Center" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                 </StackPanel>
             </Button>

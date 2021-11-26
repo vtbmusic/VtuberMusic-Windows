@@ -1,4 +1,7 @@
-﻿namespace VtuberMusic_UWP.Models.VtuberMusic {
+﻿using PropertyChanged;
+
+namespace VtuberMusic_UWP.Models.VtuberMusic {
+    [AddINotifyPropertyChangedInterface]
     public class RecordMusic {
         public int playCount { get; set; }
         public string songId { get; set; }

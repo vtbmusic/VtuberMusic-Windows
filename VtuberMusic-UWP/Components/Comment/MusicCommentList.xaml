@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Components.Comment"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:v1="using:VtuberMusic_UWP.Models.VtuberMusic.v1"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vtubermusic="using:VtuberMusic_UWP.Models.VtuberMusic"
     mc:Ignorable="d" Loaded="UserControl_Loaded"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -23,43 +24,43 @@
             </Grid>
             <ItemsControl x:Name="CommentList">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="v1:Comment">
+                    <DataTemplate x:DataType="vtubermusic:Comment">
                         <StackPanel Margin="0 10" Background="{ThemeResource LayerFillColorDefaultBrush}" CornerRadius="8">
                             <Grid Padding="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <PersonPicture ProfilePicture="{x:Bind Avatar}" Height="40" Width="40" VerticalAlignment="Top"/>
+                                <PersonPicture ProfilePicture="{x:Bind user.avatarUrl}" Height="40" Width="40" VerticalAlignment="Top"/>
                                 <StackPanel Grid.Column="1" Margin="10 0 0 0">
-                                    <TextBlock Text="{x:Bind UserName}" FontWeight="Bold" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{x:Bind Text}" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{x:Bind user.nickname}" FontWeight="Bold" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{x:Bind content}" TextWrapping="Wrap"/>
                                     <Grid Margin="0 5 0 0">
-                                        <TextBlock Text="{x:Bind CreateTime}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                                        <TextBlock Text="{x:Bind time}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <HyperlinkButton Content="回复" FontSize="12" Padding="5 0"/>
+                                            <HyperlinkButton Content="回复" FontSize="12" Padding="5 0" IsEnabled="False"/>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
                             <StackPanel Margin="10 0 10 10" CornerRadius="8" Background="{ThemeResource LayerFillColorDefaultBrush}"
-                                        Visibility="{x:Bind Children, Converter={StaticResource NullVisabilityConverter}}">
-                                <ItemsControl ItemsSource="{x:Bind Children}">
+                                        Visibility="{x:Bind beReplieds, Converter={StaticResource NullVisabilityConverter}}">
+                                <ItemsControl ItemsSource="{x:Bind beReplieds, Mode=OneWay}">
                                     <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="v1:Comment">
+                                        <DataTemplate x:DataType="vtubermusic:Comment">
                                             <Grid Padding="10">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <PersonPicture ProfilePicture="{x:Bind Avatar}" Height="40" Width="40" VerticalAlignment="Top"/>
+                                                <PersonPicture ProfilePicture="{x:Bind user.avatarUrl, TargetNullValue=https://cdn.aqua.chat/user/Deforuto.png}" Height="40" Width="40" VerticalAlignment="Top"/>
                                                 <StackPanel Grid.Column="1" Margin="10 0 0 0">
-                                                    <TextBlock Text="{x:Bind UserName}" FontWeight="Bold" TextWrapping="Wrap"/>
-                                                    <TextBlock Text="{x:Bind Text}" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{x:Bind user.nickname}" FontWeight="Bold" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{x:Bind content}" TextWrapping="Wrap"/>
                                                     <Grid Margin="0 5 0 0">
-                                                        <TextBlock Text="{x:Bind CreateTime}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                                                        <TextBlock Text="{x:Bind time}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                            <HyperlinkButton FontSize="12" Content="回复" Padding="5 0"/>
+                                                            <HyperlinkButton FontSize="12" Content="回复" IsEnabled="False" Padding="5 0"/>
                                                         </StackPanel>
                                                     </Grid>
                                                 </StackPanel>
@@ -71,8 +72,6 @@
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-                <ItemsControl.Items>
-                </ItemsControl.Items>
             </ItemsControl>
         </StackPanel>
     </ScrollViewer>

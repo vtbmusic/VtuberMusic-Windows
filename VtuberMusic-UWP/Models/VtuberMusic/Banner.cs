@@ -1,6 +1,8 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic {
+    [AddINotifyPropertyChangedInterface]
     public class Banner {
         public string Id { get; set; }
         public DateTime CreateTime { get; set; }
