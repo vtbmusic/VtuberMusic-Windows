@@ -1,9 +1,10 @@
 ﻿using PropertyChanged;
 using System;
+using System.ComponentModel;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic {
     [AddINotifyPropertyChangedInterface]
-    public class Banner {
+    public class Banner : INotifyPropertyChanged {
         public string Id { get; set; }
         public DateTime CreateTime { get; set; }
         public string CreatorId { get; set; }
@@ -12,5 +13,7 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         public string OriginName { get; set; }
         public string BannerImg { get; set; }
         public string Url { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

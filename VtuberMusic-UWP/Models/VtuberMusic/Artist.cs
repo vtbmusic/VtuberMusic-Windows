@@ -1,11 +1,12 @@
 ﻿using PropertyChanged;
+using System.ComponentModel;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic {
     /// <summary>
     /// 歌手
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Artist {
+    public class Artist : INotifyPropertyChanged {
         /// <summary>
         /// 歌手 id
         /// </summary>
@@ -50,12 +51,15 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         /// 粉丝数量
         /// </summary>
         public int likeSize { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     /// <summary>
     /// 歌手名称
     /// </summary>
-    public class Artistname {
+    [AddINotifyPropertyChangedInterface]
+    public class Artistname : INotifyPropertyChanged {
         /// <summary>
         /// 歌手名称源文
         /// </summary>
@@ -72,5 +76,7 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         /// 歌手英文名称
         /// </summary>
         public string en { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

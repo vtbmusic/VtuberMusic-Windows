@@ -1,14 +1,11 @@
-﻿<ContentDialog
+﻿<UserControl
     x:Class="VtuberMusic_UWP.Components.Dialog.EditAlbumInfoDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic_UWP.Components.Dialog"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Title="编辑歌单信息"
-    PrimaryButtonText="确定" IsPrimaryButtonEnabled="False" PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-    CloseButtonText="取消"
-    DefaultButton="Primary"
+    mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
@@ -16,4 +13,4 @@
         <TextBox x:Name="AlbumName" TextChanged="AlbumName_TextChanged" PlaceholderText="歌单名称"/>
         <TextBox x:Name="Description" PlaceholderText="描述" Margin="0 10 0 0"/>
     </StackPanel>
-</ContentDialog>
+</UserControl>

@@ -16,6 +16,15 @@
         <ThemeShadow x:Key="ShareShadow"/>
     </Page.Resources>
     <Grid CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
+        <!--<muxc:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" Canvas.ZIndex="1" IsSettingsVisible="False">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Icon="Audio" Content="歌曲"/>
+                <muxc:NavigationViewItem Icon="MusicInfo" Content="歌单"/>
+                <muxc:NavigationViewItem Icon="Contact" Content="歌手"/>
+                <muxc:NavigationViewItem Icon="People" Content="企划"/>
+                <muxc:NavigationViewItem Icon="ContactInfo" Content="用户"/>
+            </muxc:NavigationView.MenuItems>
+        </muxc:NavigationView>-->
         <Pivot Style="{StaticResource SearchPivotStyle}">
             <PivotItem>
                 <PivotItem.Header>

@@ -114,5 +114,7 @@
         public static string GetProfile = BaseUrl + "/v2/user/detail/";
 
         public static string GetMusicComments = BaseUrl + "/v3/comment/song";
+
+        public static string GetPersonalizedMusic = BaseUrl + "/v3/personalized/song";
     }
 }

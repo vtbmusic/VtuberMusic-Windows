@@ -167,7 +167,7 @@ namespace VtuberMusic_UWP {
         private void Navigation_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args) =>
             this.NavigationFrame.GoBack();
 
-        private async void AddAlbum_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) => await new CreateAlbumDialog().ShowAsync();
+        private async void AddAlbum_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) => await App.ContentDialogManager.ShowAsync(new CreateAlbumDialog());
     }
 
     [MarkupExtensionReturnType(ReturnType = typeof(NavigationItemTag))]

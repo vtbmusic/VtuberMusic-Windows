@@ -51,7 +51,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid CornerRadius="10" Width="50" Height="50">
-                                <Image Source="{x:Bind picUrl}" Stretch="UniformToFill"/>
+                                <Image Source="{x:Bind picUrl}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                             <Grid Grid.Column="1" Margin="5 0 0 0">
                                 <Grid.ColumnDefinitions>

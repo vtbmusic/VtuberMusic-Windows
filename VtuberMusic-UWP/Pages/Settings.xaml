@@ -20,14 +20,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel Padding="0 0 0 80">
                 <Grid CornerRadius="10" Height="150">
-                    <Grid.Background>
-                        <ImageBrush Stretch="UniformToFill">
-                            <ImageBrush.ImageSource>
-                                <BitmapImage UriSource="/Assets/SetupBackground/66681407_p0.jpg"
-                                     DecodePixelHeight="28" DecodePixelWidth="100"/>
-                            </ImageBrush.ImageSource>
-                        </ImageBrush>
-                    </Grid.Background>
+                    <Image Source="/Assets/SetupBackground/66681407_p0.jpg" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Grid Background="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>

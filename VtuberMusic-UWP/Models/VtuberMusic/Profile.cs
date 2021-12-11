@@ -1,8 +1,9 @@
 ﻿using PropertyChanged;
+using System.ComponentModel;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic {
     [AddINotifyPropertyChangedInterface]
-    public class Profile {
+    public class Profile : INotifyPropertyChanged {
         public string userId { get; set; }
         public int userType { get; set; }
         public string nickname { get; set; }
@@ -21,10 +22,14 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         public int authStatus { get; set; }
         public string description { get; set; }
         public string remarkName { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class ProfileResponse {
+    public class ProfileResponse : INotifyPropertyChanged {
         public Profile profile { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

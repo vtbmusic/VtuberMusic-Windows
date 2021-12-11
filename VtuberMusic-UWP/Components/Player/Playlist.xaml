@@ -26,7 +26,7 @@
                 <GridView x:Name="DataView" Grid.Row="1" Loaded="DataView_Loaded" CanDragItems="True" CanReorderItems="True" AllowDrop="True">
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
+                            <ItemsStackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
@@ -49,13 +49,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid CornerRadius="10">
                                         <Grid Width="50" Height="50">
-                                            <Grid.Background>
-                                                <ImageBrush Stretch="UniformToFill">
-                                                    <ImageBrush.ImageSource>
-                                                        <BitmapImage UriSource="{x:Bind picUrl, Mode=OneTime}" DecodePixelHeight="50" DecodePixelWidth="80"/>
-                                                    </ImageBrush.ImageSource>
-                                                </ImageBrush>
-                                            </Grid.Background>
+                                            <Image Source="{x:Bind picUrl}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Grid>
                                         <Grid RequestedTheme="Dark" Background="{ThemeResource SystemAltMediumColor}" Visibility="{x:Bind IsPlaying, Converter={StaticResource PlaylistItemVisibilityConver}, Mode=OneWay}">
                                             <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" HorizontalAlignment="Center"/>

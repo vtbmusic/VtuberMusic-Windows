@@ -143,9 +143,6 @@
     <Compile Include="Components\DataItem\MusicCardItem.xaml.cs">
       <DependentUpon>MusicCardItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\DataItem\MusicItem.xaml.cs">
-      <DependentUpon>MusicItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Components\DebugPanel.xaml.cs">
       <DependentUpon>DebugPanel.xaml</DependentUpon>
     </Compile>
@@ -187,6 +184,7 @@
     <Compile Include="Models\Lyric\LyricPaser.cs" />
     <Compile Include="Models\Lyric\Vrc.cs" />
     <Compile Include="Models\DebugCommand\IDebugCommand.cs" />
+    <Compile Include="Models\Main\IContentDialogControl.cs" />
     <Compile Include="Models\Main\ISetupStep.cs" />
     <Compile Include="Models\Main\SettingsManager.cs" />
     <Compile Include="Models\Main\UpdateCheck.cs" />
@@ -238,6 +236,9 @@
     <Compile Include="Pages\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SearchPage\MusicSearch.xaml.cs">
+      <DependentUpon>MusicSearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -255,6 +256,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AccountService.cs" />
+    <Compile Include="Service\ContentDialogManager.cs" />
     <Compile Include="Service\MusicClient.cs" />
     <Compile Include="Service\Player.cs" />
     <Compile Include="Tools\Converter.cs" />
@@ -357,10 +359,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Components\DataItem\MusicItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Components\DebugPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -450,6 +448,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SearchPage\MusicSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

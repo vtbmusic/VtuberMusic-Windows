@@ -11,7 +11,8 @@
     
     <ScrollViewer x:Name="RootScrollViewer" ViewChanged="ScrollViewer_ViewChanged">
         <StackPanel Margin="0 0 0 50">
-            <Grid Margin="0 0 0 20" Padding="20" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
+            <Grid Margin="0 0 0 20" Padding="20" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -52,7 +53,8 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <Grid Margin="0 0 0 50" Padding="10" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
+            <Grid Margin="0 0 0 50" Padding="10" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                 <collections:MusicDataList x:Name="DataView" ItemsSource="{x:Bind dataList}"/>
             </Grid>
         </StackPanel>

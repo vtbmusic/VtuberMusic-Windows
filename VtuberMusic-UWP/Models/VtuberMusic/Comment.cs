@@ -1,13 +1,14 @@
 ﻿using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic {
     [AddINotifyPropertyChangedInterface]
-    public class Comment {
+    public class Comment : INotifyPropertyChanged {
         public string id { get; set; }
         public Profile user { get; set; }
         public int status { get; set; }
@@ -19,5 +20,7 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         public string parentCommentId { get; set; }
         public bool liked { get; set; }
         public bool unliked { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

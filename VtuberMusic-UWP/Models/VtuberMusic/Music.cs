@@ -6,7 +6,7 @@ using Windows.UI.Core;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic {
     [AddINotifyPropertyChangedInterface]
-    public class Music {
+    public class Music : INotifyPropertyChanged {
         public string id { get; set; }
         public string name { get; set; }
         public object alias { get; set; }
@@ -24,13 +24,17 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         }
 
         public bool like { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     [AddINotifyPropertyChangedInterface]
-    public class MusicStatis {
+    public class MusicStatis : INotifyPropertyChanged {
         public int playCount { get; set; }
         public int commentCount { get; set; }
         public int likeCount { get; set; }
         public int shareCount { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

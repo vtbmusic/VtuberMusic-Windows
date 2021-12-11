@@ -21,7 +21,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid Height="170" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
-                    <Image Source="{x:Bind picUrl}" Stretch="UniformToFill"/>
+                    <Image Source="{x:Bind picUrl}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
                 <StackPanel Grid.Row="1" CornerRadius="10" Height="50" Margin="0 10 0 0" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}"
                              Shadow="{StaticResource ShareShadow}" Translation="0,0,14">
@@ -48,7 +48,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid Height="170" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
-                    <Image Source="{x:Bind song.picUrl}" Stretch="UniformToFill"/>
+                    <Image Source="{x:Bind song.picUrl}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource SystemControlAcrylicElementBrush}"
                           Margin="5" Padding="10 5" CornerRadius="10" Orientation="Horizontal">
                         <FontIcon Glyph="&#xE768;" FontSize="14"/>

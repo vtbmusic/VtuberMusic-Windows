@@ -15,6 +15,14 @@ namespace VtuberMusic_UWP.Models.Lyric {
         /// <param name="lyricString">歌词 string</param>
         /// <returns></returns>
         public static Lyric[] Parse(string lyricString) {
+            foreach (var cha in lyricString) {
+                if (cha != '{') {
+                    lyricString = lyricString.Substring(1);
+                } else {
+                    break;
+                }
+            }
+
             var vrc = JsonConvert.DeserializeObject<Vrc>(lyricString);
             var lyrics = new List<Lyric>();
             var sourceLyric = parseLrc(vrc.origin.text);

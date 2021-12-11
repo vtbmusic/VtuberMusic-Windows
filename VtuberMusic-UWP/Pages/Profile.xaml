@@ -55,44 +55,42 @@
                 </Grid>
             </Grid>
             <StackPanel Margin="0 10">
-                <ScrollViewer VerticalScrollMode="Disabled" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden">
-                    <StackPanel Orientation="Horizontal" CornerRadius="8" Padding="10"
+                <StackPanel Orientation="Horizontal" CornerRadius="8" Padding="10"
                                 Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
-                        <StackPanel>
-                            <TextBlock Text="音乐品味" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
-                            <TextBlock x:Name="LikeMusicTitle" Text="Misaka_L 喜欢的音乐" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                            <GridView x:Name="LikeMusicAlbumDataView" Loaded="LikeMusicAlbumDataView_Loaded" Margin="0 5 0 0"
+                    <StackPanel>
+                        <TextBlock Text="音乐品味" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
+                        <TextBlock x:Name="LikeMusicTitle" Text="Misaka_L 喜欢的音乐" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                        <GridView x:Name="LikeMusicAlbumDataView" Loaded="LikeMusicAlbumDataView_Loaded" Margin="0 5 0 0"
                                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="LikeMusicAlbumDataView_ItemClick"
                                       ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollMode="Disabled"
                                       ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Auto">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate x:DataType="model:Album">
-                                        <StackPanel Margin="5 0" Padding="0 10">
-                                            <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
-                                                <Image Source="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
-                                            </Grid>
-                                            <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Album">
+                                    <StackPanel Margin="5 0" Padding="0 10">
+                                        <Grid x:Name="CoverImgBorder" Height="150" Width="280" CornerRadius="10" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
+                                            <Image Source="{x:Bind coverImgUrl}" Stretch="UniformToFill"/>
+                                        </Grid>
+                                        <StackPanel CornerRadius="10" Margin="0 10 0 0" Height="50" Padding="10 5" Background="{ThemeResource SystemControlAcrylicElementBrush}"
                                                         Shadow="{StaticResource ShareShadow}" Translation="0,0,14">
-                                                <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind creator.nickname}"/>
-                                                <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
-                                            </StackPanel>
+                                            <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind creator.nickname}"/>
+                                            <components:MarqueeText Text="{x:Bind name}" FontSize="16"/>
                                         </StackPanel>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="最近在听" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
-                            <TextBlock Text="一周数据" Margin="10 5 0 10" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                            <collections:MusicCardView x:Name="RecntPlay"/>
-                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
                     </StackPanel>
-                </ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="最近在听" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
+                        <TextBlock Text="一周数据" Margin="10 5 0 10" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                        <collections:MusicCardView x:Name="RecntPlay"/>
+                    </StackPanel>
+                </StackPanel>
                 <StackPanel CornerRadius="8" Padding="10" Margin="0 10"
                             Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
                     <TextBlock Text="创建的歌单" FontWeight="Bold" FontSize="24" Margin="10 10 0 0"/>

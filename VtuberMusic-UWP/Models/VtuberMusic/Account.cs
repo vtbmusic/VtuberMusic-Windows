@@ -1,11 +1,12 @@
 ﻿using PropertyChanged;
+using System.ComponentModel;
 
 namespace VtuberMusic_UWP.Models.VtuberMusic {
     /// <summary>
     /// 账户 Object
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public class Account {
+    public class Account : INotifyPropertyChanged {
         /// <summary>
         /// 账户 id
         /// </summary>
@@ -30,12 +31,15 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         /// 最后登录 ip
         /// </summary>
         public string lastLoginIP { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     /// <summary>
     /// 账户 4 个项目的 Object
     /// </summary>
-    public class AccountSubCount {
+    [AddINotifyPropertyChangedInterface]
+    public class AccountSubCount : INotifyPropertyChanged {
         /// <summary>
         /// 主推数量
         /// </summary>
@@ -52,6 +56,8 @@ namespace VtuberMusic_UWP.Models.VtuberMusic {
         /// 收藏的歌单数量
         /// </summary>
         public int subPlaylistCount { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     /// <summary>

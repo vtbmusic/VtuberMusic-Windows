@@ -41,6 +41,8 @@
             </GridView>
             <TextBlock Text="最新发布" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
             <collections:MusicCardView x:Name="NewMusicDataView" Margin="2 2 0 10"/>
+            <TextBlock Text="大家都在听" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
+            <collections:MusicCardView x:Name="HotMusicDataView" Margin="2 2 0 10"/>
             <TextBlock Text="推荐歌单" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
             <GridView x:Name="AlbumDataView" Loaded="AlbumDataView_Loaded" Margin="0 5"
                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="AlbumDataView_ItemClick"

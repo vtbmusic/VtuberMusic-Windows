@@ -34,6 +34,7 @@ namespace VtuberMusic_UWP {
         public static Frame RootFrame;
         public static RestClient PublicClient = new RestClient();
         public static DebugCommandManager DebugCommandManager = new DebugCommandManager();
+        public static ContentDialogManager ContentDialogManager = new ContentDialogManager();
 
         public App() {
             this.InitializeComponent();
@@ -100,6 +101,9 @@ namespace VtuberMusic_UWP {
                 RootFrame.NavigationFailed += this.OnNavigationFailed;
 
                 Window.Current.Content = RootFrame;
+
+                this.init();
+                RootFrame.RequestedTheme = RoamingSettings.Theme.GetValueOrDefault();
             }
 
             if (e.PrelaunchActivated == false) {
@@ -111,10 +115,6 @@ namespace VtuberMusic_UWP {
                 ExtendedSplash extendedSplash = new ExtendedSplash(e.SplashScreen, loadState);
                 RootFrame.Content = extendedSplash;
             }
-
-            RootFrame.RequestedTheme = RoamingSettings.Theme.GetValueOrDefault();
-
-            this.init();
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args) {
@@ -126,15 +126,16 @@ namespace VtuberMusic_UWP {
         }
 
         private async void init() {
+            this.initAppCenter();
+
             var request = new RestRequest("https://vtbmusic.github.io/UWP_UpdateCheck/update.json");
             var response = await PublicClient.ExecuteAsync<UpdateCheck>(request);
 
             if (response.IsSuccessful &&
                 ( response.Data.version != Assembly.GetExecutingAssembly().GetName().Version.ToString() || response.Data.commit != this.getGitCommitInfo() )) {
-                await new UpdateCheckDialog(response.Data).ShowAsync();
+                await ContentDialogManager.ShowAsync(new UpdateCheckDialog(response.Data));
             }
 
-            this.initAppCenter();
             var username = LocalSettings.Username;
             var password = LocalSettings.Password;
             if (username != null && password != null) {
