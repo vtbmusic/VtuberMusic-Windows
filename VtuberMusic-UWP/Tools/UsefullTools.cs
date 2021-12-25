@@ -1,5 +1,7 @@
 ﻿using System;
 using VtuberMusic_UWP.Models.VtuberMusic;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace VtuberMusic_UWP.Tools {
     /// <summary>
@@ -42,6 +44,22 @@ namespace VtuberMusic_UWP.Tools {
             }
 
             return result;
+        }
+
+        public static ChildType FindVisualChild<ChildType>(DependencyObject obj)
+            where ChildType : DependencyObject {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++) {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is ChildType) {
+                    return ( child as ChildType );
+                } else {
+                    ChildType childOfChild = UsefullTools.FindVisualChild<ChildType>(child);
+                    if (childOfChild != null)
+                        return ( childOfChild );
+                }
+            }
+
+            return ( null );
         }
     }
 }

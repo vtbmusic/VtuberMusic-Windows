@@ -9,10 +9,10 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     
-    <ScrollViewer x:Name="RootScrollViewer" ViewChanged="ScrollViewer_ViewChanged">
-        <StackPanel Margin="0 0 0 50">
+    <collections:MusicDataList x:Name="DataView" ItemsSource="{x:Bind dataList}" Loaded="DataView_Loaded" Padding="0 0 0 100">
+        <collections:MusicDataList.Header>
             <Grid Margin="0 0 0 20" Padding="20" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}"
-                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -53,10 +53,6 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <Grid Margin="0 0 0 50" Padding="10" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}"
-                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-                <collections:MusicDataList x:Name="DataView" ItemsSource="{x:Bind dataList}"/>
-            </Grid>
-        </StackPanel>
-    </ScrollViewer>
+        </collections:MusicDataList.Header>
+    </collections:MusicDataList>
 </Page>

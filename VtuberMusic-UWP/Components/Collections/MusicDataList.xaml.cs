@@ -19,6 +19,9 @@ namespace VtuberMusic_UWP.Components.Collections {
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(IEnumerable<Music>), typeof(MusicDataList), new PropertyMetadata(null, new PropertyChangedCallback(ItemsSourceChangeEventHandle)));
 
+        public static readonly DependencyProperty HeaderProperty =
+            DependencyProperty.Register("Header", typeof(object), typeof(MusicDataList), new PropertyMetadata(null));
+
         /// <summary>
         /// 数据源
         /// </summary>
@@ -27,6 +30,10 @@ namespace VtuberMusic_UWP.Components.Collections {
             set { this.SetValue(ItemsSourceProperty, value); }
         }
 
+        public object Header {
+            get { return (object)this.GetValue(HeaderProperty); }
+            set { this.SetValue(HeaderProperty, value); }
+        }
         /// <summary>
         /// 歌单列表
         /// </summary>

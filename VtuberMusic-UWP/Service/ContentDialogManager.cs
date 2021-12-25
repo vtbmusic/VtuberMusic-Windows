@@ -20,7 +20,12 @@ namespace VtuberMusic_UWP.Service {
         public async Task<ContentDialogResult> ShowAsync(IContentDialogControl dialog) => await this.ShowAsync(dialog.ContentDialog);
 
         public async Task<ContentDialogResult> ShowAsync(ContentDialog dialog) {
-            if (this.NowShowDialogIndex != this.tokenSource.Count) await Task.Delay(-1, tokenSource.Last().Token);
+            if (this.NowShowDialogIndex != this.tokenSource.Count) {
+                try {
+                    await Task.Delay(-1, tokenSource.Last().Token);
+                } catch { }
+            }
+
             tokenSource.Add(new CancellationTokenSource());
 
             dialog.Closed += this.Dialog_Closed;

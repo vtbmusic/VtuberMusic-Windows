@@ -9,11 +9,11 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
-    <ScrollViewer x:Name="RootScrollViewer">
-        <Grid>
-            <StackPanel Margin="0 0 0 100">
-                <Grid Height="400" CornerRadius="8" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-                    <ParallaxView x:Name="ParallaxView" Source="{Binding ElementName=RootScrollViewer}" VerticalShift="300">
+    <Grid Margin="0 0 0 0" Padding="0">
+        <collections:MusicDataList x:Name="DataView" Padding="0 0 0 100" CornerRadius="8" Loaded="DataView_Loaded">
+            <collections:MusicDataList.Header>
+                <Grid Height="400" CornerRadius="8" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" Margin="0 0 0 10">
+                    <ParallaxView x:Name="ParallaxView" VerticalShift="300">
                         <Image x:Name="ParallaxViewImage" Source="{x:Bind album.coverImgUrl, Mode=OneWay}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
                     </ParallaxView>
                     <Border>
@@ -62,12 +62,7 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1"
-                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                  CornerRadius="8" Margin="0 10 0 0" Padding="20">
-                    <collections:MusicDataList x:Name="DataView"/>
-                </Grid>
-            </StackPanel>
-        </Grid>
-    </ScrollViewer>
+            </collections:MusicDataList.Header>
+        </collections:MusicDataList>
+    </Grid>
 </Page>

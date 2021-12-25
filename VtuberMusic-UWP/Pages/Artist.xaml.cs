@@ -26,7 +26,6 @@ namespace VtuberMusic_UWP.Pages {
         public Artist() {
             this.InitializeComponent();
 
-            //this.ShareShadow.Receivers
             this.Avater.Translation = new System.Numerics.Vector3(0, 0, 32);
         }
 
@@ -89,7 +88,8 @@ namespace VtuberMusic_UWP.Pages {
 
         private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
             if (!this.isLoading) {
-                if (RootScrollViewer.VerticalOffset <= RootScrollViewer.ScrollableHeight - 500) return;
+                var scroll = UsefullTools.FindVisualChild<ScrollViewer>(DataView);
+                if (scroll.VerticalOffset <= scroll.ScrollableHeight - 1000) return;
                 this.isLoading = true;
 
                 foreach (var temp in ( await App.Client.GetArtistSong(this.artist.id, "time", this.limit, this.offset) ).Data) {
@@ -103,5 +103,9 @@ namespace VtuberMusic_UWP.Pages {
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e) =>
             ShareTools.ShareArtist(artist);
+
+        private void DataView_Loaded(object sender, RoutedEventArgs e) {
+            UsefullTools.FindVisualChild<ScrollViewer>(DataView).ViewChanged += this.ScrollViewer_ViewChanged;
+        }
     }
 }

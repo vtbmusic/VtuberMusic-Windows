@@ -10,10 +10,11 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ListView x:Name="DataList" DoubleTapped="DataList_DoubleTapped">
+    <ListView x:Name="DataList" Header="{x:Bind Header}" DoubleTapped="DataList_DoubleTapped" Padding="{x:Bind Padding}"
+              BorderThickness="{x:Bind BorderThickness}" BorderBrush="{x:Bind BorderBrush}" CornerRadius="{x:Bind CornerRadius}">
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
-                <ItemsStackPanel/>
+                <ItemsStackPanel Background="{ThemeResource LayerFillColorDefaultBrush}"/>
             </ItemsPanelTemplate>
         </ListView.ItemsPanel>
         <ListView.ItemTemplate>
@@ -51,7 +52,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid CornerRadius="10" Width="50" Height="50">
-                                <Image Source="{x:Bind picUrl}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Image Source="{x:Bind picUrl}" x:Phase="1" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                             <Grid Grid.Column="1" Margin="5 0 0 0">
                                 <Grid.ColumnDefinitions>

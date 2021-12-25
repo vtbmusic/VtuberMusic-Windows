@@ -68,7 +68,7 @@ namespace VtuberMusic_UWP {
                 dialog.Content = new TextBlock() { Text = "上传错误报告以帮助我们修复此问题" };
                 dialog.DefaultButton = ContentDialogButton.Primary;
 
-                var result = await dialog.ShowAsync();
+                var result = await ContentDialogManager.ShowAsync(dialog);
 
                 switch (result) {
                     case ContentDialogResult.Primary:
