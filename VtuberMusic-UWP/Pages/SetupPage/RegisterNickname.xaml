@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="VtuberMusic_UWP.Pages.SetupPage.RegisterNickname"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Pages.SetupPage"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="10 40 0 0">
+        <StackPanel>
+            <TextBlock Text="输入您的个人信息" FontSize="24"/>
+            <TextBlock Text="这些将是其他人可以查看的公开资料，请三思而后行。" Foreground="{ThemeResource SystemBaseMediumColor}"
+                               Margin="0 10" TextWrapping="Wrap" FontWeight="SemiLight"/>
+
+            <StackPanel Margin="0 30">
+                <TextBox x:Name="Nickname" Margin="0 0 0 5" TextChanged="Nickname_TextChanged"
+                             PlaceholderText="昵称" MinWidth="300" HorizontalAlignment="Left"
+                             Padding="15 10"/>
+                <muxc:InfoBar x:Name="ErrorInfo" Title="验证码发送失败" IsOpen="False" Severity="Error" HorizontalAlignment="Left"/>
+                <HyperlinkButton Content="隐私政策" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com/privacy.html" Padding="0"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                            Margin="0 0 15 30">
+            <Button x:Name="Back" Click="Back_Click" Content="上一步" MinWidth="110" Margin="5 0"/>
+            <Button x:Name="Next" Click="Next_Click" Content="下一步" IsEnabled="False" MinWidth="110" Style="{ThemeResource AccentButtonStyle}"/>
+        </StackPanel>
+    </Grid>
+</Page>

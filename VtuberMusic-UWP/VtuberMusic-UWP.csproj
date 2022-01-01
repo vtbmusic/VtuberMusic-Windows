@@ -11,7 +11,7 @@
     <AssemblyName>VtuberMusic-UWP</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22000.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -186,7 +186,11 @@
     <Compile Include="Models\DebugCommand\IDebugCommand.cs" />
     <Compile Include="Models\Main\IContentDialogControl.cs" />
     <Compile Include="Models\Main\ISetupStep.cs" />
+    <Compile Include="Pages\SetupPage\RegisterFinish.xaml.cs">
+      <DependentUpon>RegisterFinish.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Main\SettingsManager.cs" />
+    <Compile Include="Models\Main\SetupRegisterData.cs" />
     <Compile Include="Models\Main\UpdateCheck.cs" />
     <Compile Include="Models\Main\ViewModel.cs" />
     <Compile Include="Models\VtuberMusic\Account.cs" />
@@ -250,6 +254,12 @@
     </Compile>
     <Compile Include="Pages\SetupPage\Account.xaml.cs">
       <DependentUpon>Account.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SetupPage\Register.xaml.cs">
+      <DependentUpon>Register.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SetupPage\RegisterNickname.xaml.cs">
+      <DependentUpon>RegisterNickname.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SetupPage\Welcome.xaml.cs">
       <DependentUpon>Welcome.xaml</DependentUpon>
@@ -403,6 +413,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\SetupPage\RegisterFinish.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Artist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -470,6 +484,14 @@
     <Page Include="Pages\SetupPage\Account.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SetupPage\Register.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SetupPage\RegisterNickname.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SetupPage\Welcome.xaml">
       <SubType>Designer</SubType>

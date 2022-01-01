@@ -116,5 +116,9 @@
         public static string GetMusicComments = BaseUrl + "/v3/comment/song";
 
         public static string GetPersonalizedMusic = BaseUrl + "/v3/personalized/song";
+
+        public static string GetCaptchaCode = BaseUrl + "/v2/captcha/sent";
+
+        public static string Register = BaseUrl + "/v2/user/register";
     }
 }

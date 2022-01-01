@@ -290,6 +290,37 @@ namespace VtuberMusic_UWP.Service {
             throw new Exception(response.ErrorMessage);
         }
 
+        public async Task<ApiResponse> SendCode(string email) {
+            var request = new RestRequest(ApiUri.GetCaptchaCode, Method.POST);
+            request.AddQueryParameter("email", email);
+
+            var response = await this._restClient.ExecuteAsync<ApiResponse>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
+        public async Task<ApiResponse<AccountProfileData>> Register(string email, string password, string nickname, string code) {
+            var request = new RestRequest(ApiUri.Register, Method.POST);
+            request.AddQueryParameter("email", email);
+            request.AddQueryParameter("password", password);
+            request.AddQueryParameter("nickname", nickname);
+            request.AddQueryParameter("code", code);
+
+            var response = await this._restClient.ExecuteAsync<ApiResponse<AccountProfileData>>(request);
+
+            if (response.IsSuccessful) {
+                return response.Data.Success ? response.Data : throw new Exception(response.Data.Msg);
+            }
+
+            if (response.ErrorException != null) throw response.ErrorException;
+            throw new Exception(response.ErrorMessage);
+        }
+
         /// <summary>
         /// 获取历史播放音乐
         /// </summary>

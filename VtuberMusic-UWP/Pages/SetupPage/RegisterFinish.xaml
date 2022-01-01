@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="VtuberMusic_UWP.Pages.SetupPage.RegisterFinish"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Models.Main"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="10 40 0 0">
+        <StackPanel>
+            <TextBlock Text="就差一步" FontSize="24"/>
+            <TextBlock Text="我们已将验证码发送至您的电子邮箱，请查收。" Foreground="{ThemeResource SystemBaseMediumColor}"
+                               Margin="0 10" TextWrapping="Wrap" FontWeight="SemiLight"/>
+
+            <StackPanel Margin="0 30">
+                <TextBox x:Name="Code" Margin="0 0 0 5" TextChanged="Code_TextChanged"
+                             PlaceholderText="验证码" MinWidth="300" HorizontalAlignment="Left"
+                             Padding="15 10"/>
+                <muxc:InfoBar x:Name="ErrorInfo" Title="注册失败" Severity="Error"/>
+                <HyperlinkButton Content="隐私政策" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com/privacy.html" Padding="0"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                            Margin="0 0 15 30">
+            <Button x:Name="Back" Click="Back_Click" Content="上一步" MinWidth="110" Margin="5 0"/>
+            <Button x:Name="Next" Click="Next_Click" Content="注册并登录" IsEnabled="False" MinWidth="110" Style="{ThemeResource AccentButtonStyle}"/>
+        </StackPanel>
+    </Grid>
+</Page>

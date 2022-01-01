@@ -28,7 +28,7 @@
                                  PlaceholderText="账号密码"/>
                     <muxc:InfoBar x:Name="ErrorInfoBar" IsOpen="False" Title="登录失败" Message="Error Message" Severity="Error"/>
                     <HyperlinkButton Content="隐私政策" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com/privacy.html" Padding="0"/>
-                    <HyperlinkButton Content="没有账号？无法登录？" Margin="0 5 0 0" NavigateUri="https://vtbmusic.com" Padding="0"/>
+                    <HyperlinkButton Content="没有账号？注册一个！" Margin="0 5 0 0" Click="HyperlinkButton_Click" Padding="0"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right"

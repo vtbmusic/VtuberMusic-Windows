@@ -59,5 +59,9 @@ namespace VtuberMusic_UWP.Pages.SetupPage {
                 this.Next.IsEnabled = true;
             }
         }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e) {
+            this.Frame.Navigate(typeof(Register), null, new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+        }
     }
 }
