@@ -39,13 +39,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid CornerRadius="10" Width="50" Height="50">
-                                    <Grid.Background>
-                                        <ImageBrush Stretch="UniformToFill">
-                                            <ImageBrush.ImageSource>
-                                                <BitmapImage UriSource="{x:Bind song.picUrl, Mode=OneTime}" DecodePixelHeight="50" DecodePixelWidth="80"/>
-                                            </ImageBrush.ImageSource>
-                                        </ImageBrush>
-                                    </Grid.Background>
+                                    <Image Source="{x:Bind song.picUrl, Mode=OneTime}" Stretch="UniformToFill" x:Phase="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Grid>
                                 <Grid Grid.Column="1" Margin="5 0 0 0">
                                     <Grid.ColumnDefinitions>

@@ -29,7 +29,7 @@ namespace VtuberMusic_UWP.Pages {
 
         private async void load() {
             albums = ( await App.Client.Account.GetMyCreatePlayList() ).Data;
-            data = ( await App.Client.Account.GetRecord(0) ).Data.ToList();
+            data = ( await App.Client.Account.GetRecord(1) ).Data.ToList();
             DataView.ItemsSource = data;
         }
 
