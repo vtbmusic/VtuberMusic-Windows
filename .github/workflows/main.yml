@@ -3,6 +3,7 @@ name: VtuberMusic-UWP 构建和发布
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
 
