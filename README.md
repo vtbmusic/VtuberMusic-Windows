@@ -12,20 +12,37 @@
 |微软商店|-|-|
 
 ## 开发相关
-### 文件分类
-- Assets - 存储应用所有的资源文件，如图片 / 图标
-- Components - 存储控件
-- Pages - 存储页面文件
-- Service - 服务相关，如 Api 客户端和播放器
-- Tools - 一些杂七杂八的工具类，如网络工具
-- Theme - 不同配色下的主题资源，如暗模式和亮模式
-- Template - 一些扩件样式
-- Models - 实体类，也包括部分逻辑代码
-### Api 部分
-- 账号相关功能: Service/AccountService.cs
-- 音乐相关功能: Service/MusicClient.cs
-- Api 地址定义: Models/VtuberMusic/ApiUri.cs
-- 网络请求: Tools/NetworkTool.cs
-### 歌词部分
-- 歌词显示: Pages/Playing.xaml 和 Pages/Playing.xaml.cs
-- 解析: Tools/Lyric.cs
+### 环境配置
+- 操作系统: Windows 11 22000 或更高版本
+- IDE: Microsoft Visual Studio 2019 或更新版本 (推荐 Microsoft Visual Studio 2022)
+### 注意事项
+- 贯穿整个应用生命周期的类都应添加到 App 类
+- 设置分为本地设置和漫游设置 `App.LocalSettings` / `App.RoamingSettings`
+- 显示 ContentDialog 时，请使用 `App.ContentDialogManager.ShowAsync()`，防止同时弹出多个 Content Dialog 导致出现异常
+- Page 控制导航优先使用 `this.Frame.Navigate()`
+### 项目目录结构
+```
+- VtuberMusic-UWP
+├─Assets # 存储应用所有的资源文件，如图片 / 图标
+├─Components # 控件
+│  ├─Account # 账号控件 例: AccountPanel
+│  ├─Collections # 合集控件 例: MusicDataList
+│  ├─Comment # 评论控件
+│  ├─DataItem # 数据项目 例: MusicCardItem
+│  ├─Dialog # ContentDialog
+│  ├─Lyric # 歌词控件
+│  ├─Main # 主要控件 例: TopPanel
+│  └─Player # 播放器相关控件 例: MainPlayer, PlayList
+├─Models # 实体类
+│  ├─DebugCommand # Debug 命令
+│  ├─Lyric # 歌词
+│  ├─Main # App 核心
+│  └─VtuberMusic # VtuberMusic Api 数据实体类
+├─Pages # 页面
+│  ├─SearchPage # 搜索页面 NavgationView 使用的 Page
+│  └─SetupPage # 初始设置页面
+├─Service # 服务类 例: MusicClient, AccountService
+├─Template # 控件 Template / Style
+├─Theme # Dark / Light 颜色模式资源
+└─Tools # 工具类
+```
