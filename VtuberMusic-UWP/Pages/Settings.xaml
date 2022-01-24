@@ -12,7 +12,7 @@
     <Page.Resources>
         <local:BlurBackgroundPixelConvert x:Key="BlurBackgroundPixelConvert"/>
     </Page.Resources>
-    <Grid Margin="25 0">
+    <Grid Margin="25">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>

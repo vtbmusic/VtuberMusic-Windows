@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,11 +11,13 @@ using Windows.UI.Xaml;
 
 namespace VtuberMusic_UWP.Models.Main {
     public class LocalSettingsManager : INotifyPropertyChanged {
+        [JsonIgnore]
         public string Username {
             get => this.GetSettingVlaue<string>();
             set => this.SetSettingVlaue(value);
         }
 
+        [JsonIgnore]
         public string Password {
             get => this.GetSettingVlaue<string>();
             set => this.SetSettingVlaue(value);
@@ -48,7 +51,7 @@ namespace VtuberMusic_UWP.Models.Main {
                 return (ElementTheme)data.GetValueOrDefault();
             }
             set {
-                App.RootFrame.RequestedTheme = value.GetValueOrDefault();
+                (Window.Current.Content as FrameworkElement).RequestedTheme = value.GetValueOrDefault();
                 this.SetSettingVlaue(((int?)value).GetValueOrDefault());
             }
         }

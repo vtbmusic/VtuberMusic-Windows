@@ -82,7 +82,7 @@ namespace VtuberMusic_UWP.Pages {
                 } else {
                     this.lyrics = new Lyric[]
                     {
-                        new Lyric { Source = $"获取歌词失败: { response.ErrorMessage }", Time = TimeSpan.Zero, Translation = "" }
+                        new Lyric { Source = $"获取歌词失败: { response.StatusCode }", Time = TimeSpan.Zero, Translation = "" }
                     };
 
                     Crashes.TrackError(response.ErrorException, new Dictionary<string, string>(){

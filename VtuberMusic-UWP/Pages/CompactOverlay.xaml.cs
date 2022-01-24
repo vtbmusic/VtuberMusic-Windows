@@ -3,10 +3,12 @@ using Microsoft.AppCenter.Crashes;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VtuberMusic_UWP.Components;
 using VtuberMusic_UWP.Components.Lyric;
 using VtuberMusic_UWP.Models.Lyric;
+using VtuberMusic_UWP.Models.VtuberMusic;
 using VtuberMusic_UWP.Service;
 using VtuberMusic_UWP.Tools;
 using Windows.Foundation;
@@ -56,9 +58,6 @@ namespace VtuberMusic_UWP.Pages {
             await this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, delegate {
                 if (App.RootFrame.Content.GetType() != typeof(CompactOverlay)) return;
 
-                this.NowPlayTime.Text = e.ToString("mm\\:ss");
-                this.Position.Value = e.TotalMilliseconds;
-
                 this.lyricTick();
             });
         }
@@ -69,6 +68,26 @@ namespace VtuberMusic_UWP.Pages {
             }));
 
         private async void load() {
+            if (App.Player.PlayList.Count != 0) {
+                Music NextMusic = null;
+                switch (App.Player.PlayMode) {
+                    case PlayMode.SingleRepeat:
+                        NextMusic = this.player.NowPlayingMusic;
+                        break;
+                    case PlayMode.Shuffle:
+                        break;
+                    default:
+                        if (this.player.PlayList.IndexOf(this.player.NowPlayingMusic) == App.Player.PlayList.Count - 1) {
+                            NextMusic = App.Player.PlayList.First();
+                        } else {
+                            NextMusic = App.Player.PlayList[App.Player.PlayList.IndexOf(App.Player.NowPlayingMusic) + 1];
+                        }
+                        break;
+                }
+
+                NextMusicInfo.Text = $"{ NextMusic.name } - { UsefullTools.GetArtistsString(NextMusic.artists)}";
+            }
+
             if (string.IsNullOrEmpty(App.Player.NowPlayingMusic.vrcUrl)) {
                 this.lyrics = new Lyric[]
                 {
@@ -93,7 +112,7 @@ namespace VtuberMusic_UWP.Pages {
                 } else {
                     this.lyrics = new Lyric[]
                     {
-                        new Lyric { Source = $"获取歌词失败: { response.ErrorMessage }", Time = TimeSpan.Zero, Translation = "" }
+                        new Lyric { Source = $"获取歌词失败: { response.StatusCode }", Time = TimeSpan.Zero, Translation = "" }
                     };
 
                     Crashes.TrackError(response.ErrorException, new Dictionary<string, string>(){
@@ -171,18 +190,6 @@ namespace VtuberMusic_UWP.Pages {
             return ( null );
         }
         #endregion
-
-        private void Position_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e) {
-
-        }
-
-        private void Position_PointerCaptureLost(object sender, PointerRoutedEventArgs e) {
-
-        }
-
-        private void Position_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e) {
-
-        }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) => App.Player.Next();
         private void PreviousButton_Click(object sender, RoutedEventArgs e) => App.Player.Previous();

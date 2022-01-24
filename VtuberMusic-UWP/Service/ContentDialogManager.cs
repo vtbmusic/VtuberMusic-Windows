@@ -29,6 +29,7 @@ namespace VtuberMusic_UWP.Service {
             tokenSource.Add(new CancellationTokenSource());
 
             dialog.Closed += this.Dialog_Closed;
+            dialog.RequestedTheme = App.RoamingSettings.Theme.GetValueOrDefault();
             return await dialog.ShowAsync();
         }
 

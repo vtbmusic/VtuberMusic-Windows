@@ -1,4 +1,7 @@
-﻿namespace VtuberMusic_UWP.Models.VtuberMusic {
+﻿using PropertyChanged;
+using System.ComponentModel;
+
+namespace VtuberMusic_UWP.Models.VtuberMusic {
     /// <summary>
     /// Api 响应
     /// </summary>
@@ -13,7 +16,8 @@
     /// <summary>
     /// Api 响应
     /// </summary>
-    public class ApiResponse {
+    [AddINotifyPropertyChangedInterface]
+    public class ApiResponse : INotifyPropertyChanged {
         /// <summary>
         /// 是否成功
         /// </summary>
@@ -26,6 +30,8 @@
         /// 响应信息
         /// </summary>
         public string Msg { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     /// <summary>

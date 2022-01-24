@@ -25,8 +25,9 @@
                 <TextBlock Text="VtuberMusic" VerticalAlignment="Center" FontSize="12" Margin="15 0 0 0"/>
                 <TextBlock Text="Preview" VerticalAlignment="Center" FontSize="12" Margin="3 0 0 0" Foreground="{ThemeResource SystemBaseMediumColor}"/>
             </StackPanel>
-            <TextBox x:Name="SearchKeyword" Grid.Column="1" Margin="5 0"
-                 KeyDown="TextBox_KeyDown" VerticalAlignment="Center" PlaceholderText="搜索歌曲、歌手、歌单..."/>
+            <AutoSuggestBox x:Name="SearchKeyword" Grid.Column="1" Margin="5 0"
+                            VerticalAlignment="Center" PlaceholderText="搜索歌曲、歌手、歌单..."
+                            QueryIcon="Find" QuerySubmitted="SearchKeyword_QuerySubmitted"/>
             <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"
                     CornerRadius="10" Padding="0" Background="Transparent" BorderBrush="Transparent">
                 <Button.Flyout>

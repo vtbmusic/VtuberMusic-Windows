@@ -8,7 +8,7 @@
     xmlns:lyric="using:VtuberMusic_UWP.Models.Lyric"
     xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric"
     xmlns:comment="using:VtuberMusic_UWP.Components.Comment"
-    mc:Ignorable="d">
+    mc:Ignorable="d" RequestedTheme="Dark">
 
     <Page.Resources>
         <Storyboard x:Name="CommentShow">

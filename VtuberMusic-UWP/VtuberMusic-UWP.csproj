@@ -140,6 +140,9 @@
     <Compile Include="Components\Comment\MusicCommentList.xaml.cs">
       <DependentUpon>MusicCommentList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\DataItem\AlbumCardItem.xaml.cs">
+      <DependentUpon>AlbumCardItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\DataItem\MusicCardItem.xaml.cs">
       <DependentUpon>MusicCardItem.xaml</DependentUpon>
     </Compile>
@@ -180,10 +183,12 @@
     <Compile Include="Models\DebugCommand\ForeGC.cs" />
     <Compile Include="Models\DebugCommand\Navigation.cs" />
     <Compile Include="Models\DebugCommand\ShowLog.cs" />
+    <Compile Include="Models\DebugCommand\TestException.cs" />
     <Compile Include="Models\Lyric\Lyric.cs" />
     <Compile Include="Models\Lyric\LyricPaser.cs" />
     <Compile Include="Models\Lyric\Vrc.cs" />
     <Compile Include="Models\DebugCommand\IDebugCommand.cs" />
+    <Compile Include="Models\Main\AppCenterReportAttachment.cs" />
     <Compile Include="Models\Main\IContentDialogControl.cs" />
     <Compile Include="Models\Main\ISetupStep.cs" />
     <Compile Include="Pages\SetupPage\RegisterFinish.xaml.cs">
@@ -272,6 +277,7 @@
     <Compile Include="Tools\Converter.cs" />
     <Compile Include="Tools\ShareTools.cs" />
     <Compile Include="Tools\UsefullTools.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -362,6 +368,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\Comment\MusicCommentList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DataItem\AlbumCardItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -575,6 +585,7 @@
       <Name>Microsoft Engagement Framework</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

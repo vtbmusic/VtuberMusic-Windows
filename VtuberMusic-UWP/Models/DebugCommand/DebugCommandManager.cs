@@ -16,6 +16,7 @@ namespace VtuberMusic_UWP.Models.DebugCommand {
             this.CommandList.Add(new ContentFrameGoForward());
             this.CommandList.Add(new RootFrameGoBack());
             this.CommandList.Add(new RootFrameGoForward());
+            this.CommandList.Add(new TestException());
 #endif
         }
     }

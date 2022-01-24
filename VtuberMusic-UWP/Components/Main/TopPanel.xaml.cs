@@ -30,5 +30,15 @@ namespace VtuberMusic_UWP.Components.Main {
             Window.Current.SetTitleBar(this.TitleBar);
             App.ViewModel.TopPanel = this;
         }
+
+        private void SearchKeyword_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args) {
+            if (string.IsNullOrWhiteSpace(this.SearchKeyword.Text)) return;
+            if (App.ViewModel.MainPage.ContentFrame.Content.GetType() == typeof(Search)) {
+                ( (Search)App.ViewModel.MainPage.ContentFrame.Content ).SearchKeyword(this.SearchKeyword.Text);
+                return;
+            }
+
+            App.ViewModel.NavigateToPage(typeof(Search), this.SearchKeyword.Text);
+        }
     }
 }

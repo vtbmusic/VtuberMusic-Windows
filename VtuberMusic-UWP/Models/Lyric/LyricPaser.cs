@@ -30,7 +30,6 @@ namespace VtuberMusic_UWP.Models.Lyric {
             if (vrc.translate != null) {
                 var translationLyric = parseLrc(vrc.translate.text);
                 for (int i = 0; i < sourceLyric.Length || i < translationLyric.Length; i++) {
-                    Debug.WriteLine(i);
                     TimeSpan time = TimeSpan.Zero;
                     string source = "";
                     string translation = "";

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -15,16 +17,16 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace VtuberMusic_UWP.Components.DataItem {
-    public sealed partial class MusicCardItem : UserControl {
+    public partial class AlbumCardItem : UserControl {
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(Music), typeof(MusicCardItem), new PropertyMetadata(null));
+            DependencyProperty.Register("Source", typeof(Album), typeof(AlbumCardItem), new PropertyMetadata(null));
 
-        public Music Source {
-            get { return (Music)this.GetValue(SourceProperty); }
+        public Album Source {
+            get { return (Album)this.GetValue(SourceProperty); }
             set { this.SetValue(SourceProperty, value); }
         }
 
-        public MusicCardItem() {
+        public AlbumCardItem() {
             this.InitializeComponent();
         }
     }

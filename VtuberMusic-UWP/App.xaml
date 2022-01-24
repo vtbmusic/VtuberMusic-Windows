@@ -12,6 +12,7 @@
                     <muxc:XamlControlsResources.MergedDictionaries>
                         <ResourceDictionary>
                             <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent"/>
+                            <ThemeShadow x:Key="Shadow"/>
                         </ResourceDictionary>
                         <ResourceDictionary Source="/Template/Common.xaml"/>
                         <ResourceDictionary Source="/Template/Button.xaml"/>

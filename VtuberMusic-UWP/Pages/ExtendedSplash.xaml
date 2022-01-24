@@ -7,12 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlBaseLowAcrylicWindowBrush}">
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Image Height="115" Stretch="Uniform" Source="/Assets/Icon/Original/Icon.png"/>
         <StackPanel Width="200">
-            <muxc:ProgressRing Margin="0 300 0 0" IsActive="True" Height="60" Width="60"/>
+            <muxc:ProgressBar Foreground="{ThemeResource SystemBaseHighColor}" Margin="0 300 0 0" IsIndeterminate="True" Width="150"/>
         </StackPanel>
     </Grid>
 </Page>

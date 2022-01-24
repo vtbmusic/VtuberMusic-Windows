@@ -112,7 +112,9 @@ namespace VtuberMusic_UWP.Tools {
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string culture) {
-            return DependencyProperty.UnsetValue;
+            return value != null
+                ? TimeSpan.FromMilliseconds((double)value)
+                : DependencyProperty.UnsetValue;
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using VtuberMusic_UWP.Models.DebugCommand;
 using VtuberMusic_UWP.Models.Main;
 using VtuberMusic_UWP.Pages;
 using VtuberMusic_UWP.Service;
+using VtuberMusic_UWP.Tools;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Globalization;
@@ -101,9 +103,9 @@ namespace VtuberMusic_UWP {
                 RootFrame.NavigationFailed += this.OnNavigationFailed;
 
                 Window.Current.Content = RootFrame;
+                ( Window.Current.Content as FrameworkElement ).RequestedTheme = RoamingSettings.Theme.GetValueOrDefault();
 
                 this.init();
-                RootFrame.RequestedTheme = RoamingSettings.Theme.GetValueOrDefault();
             }
 
             if (e.PrelaunchActivated == false) {
@@ -132,7 +134,7 @@ namespace VtuberMusic_UWP {
             var response = await PublicClient.ExecuteAsync<UpdateCheck>(request);
 
             if (response.IsSuccessful &&
-                ( response.Data.version != Assembly.GetExecutingAssembly().GetName().Version.ToString() || response.Data.commit != this.getGitCommitInfo() )) {
+                ( response.Data.version != Assembly.GetExecutingAssembly().GetName().Version.ToString() || response.Data.commit != UsefullTools.GetGitCommitInfo() )) {
                 await ContentDialogManager.ShowAsync(new UpdateCheckDialog(response.Data));
             }
 
@@ -151,42 +153,34 @@ namespace VtuberMusic_UWP {
         }
 
         private void initAppCenter() {
+#if DEBUG
+            AppCenter.Configure("45808951-480e-4cf7-9fb3-e7c325c68836");
+            AppCenter.LogLevel = LogLevel.Verbose;
+#endif
+#if !DEBUG
+            AppCenter.Configure("b70c28c4-5a3a-4416-8eac-72106776951d");
+#endif
+
+            // 设置国家代码
             var countryCode = new GeographicRegion().CodeTwoLetter;
             AppCenter.SetCountryCode(countryCode);
-#if DEBUG
-            AppCenter.Start("45808951-480e-4cf7-9fb3-e7c325c68836",
-                       typeof(Analytics), typeof(Crashes));
-
+            // 设置版本属性
             var properties = new CustomProperties();
-            properties.Set("Commit", this.getGitCommitInfo());
-
+            properties.Set("Commit", UsefullTools.GetGitCommitInfo());
             AppCenter.SetCustomProperties(properties);
-
+            // 崩溃上传确认
             Crashes.ShouldAwaitUserConfirmation = () => {
                 this.showCrashReport();
                 return true;
             };
-#endif
-#if !DEBUG
-            AppCenter.Start("b70c28c4-5a3a-4416-8eac-72106776951d",
-                       typeof(Analytics), typeof(Crashes));
-
-            var properties = new CustomProperties();
-            properties.Set("Commit", this.getGitCommitInfo());
-
-            AppCenter.SetCustomProperties(properties);
-
-            Crashes.ShouldAwaitUserConfirmation = () =>
-            {
-                this.showCrashReport();
-                return true;
+            // 崩溃时上传设置和其他详细信息
+            Crashes.GetErrorAttachments = (ErrorReport report) => {
+                return new ErrorAttachmentLog[] {
+                    ErrorAttachmentLog.AttachmentWithText(AppCenterReportAttachment.Create().ToString(), "AppStatue")
+                };
             };
-#endif
-        }
 
-        private string getGitCommitInfo() {
-            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
-            return attributes.Length != 0 ? ( (AssemblyInformationalVersionAttribute)attributes[0] ).InformationalVersion : "Nan";
+            AppCenter.Start(typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>

@@ -10,7 +10,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <ListView x:Name="DataList" Header="{x:Bind Header}" DoubleTapped="DataList_DoubleTapped" Padding="{x:Bind Padding}"
+    <ListView x:Name="DataList" Header="{x:Bind Header}" DoubleTapped="DataList_DoubleTapped" Padding="{x:Bind Padding}" SelectionMode="Single"
               BorderThickness="{x:Bind BorderThickness}" BorderBrush="{x:Bind BorderBrush}" CornerRadius="{x:Bind CornerRadius}">
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>

@@ -7,40 +7,50 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:lyric1="using:VtuberMusic_UWP.Components.Lyric"
     xmlns:lyric="using:VtuberMusic_UWP.Models.Lyric"
-    xmlns:tools="using:VtuberMusic_UWP.Tools"
+    xmlns:tools="using:VtuberMusic_UWP.Tools" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     RequestedTheme="Dark"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <ThemeShadow x:Name="ShareShadow"/>
-    </Page.Resources>
     <Page.Background>
         <ImageBrush ImageSource="{x:Bind player.NowPlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill"/>
     </Page.Background>
-    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}" Padding="20 20 20 0">
+    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}" Padding="20 0 20 0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel VerticalAlignment="Center">
-            <StackPanel Margin="0 5 0 10" HorizontalAlignment="Center">
-                <TextBlock x:Name="MusicName" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBlock x:Name="Artist" Text="{x:Bind player.NowPlayingMusic.artists, Mode=OneWay, Converter={StaticResource ArtistStringConverter}}" FontSize="14" HorizontalAlignment="Center"/>
-            </StackPanel>
-            <Grid Margin="0 0 10 0">
+        <StackPanel Margin="0 30 0 0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Height="55" Width="55" CornerRadius="10" Shadow="{StaticResource Shadow}"
+                      Translation="0,0,32" VerticalAlignment="Top">
+                    <Image Source="{x:Bind player.NowPlayingMusic.picUrl ,Mode=OneWay}"
+                           Stretch="UniformToFill"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+                <StackPanel Margin="10 0 0 10" Grid.Column="1" HorizontalAlignment="Left">
+                    <TextBlock x:Name="MusicName" HorizontalAlignment="Left" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontSize="18" FontWeight="Bold"
+                               TextWrapping="Wrap"/>
+                    <TextBlock x:Name="Artist" HorizontalAlignment="Left" Text="{x:Bind player.NowPlayingMusic.artists, Mode=OneWay, Converter={StaticResource ArtistStringConverter}}" FontSize="14"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0 10 10 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid>
-                    <TextBlock x:Name="NowPlayTime" Text="{x:Bind player.Position, Converter={StaticResource TimeSpanStringConverter}, Mode=OneWay}"/>
-                    <TextBlock x:Name="Duration" Text="{x:Bind player.Duration, Converter={StaticResource TimeSpanStringConverter}, Mode=OneWay}" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="NowPlayTime" Text="{x:Bind player.Position, Converter={StaticResource TimeSpanStringConverter}, Mode=OneWay}" FontSize="12"/>
+                    <TextBlock x:Name="Duration" Text="{x:Bind player.Duration, Converter={StaticResource TimeSpanStringConverter}, Mode=OneWay}" HorizontalAlignment="Right" FontSize="12"/>
                 </Grid>
-                <Slider x:Name="Position" ManipulationMode="All" Grid.Row="1"
-                                ManipulationStarted="Position_ManipulationStarted" PointerCaptureLost="Position_PointerCaptureLost"
-                                ManipulationCompleted="Position_ManipulationCompleted" IsThumbToolTipEnabled="False"
-                                Margin="0 -5 0 -10" Maximum="{x:Bind player.Duration, Mode=OneWay, Converter={StaticResource GetTimeSpanMsConverter}}"/>
+                <muxc:ProgressBar Grid.Row="1" Maximum="{x:Bind player.Duration, Mode=OneTime, Converter={StaticResource GetTimeSpanMsConverter}}"
+                                  Value="{x:Bind player.Position, Mode=OneWay, Converter={StaticResource GetTimeSpanMsConverter}}"
+                                  Margin="0 2 0 0" Foreground="{ThemeResource SystemBaseHighColor}"/>
             </Grid>
             <StackPanel Margin="0 5 0 0" HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button x:Name="PreviousButton" Style="{StaticResource CircleButton}" Height="40" Width="40" Click="PreviousButton_Click">
@@ -52,24 +62,35 @@
                 <Button x:Name="NextButton" Style="{StaticResource CircleButton}" Height="40" Width="40" Click="NextButton_Click">
                     <SymbolIcon Symbol="Next" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
-            </StackPanel>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button x:Name="ExitButton" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
-                        ToolTipService.ToolTip="退出画中画模式" Click="ExitButton_Click">
-                    <FontIcon Glyph="&#xE78B;" FontSize="12"/>
-                </Button>
-                <Button x:Name="Like" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent" Click="Like_Click"
+                <Button Style="{StaticResource CircleButton}" Height="40" Width="40">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button x:Name="ExitButton" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                        ToolTipService.ToolTip="退出画中画模式" Click="ExitButton_Click">
+                                    <FontIcon Glyph="&#xE78B;" FontSize="12"/>
+                                </Button>
+                                <Button x:Name="Like" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent" Click="Like_Click"
                                         ToolTipService.ToolTip="喜欢">
-                    <FontIcon x:Name="LikeMusicIcon" Glyph="{x:Bind player.NowPlayingMusic.like, Converter={StaticResource LikeMusicIconConverter}, Mode=OneWay}" FontSize="12"/>
-                </Button>
-                <Button x:Name="Add" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                    <FontIcon x:Name="LikeMusicIcon" Glyph="{x:Bind player.NowPlayingMusic.like, Converter={StaticResource LikeMusicIconConverter}, Mode=OneWay}" FontSize="12"/>
+                                </Button>
+                                <Button x:Name="Add" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
                                         ToolTipService.ToolTip="添加到..." Click="Add_Click">
-                    <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
-                </Button>
-                <Button x:Name="Share" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
+                                    <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                                </Button>
+                                <Button x:Name="Share" Height="30" Width="30" Padding="0" Background="Transparent" BorderBrush="Transparent"
                                         ToolTipService.ToolTip="分享" Click="Share_Click">
-                    <FontIcon Glyph="&#xE72D;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                                    <FontIcon Glyph="&#xE72D;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                                </Button>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                    <SymbolIcon Symbol="More"/>
                 </Button>
+            </StackPanel>
+            <StackPanel Margin="0 10 0 0">
+                <TextBlock Text="接下来播放:" Foreground="{ThemeResource SystemBaseMediumColor}" FontWeight="Bold"/>
+                <TextBlock x:Name="NextMusicInfo" Text="ECHO - 神楽めあ" Foreground="{ThemeResource SystemBaseMediumHighColor}" TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
         <Grid Grid.Column="1" Margin="10 0 0 0">

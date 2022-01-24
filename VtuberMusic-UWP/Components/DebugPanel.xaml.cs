@@ -91,15 +91,7 @@ namespace VtuberMusic_UWP.Components {
             InfoBarPopup.Show("执行命令", command.Title);
             this.popup.IsOpen = false;
 
-            try {
-                command.Do();
-            } catch (Exception ex) {
-                if (ex.StackTrace == null) {
-                    InfoBarPopup.Show("发生了一个异常", ex.Message, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
-                } else {
-                    InfoBarPopup.Show($"发生了一个异常: { ex.Message }", ex.StackTrace, Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error);
-                }
-            }
+            command.Do();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -60,6 +61,11 @@ namespace VtuberMusic_UWP.Tools {
             }
 
             return ( null );
+        }
+
+        public static string GetGitCommitInfo() {
+            var attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
+            return attributes.Length != 0 ? ( (AssemblyInformationalVersionAttribute)attributes[0] ).InformationalVersion : "Nan";
         }
     }
 }

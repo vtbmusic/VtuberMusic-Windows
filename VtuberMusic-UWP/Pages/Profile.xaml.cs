@@ -1,6 +1,8 @@
 ﻿using Microsoft.AppCenter.Analytics;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
@@ -65,7 +67,7 @@ namespace VtuberMusic_UWP.Pages {
             this.FavourtiteAlbumDataView.ItemsSource = favouriteAlbum.Data;
             this.FavouriteAlbumCount.Text = "共 " + favouriteAlbum.Data.Length + " 项";
 
-            this.LikeMusicAlbumDataView.ItemsSource = new Models.VtuberMusic.Album[] { likeMusicAlbum.Data.playlist };
+            this.LikeMusicCard.Source = likeMusicAlbum.Data.playlist;
             this.RecntPlay.ItemsSource = recentPlay.Data;
         }
 
@@ -119,29 +121,29 @@ namespace VtuberMusic_UWP.Pages {
             this.Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
         }
 
-        private async void LikeMusicAlbumDataView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e) {
-            if (this.albumPageType != "like") return;
-            this.cachePage = false;
+        //private async void LikeMusicAlbumDataView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e) {
+        //    if (this.albumPageType != "like") return;
+        //    this.cachePage = false;
 
-            this.LikeMusicAlbumDataView.ScrollIntoView(this._albumItem);
-            this.LikeMusicAlbumDataView.UpdateLayout();
+        //    this.LikeMusicAlbumDataView.ScrollIntoView(this._albumItem);
+        //    this.LikeMusicAlbumDataView.UpdateLayout();
 
-            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
-            if (animation != null) {
-                await this.LikeMusicAlbumDataView.TryStartConnectedAnimationAsync(animation, this._albumItem, "CoverImgBorder");
-            }
-        }
+        //    ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
+        //    if (animation != null) {
+        //        await this.LikeMusicAlbumDataView.TryStartConnectedAnimationAsync(animation, this._albumItem, "CoverImgBorder");
+        //    }
+        //}
 
-        private void LikeMusicAlbumDataView_ItemClick(object sender, ItemClickEventArgs e) {
-            this.cachePage = true;
+        //private void LikeMusicAlbumDataView_ItemClick(object sender, ItemClickEventArgs e) {
+        //    this.cachePage = true;
 
-            this.albumPageType = "like";
-            this._albumItem = ( (GridViewItem)this.LikeMusicAlbumDataView.ContainerFromItem(e.ClickedItem) ).Content;
-            var animation = this.LikeMusicAlbumDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
-                this._albumItem,
-                "CoverImgBorder");
+        //    this.albumPageType = "like";
+        //    this._albumItem = ( (GridViewItem)this.LikeMusicAlbumDataView.ContainerFromItem(e.ClickedItem) ).Content;
+        //    var animation = this.LikeMusicAlbumDataView.PrepareConnectedAnimation("ForwardConnectedAnimation",
+        //        this._albumItem,
+        //        "CoverImgBorder");
 
-            this.Frame.Navigate(typeof(Album), new AlbumPageArgs { Album = e.ClickedItem as Models.VtuberMusic.Album, IsLikeMusic = true }, new DrillInNavigationTransitionInfo());
-        }
+        //    this.Frame.Navigate(typeof(Album), new AlbumPageArgs { Album = e.ClickedItem as Models.VtuberMusic.Album, IsLikeMusic = true }, new DrillInNavigationTransitionInfo());
+        //}
     }
 }
