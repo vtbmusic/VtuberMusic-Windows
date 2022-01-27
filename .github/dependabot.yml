@@ -10,6 +10,6 @@ updates:
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "-- update-depend --\n"
+      prefix: "-- depend --\n"
     labels:
       - "依赖"
