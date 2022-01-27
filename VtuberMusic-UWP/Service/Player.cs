@@ -230,7 +230,10 @@ namespace VtuberMusic_UWP.Service {
             }
         }
 
-        private void Source_OpenOperationCompleted(MediaSource sender, MediaSourceOpenOperationCompletedEventArgs args) => this.Start();
+        private void Source_OpenOperationCompleted(MediaSource sender, MediaSourceOpenOperationCompletedEventArgs args) {
+            this.NotifyPropertyChanged(nameof(this.Duration));
+            this.Start();
+        }
         #endregion
 
         #region 播放器控制方法

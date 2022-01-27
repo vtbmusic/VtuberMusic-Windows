@@ -8,22 +8,51 @@
     xmlns:components="using:VtuberMusic_UWP.Components"
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight="250"
+    d:DesignWidth="200">
 
     <Grid Width="170" Margin="5 14" CornerRadius="10" Shadow="{StaticResource Shadow}" Translation="0,0,32"
           Background="{ThemeResource SystemControlAcrylicElementBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="HoveringStates">
+                <VisualState x:Name="Normal"/>
+                <VisualState x:Name="Hover">
+                    <VisualState.Setters>
+                        <Setter Target="HoverCover.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.ContextFlyout>
             <MenuFlyout>
-                <MenuFlyoutItem Text="test"/>
+                <MenuFlyoutItem Text="{x:Bind Source.name, Mode=OneWay}" IsEnabled="False"/>
+                <MenuFlyoutItem x:Name="FlyoutPlay" Icon="Play" Text="播放" Click="FlyoutPlay_Click" Tag="{x:Bind Source, Mode=OneWay}"/>
+                <MenuFlyoutSubItem x:Name="FlyoutAddTo" Icon="Add" Text="添加到..." Loaded="FlyoutAddTo_Loaded">
+                    <MenuFlyoutItem x:Name="FlyoutNext" Icon="Next" Text="下一首播放" Click="FlyoutNext_Click" Tag="{x:Bind Source, Mode=OneWay}"/>
+                    <MenuFlyoutSeparator/>
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutSubItem x:Name="FlyoutArtist" Loaded="FlyoutArtist_Loaded" Icon="Contact" Tag="{x:Bind Source, Mode=OneWay}" Text="歌手"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem x:Name="FlyoutShare" Click="FlyoutShare_Click" Icon="Share" Text="分享" Tag="{x:Bind Source, Mode=OneWay}"/>
             </MenuFlyout>
         </Grid.ContextFlyout>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Height="170" CornerRadius="10">
+        <Grid Height="170" CornerRadius="10" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
             <Image Source="{x:Bind Source.picUrl, Mode=OneWay}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Grid x:Name="HoverCover" Background="{ThemeResource SystemControlAcrylicElementBrush}" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource CircleButton}" Height="40" Width="40" Click="FlyoutPlay_Click" Tag="{x:Bind Source, Mode=OneWay}">
+                        <SymbolIcon Symbol="Play"/>
+                    </Button>
+                    <Button Style="{StaticResource CircleButton}" Height="40" Width="40">
+                        <SymbolIcon Symbol="Add"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
         </Grid>
         <StackPanel Grid.Row="1" Height="50" Padding="10 5"
                              Shadow="{StaticResource Shadow}" Translation="0,0,14">

@@ -27,5 +27,33 @@ namespace VtuberMusic_UWP.Components.DataItem {
         public MusicCardItem() {
             this.InitializeComponent();
         }
+
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e) {
+            VisualStateManager.GoToState(this, "Hover", true);
+        }
+
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e) {
+            VisualStateManager.GoToState(this, "Normal", true);
+        }
+
+        private void FlyoutPlay_Click(object sender, RoutedEventArgs e) {
+            App.Player.SetMusic(( sender as FrameworkElement ).Tag as Music);
+        }
+
+        private void FlyoutNext_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void FlyoutArtist_Loaded(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void FlyoutShare_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void FlyoutAddTo_Loaded(object sender, RoutedEventArgs e) {
+
+        }
     }
 }
