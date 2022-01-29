@@ -65,7 +65,7 @@ namespace VtuberMusic_UWP.Pages {
                     new Lyric { Source = "暂无歌词", Time = TimeSpan.Zero, Translation = "" }
                 };
             } else {
-                var request = new RestRequest(App.Player.NowPlayingMusic.vrcUrl, Method.GET);
+                var request = new RestRequest(App.Player.NowPlayingMusic.vrcUrl, Method.Get);
                 var response = await App.PublicClient.ExecuteAsync(request);
 
                 if (response.IsSuccessful) {

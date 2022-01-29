@@ -164,10 +164,6 @@ namespace VtuberMusic_UWP {
             // 设置国家代码
             var countryCode = new GeographicRegion().CodeTwoLetter;
             AppCenter.SetCountryCode(countryCode);
-            // 设置版本属性
-            var properties = new CustomProperties();
-            properties.Set("Commit", UsefullTools.GetGitCommitInfo());
-            AppCenter.SetCustomProperties(properties);
             // 崩溃上传确认
             Crashes.ShouldAwaitUserConfirmation = () => {
                 this.showCrashReport();

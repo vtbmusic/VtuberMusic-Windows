@@ -79,7 +79,7 @@ namespace VtuberMusic_UWP.Service {
         /// <param name="password">密码</param>
         /// <returns>Access Token / Refresh Token</returns>
         public async Task<ApiResponse<LoginData>> Login(string userName, string password) {
-            var request = new RestRequest(ApiUri.Login, Method.POST, DataFormat.Json);
+            var request = new RestRequest(ApiUri.Login, Method.Post);
 
             request.AddJsonBody(new {
                 userName = userName,
@@ -182,7 +182,7 @@ namespace VtuberMusic_UWP.Service {
                 { "like", like.ToString() }
             });
 
-            var request = new RestRequest(ApiUri.LikeMusic, Method.POST);
+            var request = new RestRequest(ApiUri.LikeMusic, Method.Post);
             request.AddParameter("id", id, ParameterType.QueryString);
             request.AddParameter("like", like.ToString().ToLower(), ParameterType.QueryString);
 
@@ -203,7 +203,7 @@ namespace VtuberMusic_UWP.Service {
         /// <param name="isPrivate">是否为隐私歌单</param>
         /// <returns>操作是否成功</returns>
         public async Task<ApiResponse> CreateAlbum(string name, bool isPrivate = false) {
-            var request = new RestRequest(ApiUri.CreateAlbum, Method.POST);
+            var request = new RestRequest(ApiUri.CreateAlbum, Method.Post);
             request.AddParameter("name", name, ParameterType.QueryString);
             if (isPrivate) request.AddParameter("privacy", isPrivate, ParameterType.QueryString);
 
@@ -227,7 +227,7 @@ namespace VtuberMusic_UWP.Service {
         public async Task<ApiResponse> TrackMusic(string pid, TrackType type, string[] musicIds) {
             Analytics.TrackEvent("添加音乐到歌单");
 
-            var request = new RestRequest(ApiUri.TrackMusic, Method.POST);
+            var request = new RestRequest(ApiUri.TrackMusic, Method.Post);
             request.AddParameter("pid", pid, ParameterType.QueryString);
             request.AddParameter("type", type.ToString(), ParameterType.QueryString);
             request.AddParameter("tracks", UsefullTools.ConvertStringArrayToString(musicIds), ParameterType.QueryString);
@@ -254,7 +254,7 @@ namespace VtuberMusic_UWP.Service {
             Analytics.TrackEvent("编辑歌单信息");
 
             tags = new string[] { "tag" };
-            var request = new RestRequest(ApiUri.EditAlbum, Method.POST);
+            var request = new RestRequest(ApiUri.EditAlbum, Method.Post);
             request.AddParameter("id", id, ParameterType.QueryString);
             request.AddParameter("name", name, ParameterType.QueryString);
             request.AddParameter("desc", desc, ParameterType.QueryString);
@@ -276,7 +276,7 @@ namespace VtuberMusic_UWP.Service {
                 { "Like", like.ToString() }
             });
 
-            var request = new RestRequest(ApiUri.SubscribeAlbum, Method.POST);
+            var request = new RestRequest(ApiUri.SubscribeAlbum, Method.Post);
             request.AddQueryParameter("id", id);
             request.AddQueryParameter("like", like.ToString());
 
@@ -291,7 +291,7 @@ namespace VtuberMusic_UWP.Service {
         }
 
         public async Task<ApiResponse> SendCode(string email) {
-            var request = new RestRequest(ApiUri.GetCaptchaCode, Method.POST);
+            var request = new RestRequest(ApiUri.GetCaptchaCode, Method.Post);
             request.AddQueryParameter("email", email);
 
             var response = await this._restClient.ExecuteAsync<ApiResponse>(request);
@@ -305,7 +305,7 @@ namespace VtuberMusic_UWP.Service {
         }
 
         public async Task<ApiResponse<AccountProfileData>> Register(string email, string password, string nickname, string code) {
-            var request = new RestRequest(ApiUri.Register, Method.POST);
+            var request = new RestRequest(ApiUri.Register, Method.Post);
             request.AddQueryParameter("email", email);
             request.AddQueryParameter("password", password);
             request.AddQueryParameter("nickname", nickname);

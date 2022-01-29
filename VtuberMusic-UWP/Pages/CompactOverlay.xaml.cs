@@ -95,7 +95,7 @@ namespace VtuberMusic_UWP.Pages {
                 };
             } else {
                 var client = new RestClient();
-                var request = new RestRequest(App.Player.NowPlayingMusic.vrcUrl, Method.GET);
+                var request = new RestRequest(App.Player.NowPlayingMusic.vrcUrl, Method.Get);
                 var response = await client.ExecuteAsync(request);
 
                 if (response.IsSuccessful) {
