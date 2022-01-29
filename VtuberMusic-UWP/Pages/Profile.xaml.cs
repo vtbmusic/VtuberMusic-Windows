@@ -3,6 +3,7 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using VtuberMusic_UWP.Tools;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
@@ -119,6 +120,10 @@ namespace VtuberMusic_UWP.Pages {
                 "CoverImgBorder");
 
             this.Frame.Navigate(typeof(Album), e.ClickedItem, new DrillInNavigationTransitionInfo());
+        }
+
+        private void Page_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e) {
+            MainParallaxView.Source = UsefullTools.FindVisualChild<ScrollViewer>(sender as Page);
         }
 
         //private async void LikeMusicAlbumDataView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e) {

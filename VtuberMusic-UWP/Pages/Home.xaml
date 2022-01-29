@@ -8,7 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:components="using:VtuberMusic_UWP.Components" xmlns:dataitem="using:VtuberMusic_UWP.Components.DataItem"
+    xmlns:components="using:VtuberMusic_UWP.Components"
+    xmlns:dataitem="using:VtuberMusic_UWP.Components.DataItem"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
@@ -24,82 +25,115 @@
         <ThemeShadow x:Key="ShareShadow"/>
     </Page.Resources>
 
-    <ScrollViewer>
-        <StackPanel Margin="10" Padding="0 0 0 80">
-            <TextBlock Text="发现" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
-            <TextBlock x:Name="Date" Text="10 月 6 日" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-            <TextBlock Text="编辑推荐" FontWeight="Bold" FontSize="16" Margin="10 5 10 0"/>
-            <GridView x:Name="BannerDataView" Margin="0 5" IsItemClickEnabled="True"
+    <ListView SelectionMode="None" Padding="10 10 0 80">
+        <ListView.Header>
+            <StackPanel>
+                <TextBlock Text="发现" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
+                <TextBlock x:Name="Date" Text="10 月 6 日" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+            </StackPanel>
+        </ListView.Header>
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.Items>
+            <ListViewItem>
+                <StackPanel>
+                    <TextBlock Text="编辑推荐" FontWeight="Bold" FontSize="16" Margin="10 5 10 0"/>
+                    <GridView x:Name="BannerDataView" Margin="0 5" IsItemClickEnabled="True"
                       SelectionMode="None"
                       ItemTemplate="{StaticResource BannerItemTemplate}" ScrollViewer.VerticalScrollMode="Disabled">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsStackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-            </GridView>
-            <TextBlock Text="最新发布" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
-            <GridView x:Name="NewMusicDataView" Margin="2 2 0 10" SelectionMode="None">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Music">
-                        <dataitem:MusicCardItem Source="{x:Bind}"/>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-            <TextBlock Text="大家都在听" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
-            <GridView x:Name="HotMusicDataView" Margin="2 2 0 10" SelectionMode="None">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Music">
-                        <dataitem:MusicCardItem Source="{x:Bind}"/>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-            <TextBlock Text="推荐歌单" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
-            <GridView x:Name="AlbumDataView" Loaded="AlbumDataView_Loaded" Margin="0 5"
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel>
+                    <TextBlock Text="最新发布" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
+                    <GridView x:Name="NewMusicDataView" Margin="2 2 0 10" SelectionMode="None">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Music">
+                                <dataitem:MusicCardItem Source="{x:Bind}"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel>
+                    <TextBlock Text="大家都在听" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
+                    <GridView x:Name="HotMusicDataView" Margin="2 2 0 10" SelectionMode="None">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Music">
+                                <dataitem:MusicCardItem Source="{x:Bind}"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel>
+                    <TextBlock Text="推荐歌单" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
+                    <GridView x:Name="AlbumDataView" Loaded="AlbumDataView_Loaded" Margin="0 5"
                       SelectionMode="None" IsItemClickEnabled="True" ItemClick="AlbumDataView_ItemClick">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Album">
-                        <dataitem:AlbumCardItem Source="{x:Bind}"/>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-            <TextBlock Text="人气歌手" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
-            <GridView x:Name="VtuberDataView" SelectionMode="None" Margin="0 10"
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Album">
+                                <dataitem:AlbumCardItem Source="{x:Bind}"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel>
+                    <TextBlock Text="人气歌手" FontWeight="Bold" FontSize="16" Margin="10 10 10 0"/>
+                    <GridView x:Name="VtuberDataView" SelectionMode="None" Margin="0 10"
                       IsItemClickEnabled="True" ItemClick="VtuberDataView_ItemClick" Loaded="VtuberDataView_Loaded">
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Artist">
-                        <StackPanel Width="110" Margin="5 0" Padding="0 10">
-                            <PersonPicture x:Name="Avater" ProfilePicture="{x:Bind imgUrl}" Shadow="{StaticResource ShareShadow}" Loaded="Avater_Loaded"
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Vertical" MaximumRowsOrColumns="1"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Artist">
+                                <StackPanel Width="110" Margin="5 0" Padding="0 10">
+                                    <PersonPicture x:Name="Avater" ProfilePicture="{x:Bind imgUrl}" Shadow="{StaticResource ShareShadow}" Loaded="Avater_Loaded"
                                            CornerRadius="50"/>
-                            <StackPanel CornerRadius="10" Margin="0 10 0 0" Padding="10 5" Height="50" Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                    <StackPanel CornerRadius="10" Margin="0 10 0 0" Padding="10 5" Height="50" Background="{ThemeResource SystemControlAcrylicElementBrush}"
                                         Shadow="{StaticResource ShareShadow}" Translation="0,0,14">
-                                <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind groupName}"/>
-                                <components:MarqueeText Text="{x:Bind name.origin}" FontSize="16"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+                                        <TextBlock Foreground="{ThemeResource SystemBaseMediumLowColor}" TextTrimming="CharacterEllipsis" FontSize="12" Text="{x:Bind groupName}"/>
+                                        <components:MarqueeText Text="{x:Bind name.origin}" FontSize="16"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+            </ListViewItem>
+        </ListView.Items>
+    </ListView>
+    <!--<ScrollViewer>
+        <StackPanel Margin="10" Padding="0 0 0 80">
         </StackPanel>
-    </ScrollViewer>
+    </ScrollViewer>-->
 </Page>

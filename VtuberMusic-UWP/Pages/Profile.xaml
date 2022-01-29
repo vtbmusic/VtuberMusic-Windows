@@ -9,54 +9,59 @@
     xmlns:components="using:VtuberMusic_UWP.Components"
     xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:collections="using:VtuberMusic_UWP.Components.Collections" xmlns:dataitem="using:VtuberMusic_UWP.Components.DataItem"
-    mc:Ignorable="d"
+    mc:Ignorable="d" Loaded="Page_Loaded"
     d:Background="{ThemeResource SystemControlAcrylicWindowBrush}">
 
-    <Page.Resources>
-        <ThemeShadow x:Key="ShareShadow"/>
-    </Page.Resources>
-    <ScrollViewer x:Name="Scroll">
-        <StackPanel CornerRadius="10" Padding="0 0 0 100">
-            <Grid Height="300" CornerRadius="10">
-                <ParallaxView Source="{Binding ElementName=Scroll}" VerticalShift="600">
-                    <Image Source="/Assets/SetupBackground/66681407_p0.jpg" Stretch="UniformToFill"/>
-                </ParallaxView>
-                <Grid VerticalAlignment="Bottom" Padding="10">
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#00000000"/>
-                            <GradientStop Color="#90000000" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Grid.Background>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <PersonPicture x:Name="Avatar" Height="80" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
-                    <StackPanel Margin="10 0" Grid.Column="1" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock x:Name="Nickname" Foreground="White" Text="Misaka-L" FontWeight="Bold" FontSize="24"/>
-                            <StackPanel Margin="10 0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
-                                <TextBlock x:Name="LevelText" FontSize="12" RequestedTheme="Dark" Foreground="{ThemeResource SystemBaseMediumColor}" Text="Lv.9"/>
-                                <ProgressBar x:Name="LevelExp" Width="200"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <TextBlock RequestedTheme="Dark" FontSize="12" Foreground="{ThemeResource SystemBaseMediumHighColor}" Text="个人签名"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" Padding="0 0 0 15" Orientation="Horizontal" VerticalAlignment="Bottom">
-                        <Button IsEnabled="False" Style="{StaticResource AccentButtonStyle}">
+    <ListView SelectionMode="None" CornerRadius="10" Padding="0 0 0 100">
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.Items>
+            <ListViewItem>
+                <Grid Height="300" CornerRadius="10">
+                    <ParallaxView x:Name="MainParallaxView" VerticalShift="600">
+                        <Image Source="/Assets/SetupBackground/66681407_p0.jpg" Stretch="UniformToFill"/>
+                    </ParallaxView>
+                    <Grid VerticalAlignment="Bottom" Padding="10">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#00000000"/>
+                                <GradientStop Color="#90000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <PersonPicture x:Name="Avatar" Height="80" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
+                        <StackPanel Margin="10 0" Grid.Column="1" VerticalAlignment="Center">
                             <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Margin="0 0 5 0" Foreground="White" VerticalAlignment="Center" Symbol="AddFriend"/>
-                                <TextBlock Foreground="White" FontSize="14" Text="关注" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="Nickname" Foreground="White" Text="Misaka-L" FontWeight="Bold" FontSize="24"/>
+                                <StackPanel Margin="10 0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1">
+                                    <TextBlock x:Name="LevelText" FontSize="12" RequestedTheme="Dark" Foreground="{ThemeResource SystemBaseMediumColor}" Text="Lv.9"/>
+                                    <ProgressBar x:Name="LevelExp" Width="200"/>
+                                </StackPanel>
                             </StackPanel>
-                        </Button>
-                    </StackPanel>
+                            <TextBlock RequestedTheme="Dark" FontSize="12" Foreground="{ThemeResource SystemBaseMediumHighColor}" Text="个人签名"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Padding="0 0 0 15" Orientation="Horizontal" VerticalAlignment="Bottom">
+                            <Button IsEnabled="False" Style="{StaticResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Margin="0 0 5 0" Foreground="White" VerticalAlignment="Center" Symbol="AddFriend"/>
+                                    <TextBlock Foreground="White" FontSize="14" Text="关注" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
-            </Grid>
-            <StackPanel Margin="0 10">
-                <StackPanel Orientation="Horizontal" CornerRadius="8" Padding="10"
-                                Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+            </ListViewItem>
+            <ListViewItem Margin="0 10">
+                <StackPanel Orientation="Horizontal" CornerRadius="8" Padding="10">
                     <StackPanel>
                         <TextBlock Text="音乐品味" FontWeight="Bold" FontSize="24" Margin="10 0 0 0"/>
                         <TextBlock x:Name="LikeMusicTitle" Text="Misaka_L 喜欢的音乐" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
@@ -68,8 +73,9 @@
                         <collections:MusicCardView x:Name="RecntPlay"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel CornerRadius="8" Padding="10" Margin="0 10"
-                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel CornerRadius="8" Padding="10" Margin="0 10">
                     <TextBlock Text="创建的歌单" FontWeight="Bold" FontSize="24" Margin="10 10 0 0"/>
                     <TextBlock x:Name="CreateAlbumCount" Text="共 2 项" FontSize="12" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <GridView x:Name="CreateAlbumDataView" Loaded="CreateAlbumDataView_Loaded"
@@ -88,8 +94,9 @@
                         </GridView.ItemTemplate>
                     </GridView>
                 </StackPanel>
-                <StackPanel CornerRadius="8" Padding="10"
-                            Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel CornerRadius="8" Padding="10">
                     <TextBlock Text="收藏的歌单" FontWeight="Bold" FontSize="24" Margin="10 10 0 0"/>
                     <TextBlock x:Name="FavouriteAlbumCount" FontSize="12" Text="共 6 项" Margin="10 5 0 10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <GridView x:Name="FavourtiteAlbumDataView" Loaded="FavoutiteAlbumDataView_Loaded"
@@ -108,7 +115,7 @@
                         </GridView.ItemTemplate>
                     </GridView>
                 </StackPanel>
-            </StackPanel>
-        </StackPanel>
-    </ScrollViewer>
+            </ListViewItem>
+        </ListView.Items>
+    </ListView>
 </Page>
