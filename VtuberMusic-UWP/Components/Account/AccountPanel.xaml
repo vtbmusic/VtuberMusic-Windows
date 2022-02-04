@@ -21,7 +21,7 @@
                 </PersonPicture.ProfilePicture>
             </PersonPicture>
             <StackPanel Grid.Column="1" Margin="12 0 0 0">
-                <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname, Mode=OneWay, TargetNullValue=未登录}" FontWeight="Bold" FontSize="16"/>
+                <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname, Mode=OneWay, TargetNullValue=未登录}" FontWeight="SemiBold" FontSize="16"/>
                 <TextBlock x:Name="Signature" Text="{x:Bind account.Profile.signature, Mode=OneWay, TargetNullValue=这个人并没有个人签名}" TextWrapping="Wrap" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                 <Grid Margin="0 2 0 0">
                     <TextBlock x:Name="LevelText" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}">

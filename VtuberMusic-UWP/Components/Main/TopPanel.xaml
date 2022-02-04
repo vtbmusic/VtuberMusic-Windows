@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:account="using:VtuberMusic_UWP.Components.Account"
-    xmlns:player="using:VtuberMusic_UWP.Components.Player"
+    xmlns:player="using:VtuberMusic_UWP.Components.Player" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:VtuberMusic_UWP.Components"
     mc:Ignorable="d" Background="{x:Null}" Loaded="UserControl_Loaded"
     d:DesignHeight="48"
     d:DesignWidth="1920">
@@ -28,25 +28,115 @@
             <AutoSuggestBox x:Name="SearchKeyword" Grid.Column="1" Margin="5 0"
                             VerticalAlignment="Center" PlaceholderText="搜索歌曲、歌手、歌单..."
                             QueryIcon="Find" QuerySubmitted="SearchKeyword_QuerySubmitted"/>
-            <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right"
-                    CornerRadius="10" Padding="0" Background="Transparent" BorderBrush="Transparent">
-                <Button.Flyout>
-                    <Flyout Placement="BottomEdgeAlignedRight">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="10 10"/>
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <account:AccountPanel/>
-                    </Flyout>
-                </Button.Flyout>
-                <PersonPicture Height="28">
-                    <PersonPicture.ProfilePicture>
-                        <BitmapImage x:Name="Avatar" UriSource="{x:Bind account.Profile.avatarUrl, Mode=OneWay, TargetNullValue=https://cdn.aqua.chat/user/Deforuto.png}" DecodePixelHeight="40" DecodePixelWidth="40"/>
-                    </PersonPicture.ProfilePicture>
-                </PersonPicture>
-            </Button>
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
+                <!--<Button Height="28" Width="28" CornerRadius="15" Padding="0" Margin="5 0">
+                    <Button.Flyout>
+                        <Flyout Placement="Bottom">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <components:NavigationViewPivot Height="400">
+                                <components:NavigationViewPivot.PaneHeader>
+                                    <TextBlock Text="通知" VerticalAlignment="Center" FontWeight="SemiBold" Margin="10 0 0 0"/>
+                                </components:NavigationViewPivot.PaneHeader>
+                                <components:NavigationViewPivot.MenuItems>
+                                    <components:NavigationViewPivotItem Title="回复">
+                                        <components:NavigationViewPivotItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE97A;" />
+                                        </components:NavigationViewPivotItem.Icon>
+                                        <components:NavigationViewPivotItem.Content>
+                                            <ListView SelectionMode="None" IsItemClickEnabled="True">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource ListViewItemExpanded}">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.Items>
+                                                    <ListViewItem>
+                                                        <Grid Margin="0 10">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <muxc:PersonPicture VerticalAlignment="Top" Height="40" ProfilePicture="https://cdn.aqua.chat/user/12616722794865008642908f189f61b4f6ec4b1cc7ad2d05de9.jpg"/>
+                                                            <StackPanel Grid.Column="1" Margin="5 0">
+                                                                <TextBlock Text="粉笔 回复了我的评论" FontWeight="SemiBold" TextWrapping="WrapWholeWords"/>
+                                                                <TextBlock Text="哼 哼 嗯啊阿啊阿啊阿啊阿啊阿啊阿啊阿啊阿啊阿啊" TextWrapping="WrapWholeWords"/>
+                                                                <TextBlock HorizontalAlignment="Right" Text="2022-1-31 1:10" Foreground="{ThemeResource SystemBaseMediumLowColor}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </ListViewItem>
+                                                </ListView.Items>
+                                            </ListView>
+                                        </components:NavigationViewPivotItem.Content>
+                                    </components:NavigationViewPivotItem>
+                                    <components:NavigationViewPivotItem Title="提及">
+                                        <components:NavigationViewPivotItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource ContentControlThemeFontFamily}" Glyph="@"/>
+                                        </components:NavigationViewPivotItem.Icon>
+                                    </components:NavigationViewPivotItem>
+                                    <components:NavigationViewPivotItem Title="点赞">
+                                        <components:NavigationViewPivotItem.Icon>
+                                            <SymbolIcon Symbol="Like"/>
+                                        </components:NavigationViewPivotItem.Icon>
+                                    </components:NavigationViewPivotItem>
+                                    <components:NavigationViewPivotItem Title="系统">
+                                        <components:NavigationViewPivotItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEDAC;" />
+                                        </components:NavigationViewPivotItem.Icon>
+                                    </components:NavigationViewPivotItem>
+                                </components:NavigationViewPivot.MenuItems>
+                            </components:NavigationViewPivot>
+                            --><!--<muxc:NavigationView Height="400" PaneDisplayMode="Top" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneTitle="通知">
+                                <muxc:NavigationView.MenuItems>
+                                    <muxc:NavigationViewItem Content="回复">
+                                        <muxc:NavigationViewItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE97A;" />
+                                        </muxc:NavigationViewItem.Icon>
+                                    </muxc:NavigationViewItem>
+                                    <muxc:NavigationViewItem Content="提及">
+                                        <muxc:NavigationViewItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource ContentControlThemeFontFamily}" Glyph="@"/>
+                                        </muxc:NavigationViewItem.Icon>
+                                    </muxc:NavigationViewItem>
+                                    <muxc:NavigationViewItem Icon="Like" Content="点赞"/>
+                                    <muxc:NavigationViewItem Content="系统">
+                                        <muxc:NavigationViewItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEDAC;" />
+                                        </muxc:NavigationViewItem.Icon>
+                                    </muxc:NavigationViewItem>
+                                </muxc:NavigationView.MenuItems>
+                                <muxc:NavigationView.PaneFooter>
+                                    <HyperlinkButton Content="查看全部"/>
+                                </muxc:NavigationView.PaneFooter>
+
+                            </muxc:NavigationView>--><!--
+                        </Flyout>
+                    </Button.Flyout>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="16" Glyph="&#xEDAC;" />
+                </Button>-->
+                <Button CornerRadius="15" Padding="0" Background="Transparent" BorderBrush="Transparent">
+                    <Button.Flyout>
+                        <Flyout Placement="BottomEdgeAlignedRight">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="10 10"/>
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <account:AccountPanel/>
+                        </Flyout>
+                    </Button.Flyout>
+                    <PersonPicture Height="28">
+                        <PersonPicture.ProfilePicture>
+                            <BitmapImage x:Name="Avatar" UriSource="{x:Bind account.Profile.avatarUrl, Mode=OneWay, TargetNullValue=https://cdn.aqua.chat/user/Deforuto.png}" DecodePixelHeight="40" DecodePixelWidth="40"/>
+                        </PersonPicture.ProfilePicture>
+                    </PersonPicture>
+                </Button>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

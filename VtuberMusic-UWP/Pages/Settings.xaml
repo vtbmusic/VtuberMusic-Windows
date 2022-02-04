@@ -30,7 +30,7 @@
                         <PersonPicture x:Name="Avatar" Margin="15" ProfilePicture="{x:Bind account.Profile.avatarUrl}"/>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock x:Name="Username" Text="{x:Bind account.Account.userName}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                            <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname}" FontWeight="Bold" FontSize="24"/>
+                            <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname}" FontWeight="SemiBold" FontSize="24"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="30 0" Grid.Column="2">
                             <Button x:Name="EditProfile" Margin="10 0" Click="EditProfile_Click">
@@ -48,7 +48,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-                <TextBlock Text="个性化" FontWeight="Bold" Margin="10"/>
+                <TextBlock Text="个性化" FontWeight="SemiBold" Margin="10"/>
                 <Grid Background="{ThemeResource LayerFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Height="60" CornerRadius="8" Padding="20 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -66,7 +66,7 @@
                         <ComboBoxItem>深色</ComboBoxItem>
                     </ComboBox>
                 </Grid>
-                <TextBlock Text="高级" FontWeight="Bold" Margin="10"/>
+                <TextBlock Text="高级" FontWeight="SemiBold" Margin="10"/>
                 <controls:InfoBar
                         Margin="0 0 0 10"
                         Severity="Warning"
@@ -105,7 +105,7 @@
             </StackPanel>
         </ScrollViewer>
         <StackPanel Grid.Column="1" Padding="10">
-            <TextBlock Text="关于和反馈" FontWeight="Bold" Margin="10 0 0 10"/>
+            <TextBlock Text="关于和反馈" FontWeight="SemiBold" Margin="10 0 0 10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Image Source="/Assets/Icon/Original/Icon.png" Height="80"/>
                 <StackPanel VerticalAlignment="Center">

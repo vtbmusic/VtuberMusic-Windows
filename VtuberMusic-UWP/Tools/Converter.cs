@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using VtuberMusic_UWP.Components;
 using VtuberMusic_UWP.Models.VtuberMusic;
 using Windows.Media.Playback;
 using Windows.UI.Xaml;
@@ -154,6 +155,17 @@ namespace VtuberMusic_UWP.Tools {
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string culture) {
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
+    public class NavigationViewPicvotItemConver : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            if (value == null) return null;
+            return ( value as NavigationViewPivotItem ).Content;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
             return DependencyProperty.UnsetValue;
         }
     }

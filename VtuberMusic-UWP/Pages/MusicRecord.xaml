@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="历史播放" FontWeight="Bold" FontSize="24" Margin="20 0 0 10"/>
+        <TextBlock Text="历史播放" FontWeight="SemiBold" FontSize="24" Margin="20 0 0 10"/>
         <ListView x:Name="DataView" Grid.Row="1" DoubleTapped="DataView_DoubleTapped" ScrollViewer.VerticalScrollMode="Auto" Padding="0 0 0 100">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vtubermusic:RecordMusic">

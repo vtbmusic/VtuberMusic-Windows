@@ -14,4 +14,5 @@
     <converter:ProfileExpStringConverter x:Key="ProfileExpStringConverter"/>
     <converter:NullVisabilityConverter x:Key="NullVisabilityConverter"/>
     <converter:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"/>
+    <converter:NavigationViewPicvotItemConver x:Key="NavigationViewPicvotItemConver"/>
 </ResourceDictionary>

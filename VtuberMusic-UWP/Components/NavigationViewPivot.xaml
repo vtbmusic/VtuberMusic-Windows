@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="VtuberMusic_UWP.Components.NavigationViewPivot"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic_UWP.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <muxc:NavigationView x:Name="MainNavigatonView" PaneDisplayMode="Top" IsSettingsVisible="False" IsBackButtonVisible="Collapsed"
+                         MenuItemsSource="{x:Bind MenuItems, Mode=OneWay}" PaneHeader="{x:Bind PaneHeader, Mode=OneWay}">
+        <muxc:NavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="local:NavigationViewPivotItem">
+                <muxc:NavigationViewItem Icon="{x:Bind Icon}" Content="{x:Bind Title}"/>
+            </DataTemplate>
+        </muxc:NavigationView.MenuItemTemplate>
+        <ContentControl Content="{x:Bind MainNavigatonView.SelectedItem, Converter={StaticResource NavigationViewPicvotItemConver}, Mode=OneWay}"/>
+    </muxc:NavigationView>
+</UserControl>

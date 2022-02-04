@@ -37,7 +37,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <components:MarqueeText x:Name="MusicName" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" Margin="0 0 0 18"/>
+                <components:MarqueeText x:Name="MusicName" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontWeight="SemiBold" Margin="0 0 0 18"/>
                 <ItemsControl x:Name="Vocal" Grid.Row="1" VerticalAlignment="Bottom" ItemsSource="{x:Bind player.NowPlayingMusic.artists, Mode=OneWay}" Margin="-2 0 0 0">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

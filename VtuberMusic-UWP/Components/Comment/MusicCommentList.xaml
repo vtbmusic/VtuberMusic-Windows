@@ -33,7 +33,7 @@
                                 </Grid.ColumnDefinitions>
                                 <PersonPicture ProfilePicture="{x:Bind user.avatarUrl}" Height="40" Width="40" VerticalAlignment="Top"/>
                                 <StackPanel Grid.Column="1" Margin="10 0 0 0">
-                                    <TextBlock Text="{x:Bind user.nickname}" FontWeight="Bold" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{x:Bind user.nickname}" FontWeight="SemiBold" TextWrapping="Wrap"/>
                                     <TextBlock Text="{x:Bind content}" TextWrapping="Wrap"/>
                                     <Grid Margin="0 5 0 0">
                                         <TextBlock Text="{x:Bind time}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
@@ -55,7 +55,7 @@
                                                 </Grid.ColumnDefinitions>
                                                 <PersonPicture ProfilePicture="{x:Bind user.avatarUrl, TargetNullValue=https://cdn.aqua.chat/user/Deforuto.png}" Height="40" Width="40" VerticalAlignment="Top"/>
                                                 <StackPanel Grid.Column="1" Margin="10 0 0 0">
-                                                    <TextBlock Text="{x:Bind user.nickname}" FontWeight="Bold" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{x:Bind user.nickname}" FontWeight="SemiBold" TextWrapping="Wrap"/>
                                                     <TextBlock Text="{x:Bind content}" TextWrapping="Wrap"/>
                                                     <Grid Margin="0 5 0 0">
                                                         <TextBlock Text="{x:Bind time}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>

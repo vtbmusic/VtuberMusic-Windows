@@ -32,7 +32,7 @@
                             <PersonPicture x:Name="Avatar" Margin="15" Height="80" ProfilePicture="https://cdn.aqua.chat/user/1298272546046611456a60613b465f2dd5c6f5848d3feb40ffd.jpg"/>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock x:Name="Email" Text="misaka-l@vtbmusic.icu" Foreground="{ThemeResource SystemBaseMediumColor}"/>
-                                <TextBlock x:Name="Nickname" Text="Misaka-L" FontWeight="Bold" FontSize="24"/>
+                                <TextBlock x:Name="Nickname" Text="Misaka-L" FontWeight="SemiBold" FontSize="24"/>
                             </StackPanel>
                         </Grid>
                     </Grid>

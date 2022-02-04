@@ -4,7 +4,7 @@
 
     <Style x:Name="NormalSourceLyric" TargetType="TextBlock">
         <Setter Property="Foreground" Value="DarkGray"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="FontSize" Value="24"/>
     </Style>
     <Style x:Name="NormalTranslationLyric" BasedOn="{StaticResource NormalSourceLyric}" TargetType="TextBlock">

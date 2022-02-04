@@ -87,7 +87,7 @@
                         <Image x:Name="CoverImg" Source="{x:Bind player.NowPlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Grid>
                     <StackPanel Grid.Row="2" Margin="0 20 0 0">
-                        <TextBlock x:Name="MusicName" Foreground="White" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock x:Name="MusicName" Foreground="White" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontSize="24" FontWeight="SemiBold"/>
                         <TextBlock x:Name="Artist" Foreground="White" Text="{x:Bind player.NowPlayingMusic.artists, Converter={StaticResource ArtistStringConverter}, Mode=OneWay}" FontSize="18"/>
                     </StackPanel>
                     <Grid Grid.Row="3" Margin="0 5">

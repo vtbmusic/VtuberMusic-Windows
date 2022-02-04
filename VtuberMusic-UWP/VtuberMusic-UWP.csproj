@@ -170,6 +170,9 @@
     <Compile Include="Components\MarqueeText.xaml.cs">
       <DependentUpon>MarqueeText.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\NavigationViewPivot.xaml.cs">
+      <DependentUpon>NavigationViewPivot.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\Player\MainPlayer.xaml.cs">
       <DependentUpon>MainPlayer.xaml</DependentUpon>
     </Compile>
@@ -408,6 +411,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\MarqueeText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\NavigationViewPivot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -142,7 +142,7 @@
                                                     <TextBlock Text="Lv." Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"/>
                                                     <TextBlock Text="{x:Bind level}" Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"/>
                                                 </StackPanel>
-                                                <TextBlock Text="{x:Bind nickname}" FontWeight="Bold"/>
+                                                <TextBlock Text="{x:Bind nickname}" FontWeight="SemiBold"/>
                                                 <TextBlock Text="{x:Bind signature, TargetNullValue= 这个人没有个人签名哦}" Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"
                                                            TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>

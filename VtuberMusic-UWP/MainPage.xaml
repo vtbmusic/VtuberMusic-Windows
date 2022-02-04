@@ -165,7 +165,7 @@
                             <ThemeShadow x:Name="ShareShadow"/>
                         </Grid.Resources>
 
-                        <Frame Name="NavigationFrame" Background="{ThemeResource LayerFillColorDefaultBrush}"/>
+                        <Frame Name="NavigationFrame"/>
                         <player:MainPlayer x:Name="MainPlayer" Margin="15" Loaded="MainPlayer_Loaded"
                                            Shadow="{StaticResource ShareShadow}" VerticalAlignment="Bottom">
                             <player:MainPlayer.RenderTransform>

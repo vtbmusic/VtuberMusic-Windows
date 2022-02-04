@@ -33,7 +33,7 @@
                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
                 <StackPanel Margin="10 0 0 10" Grid.Column="1" HorizontalAlignment="Left">
-                    <TextBlock x:Name="MusicName" HorizontalAlignment="Left" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontSize="18" FontWeight="Bold"
+                    <TextBlock x:Name="MusicName" HorizontalAlignment="Left" Text="{x:Bind player.NowPlayingMusic.name, Mode=OneWay}" FontSize="18" FontWeight="SemiBold"
                                TextWrapping="Wrap"/>
                     <TextBlock x:Name="Artist" HorizontalAlignment="Left" Text="{x:Bind player.NowPlayingMusic.artists, Mode=OneWay, Converter={StaticResource ArtistStringConverter}}" FontSize="14"
                                TextWrapping="Wrap"/>
@@ -89,7 +89,7 @@
                 </Button>
             </StackPanel>
             <StackPanel Margin="0 10 0 0">
-                <TextBlock Text="接下来播放:" Foreground="{ThemeResource SystemBaseMediumColor}" FontWeight="Bold"/>
+                <TextBlock Text="接下来播放:" Foreground="{ThemeResource SystemBaseMediumColor}" FontWeight="SemiBold"/>
                 <TextBlock x:Name="NextMusicInfo" Text="ECHO - 神楽めあ" Foreground="{ThemeResource SystemBaseMediumHighColor}" TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
