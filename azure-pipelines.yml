@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-- group: Build
+- group: uwp_config
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
@@ -23,8 +23,8 @@ variables:
   value: $[variables.PfxPassword]
 
 steps:
+- script: echo $(Password) 
 - task: NuGetToolInstaller@1
-
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
