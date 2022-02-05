@@ -11,8 +11,6 @@ pool:
 
 variables:
 - group: uwp_config
-- name: AssemblyInfoPath
-  value: '$(LocalPath)/VtuberMusic-UWP/Properties/AssemblyInfo.cs'
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
@@ -43,7 +41,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $Info = Get-Content $(AssemblyInfoPath)
+      $Info = Get-Content "$(Build.LocalPath)/VtuberMusic-UWP/Properties/AssemblyInfo.cs"
               $Info = $Info -replace "GitCommit","$(Build.SourceVersion)"
               $Info = $Info -replace "Build.Count","$(Build.BuildNumber)"
               Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
