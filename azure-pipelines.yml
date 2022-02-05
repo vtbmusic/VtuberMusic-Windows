@@ -44,8 +44,8 @@ steps:
     targetType: 'inline'
     script: |
       $Info = Get-Content $(AssemblyInfoPath)
-              $Info = $Info -replace "GitCommit",$(Build.SourceVersion)
-              $Info = $Info -replace "Build.Count",$(Build.BuildNumber)
+              $Info = $Info -replace "GitCommit","$(Build.SourceVersion)"
+              $Info = $Info -replace "Build.Count","$(Build.BuildNumber)"
               Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
 - task: VSBuild@1
   displayName: Build
