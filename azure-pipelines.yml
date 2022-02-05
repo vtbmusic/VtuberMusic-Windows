@@ -19,7 +19,7 @@ variables:
   value: 'Release'
 - name: appxPackageDir
   value: '$(build.artifactStagingDirectory)\AppxPackages\\'
-- name:
+- name: Password
   value: $[variables.PfxPassword]
 
 steps:
