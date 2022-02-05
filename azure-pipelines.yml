@@ -11,6 +11,8 @@ pool:
 
 variables:
 - group: uwp_config
+- name: AssemblyInfoPath
+  value: '**/Properties/AssemblyInfo.cs'
 - name: solution
   value: '**/*.sln'
 - name: buildPlatform
@@ -21,9 +23,19 @@ variables:
   value: '$(build.artifactStagingDirectory)\AppxPackages\\'
 - name: Password
   value: $[variables.PfxPassword]
+- name: NUGET_PACKAGES
+  value: $(Pipeline.Workspace)/.nuget/packages
 
 steps:
 - task: NuGetToolInstaller@1
+- task: Cache@2
+  inputs:
+    key: 'nuget | "$(Agent.OS)" | $(Build.SourcesDirectory)/**/packages.lock.json'
+    restoreKeys: |
+       nuget | "$(Agent.OS)"
+       nuget
+    path: $(NUGET_PACKAGES)
+  displayName: Cache NuGet packages
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
@@ -32,6 +44,12 @@ steps:
   displayName: 'Download CA certificate'
   inputs:
     secureFile: 'VtuberMusic-UWP_TemporaryKey.pfx'
+- script: |
+        $Info = Get-Content $(AssemblyInfoPath)
+        $Info = $Info -replace "GitCommit",$(Build.SourceVersion)
+        $Info = $Info -replace "Build.Count",$(Build.BuildNumber)
+        Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
+  displayName: Write Git Commit
 - task: VSBuild@1
   inputs:
     platform: 'x64'
@@ -51,7 +69,9 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@1
   displayName: 'Publish Artifact: drop'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    publishLocation: 'pipeline'
+    artifact: 'VtuberMusic_UWP'
