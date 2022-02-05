@@ -28,15 +28,9 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
-- task: Cache@2
-  inputs:
-    key: 'nuget | "$(Agent.OS)" | $(Build.SourcesDirectory)/**/packages.lock.json'
-    restoreKeys: |
-       nuget | "$(Agent.OS)"
-       nuget
-    path: $(NUGET_PACKAGES)
-  displayName: Cache NuGet packages
+  displayName: Install NuGet
 - task: NuGetCommand@2
+  displayName: Run Nuget
   inputs:
     restoreSolution: '$(solution)'
 - task: DownloadSecureFile@1
@@ -51,6 +45,7 @@ steps:
         Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
   displayName: Write Git Commit
 - task: VSBuild@1
+  displayName: Build
   inputs:
     platform: 'x64'
     solution: '$(solution)'
