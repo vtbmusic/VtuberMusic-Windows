@@ -12,7 +12,7 @@ pool:
 variables:
 - group: Build
 - name: solution
-  value: '**/*/sln'
+  value: '**/*.sln'
 - name: buildPlatform
   value: 'x86|x64|ARM'
 - name: buildConfiguration
