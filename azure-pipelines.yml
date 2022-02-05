@@ -44,7 +44,7 @@ steps:
       $Info = Get-Content "$(Build.Repository.LocalPath)/VtuberMusic-UWP/Properties/AssemblyInfo.cs"
               $Info = $Info -replace "GitCommit","$(Build.SourceVersion)"
               $Info = $Info -replace "Build.Count","$(Build.BuildNumber)"
-              Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
+              Set-Content -Path "$(Build.Repository.LocalPath)/VtuberMusic-UWP/Properties/AssemblyInfo.cs" -Value $Info
 - task: VSBuild@1
   displayName: Build
   inputs:
