@@ -10,7 +10,7 @@
   <Identity
     Name="VtuberMusic"
     Publisher="CN=VtuberMusic-Dev"
-    Version="2.0.2.0" />
+    Version="2.0.3.0" />
 
   <mp:PhoneIdentity PhoneProductId="a399079b-c898-4e42-a859-8a38c3434754" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
