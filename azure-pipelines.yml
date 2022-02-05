@@ -38,12 +38,15 @@ steps:
   displayName: 'Download CA certificate'
   inputs:
     secureFile: 'VtuberMusic-UWP_TemporaryKey.pfx'
-- script: |
-        $Info = Get-Content $(AssemblyInfoPath)
-        $Info = $Info -replace "GitCommit",$(Build.SourceVersion)
-        $Info = $Info -replace "Build.Count",$(Build.BuildNumber)
-        Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
+- task: PowerShell@2
   displayName: Write Git Commit
+  inputs:
+    targetType: 'inline'
+    script: |
+      $Info = Get-Content $(AssemblyInfoPath)
+              $Info = $Info -replace "GitCommit",$(Build.SourceVersion)
+              $Info = $Info -replace "Build.Count",$(Build.BuildNumber)
+              Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
 - task: VSBuild@1
   displayName: Build
   inputs:
