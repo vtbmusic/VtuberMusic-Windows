@@ -23,7 +23,6 @@ variables:
   value: $[variables.PfxPassword]
 
 steps:
-- script: echo $(Password) 
 - task: NuGetToolInstaller@1
 - task: NuGetCommand@2
   inputs:
