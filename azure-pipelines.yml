@@ -41,7 +41,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $Info = Get-Content "$(Build.LocalPath)/VtuberMusic-UWP/Properties/AssemblyInfo.cs"
+      $Info = Get-Content "$(Build.Repository.LocalPath)/VtuberMusic-UWP/Properties/AssemblyInfo.cs"
               $Info = $Info -replace "GitCommit","$(Build.SourceVersion)"
               $Info = $Info -replace "Build.Count","$(Build.BuildNumber)"
               Set-Content -Path $env:Wap_Project_Directory/Properties/AssemblyInfo.cs -Value $Info
