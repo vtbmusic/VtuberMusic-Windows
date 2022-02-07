@@ -9,7 +9,7 @@
     xmlns:player="using:VtuberMusic_UWP.Components.Player"
     xmlns:models="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:pages ="using:VtuberMusic_UWP.Pages"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:media="using:MicaForUWP.Media"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -115,10 +115,10 @@
     </Page.Resources>
 
     <Grid>
-        <Image x:Name="BackgroundImage" Source="{x:Bind ViewModel.BackgroundImageUri, Mode=OneWay}"
-               Stretch="UniformToFill"/>
+        <!--<Image x:Name="BackgroundImage" Source="{x:Bind ViewModel.BackgroundImageUri, Mode=OneWay}"
+               Stretch="UniformToFill"/>-->
         <main:TopPanel Margin="48 0 0 0" VerticalAlignment="Top" Canvas.ZIndex="1"/>
-        <muxc:NavigationView Name="Navigation" Background="{ThemeResource SystemControlAcrylicElementBrush}"
+        <muxc:NavigationView Name="Navigation" muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
                              IsBackButtonVisible="Visible" IsPaneToggleButtonVisible="False" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                              IsTitleBarAutoPaddingEnabled="False" BackRequested="Navigation_BackRequested">
             <muxc:NavigationView.MenuItems>

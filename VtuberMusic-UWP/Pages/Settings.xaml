@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    controls:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Background="{ThemeResource LayerFillColorDefaultBrush}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -32,7 +32,7 @@
                             <TextBlock x:Name="Username" Text="{x:Bind account.Account.userName}" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                             <TextBlock x:Name="Nickname" Text="{x:Bind account.Profile.nickname}" FontWeight="SemiBold" FontSize="24"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="30 0" Grid.Column="2">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 30 0" Grid.Column="2">
                             <Button x:Name="EditProfile" Margin="10 0" Click="EditProfile_Click">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="修改个人资料"/>
@@ -109,7 +109,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Image Source="/Assets/Icon/Original/Icon.png" Height="80"/>
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock x:Name="Version" Text="v2.0.2.0 &amp; main-13c8fc5" Margin="0 0 0 -10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                    <TextBlock x:Name="Version" Text="v2.0.2.0 &amp; main-13c8fc5" TextWrapping="Wrap" Margin="0 0 0 -10" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                     <TextBlock Text="VtuberMusic" FontFamily="Comic Sans MS" VerticalAlignment="Center" FontSize="36" Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"/>
                 </StackPanel>
             </StackPanel>

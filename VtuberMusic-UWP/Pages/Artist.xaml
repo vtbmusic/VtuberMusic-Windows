@@ -7,12 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:collections="using:VtuberMusic_UWP.Components.Collections"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Background="{ThemeResource LayerFillColorDefaultBrush}">
     
     <collections:MusicDataList x:Name="DataView" ItemsSource="{x:Bind dataList}" Loaded="DataView_Loaded" Padding="0 0 0 100">
         <collections:MusicDataList.Header>
-            <Grid Margin="0 0 0 20" Padding="20" CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}"
-                              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+            <Grid Margin="0 0 0 20" Padding="20" CornerRadius="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>

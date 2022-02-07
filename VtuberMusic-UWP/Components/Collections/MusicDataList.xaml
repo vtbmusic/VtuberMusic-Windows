@@ -14,7 +14,7 @@
               BorderThickness="{x:Bind BorderThickness}" BorderBrush="{x:Bind BorderBrush}" CornerRadius="{x:Bind CornerRadius}">
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
-                <ItemsStackPanel Background="{ThemeResource LayerFillColorDefaultBrush}"/>
+                <ItemsStackPanel/>
             </ItemsPanelTemplate>
         </ListView.ItemsPanel>
         <ListView.ItemTemplate>

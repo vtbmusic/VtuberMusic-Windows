@@ -9,13 +9,13 @@
     xmlns:model="using:VtuberMusic_UWP.Models.VtuberMusic"
     xmlns:components="using:VtuberMusic_UWP.Components"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:dataitem="using:VtuberMusic_UWP.Components.DataItem"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Background="{ThemeResource LayerFillColorDefaultBrush}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ThemeShadow x:Key="ShareShadow"/>
     </Page.Resources>
-    <Grid CornerRadius="10" Background="{ThemeResource LayerFillColorDefaultBrush}">
+    <Grid CornerRadius="10">
         <!--<muxc:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" Canvas.ZIndex="1" IsSettingsVisible="False">
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem Icon="Audio" Content="歌曲"/>
