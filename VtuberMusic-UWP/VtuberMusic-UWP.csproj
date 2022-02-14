@@ -581,7 +581,7 @@
       <Version>107.2.1</Version>
     </PackageReference>
     <PackageReference Include="RestSharp.Serializers.NewtonsoftJson">
-      <Version>107.2.1</Version>
+      <Version>107.3.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
