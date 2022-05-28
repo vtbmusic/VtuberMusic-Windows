@@ -575,7 +575,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.4.0</Version>
+      <Version>3.4.1</Version>
     </PackageReference>
     <PackageReference Include="RestSharp">
       <Version>107.2.1</Version>
