@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="VtuberMusic.App.Pages.Search"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:searchpanel="using:VtuberMusic.App.Controls.SearchPanel"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:SearchViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
+    <muxc:NavigationView x:Name="Nav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
+                         SelectionChanged="NavigationView_SelectionChanged">
+        <muxc:NavigationView.PaneHeader>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 10 0">
+                <TextBlock Margin="5 0" Text="搜索" FontSize="24" FontWeight="Bold"/>
+                <TextBlock Text="{x:Bind ViewModel.Keyword, Mode=OneWay}"
+                           Foreground="{ThemeResource SystemBaseMediumColor}" VerticalAlignment="Bottom" MaxWidth="80"
+                           TextTrimming="CharacterEllipsis" TextWrapping="Wrap"/>
+            </StackPanel>
+        </muxc:NavigationView.PaneHeader>
+        <muxc:NavigationView.MenuItems>
+            <muxc:NavigationViewItem x:Name="MusicItem" Content="歌曲">
+                <muxc:NavigationViewItem.Icon>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC4F;" />
+                </muxc:NavigationViewItem.Icon>
+            </muxc:NavigationViewItem>
+            <muxc:NavigationViewItem x:Name="PlaylistItem" Icon="MusicInfo" Content="歌单"/>
+            <muxc:NavigationViewItem x:Name="ArtistItem" Icon="Contact" Content="歌手"/>
+            <muxc:NavigationViewItem x:Name="UserItem" Icon="OtherUser" Content="用户"/>
+        </muxc:NavigationView.MenuItems>
+        <Grid>
+            <searchpanel:MusicSearchPanel x:Name="MusicPanel" Keyword="{x:Bind ViewModel.Keyword, Mode=OneWay}"
+                                          Visibility="{x:Bind ViewModel.IsSearchMusic, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"
+                                          x:Load="{x:Bind ViewModel.IsSearchMusic, Mode=OneWay}"/>
+            <searchpanel:PlaylistSearchPanel x:Name="PlaylistPanel" Keyword="{x:Bind ViewModel.Keyword, Mode=OneWay}"
+                                             Visibility="{x:Bind ViewModel.IsSearchPlaylist, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"
+                                             x:Load="{x:Bind ViewModel.IsSearchPlaylist, Mode=OneWay}"/>
+            <searchpanel:ArtistSearchPanel x:Name="ArtistPanel" Keyword="{x:Bind ViewModel.Keyword, Mode=OneWay}"
+                                           Visibility="{x:Bind ViewModel.IsSearchArtist, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"
+                                           x:Load="{x:Bind ViewModel.IsSearchArtist, Mode=OneWay}"/>
+            <searchpanel:UserSearchPanel x:Name="UserPanel"  Keyword="{x:Bind ViewModel.Keyword, Mode=OneWay}"
+                                         Visibility="{x:Bind ViewModel.IsSearchUser, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"
+                                         x:Load="{x:Bind ViewModel.IsSearchUser, Mode=OneWay}"/>
+        </Grid>
+    </muxc:NavigationView>
+</Page>

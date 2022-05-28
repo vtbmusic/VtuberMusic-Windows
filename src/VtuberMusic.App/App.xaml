@@ -1,0 +1,28 @@
+﻿<Application
+    x:Class="VtuberMusic.App.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converters="using:VtuberMusic.App.Converters"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    xmlns:expander="using:Richasy.ExpanderEx.Uwp">
+
+    <Application.Resources>
+        <controls:XamlControlsResources>
+            <controls:XamlControlsResources.MergedDictionaries>
+                <ResourceDictionary>
+                    <converters:FormatConverter x:Key="FormatConverter"/>
+                    <converters:ArtistStringConverter x:Key="ArtistStringConverter"/>
+                    <converters:VisibilityConvter x:Key="VisibilityConvter"/>
+                    <converters:DoubleTimeSpanConverter x:Key="DoubleTimeSpanConverter"/>
+                    <converters:PlayerStateConverter x:Key="PlayerStateConverter"/>
+                    <converters:PlayerPlaylistPlayModeConverter x:Key="PlayerPlaylistPlayModeConverter"/>
+                    <converters:TimeSpanDoubleConverter x:Key="TimeSpanDoubleConverter"/>
+                    <converters:DoubleConverter x:Key="DoubleConverter"/>
+                    <ThemeShadow x:Key="ShareShadow"/>
+                </ResourceDictionary>
+            </controls:XamlControlsResources.MergedDictionaries>
+        </controls:XamlControlsResources>
+    </Application.Resources>
+</Application>

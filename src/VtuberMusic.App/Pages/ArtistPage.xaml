@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="VtuberMusic.App.Pages.ArtistPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:controls="using:VtuberMusic.App.Controls"
+    xmlns:models="using:VtuberMusic.Core.Models"
+    xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
+    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:ArtistPageViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}"/>
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <controls:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
+        <ListView x:Name="MainListView" ItemsSource="{x:Bind ViewModel.Musics, Mode=OneWay}" Padding="{x:Bind ViewModel.MusicPlayerHeight}">
+            <ListView.Header>
+                <Grid BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Height="180" CornerRadius="8" Margin="10">
+                    <controls1:ImageEx Source="{x:Bind ViewModel.Artist.imgUrl, Mode=OneWay}" Stretch="UniformToFill"
+                                       HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                    <Grid Padding="20 25" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <PersonPicture ProfilePicture="{x:Bind ViewModel.Artist.imgUrl, Mode=OneWay}" Margin="0 0 0 5"/>
+                            <TextBlock Text="{x:Bind ViewModel.Artist.name.origin, Mode=OneWay}" FontSize="16" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="15 10">
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Margin="0 0 5 0" FontFamily="Segoe Fluent Icons" Glyph="&#xEE57;" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" />
+                                <TextBlock FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" Text="{x:Bind ViewModel.Artist.groupName}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Margin="0 0 5 0" FontFamily="Segoe Fluent Icons" Glyph="&#xE1C8;" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" />
+                                <TextBlock FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}">
+                            <Run Text="{x:Bind ViewModel.Artist.name.en, Mode=OneWay}"/>
+                            <Run Text="/"/>
+                            <Run Text="{x:Bind ViewModel.Artist.name.cn, Mode=OneWay}"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Margin="0 2" Orientation="Horizontal">
+                                <FontIcon Margin="0 0 5 0" FontFamily="Segoe Fluent Icons" Glyph="&#xE189;" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" />
+                                <TextBlock FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" Text="{x:Bind ViewModel.Artist.musicSize, Mode=OneWay}"/>
+                            </StackPanel>
+                            <StackPanel Margin="0 2" Orientation="Horizontal">
+                                <FontIcon Margin="0 0 5 0" FontFamily="Segoe Fluent Icons" Glyph="&#xE93C;" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" />
+                                <TextBlock FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" Text="{x:Bind ViewModel.Artist.albumSize, Mode=OneWay}"/>
+                            </StackPanel>
+                            <StackPanel Margin="0 2" Orientation="Horizontal">
+                                <FontIcon Margin="0 0 5 0" FontFamily="Segoe Fluent Icons" Glyph="&#xE125;" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" />
+                                <TextBlock FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" Text="{x:Bind ViewModel.Artist.likeSize, Mode=OneWay}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <AppBarButton Icon="Copy" Label="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind ViewModel.Artist, Mode=OneWay}"/>
+                            <AppBarButton Icon="Share" Label="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind ViewModel.Artist, Mode=OneWay}"/>
+                            <AppBarButton Icon="AddFriend" Label="关注"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Music">
+                    <dataitem:MusicListItem Music="{x:Bind}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </controls:LoadingCover>
+</Page>

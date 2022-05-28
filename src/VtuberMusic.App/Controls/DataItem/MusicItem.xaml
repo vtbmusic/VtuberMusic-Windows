@@ -1,0 +1,78 @@
+﻿<UserControl
+    x:Class="VtuberMusic.App.Controls.DataItem.MusicItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Controls.DataItem"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels" xmlns:core="using:Microsoft.Xaml.Interactions.Core" xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid x:Name="RootGrid" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
+        <Grid.ContextFlyout>
+            <MenuFlyout>
+                <MenuFlyoutItem Text="{x:Bind Music.name, Mode=OneWay}" IsEnabled="False"/>
+                <MenuFlyoutItem Icon="Play" Text="播放" Command="{x:Bind ViewModel.SetMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
+                <MenuFlyoutItem Icon="Next" Text="下一曲播放" Command="{x:Bind ViewModel.SetNextMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Icon="Add" Text="添加到歌单"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutSubItem x:Name="ArtistMenuFlyoutItem" Icon="People" Text="歌手"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Icon="Copy" Text="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
+                <MenuFlyoutItem Icon="Share" Text="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
+            </MenuFlyout>
+        </Grid.ContextFlyout>
+        <Grid.DataContext>
+            <viewmodels:AppViewModel x:Name="ViewModel"/>
+        </Grid.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="HoveringStates">
+                <VisualState x:Name="Hover">
+                    <VisualState.Setters>
+                        <Setter Target="HoverPanel.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Normal"/>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <interactivity:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="DoubleTapped">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.SetMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
+            </core:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
+        <Grid Shadow="{StaticResource ShareShadow}" Translation="0,0,16" CornerRadius="8" Margin="10 0">
+            <controls:ImageEx Source="{x:Bind Music.picUrl, Mode=OneWay}"
+                          Stretch="UniformToFill" Height="150" Width="150"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Grid x:Name="HoverPanel" Background="{ThemeResource SystemAltMediumColor}" Visibility="Collapsed">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                    <Button CornerRadius="20" Padding="10" Style="{ThemeResource AccentButtonStyle}"
+                            Command="{x:Bind ViewModel.SetMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}">
+                        <SymbolIcon Symbol="Play"/>
+                    </Button>
+                    <Button CornerRadius="20" Padding="10" Margin="5 0 0 0" Flyout="{x:Bind RootGrid.ContextFlyout}">
+                        <SymbolIcon Symbol="More"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <StackPanel CornerRadius="8" Grid.Row="1" Canvas.ZIndex="-1"
+                    Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
+                    Shadow="{StaticResource ShareShadow}" Translation="0,0,8" Margin="0 -10 0 0"
+                    Padding="0 5 0 0" Width="170">
+            <TextBlock Margin="10 10 10 0" Text="{x:Bind Music.artists, Converter={StaticResource ArtistStringConverter}, Mode=OneWay}"
+                       FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+            <TextBlock Text="{x:Bind Music.name, Mode=OneWay}"
+                       Margin="10 0 10 5" TextTrimming="CharacterEllipsis"
+                       FontSize="16"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

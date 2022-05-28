@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  IgnorableNamespaces="uap mp uap3">
+
+  <Identity
+    Name="VtuberMusic.App"
+    Publisher="CN=lipww"
+    Version="2.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="e20122f2-a8ac-47e7-acd0-b4e73773acd8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>VtuberMusic</DisplayName>
+    <PublisherDisplayName>VtuberMusic</PublisherDisplayName>
+    <Logo>Assets\Icon\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="VtuberMusic.App.App">
+      <uap:VisualElements
+        DisplayName="VtuberMusic"
+        Square150x150Logo="Assets\Icon\Square150x150Logo.png"
+        Square44x44Logo="Assets\Icon\Square44x44Logo.png"
+        Description="VtuberMusic"
+        BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Icon\Wide310x150Logo.png" Square71x71Logo="Assets\Icon\SmallTile.png" Square310x310Logo="Assets\Icon\LargeTile.png"/>
+        <uap:SplashScreen Image="Assets\Icon\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/>
+          <uap:Rotation Preference="landscapeFlipped"/></uap:InitialRotationPreference>
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <uap3:Capability Name="backgroundMediaPlayback"/>
+    <uap:Capability Name="musicLibrary"/>
+    <DeviceCapability Name="microphone"/>
+  </Capabilities>
+</Package>

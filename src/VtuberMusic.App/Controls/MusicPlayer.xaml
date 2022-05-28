@@ -1,0 +1,99 @@
+﻿<UserControl
+    x:Class="VtuberMusic.App.Controls.MusicPlayer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:models="using:VtuberMusic.Core.Models" xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.DataContext>
+        <viewmodels:MusicPlayerViewModel x:Name="ViewModel"/>
+    </UserControl.DataContext>
+    <Grid CornerRadius="8" Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
+          Shadow="{StaticResource ShareShadow}" Translation="0,0,32" Margin="10"
+          Height="80">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Background="Transparent" BorderBrush="Transparent"
+                Padding="0 0 5 0" Margin="5" CornerRadius="8" VerticalAlignment="Stretch"
+                Click="{x:Bind ShowPlaying_Click}">
+            <Grid MinWidth="230">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="5" CornerRadius="8">
+                    <controls:ImageEx Stretch="UniformToFill" Source="{x:Bind ViewModel.PlayingMusic.picUrl, Mode=OneWay}"
+                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5 0">
+                    <TextBlock Text="{x:Bind ViewModel.PlayingMusic.name, Mode=OneWay}" FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind ViewModel.PlayingMusic.artists, Mode=OneWay, Converter={StaticResource ArtistStringConverter}}" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </Grid>
+        </Button>
+        <Grid Grid.Column="1" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Command="{x:Bind ViewModel.PreviousMusicCommand}"
+                        Background="Transparent" BorderBrush="Transparent" Padding="5">
+                    <SymbolIcon Symbol="Previous"/>
+                </Button>
+                <Button Command="{x:Bind ViewModel.TogglePlayingCommand}"
+                        Background="Transparent" BorderBrush="Transparent" Padding="5" Margin="5 0"
+                        Content="{x:Bind ViewModel.PlayerState, Mode=OneWay, Converter={StaticResource PlayerStateConverter}}"/>
+                <Button Command="{x:Bind ViewModel.NextMusicCommand}"
+                        Background="Transparent" BorderBrush="Transparent" Padding="5">
+                    <SymbolIcon Symbol="Next"/>
+                </Button>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="35"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind ViewModel.PlayerPosition, Mode=OneWay, Converter={StaticResource FormatConverter}, ConverterParameter='{}{0:mm\\\\:ss}'}" VerticalAlignment="Center" Margin="0 0 0 2"/>
+                <Slider x:Name="PositionSlider" Maximum="{x:Bind ViewModel.PlayerDuration, Mode=OneWay, Converter={StaticResource TimeSpanDoubleConverter}}"
+                        StepFrequency="0.01" Grid.Column="1" VerticalAlignment="Center" Margin="5 0"/>
+                <TextBlock Text="{x:Bind ViewModel.PlayerDuration, Mode=OneWay, Converter={StaticResource FormatConverter}, ConverterParameter='{}{0:mm\\\\:ss}'}" Grid.Column="2" VerticalAlignment="Center" Margin="0 0 0 2"/>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="20 0">
+            <Button Background="Transparent" BorderBrush="Transparent" Padding="5">
+                <Button.Flyout>
+                    <Flyout>
+                        <Slider Value="{x:Bind ViewModel.Volume, Mode=OneWay}" Maximum="1" Width="100"/>
+                    </Flyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="Volume"/>
+            </Button>
+            <Button Command="{x:Bind ViewModel.TogglePlaylistPlayModeCommand}" Content="{x:Bind ViewModel.PlayerPlaylistPlayMode, Mode=OneWay, Converter={StaticResource PlayerPlaylistPlayModeConverter}}" Background="Transparent" BorderBrush="Transparent" Padding="5" Margin="5 0"/>
+            <Button Background="Transparent" BorderBrush="Transparent" Padding="5">
+                <Button.Flyout>
+                    <Flyout>
+                        <ListView ItemsSource="{x:Bind ViewModel.PlayerPlaylist}" Width="400" MaxHeight="450" CanReorderItems="True" AllowDrop="True">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Music">
+                                    <dataitem:MusicListItem Music="{x:Bind}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="MusicInfo"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
