@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtuberMusic.App", "VtuberMu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VtuberMusic.Core", "VtuberMusic.Core\VtuberMusic.Core.csproj", "{8ADDA106-C292-4134-A525-4D22EF43D282}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtuberMusic.AppCore", "VtuberMusic.Controller\VtuberMusic.AppCore.csproj", "{F757D634-EAD6-4093-91E2-503C8BF47A10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtuberMusic.AppCore", "VtuberMusic.AppCore\VtuberMusic.AppCore.csproj", "{F757D634-EAD6-4093-91E2-503C8BF47A10}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FC499B8B-B5FE-48F5-AA70-E6AE86E2A529}"
 	ProjectSection(SolutionItems) = preProject
