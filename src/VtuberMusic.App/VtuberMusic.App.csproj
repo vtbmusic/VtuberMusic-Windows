@@ -461,7 +461,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VtuberMusic.Controller\VtuberMusic.AppCore.csproj">
+    <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj">
       <Project>{f757d634-ead6-4093-91e2-503c8bf47a10}</Project>
       <Name>VtuberMusic.AppCore</Name>
     </ProjectReference>
