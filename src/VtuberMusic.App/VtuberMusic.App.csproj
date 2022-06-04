@@ -140,6 +140,9 @@
     <Compile Include="Controls\LoadingCover.xaml.cs">
       <DependentUpon>LoadingCover.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LyricItem.xaml.cs">
+      <DependentUpon>LyricItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MusicPlayer.xaml.cs">
       <DependentUpon>MusicPlayer.xaml</DependentUpon>
     </Compile>
@@ -388,6 +391,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LoadingCover.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LyricItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

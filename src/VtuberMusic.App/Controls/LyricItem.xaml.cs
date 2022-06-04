@@ -16,20 +16,9 @@ using Windows.UI.Xaml.Navigation;
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
 namespace VtuberMusic.App.Controls {
-    public sealed partial class Playing : UserControl {
-        public event EventHandler RequestClosePlaying;
-
-        public Playing() {
+    public sealed partial class LyricItem : UserControl {
+        public LyricItem() {
             this.InitializeComponent();
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e) {
-            RequestClosePlaying?.Invoke(this, null);
-        }
-
-        private void Border_SizeChanged(object sender, SizeChangedEventArgs e) {
-            CoverImgViewBox.Height = e.NewSize.Height;
-            CoverImgViewBox.Width = e.NewSize.Height;
         }
     }
 }
