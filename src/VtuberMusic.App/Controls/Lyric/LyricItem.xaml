@@ -1,0 +1,25 @@
+﻿<UserControl
+    x:Class="VtuberMusic.App.Controls.Lyric.LyricItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Controls.Lyric"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <StackPanel Padding="5 10">
+            <TextBlock Text="{x:Bind Words.Origin.Content, Mode=OneWay}" FontWeight="Bold" FontSize="26" TextWrapping="Wrap"/>
+            <TextBlock Text="{x:Bind Words.Translate.Content, Mode=OneWay}" Visibility="{x:Bind Words.Translate, Mode=OneWay, Converter={StaticResource NullVisibilityConvter}}"
+                    FontSize="18" Margin="0 2 0 0" TextWrapping="Wrap"/>
+        </StackPanel>
+        <Border Margin="0 5">
+            <Border.Background>
+                <media:BackdropBlurBrush x:Name="Blur" Amount="2"/>
+            </Border.Background>
+        </Border>
+    </Grid>
+</UserControl>

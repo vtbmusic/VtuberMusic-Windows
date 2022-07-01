@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:lyric="using:VtuberMusic.App.Controls.Lyric"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -48,7 +48,7 @@
                         <StackPanel>
                             <TextBlock Text="{x:Bind ViewModel.PlayingMusic.name, Mode=OneWay}" FontWeight="Bold" FontSize="24"/>
                             <TextBlock Text="{x:Bind ViewModel.PlayingMusic.artists, Mode=OneWay, Converter={StaticResource ArtistStringConverter}}"/>
-                            <Slider Margin="0 5 0 0"/>
+                            <Slider x:Name="PositionSlider" Margin="0 5 0 0"/>
                             <Grid>
                                 <TextBlock Text="{x:Bind ViewModel.PlayerPosition, Mode=OneWay, Converter={StaticResource FormatConverter}, ConverterParameter='{}{0:mm\\\\:ss}'}"
                                            FontWeight="SemiBold"/>
@@ -85,6 +85,7 @@
                     </Grid>
                 </Grid>
             </Grid>
+            <lyric:LyricView Grid.Column="1" Margin="0 50 10 0"/>
             <Button VerticalAlignment="Top" Click="{x:Bind Close_Click}" Margin="10" Background="Transparent" BorderBrush="Transparent">
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE70D;" />
             </Button>

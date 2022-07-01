@@ -140,8 +140,11 @@
     <Compile Include="Controls\LoadingCover.xaml.cs">
       <DependentUpon>LoadingCover.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LyricItem.xaml.cs">
+    <Compile Include="Controls\Lyric\LyricItem.xaml.cs">
       <DependentUpon>LyricItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Lyric\LyricView.xaml.cs">
+      <DependentUpon>LyricView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MusicPlayer.xaml.cs">
       <DependentUpon>MusicPlayer.xaml</DependentUpon>
@@ -171,12 +174,14 @@
     <Compile Include="Converters\PlayerPlaylistPlayModeConverter.cs" />
     <Compile Include="Converters\PlayerStateConverter.cs" />
     <Compile Include="Converters\TimeSpanDoubleConverter.cs" />
+    <Compile Include="Converters\NullVisibilityConvter.cs" />
     <Compile Include="Converters\VisibilityConvter.cs" />
     <Compile Include="Dialogs\PrivacyContentDialog.xaml.cs">
       <DependentUpon>PrivacyContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\DispatcherHelper.cs" />
     <Compile Include="Helper\TitleBarHelper.cs" />
+    <Compile Include="Messages\NowLyricChangedMessage.cs" />
     <Compile Include="Models\NavigationTag.cs" />
     <Compile Include="PageArgs\AppPageArg.cs" />
     <Compile Include="PageArgs\ArtistPageArg.cs" />
@@ -220,6 +225,7 @@
     <Compile Include="ViewModels\DiscoverViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
+    <Compile Include="ViewModels\Lyric\LyricViewViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MusicPlayerViewModel.cs" />
     <Compile Include="ViewModels\PlayingViewModel.cs" />
@@ -353,12 +359,15 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.13</Version>
+      <Version>6.2.14</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>7.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Media">
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Richasy.ExpanderEx.UWP">
@@ -394,7 +403,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\LyricItem.xaml">
+    <Page Include="Controls\Lyric\LyricItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Lyric\LyricView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

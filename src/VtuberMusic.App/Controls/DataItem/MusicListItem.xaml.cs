@@ -1,5 +1,4 @@
-﻿using System;
-using VtuberMusic.Core.Models;
+﻿using VtuberMusic.Core.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

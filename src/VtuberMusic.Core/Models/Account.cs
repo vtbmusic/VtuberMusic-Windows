@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace VtuberMusic.Core.Models {
+﻿namespace VtuberMusic.Core.Models {
     public class Account {
         public string id { get; set; }
         public string userName { get; set; }

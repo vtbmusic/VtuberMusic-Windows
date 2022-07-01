@@ -1,6 +1,7 @@
 ﻿using Refit;
 using System.Threading.Tasks;
 using VtuberMusic.Core.Models;
+using VtuberMusic.Core.Models.Lyric;
 
 namespace VtuberMusic.Core.Services {
     public partial interface IVtuberMusicService {
@@ -12,5 +13,8 @@ namespace VtuberMusic.Core.Services {
 
         [Get("/v2/search?type=song")]
         Task<Models.ApiResponse<Music[]>> SearchMusic(string keyword, int limit = 50, int offset = 0);
+
+        [Get("/lyric")]
+        Task<Vrc> GetLyric(string id);
     }
 }

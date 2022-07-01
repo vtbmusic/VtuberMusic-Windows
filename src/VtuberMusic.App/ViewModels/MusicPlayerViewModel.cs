@@ -1,16 +1,10 @@
-﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
+﻿using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VtuberMusic.App.Helper;
 using VtuberMusic.AppCore.Enums;
 using VtuberMusic.AppCore.Messages;
-using VtuberMusic.AppCore.Services;
 using VtuberMusic.Core.Models;
 using Windows.Media.Playback;
 

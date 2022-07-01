@@ -20,6 +20,7 @@
                     <converters:PlayerPlaylistPlayModeConverter x:Key="PlayerPlaylistPlayModeConverter"/>
                     <converters:TimeSpanDoubleConverter x:Key="TimeSpanDoubleConverter"/>
                     <converters:DoubleConverter x:Key="DoubleConverter"/>
+                    <converters:NullVisibilityConvter x:Key="NullVisibilityConvter"/>
                     <ThemeShadow x:Key="ShareShadow"/>
                 </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>

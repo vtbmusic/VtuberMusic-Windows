@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -16,6 +12,10 @@ namespace VtuberMusic.App.Helper {
 
         public async static void TryRun(DispatchedHandler dispatchedHandler) {
             await Dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, dispatchedHandler);
+        }
+
+        public async static void TryRun(CoreDispatcher dispatcher, DispatchedHandler dispatchedHandler) {
+            await dispatcher.TryRunAsync(CoreDispatcherPriority.Normal, dispatchedHandler);
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VtuberMusic.App.ViewModels {
+﻿namespace VtuberMusic.App.ViewModels {
     public class SearchViewModel : AppViewModel {
         public string Keyword { get => keyword; set => SetProperty(ref keyword, value); }
         private string keyword;
