@@ -21,12 +21,20 @@ namespace VtuberMusic.App.ViewModels.Lyric {
 
         public LyricViewViewModel() : base() {
             LoadCommand = new AsyncRelayCommand(load);
+        }
 
+        protected override void OnActivated() {
+            base.OnActivated();
             WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackMusicChangedMessage message) {
                 DispatcherHelper.TryRun(delegate {
                     LoadCommand.Execute(null);
                 });
             });
+        }
+
+        protected override void OnDeactivated() {
+            base.OnDeactivated();
+            WeakReferenceMessenger.Default.UnregisterAll(this);
         }
 
         private async Task load() {

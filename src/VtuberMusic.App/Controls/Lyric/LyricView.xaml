@@ -11,7 +11,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:controls="using:VtuberMusic.App.Controls"
-    mc:Ignorable="d" Unloaded="UserControl_Unloaded"
+    mc:Ignorable="d" Unloaded="{x:Bind UserControl_Unloaded}" Loaded="{x:Bind UserControl_Loaded}"
     d:DesignHeight="300"
     d:DesignWidth="400">
 

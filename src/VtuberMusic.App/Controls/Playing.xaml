@@ -6,7 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:lyric="using:VtuberMusic.App.Controls.Lyric"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:lyric="using:VtuberMusic.App.Controls.Lyric"
+    Loaded="{x:Bind UserControl_Loaded}" Unloaded="{x:Bind UserControl_Unloaded}"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">

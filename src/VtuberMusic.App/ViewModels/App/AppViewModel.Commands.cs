@@ -1,9 +1,10 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System.Collections.Generic;
 using VtuberMusic.Core.Models;
 
 namespace VtuberMusic.App.ViewModels {
-    public partial class AppViewModel {
+    public partial class AppViewModel : ObservableRecipient {
         public IRelayCommand<Music> SetMusicCommand { get; }
         public IRelayCommand<Music> SetNextMusicCommand { get; }
         public IRelayCommand<IEnumerable<Music>> SetCollectionCommand { get; }

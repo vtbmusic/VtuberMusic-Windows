@@ -55,7 +55,10 @@ namespace VtuberMusic.App.ViewModels {
                         break;
                 }
             });
+        }
 
+        protected override void OnActivated() {
+            base.OnActivated();
             WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackMusicChangedMessage message) {
                 DispatcherHelper.TryRun(delegate { OnPropertyChanged(nameof(PlayingMusic)); });
             });
@@ -78,6 +81,11 @@ namespace VtuberMusic.App.ViewModels {
                     OnPropertyChanged(nameof(PlayerPosition));
                 });
             });
+        }
+
+        protected override void OnDeactivated() {
+            base.OnDeactivated();
+            WeakReferenceMessenger.Default.UnregisterAll(this);
         }
     }
 }

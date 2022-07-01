@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls;
 namespace VtuberMusic.App.Controls.Lyric {
     public sealed partial class LyricView : UserControl {
         private int nowLyricIndex = -1;
+        private LyricItem nowLyricItem = null;
 
         public LyricView() {
             this.InitializeComponent();
@@ -20,15 +21,15 @@ namespace VtuberMusic.App.Controls.Lyric {
         private void toLyric(int index) {
             DispatcherHelper.TryRun(Dispatcher, delegate {
                 try {
-                    if (-1 < nowLyricIndex && nowLyricIndex < ViewModel.Lyric.Lyric.Length) {
-                        var preItem = (LyricItem)((ListViewItem)LyricListView.ContainerFromIndex(nowLyricIndex)).ContentTemplateRoot;
-                        preItem.Pass();
-                    }
+                    if (-1 < nowLyricIndex && nowLyricIndex < ViewModel.Lyric.Lyric.Length && nowLyricItem != null)
+                        nowLyricItem.Pass();
 
                     nowLyricIndex = index;
-                    var nowItem = (LyricItem)((ListViewItem)LyricListView.ContainerFromIndex(nowLyricIndex)).ContentTemplateRoot;
-                    nowItem.Show();
                     LyricListView.SmoothScrollIntoViewWithIndexAsync(index, ScrollItemPlacement.Center, false, true, 0, 100);
+                    if (LyricListView.ContainerFromIndex(nowLyricIndex) != null) {
+                        nowLyricItem = (LyricItem)((ListViewItem)LyricListView.ContainerFromIndex(nowLyricIndex)).ContentTemplateRoot;
+                        nowLyricItem.Show();
+                    }
                 } catch {
 
                 }
@@ -41,12 +42,14 @@ namespace VtuberMusic.App.Controls.Lyric {
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
             WeakReferenceMessenger.Default.UnregisterAll(this);
+            ViewModel.IsActive = false;
             GC.Collect();
         }
 
         private void LyricListView_Loaded(object sender, RoutedEventArgs e) {
             WeakReferenceMessenger.Default.Register(this, delegate (object s, PlaybackMusicChangedMessage message) {
                 nowLyricIndex = -1;
+                nowLyricItem = null;
             });
 
             WeakReferenceMessenger.Default.Register(this, delegate (object s, PlaybackPositionChangedMessage message) {
@@ -65,6 +68,10 @@ namespace VtuberMusic.App.Controls.Lyric {
                     }
                 }
             });
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+            ViewModel.IsActive = true;
         }
     }
 }

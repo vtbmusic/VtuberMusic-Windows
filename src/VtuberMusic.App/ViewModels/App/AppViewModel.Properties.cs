@@ -1,11 +1,12 @@
-﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using VtuberMusic.App.Services;
 using VtuberMusic.AppCore.Services;
 using Windows.UI.Xaml;
 
 namespace VtuberMusic.App.ViewModels {
-    public partial class AppViewModel {
+    public partial class AppViewModel : ObservableRecipient {
         public Thickness MusicPlayerHeight = new Thickness(0, 0, 0, 90);
 
         public INavigationService NavigationService = Ioc.Default.GetService<INavigationService>();

@@ -38,5 +38,9 @@ namespace VtuberMusic.App.Controls {
         private void ShowPlaying_Click(object sender, RoutedEventArgs e) {
             RequsetShowPlaying?.Invoke(this, null);
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+            ViewModel.IsActive = true;
+        }
     }
 }

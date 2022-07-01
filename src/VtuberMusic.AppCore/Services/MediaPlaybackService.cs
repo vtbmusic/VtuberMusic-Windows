@@ -25,7 +25,7 @@ namespace VtuberMusic.AppCore.Services {
 
         public Music NowPlaying {
             get => nowPlaying;
-            set {
+            private set {
                 nowPlaying = value;
                 PlayingChanged?.Invoke(this, nowPlaying);
                 WeakReferenceMessenger.Default.Send(new PlaybackMusicChangedMessage(value));

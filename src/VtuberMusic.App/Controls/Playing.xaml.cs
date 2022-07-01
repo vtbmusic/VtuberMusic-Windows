@@ -45,5 +45,13 @@ namespace VtuberMusic.App.Controls {
             CoverImgViewBox.Height = e.NewSize.Height;
             CoverImgViewBox.Width = e.NewSize.Height;
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+            ViewModel.IsActive = true;
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
+            ViewModel.IsActive = false;
+        }
     }
 }
