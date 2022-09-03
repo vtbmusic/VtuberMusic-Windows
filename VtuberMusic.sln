@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtuberMusic.App", "VtuberMusic.App\VtuberMusic.App.csproj", "{A914A99C-E54C-4970-A05C-F87CA0691568}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtuberMusic.App", "src\VtuberMusic.App\VtuberMusic.App.csproj", "{A914A99C-E54C-4970-A05C-F87CA0691568}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VtuberMusic.Core", "VtuberMusic.Core\VtuberMusic.Core.csproj", "{0CBBF5C2-80B7-45CD-9090-A0FE41098F3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VtuberMusic.Core", "src\VtuberMusic.Core\VtuberMusic.Core.csproj", "{0CBBF5C2-80B7-45CD-9090-A0FE41098F3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtuberMusic.AppCore", "VtuberMusic.AppCore\VtuberMusic.AppCore.csproj", "{764DCAD8-EF24-4575-943B-3E5E587E8DCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VtuberMusic.AppCore", "src\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj", "{764DCAD8-EF24-4575-943B-3E5E587E8DCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
