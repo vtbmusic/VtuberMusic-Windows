@@ -15,9 +15,6 @@
 
     <Grid x:Name="RootGrid" PointerEntered="RootGrid_PointerEntered" PointerExited="RootGrid_PointerExited"
           DoubleTapped="{x:Bind NavigateToPlaylist_Click}">
-        <Grid.DataContext>
-            <viewmodels:DataItemViewModel x:Name="ViewModel"/>
-        </Grid.DataContext>
         <Grid.ContextFlyout>
             <MenuFlyout>
                 <MenuFlyoutItem Text="{x:Bind Playlist.name, Mode=OneWay}" IsEnabled="False"/>

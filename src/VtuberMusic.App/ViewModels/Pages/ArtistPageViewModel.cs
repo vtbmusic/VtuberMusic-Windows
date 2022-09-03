@@ -1,16 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using VtuberMusic.AppCore.Helper;
+using VtuberMusic.App.Helper;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class ArtistPageViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+
+    public ArtistPageViewModel(IVtuberMusicService vtuberMusicService) {
+        _vtuberMusicService = vtuberMusicService;
+    }
 
     [ObservableProperty]
     private Artist artist;

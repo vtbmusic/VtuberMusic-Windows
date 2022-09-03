@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Threading.Tasks;
@@ -12,13 +11,15 @@ using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.Lyric;
 public partial class LyricViewViewModel : ObservableRecipient {
-    private readonly IVtuberMusicService VtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
-    private readonly IMediaPlayBackService MediaPlayBackService = Ioc.Default.GetService<IMediaPlayBackService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IMediaPlayBackService _mediaPlayBackService;
 
     [ObservableProperty]
     private ParsedVrc lyric;
 
-    public LyricViewViewModel() {
+    public LyricViewViewModel(IVtuberMusicService vtuberMusicService, IMediaPlayBackService mediaPlayBackService) {
+        _vtuberMusicService = vtuberMusicService;
+        _mediaPlayBackService = mediaPlayBackService;
     }
 
     protected override void OnActivated() {
@@ -37,9 +38,9 @@ public partial class LyricViewViewModel : ObservableRecipient {
 
     [RelayCommand]
     private async Task Load() {
-        if (MediaPlayBackService.NowPlaying != null) {
+        if (_mediaPlayBackService.NowPlaying != null) {
             try {
-                this.Lyric = await LyricHelper.ParsedVrcAsync(await VtuberMusicService.GetLyric(MediaPlayBackService.NowPlaying.id));
+                this.Lyric = await LyricHelper.ParsedVrcAsync(await _vtuberMusicService.GetLyric(_mediaPlayBackService.NowPlaying.id));
             } catch {
                 this.Lyric = null;
             }

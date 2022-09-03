@@ -20,7 +20,7 @@
                     <converters:NullVisibilityConvter x:Key="NullVisibilityConvter"/>
                     <ThemeShadow x:Key="ShareShadow"/>
 
-                    <Thickness x:Key="MusicPlayerHeight">0,0,0,40</Thickness>
+                    <Thickness x:Key="MusicPlayerHeight">0,0,0,80</Thickness>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

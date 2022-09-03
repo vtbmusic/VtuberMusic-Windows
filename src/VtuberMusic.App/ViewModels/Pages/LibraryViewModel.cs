@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,10 +9,15 @@ using VtuberMusic.App.Pages;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class LibraryViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
-    private readonly IAuthorizationService _authorizationService = Ioc.Default.GetService<IAuthorizationService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IAuthorizationService _authorizationService;
+
+    public LibraryViewModel(IVtuberMusicService vtuberMusicService, IAuthorizationService authorizationService) {
+        _vtuberMusicService = vtuberMusicService;
+        _authorizationService = authorizationService;
+    }
 
     [ObservableProperty]
     private ObservableCollection<Music> personalizedMusic = new ObservableCollection<Music>();

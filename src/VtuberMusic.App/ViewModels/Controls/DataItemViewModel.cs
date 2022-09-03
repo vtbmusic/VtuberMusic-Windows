@@ -13,7 +13,11 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace VtuberMusic.App.ViewModels.Controls;
 public partial class DataItemViewModel : ObservableObject {
-    private IMediaPlayBackService _mediaPlaybackService = Ioc.Default.GetService<IMediaPlayBackService>();
+    private readonly IMediaPlayBackService _mediaPlaybackService;
+
+    public DataItemViewModel(IMediaPlayBackService mediaPlaybackService) {
+        _mediaPlaybackService = mediaPlaybackService;
+    }
 
     [RelayCommand]
     public void NavigateToPlaylist(Playlist playlist) =>

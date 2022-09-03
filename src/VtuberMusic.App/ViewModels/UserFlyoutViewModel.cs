@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Messaging;
 using VtuberMusic.Core.Messages;
 using VtuberMusic.Core.Models;
@@ -7,7 +6,11 @@ using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
 public partial class UserFlyoutViewModel : ObservableRecipient {
-    private readonly IAuthorizationService _authorizationService = Ioc.Default.GetService<IAuthorizationService>();
+    private readonly IAuthorizationService _authorizationService;
+
+    public UserFlyoutViewModel(IAuthorizationService authorizationService) {
+        _authorizationService = authorizationService;
+    }
 
     [ObservableProperty]
     private Profile profile;

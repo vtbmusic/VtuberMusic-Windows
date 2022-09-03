@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class ProfilePageViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
 
     [ObservableProperty]
     private ObservableCollection<Playlist> createPlaylist = new();
@@ -21,7 +20,8 @@ public partial class ProfilePageViewModel : ObservableObject {
     [ObservableProperty]
     private Playlist favouritePlaylist;
 
-    public ProfilePageViewModel() {
+    public ProfilePageViewModel(IVtuberMusicService vtuberMusicService) {
+        _vtuberMusicService = vtuberMusicService;
     }
 
     [RelayCommand]
