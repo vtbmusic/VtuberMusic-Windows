@@ -19,6 +19,7 @@ public sealed partial class SettingPage : Page {
 
     private async void PrivacyDialog_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) {
         ContentDialog dialog = new() {
+            XamlRoot = this.XamlRoot,
             Title = "VtuberMusic 隐私协议",
             PrimaryButtonText = "确认",
             DefaultButton = ContentDialogButton.Primary,

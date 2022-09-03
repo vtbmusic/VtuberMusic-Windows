@@ -22,18 +22,6 @@ public partial class LoginPageViewModel : ObservableObject {
     }
 
     [RelayCommand]
-    public async void PrivacyDialog() {
-        ContentDialog dialog = new() {
-            Title = "VtuberMusic 隐私协议",
-            PrimaryButtonText = "确认",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = new PrivacyContentDialog()
-        };
-
-        await dialog.ShowAsync();
-    }
-
-    [RelayCommand]
     public async Task Login() {
         try {
             await _authorizationService.LoginAsync(this.Username, this.Password);
