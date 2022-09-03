@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class ProfilePageViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService;
 

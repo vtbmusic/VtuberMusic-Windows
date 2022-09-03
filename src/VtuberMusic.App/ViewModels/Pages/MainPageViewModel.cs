@@ -13,7 +13,7 @@ using VtuberMusic.App.Pages;
 using VtuberMusic.AppCore.Enums;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class MainPageViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService;
 

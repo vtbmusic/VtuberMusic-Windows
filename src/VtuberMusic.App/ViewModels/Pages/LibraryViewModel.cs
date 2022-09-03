@@ -10,7 +10,7 @@ using VtuberMusic.App.Pages;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class LibraryViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService;
     private readonly IAuthorizationService _authorizationService;

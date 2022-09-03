@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using VtuberMusic.App.PageArgs;
-using VtuberMusic.App.ViewModels;
+using VtuberMusic.App.ViewModels.Pages;
 using VtuberMusic.AppCore.Enums;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板

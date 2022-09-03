@@ -14,7 +14,7 @@ using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class PlaylistPageViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService;
     private readonly IMediaPlayBackService _mediaPlayBackService;

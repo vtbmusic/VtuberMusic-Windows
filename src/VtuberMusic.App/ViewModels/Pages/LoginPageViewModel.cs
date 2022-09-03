@@ -8,7 +8,7 @@ using VtuberMusic.App.Dialogs;
 using VtuberMusic.App.Pages;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels;
+namespace VtuberMusic.App.ViewModels.Pages;
 public partial class LoginPageViewModel : ObservableObject {
     private readonly IAuthorizationService _authorizationService;
 
