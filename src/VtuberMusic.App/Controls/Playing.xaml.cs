@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using VtuberMusic.App.Helper;
-using VtuberMusic.App.ViewModels;
 using VtuberMusic.App.ViewModels.Controls;
 using VtuberMusic.AppCore.Messages;
 using VtuberMusic.AppCore.Services;

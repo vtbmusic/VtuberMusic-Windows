@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +7,6 @@ using VtuberMusic.App.Helper;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
 using VtuberMusic.AppCore.Enums;
-using VtuberMusic.AppCore.Helper;
 using VtuberMusic.AppCore.Services;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
