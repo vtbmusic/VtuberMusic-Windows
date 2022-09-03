@@ -9,6 +9,7 @@
     xmlns:models="using:VtuberMusic.Core.Models"
     xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    Loaded="{x:Bind UserControl_Loaded}" Unloaded="{x:Bind UserControl_Unloaded}"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">

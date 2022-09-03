@@ -19,14 +19,13 @@ public sealed partial class MusicPlayer : UserControl {
 
     public MusicPlayer() {
         InitializeComponent();
-        _mediaPlayBackService.PositionChanged += MediaPlaybackService_PositionChanged;
 
         PositionSlider.AddHandler(PointerPressedEvent, new PointerEventHandler(Slider_PointerPressed), true);
         PositionSlider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Slider_PointerReleased), true);
     }
 
     private void MediaPlaybackService_PositionChanged(object sender, TimeSpan e) => this.DispatcherQueue.TryEnqueue(delegate {
-        if (!isMove) {
+        if (PositionSlider != null & !isMove) {
             PositionSlider.Value = e.TotalSeconds;
         }
     });
@@ -42,4 +41,12 @@ public sealed partial class MusicPlayer : UserControl {
     }
 
     private void ShowPlaying_Click(object sender, RoutedEventArgs e) => RequsetShowPlaying?.Invoke(this, null);
+
+    private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+        _mediaPlayBackService.PositionChanged += MediaPlaybackService_PositionChanged;
+    }
+
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
+        _mediaPlayBackService.PositionChanged -= MediaPlaybackService_PositionChanged;
+    }
 }
