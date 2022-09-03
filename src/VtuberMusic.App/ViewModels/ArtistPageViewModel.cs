@@ -10,7 +10,11 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace VtuberMusic.App.ViewModels;
 public partial class ArtistPageViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+
+    public ArtistPageViewModel(IVtuberMusicService vtuberMusicService) {
+        _vtuberMusicService = vtuberMusicService;
+    }
 
     [ObservableProperty]
     private Artist artist;

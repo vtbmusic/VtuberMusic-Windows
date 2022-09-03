@@ -1,8 +1,10 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using VtuberMusic.App.Helper;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
+using VtuberMusic.App.ViewModels.Controls;
 using VtuberMusic.AppCore.Enums;
 using VtuberMusic.Core.Models;
 
@@ -13,6 +15,8 @@ public sealed partial class PlaylistCardItem : UserControl {
 
     public static readonly DependencyProperty PlaylistTypeProperty =
         DependencyProperty.Register("PlaylistType", typeof(PlaylistType), typeof(PlaylistCardItem), new PropertyMetadata(PlaylistType.Playlist));
+
+    private readonly DataItemViewModel ViewModel = Ioc.Default.GetRequiredService<DataItemViewModel>();
 
     public Playlist Playlist {
         get => GetValue(PlaylistProperty) as Playlist;

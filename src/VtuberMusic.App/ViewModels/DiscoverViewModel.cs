@@ -11,7 +11,11 @@ using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
 public partial class DiscoverViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+
+    public DiscoverViewModel(IVtuberMusicService vtuberMusicService) {
+        _vtuberMusicService = vtuberMusicService;
+    }
 
     [ObservableProperty]
     private ObservableCollection<Music> newMusics = new ObservableCollection<Music>();

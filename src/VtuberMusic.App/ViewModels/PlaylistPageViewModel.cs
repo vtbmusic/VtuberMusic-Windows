@@ -16,8 +16,8 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace VtuberMusic.App.ViewModels;
 public partial class PlaylistPageViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
-    private readonly IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetService<IMediaPlayBackService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IMediaPlayBackService _mediaPlayBackService;
 
     [ObservableProperty]
     private Playlist playlist;
@@ -26,7 +26,9 @@ public partial class PlaylistPageViewModel : ObservableObject {
     [ObservableProperty]
     private ObservableCollection<Music> playlistMusics = new();
 
-    public PlaylistPageViewModel() {
+    public PlaylistPageViewModel(IVtuberMusicService vtuberMusicService, IMediaPlayBackService mediaPlayBackService) {
+        _vtuberMusicService = vtuberMusicService;
+        _mediaPlayBackService = mediaPlayBackService;
     }
 
     [RelayCommand]

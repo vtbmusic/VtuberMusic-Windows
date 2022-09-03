@@ -12,8 +12,13 @@ using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
 public partial class LibraryViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
-    private readonly IAuthorizationService _authorizationService = Ioc.Default.GetService<IAuthorizationService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IAuthorizationService _authorizationService;
+
+    public LibraryViewModel(IVtuberMusicService vtuberMusicService, IAuthorizationService authorizationService) {
+        _vtuberMusicService = vtuberMusicService;
+        _authorizationService = authorizationService;
+    }
 
     [ObservableProperty]
     private ObservableCollection<Music> personalizedMusic = new ObservableCollection<Music>();

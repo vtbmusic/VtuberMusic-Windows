@@ -10,14 +10,15 @@ using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
 public partial class LoginPageViewModel : ObservableObject {
-    private readonly IAuthorizationService _authorizationService = Ioc.Default.GetService<IAuthorizationService>();
+    private readonly IAuthorizationService _authorizationService;
 
     [ObservableProperty]
     private string username;
     [ObservableProperty]
     private string password;
 
-    public LoginPageViewModel() {
+    public LoginPageViewModel(IAuthorizationService authorizationService) {
+        _authorizationService = authorizationService;
     }
 
     [RelayCommand]

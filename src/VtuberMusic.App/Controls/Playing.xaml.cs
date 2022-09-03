@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using VtuberMusic.App.Helper;
+using VtuberMusic.App.ViewModels;
 using VtuberMusic.AppCore.Messages;
 using VtuberMusic.AppCore.Services;
 
@@ -15,7 +16,8 @@ public sealed partial class Playing : UserControl {
     public event EventHandler RequestClosePlaying;
     private bool isMove = false;
 
-    private IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetRequiredService<IMediaPlayBackService>();
+    private readonly PlayingViewModel ViewModel = Ioc.Default.GetRequiredService<PlayingViewModel>();
+    private readonly IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetRequiredService<IMediaPlayBackService>();
 
     public Playing() {
         InitializeComponent();

@@ -15,7 +15,11 @@ using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
 public partial class MainPageViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+
+    public MainPageViewModel(IVtuberMusicService vtuberMusicService) {
+        _vtuberMusicService = vtuberMusicService;
+    }
 
     [ObservableProperty]
     private bool isPlayingShow;
@@ -36,9 +40,6 @@ public partial class MainPageViewModel : ObservableObject {
     {
         createNavgationItem(typeof(Library), "音乐库", new SymbolIcon(Symbol.Library))
     };
-
-    public MainPageViewModel() {
-    }
 
     [RelayCommand]
     public void NavigateToSearch(string keyword) {

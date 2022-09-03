@@ -13,9 +13,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <UserControl.DataContext>
-        <viewmodels:MusicPlayerViewModel x:Name="ViewModel"/>
-    </UserControl.DataContext>
     <Grid CornerRadius="8" Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
           Shadow="{StaticResource ShareShadow}" Translation="0,0,32" Margin="10"
           Height="80">

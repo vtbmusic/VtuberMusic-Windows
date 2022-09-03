@@ -9,6 +9,11 @@ using Refit;
 using System;
 using System.Threading.Tasks;
 using VtuberMusic.App.Services;
+using VtuberMusic.App.ViewModels;
+using VtuberMusic.App.ViewModels.Controls;
+using VtuberMusic.App.ViewModels.FriendsPanel;
+using VtuberMusic.App.ViewModels.Lyric;
+using VtuberMusic.App.ViewModels.SearchPanel;
 using VtuberMusic.AppCore.Helper;
 using VtuberMusic.AppCore.Services;
 using VtuberMusic.Core.Services;
@@ -42,7 +47,7 @@ public partial class App : Application {
     /// will be used such as when the application is launched to open a specific file.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
-    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args) {
+    protected override void OnLaunched(LaunchActivatedEventArgs args) {
         m_window = new MainWindow();
         m_window.Activate();
     }
@@ -52,13 +57,42 @@ public partial class App : Application {
     private static IServiceProvider ConfigureServices() {
         ServiceCollection services = new();
 
-        services.AddSingleton<INavigationService, NavigatoinSerivce>();
-        services.AddSingleton<IMediaPlayBackService, MediaPlaybackService>();
-        services.AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService);
-        services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
-            ContentSerializer = new NewtonsoftJsonContentSerializer(),
-            AuthorizationHeaderValueGetter = auth
-        })
+        // ViewModels
+        services
+            // Controls
+            .AddTransient<DataItemViewModel>()
+            // FriendsPanel
+            .AddTransient<FansViewModel>()
+            .AddTransient<FollowersViewModel>()
+            // Lyric
+            .AddTransient<LyricViewViewModel>()
+            // SearchPanel
+            .AddTransient<MusicSearchPanelViewModel>()
+            .AddTransient<PlaylistSearchPanelViewModel>()
+            // Other
+            .AddTransient<ArtistPageViewModel>()
+            .AddTransient<DiscoverViewModel>()
+            .AddTransient<FriendsViewModel>()
+            .AddTransient<LibraryViewModel>()
+            .AddTransient<LoginPageViewModel>()
+            .AddTransient<MainPageViewModel>()
+            .AddTransient<MusicPlayerViewModel>()
+            .AddTransient<PlayingViewModel>()
+            .AddTransient<PlaylistPageViewModel>()
+            .AddTransient<ProfilePageViewModel>()
+            .AddTransient<SearchViewModel>()
+            .AddTransient<SettingsPageViewModel>()
+            .AddTransient<UserFlyoutViewModel>();
+
+        // Services
+        services
+            .AddSingleton<INavigationService, NavigatoinSerivce>()
+            .AddSingleton<IMediaPlayBackService, MediaPlaybackService>()
+            .AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService)
+            .AddRefitClient<IVtuberMusicService>(new RefitSettings {
+                ContentSerializer = new NewtonsoftJsonContentSerializer(),
+                AuthorizationHeaderValueGetter = auth
+            })
             .ConfigureHttpClient(options => {
                 options.BaseAddress = new Uri("https://api.aqua.chat");
             });
