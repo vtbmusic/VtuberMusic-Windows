@@ -21,7 +21,7 @@
                 <StackPanel Orientation="Horizontal">
                     <controls:ImageEx Source="/Assets/Icon/Original/Icon.png" Width="80"/>
                     <StackPanel>
-                        <TextBlock Text="v2.0.0-df1a3q © VtuberMusic 2022" Margin="0 10 0 -10" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                        <TextBlock x:Name="VersionText" Text="v2.0.0-df1a3q © VtuberMusic 2022" Margin="0 10 0 -10" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
                         <TextBlock Text="VtuberMusic" FontSize="36" FontFamily="Comic Sans MS"/>
                     </StackPanel>
                 </StackPanel>
