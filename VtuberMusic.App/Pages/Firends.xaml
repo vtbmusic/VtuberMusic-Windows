@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="VtuberMusic.App.Pages.Firends"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:firends="using:VtuberMusic.App.Controls.FirendPanel"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:FriendsViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
+    <muxc:NavigationView x:Name="Nav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
+                         SelectionChanged="Nav_SelectionChanged"
+                         >
+        <muxc:NavigationView.PaneHeader>
+            <TextBlock Margin="5 0" FontSize="24" FontWeight="Bold"
+                       VerticalAlignment="Center">
+                <Run Text="{x:Bind ViewModel.Profile.nickname, Mode=OneWay}"/>
+                <Run Text="的好友"/>
+            </TextBlock>
+        </muxc:NavigationView.PaneHeader>
+        <muxc:NavigationView.MenuItems>
+            <muxc:NavigationViewItem x:Name="SubItem" Content="关注"/>
+            <muxc:NavigationViewItem x:Name="FansItem" Content="粉丝"/>
+        </muxc:NavigationView.MenuItems>
+        <Grid>
+            <firends:Fans x:Name="Fans" x:Load="{x:Bind ViewModel.IsFansShow, Mode=OneWay}" UserId="{x:Bind ViewModel.Profile.userId, Mode=OneWay}"/>
+            <firends:Followers x:Name="Followers" x:Load="{x:Bind ViewModel.IsFollwerdsShow, Mode=OneWay}" UserId="{x:Bind ViewModel.Profile.userId, Mode=OneWay}"/>
+        </Grid>
+    </muxc:NavigationView>
+</Page>

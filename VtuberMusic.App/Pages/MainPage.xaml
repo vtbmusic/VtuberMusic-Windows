@@ -1,0 +1,77 @@
+﻿<Page
+    x:Class="VtuberMusic.App.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:app="using:VtuberMusic.App.Controls"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    SizeChanged="{x:Bind Page_SizeChanged}"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:MainPageViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
+    <Page.Resources>
+        <Storyboard x:Name="PlayingIn">
+            <DoubleAnimation Storyboard.TargetName="PlayingTransfrom" Storyboard.TargetProperty="Y"
+                             From="{x:Bind PlayingTransfrom.Y, Mode=OneWay}" To="0"
+                             Duration="00:00:01">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="PlayingOut">
+            <DoubleAnimation Storyboard.TargetName="PlayingTransfrom" Storyboard.TargetProperty="Y"
+                             From="0" To="{x:Bind ViewModel.PageHeight, Mode=OneWay}"
+                             Duration="00:00:00.5">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}"/>
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <Grid>
+        <muxc:NavigationView x:Name="MainNavigationView" MenuItemsSource="{x:Bind ViewModel.NavigationItems, Mode=OneWay}"
+                             IsTitleBarAutoPaddingEnabled="False" FooterMenuItemsSource="{x:Bind ViewModel.PaneFooterNavigationItems, Mode=OneWay}"
+                             SelectionChanged="NavigationView_SelectionChanged" BackRequested="NavigationView_BackRequested"
+                             IsBackEnabled="{x:Bind MainFrame.CanGoBack, Mode=OneWay}">
+            <muxc:NavigationView.Resources>
+                <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+                <Thickness x:Key="NavigationViewContentGridBorderThickness">1,1,0,0</Thickness>
+                <CornerRadius x:Key="NavigationViewContentGridCornerRadius">8,0,0,0</CornerRadius>
+                <Thickness x:Key="NavigationViewHeaderMargin">56,34,0,0</Thickness>
+            </muxc:NavigationView.Resources>
+            <muxc:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox x:Name="SuggestBox" FontSize="12"
+                            PlaceholderText="搜索歌曲、歌手、歌单..." QueryIcon="Find">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToSearchCommand}" CommandParameter="{Binding ElementName=SuggestBox, Path=Text, Mode=OneWay}"/>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </AutoSuggestBox>
+            </muxc:NavigationView.AutoSuggestBox>
+            <Grid>
+                <Frame x:Name="MainFrame" Navigating="MainFrame_Navigating"/>
+                <app:MusicPlayer VerticalAlignment="Bottom" RequsetShowPlaying="{x:Bind MusicPlayer_RequsetShowPlaying}"/>
+            </Grid>
+        </muxc:NavigationView>
+        <app:AppTitleBar VerticalAlignment="Top"/>
+        <app:Playing x:Name="PlayingControl" x:Load="{x:Bind ViewModel.IsPlayingShow, Mode=OneWay}" RequestClosePlaying="{x:Bind PlayingControl_RequestClosePlaying}">
+            <app:Playing.RenderTransform>
+                <TranslateTransform x:Name="PlayingTransfrom"/>
+            </app:Playing.RenderTransform>
+        </app:Playing>
+    </Grid>
+</Page>

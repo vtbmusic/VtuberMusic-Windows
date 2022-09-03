@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "VtuberMusic.App (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "VtuberMusic.App (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

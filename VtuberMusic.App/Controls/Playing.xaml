@@ -1,0 +1,96 @@
+﻿<UserControl
+    x:Class="VtuberMusic.App.Controls.Playing"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    xmlns:lyric="using:VtuberMusic.App.Controls.Lyric"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    Loaded="{x:Bind UserControl_Loaded}" Unloaded="{x:Bind UserControl_Unloaded}"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Grid.DataContext>
+            <viewmodels:PlayingViewModel x:Name="ViewModel"/>
+        </Grid.DataContext>
+        <controls:ImageEx Source="{x:Bind ViewModel.PlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill"/>
+        <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.2*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid SizeChanged="{x:Bind Border_SizeChanged}">
+                        <Border CornerRadius="8" Shadow="{StaticResource ShareShadow}" Translation="0,0,32"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Viewbox>
+                                <controls:ImageEx Stretch="UniformToFill" Source="{x:Bind ViewModel.PlayingMusic.picUrl, Mode=OneWay}"/>
+                            </Viewbox>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="60 20 60 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind ViewModel.PlayingMusic.name, Mode=OneWay}" FontWeight="Bold" FontSize="24"/>
+                            <TextBlock Text="{x:Bind ViewModel.PlayingMusic.artists, Mode=OneWay, Converter={StaticResource ArtistStringConverter}}"/>
+                            <Slider x:Name="PositionSlider" Margin="0 5 0 0"/>
+                            <Grid>
+                                <TextBlock Text="{x:Bind ViewModel.PlayerPosition, Mode=OneWay, Converter={StaticResource FormatConverter}, ConverterParameter='{}{0:mm\\\\:ss}'}"
+                                           FontWeight="SemiBold"/>
+                                <TextBlock Text="{x:Bind ViewModel.PlayerDuration, Mode=OneWay, Converter={StaticResource FormatConverter}, ConverterParameter='{}{0:mm\\\\:ss}'}"
+                                           HorizontalAlignment="Right" FontWeight="SemiBold"/>
+                            </Grid>
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Command="{x:Bind ViewModel.PreviousMusicCommand}"
+                                        Background="Transparent" BorderBrush="Transparent" Padding="10">
+                                        <SymbolIcon Symbol="Previous"/>
+                                    </Button>
+                                    <Button Command="{x:Bind ViewModel.TogglePlayingCommand}"
+                                        Background="Transparent" BorderBrush="Transparent" Padding="10" Margin="5 0"
+                                        Content="{x:Bind ViewModel.PlayerState, Mode=OneWay, Converter={StaticResource PlayerStateConverter}}"/>
+                                    <Button Command="{x:Bind ViewModel.NextMusicCommand}"
+                                        Background="Transparent" BorderBrush="Transparent" Padding="10">
+                                        <SymbolIcon Symbol="Next"/>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                    <Button Background="Transparent" BorderBrush="Transparent" Padding="10">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <Slider Value="{x:Bind ViewModel.Volume, Mode=OneWay}" Maximum="1" Width="100"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                        <SymbolIcon Symbol="Volume"/>
+                                    </Button>
+                                    <Button Command="{x:Bind ViewModel.TogglePlaylistPlayModeCommand}" Content="{x:Bind ViewModel.PlayerPlaylistPlayMode, Mode=OneWay, Converter={StaticResource PlayerPlaylistPlayModeConverter}}" Background="Transparent" BorderBrush="Transparent" Padding="10" Margin="5 0 0 0"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <lyric:LyricView Grid.Column="1" Margin="0 50 10 0"/>
+            <Button VerticalAlignment="Top" Click="{x:Bind Close_Click}" Margin="10" Background="Transparent" BorderBrush="Transparent">
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE70D;" />
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,155 @@
+﻿<Page
+    x:Class="VtuberMusic.App.Pages.SettingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:SettingsPageViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
+    <ScrollViewer>
+        <StackPanel Margin="15 0" Padding="{x:Bind ViewModel.MusicPlayerHeight}">
+            <TextBlock Text="设置" FontSize="24" FontWeight="Bold" Margin="0 15"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <controls:ImageEx Source="/Assets/Icon/Original/Icon.png" Width="80"/>
+                    <StackPanel>
+                        <TextBlock Text="v2.0.0-df1a3q © VtuberMusic 2022" Margin="0 10 0 -10" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"/>
+                        <TextBlock Text="VtuberMusic" FontSize="36" FontFamily="Comic Sans MS"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <StackPanel Orientation="Horizontal">
+                        <AppBarButton Label="官方网站">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC27;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Label="隐私协议" Click="{x:Bind PrivacyDialog_Click}">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Label="开源许可">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE943;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Label="联系我们">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE119;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Right" HorizontalTextAlignment="Right"
+                               Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"
+                               Margin="10 0">
+                        <Run Text="From 2020 to 2022"/>
+                        <LineBreak/>
+                        <Run Text="Thank you for your support"/>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+            <TextBlock Text="账户" FontWeight="SemiBold" FontSize="16" Margin="0 10"/>
+            <TextBlock Text="应用" FontWeight="SemiBold" FontSize="16" Margin="0 10"/>
+            <!--<uwp:ExpanderEx>
+                <uwp:ExpanderEx.Header>
+                    <uwp:ExpanderExWrapper>
+                        <uwp:ExpanderExWrapper.MainContent>
+                            <uwp:ExpanderExDescriptor Title="主题" Description="配置应用的颜色主题">
+                                <uwp:ExpanderExDescriptor.Icon>
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE790;" />
+                                </uwp:ExpanderExDescriptor.Icon>
+                            </uwp:ExpanderExDescriptor>
+                        </uwp:ExpanderExWrapper.MainContent>
+                        <uwp:ExpanderExWrapper.WrapContent>
+                            <ComboBox>
+                                <ComboBoxItem>跟随系统</ComboBoxItem>
+                            </ComboBox>
+                        </uwp:ExpanderExWrapper.WrapContent>
+                    </uwp:ExpanderExWrapper>
+                </uwp:ExpanderEx.Header>
+            </uwp:ExpanderEx>
+            <uwp:ExpanderEx>
+                <uwp:ExpanderEx.Header>
+                    <uwp:ExpanderExWrapper>
+                        <uwp:ExpanderExWrapper.MainContent>
+                            <uwp:ExpanderExDescriptor Title="语言 / Language" Description="选择应用的语言  / Change Language">
+                                <uwp:ExpanderExDescriptor.Icon>
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF2B7;" />
+                                </uwp:ExpanderExDescriptor.Icon>
+                            </uwp:ExpanderExDescriptor>
+                        </uwp:ExpanderExWrapper.MainContent>
+                        <uwp:ExpanderExWrapper.WrapContent>
+                            <ComboBox>
+                                <ComboBoxItem>简体中文 (Simplified Chinese)</ComboBoxItem>
+                            </ComboBox>
+                        </uwp:ExpanderExWrapper.WrapContent>
+                    </uwp:ExpanderExWrapper>
+                </uwp:ExpanderEx.Header>
+            </uwp:ExpanderEx>
+            <uwp:ExpanderEx>
+                <uwp:ExpanderEx.Header>
+                    <uwp:ExpanderExWrapper>
+                        <uwp:ExpanderExWrapper.MainContent>
+                            <uwp:ExpanderExDescriptor Title="应用预启动" Description="在后台预载应用以提高启动速度">
+                                <uwp:ExpanderExDescriptor.Icon>
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEAFC;" />
+                                </uwp:ExpanderExDescriptor.Icon>
+                            </uwp:ExpanderExDescriptor>
+                        </uwp:ExpanderExWrapper.MainContent>
+                        <uwp:ExpanderExWrapper.WrapContent>
+                            <ToggleSwitch/>
+                        </uwp:ExpanderExWrapper.WrapContent>
+                    </uwp:ExpanderExWrapper>
+                </uwp:ExpanderEx.Header>
+            </uwp:ExpanderEx>
+            <TextBlock Text="播放" FontWeight="SemiBold" FontSize="16" Margin="0 10"/>
+            <uwp:ExpanderEx>
+                <uwp:ExpanderEx.Header>
+                    <uwp:ExpanderExWrapper>
+                        <uwp:ExpanderExWrapper.MainContent>
+                            <uwp:ExpanderExDescriptor Title="输出设备" Description="选择输出音频的设备">
+                                <uwp:ExpanderExDescriptor.Icon>
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE772;" />
+                                </uwp:ExpanderExDescriptor.Icon>
+                            </uwp:ExpanderExDescriptor>
+                        </uwp:ExpanderExWrapper.MainContent>
+                        <uwp:ExpanderExWrapper.WrapContent>
+                            <ComboBox>
+                                <ComboBoxItem>系统默认 (扬声器 (Realtek High Definition Audio))</ComboBoxItem>
+                            </ComboBox>
+                        </uwp:ExpanderExWrapper.WrapContent>
+                    </uwp:ExpanderExWrapper>
+                </uwp:ExpanderEx.Header>
+            </uwp:ExpanderEx>
+            <TextBlock Text="存储" FontWeight="SemiBold" FontSize="16" Margin="0 10"/>
+            <uwp:ExpanderEx>
+                <uwp:ExpanderEx.Header>
+                    <uwp:ExpanderExWrapper>
+                        <uwp:ExpanderExWrapper.MainContent>
+                            <uwp:ExpanderExDescriptor Title="清除图片缓存数据" Description="清除本地缓存的图片以释放空间">
+                                <uwp:ExpanderExDescriptor.Icon>
+                                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEDA2;" />
+                                </uwp:ExpanderExDescriptor.Icon>
+                            </uwp:ExpanderExDescriptor>
+                        </uwp:ExpanderExWrapper.MainContent>
+                        <uwp:ExpanderExWrapper.WrapContent>
+                            <Button Content="清除"/>
+                        </uwp:ExpanderExWrapper.WrapContent>
+                    </uwp:ExpanderExWrapper>
+                </uwp:ExpanderEx.Header>
+            </uwp:ExpanderEx>-->
+        </StackPanel>
+    </ScrollViewer>
+</Page>
