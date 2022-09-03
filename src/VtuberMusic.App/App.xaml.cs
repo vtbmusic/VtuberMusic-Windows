@@ -1,4 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -27,6 +30,9 @@ public partial class App : Application {
     /// </summary>
     public App() {
         InitializeComponent();
+
+        AppCenter.Start("3169a606-ee13-45f6-bb04-fc381ae6702f",
+                  typeof(Analytics), typeof(Crashes));
 
         Ioc.Default.ConfigureServices(ConfigureServices());
     }
