@@ -49,7 +49,7 @@ namespace VtuberMusic.Core.Services {
                 refreshToken = response.Data.refresh_token;
                 this.IsAuthorized = true;
 
-                _ = WeakReferenceMessenger.Default.Send(new AuthorizationStateChangedMessage(response.Data));
+                WeakReferenceMessenger.Default.Send(new AuthorizationStateChangedMessage(response.Data));
                 IsAuthorizedChanged?.Invoke(this, this.IsAuthorized);
                 return response.Data;
             } else {
@@ -83,7 +83,7 @@ namespace VtuberMusic.Core.Services {
                 this.IsLogin = true;
                 this.IsAuthorized = true;
 
-                _ = WeakReferenceMessenger.Default.Send(new AuthorizationStateChangedMessage(response.Data));
+                WeakReferenceMessenger.Default.Send(new AuthorizationStateChangedMessage(response.Data));
                 IsAuthorizedChanged?.Invoke(this, this.IsAuthorized);
                 IsLoginChanged?.Invoke(this, this.IsLogin);
             } else {
