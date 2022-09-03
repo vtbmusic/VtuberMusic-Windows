@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Threading.Tasks;
@@ -10,24 +11,21 @@ using VtuberMusic.Core.Models.Lyric;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.Lyric;
-public class LyricViewViewModel : AppViewModel {
+public partial class LyricViewViewModel : ObservableRecipient {
     private readonly IVtuberMusicService VtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
     private readonly IMediaPlayBackService MediaPlayBackService = Ioc.Default.GetService<IMediaPlayBackService>();
 
-    public IAsyncRelayCommand LoadCommand { get; }
-
-    public ParsedVrc Lyric { get => lyric; set => SetProperty(ref lyric, value); }
+    [ObservableProperty]
     private ParsedVrc lyric;
 
-    public LyricViewViewModel() : base() {
-        LoadCommand = new AsyncRelayCommand(load);
+    public LyricViewViewModel() {
     }
 
     protected override void OnActivated() {
         base.OnActivated();
         WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackMusicChangedMessage message) {
-            DispatcherHelper.TryRun(delegate {
-                LoadCommand.Execute(null);
+            DispatcherHelper.TryRun(async delegate {
+                await Load();
             });
         });
     }
@@ -37,12 +35,13 @@ public class LyricViewViewModel : AppViewModel {
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
-    private async Task load() {
+    [RelayCommand]
+    private async Task Load() {
         if (MediaPlayBackService.NowPlaying != null) {
             try {
-                Lyric = await LyricHelper.ParsedVrcAsync(await VtuberMusicService.GetLyric(MediaPlayBackService.NowPlaying.id));
+                this.Lyric = await LyricHelper.ParsedVrcAsync(await VtuberMusicService.GetLyric(MediaPlayBackService.NowPlaying.id));
             } catch {
-                Lyric = null;
+                this.Lyric = null;
             }
         }
     }

@@ -20,6 +20,6 @@ public sealed partial class SettingPage : Page {
             DefaultButton = ContentDialogButton.Primary,
             Content = new PrivacyContentDialog()
         };
-        _ = await dialog.ShowAsync();
+        await dialog.ShowAsync();
     }
 }

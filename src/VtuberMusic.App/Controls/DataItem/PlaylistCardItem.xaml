@@ -5,8 +5,8 @@
     xmlns:local="using:VtuberMusic.App.Controls.DataItem"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels.Controls"
     mc:Ignorable="d" x:Name="test"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -14,7 +14,7 @@
     <Grid x:Name="RootGrid" Height="150" Width="300" CornerRadius="8" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited" DoubleTapped="{x:Bind NavigateToPlaylist_Click}"
           Shadow="{StaticResource ShareShadow}" Translation="0,0,16">
         <Grid.DataContext>
-            <viewmodels:AppViewModel x:Name="ViewModel"/>
+            <viewmodels:DataItemViewModel x:Name="ViewModel"/>
         </Grid.DataContext>
         <Grid.ContextFlyout>
             <MenuFlyout>

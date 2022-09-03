@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using VtuberMusic.App.Helper;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
 using VtuberMusic.AppCore.Enums;
@@ -12,7 +13,7 @@ public sealed partial class UserFlyout : UserControl {
         InitializeComponent();
     }
 
-    private void SubCountButton_Click(object sender, RoutedEventArgs e) => ViewModel.NavigationService.Navigate<Firends>(new FirendsPageArg { Profile = ViewModel.Profile, Type = FirendsPageType.Follwers });
+    private void SubCountButton_Click(object sender, RoutedEventArgs e) => NavigationHelper.Navigate<Firends>(new FirendsPageArg { Profile = ViewModel.Profile, Type = FirendsPageType.Follwers });
 
-    private void FansCountButton_Click(object sender, RoutedEventArgs e) => ViewModel.NavigationService.Navigate<Firends>(new FirendsPageArg { Profile = ViewModel.Profile, Type = FirendsPageType.Fans });
+    private void FansCountButton_Click(object sender, RoutedEventArgs e) => NavigationHelper.Navigate<Firends>(new FirendsPageArg { Profile = ViewModel.Profile, Type = FirendsPageType.Fans });
 }

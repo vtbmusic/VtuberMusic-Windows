@@ -24,7 +24,7 @@
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand}"/>
             </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
-        <GridView ItemsSource="{x:Bind ViewModel.Playlists, Mode=OneWay}" Padding="{x:Bind ViewModel.MusicPlayerHeight}" Margin="10"
+        <GridView ItemsSource="{x:Bind ViewModel.Playlists, Mode=OneWay}" Padding="{StaticResource MusicPlayerHeight}" Margin="10"
                   SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="models:Playlist">

@@ -24,7 +24,7 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <controls1:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
-        <ListView x:Name="MainListView" ItemsSource="{x:Bind ViewModel.PlaylistMusics, Mode=OneWay}" Padding="{x:Bind ViewModel.MusicPlayerHeight}">
+        <ListView x:Name="MainListView" ItemsSource="{x:Bind ViewModel.PlaylistMusics, Mode=OneWay}" Padding="{StaticResource MusicPlayerHeight}">
             <ListView.Header>
                 <Grid Height="350" CornerRadius="8">
                     <ParallaxView Source="{x:Bind MainListView}"

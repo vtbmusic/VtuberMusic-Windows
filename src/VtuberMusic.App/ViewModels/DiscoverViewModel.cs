@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
@@ -9,28 +10,28 @@ using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
-public class DiscoverViewModel : AppViewModel {
+public partial class DiscoverViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
 
-    public IAsyncRelayCommand LoadCommand { get; }
-
-    public ObservableCollection<Music> NewMusics = new();
-    public ObservableCollection<Banner> Banners = new();
-    public ObservableCollection<Playlist> Playlists = new();
-    public ObservableCollection<Music> PersonalizedMusic = new();
+    [ObservableProperty]
+    private ObservableCollection<Music> newMusics = new ObservableCollection<Music>();
+    [ObservableProperty]
+    private ObservableCollection<Banner> banners = new ObservableCollection<Banner>();
+    [ObservableProperty]
+    private ObservableCollection<Playlist> playlists = new ObservableCollection<Playlist>();
+    [ObservableProperty]
+    private ObservableCollection<Music> personalizedMusic = new ObservableCollection<Music>();
 
     public DateTimeOffset Today = DateTimeOffset.Now;
-    public Playlist DailyRecommenderPlaylist { get => dailyRecommenderPlaylist; set => SetProperty(ref dailyRecommenderPlaylist, value); }
+
+    [ObservableProperty]
     private Playlist dailyRecommenderPlaylist;
 
-    public Music PersonalizedFirstMusic { get => personalizedFirstMusic; set => SetProperty(ref personalizedFirstMusic, value); }
+    [ObservableProperty]
     private Music personalizedFirstMusic;
 
-    public DiscoverViewModel() {
-        this.LoadCommand = new AsyncRelayCommand(LoadDataAsync);
-    }
-
-    private async Task LoadDataAsync() {
+    [RelayCommand]
+    private async Task Load() {
         try {
             var newMusicResponse = await _vtuberMusicService.GetNewMusic();
             var bannerResponse = await _vtuberMusicService.GetBanner();
@@ -38,32 +39,32 @@ public class DiscoverViewModel : AppViewModel {
             var dailyRecommenderResponse = await _vtuberMusicService.GetDailyPersonalizedMusic();
             var personalizedMusicResponse = await _vtuberMusicService.GetPersonalizedMusic();
 
-            NewMusics.Clear();
+            this.NewMusics.Clear();
             foreach (var item in newMusicResponse.Data) {
-                NewMusics.Add(item);
+                this.NewMusics.Add(item);
             }
 
-            Banners.Clear();
+            this.Banners.Clear();
             foreach (var item in bannerResponse.Data) {
-                Banners.Add(item);
+                this.Banners.Add(item);
             }
 
-            Playlists.Clear();
+            this.Playlists.Clear();
             foreach (var item in playlistResponse.Data) {
-                Playlists.Add(item);
+                this.Playlists.Add(item);
             }
 
-            Playlists.Clear();
+            this.Playlists.Clear();
             foreach (var item in playlistResponse.Data) {
-                Playlists.Add(item);
+                this.Playlists.Add(item);
             }
 
-            PersonalizedMusic.Clear();
+            this.PersonalizedMusic.Clear();
             foreach (var item in personalizedMusicResponse.Data) {
-                PersonalizedMusic.Add(item);
+                this.PersonalizedMusic.Add(item);
             }
 
-            this.PersonalizedFirstMusic = PersonalizedMusic.FirstOrDefault();
+            this.PersonalizedFirstMusic = this.PersonalizedMusic.FirstOrDefault();
             this.DailyRecommenderPlaylist = dailyRecommenderResponse.Data.playlist;
         } catch (Exception ex) {
             Debug.Write(ex);

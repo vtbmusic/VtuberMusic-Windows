@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using VtuberMusic.App.Helper;
 using VtuberMusic.AppCore.Messages;
+using VtuberMusic.AppCore.Services;
 using VtuberMusic.Core.Models.Lyric;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
@@ -13,6 +15,8 @@ namespace VtuberMusic.App.Controls.Lyric;
 public sealed partial class LyricView : UserControl {
     private int nowLyricIndex = -1;
     private LyricItem nowLyricItem = null;
+
+    private IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetRequiredService<IMediaPlayBackService>();
 
     public LyricView() {
         InitializeComponent();
@@ -35,7 +39,7 @@ public sealed partial class LyricView : UserControl {
         }
     });
 
-    private void ListView_ItemClick(object sender, ItemClickEventArgs e) => ViewModel.MediaPlaybackService.Position = TimeSpan.FromMilliseconds((e.ClickedItem as LyricWords).Origin.Timestamp.Ticks / 10000);
+    private void ListView_ItemClick(object sender, ItemClickEventArgs e) => _mediaPlayBackService.Position = TimeSpan.FromMilliseconds((e.ClickedItem as LyricWords).Origin.Timestamp.Ticks / 10000);
 
     private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
         WeakReferenceMessenger.Default.UnregisterAll(this);

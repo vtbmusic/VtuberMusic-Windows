@@ -24,7 +24,7 @@
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand}"/>
             </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
-        <ListView ItemsSource="{x:Bind ViewModel.Musics, Mode=OneWay}" Padding="{x:Bind ViewModel.MusicPlayerHeight}">
+        <ListView ItemsSource="{x:Bind ViewModel.Musics, Mode=OneWay}" Padding="{StaticResource MusicPlayerHeight}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Music">
                     <dataitem:MusicListItem Music="{x:Bind}"/>

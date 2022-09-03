@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -6,21 +7,22 @@ using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.FriendsPanel;
-public class FollowersViewModel : FriendsPanelViewModel {
+public partial class FollowersViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
 
-    public ObservableCollection<Profile> Followers = new();
+    [ObservableProperty]
+    private ObservableCollection<Profile> followers = new ObservableCollection<Profile>();
 
-    public FollowersViewModel() : base() {
-        LoadCommand = new AsyncRelayCommand<string>(LoadDataAsync);
+    public FollowersViewModel() {
     }
 
-    public override async Task LoadDataAsync(string userId) {
+    [RelayCommand]
+    public async Task Load(string userId) {
         var result = await _vtuberMusicService.GetFollows(userId, 100);
 
-        Followers.Clear();
+        this.Followers.Clear();
         foreach (var item in result.Data) {
-            Followers.Add(item);
+            this.Followers.Add(item);
         }
     }
 }

@@ -16,9 +16,9 @@ public class NavigatoinSerivce : INavigationService {
 
     public void RequestGoBack() => Frame.GoBack();
 
-    public void Navigate(Type pageType, object arg) => _ = Frame.Navigate(pageType, arg);
+    public void Navigate(Type pageType, object arg) => Frame.Navigate(pageType, arg);
 
-    public void Navigate<T>(object arg = null) => _ = Frame.Navigate(typeof(T), arg);
+    public void Navigate<T>(object arg = null) => Frame.Navigate(typeof(T), arg);
 
     public void SetContentFrame(Frame frame) {
         Frame = frame;

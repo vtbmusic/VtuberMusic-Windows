@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using System.Linq;
 using VtuberMusic.App.Models;
 using VtuberMusic.App.Services;
 using VtuberMusic.App.ViewModels;
@@ -12,16 +14,16 @@ namespace VtuberMusic.App.Pages;
 /// </summary>
 public sealed partial class MainPage : Page {
     private MainPageViewModel viewModel => DataContext as MainPageViewModel;
-    private INavigationService navigationService => viewModel.NavigationService;
+    private INavigationService _navigationService = Ioc.Default.GetRequiredService<INavigationService>();
 
     public MainPage() {
         InitializeComponent();
-        viewModel.NavigationService.SetContentFrame(MainFrame);
+        _navigationService.SetContentFrame(MainFrame);
     }
 
     private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args) {
         if (args.IsSettingsSelected) {
-            navigationService.Navigate<SettingPage>();
+            _navigationService.Navigate<SettingPage>();
             return;
         }
 
@@ -29,11 +31,11 @@ public sealed partial class MainPage : Page {
             return;
         }
 
-        var tag = (args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItemBase).Tag as NavigationTag;
-        navigationService.Navigate(tag.Type, tag.Args);
+        var tag = (args.SelectedItem as NavigationViewItemBase).Tag as NavigationTag;
+        _navigationService.Navigate(tag.Type, tag.Args);
     }
 
-    private void NavigationView_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args) => navigationService.RequestGoBack();
+    private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) => _navigationService.RequestGoBack();
 
     private void MainFrame_Navigating(object sender, NavigatingCancelEventArgs e) {
         if (e.SourcePageType == typeof(SettingPage)) {
@@ -42,33 +44,32 @@ public sealed partial class MainPage : Page {
         }
 
         NavigationTag tag = new() { Type = e.SourcePageType, Args = e.Parameter };
-
-        foreach (var item in viewModel.NavigationItems) {
-            if (item.Tag != null && (item.Tag as NavigationTag).Type == tag.Type && (item.Tag as NavigationTag).Args == tag.Args) {
-                MainNavigationView.SelectedItem = item;
-                return;
-            }
+        foreach (var item in from item in this.viewModel.NavigationItems
+                             where item.Tag != null && (item.Tag as NavigationTag).Type == tag.Type && (item.Tag as NavigationTag).Args == tag.Args
+                             select item) {
+            MainNavigationView.SelectedItem = item;
+            return;
         }
 
-        foreach (var footerItem in viewModel.PaneFooterNavigationItems) {
-            if (footerItem.Tag != null && (footerItem.Tag as NavigationTag).Type == tag.Type && (footerItem.Tag as NavigationTag).Args == tag.Args) {
-                MainNavigationView.SelectedItem = footerItem;
-                return;
-            }
+        foreach (var footerItem in from footerItem in this.viewModel.PaneFooterNavigationItems
+                                   where footerItem.Tag != null && (footerItem.Tag as NavigationTag).Type == tag.Type && (footerItem.Tag as NavigationTag).Args == tag.Args
+                                   select footerItem) {
+            MainNavigationView.SelectedItem = footerItem;
+            return;
         }
 
         MainNavigationView.SelectedItem = null;
     }
 
     private void MusicPlayer_RequsetShowPlaying(object sender, System.EventArgs e) {
-        viewModel.IsPlayingShow = true;
-        PlayingTransfrom.Y = ActualHeight;
+        this.viewModel.IsPlayingShow = true;
+        PlayingTransfrom.Y = this.ActualHeight;
         PlayingIn.Begin();
     }
 
     private void Page_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e) {
-        viewModel.PageHeight = e.NewSize.Height;
-        if (!viewModel.IsPlayingShow && PlayingTransfrom != null) {
+        this.viewModel.PageHeight = e.NewSize.Height;
+        if (!this.viewModel.IsPlayingShow && PlayingTransfrom != null) {
             PlayingTransfrom.Y = e.NewSize.Height;
         }
     }
@@ -76,7 +77,7 @@ public sealed partial class MainPage : Page {
     private void PlayingControl_RequestClosePlaying(object sender, System.EventArgs e) {
         PlayingOut.Begin();
         PlayingOut.Completed += delegate {
-            viewModel.IsPlayingShow = false;
+            this.viewModel.IsPlayingShow = false;
         };
     }
 }

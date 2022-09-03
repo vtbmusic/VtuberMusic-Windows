@@ -21,7 +21,7 @@ public class WindowBackdropHelper {
 
     public void AutoSetBackdrop() {
         if (!TrySetMicaBackdrop()) {
-            _ = TrySetAcrylicBackdrop();
+            TrySetAcrylicBackdrop();
         }
     }
 
@@ -40,7 +40,7 @@ public class WindowBackdropHelper {
 
             // Enable the system backdrop.
             // Note: Be sure to have "using WinRT;" to support the Window.As<...>() call.
-            _ = _acrylicController.AddSystemBackdropTarget(BackdropWindow.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
+            _acrylicController.AddSystemBackdropTarget(BackdropWindow.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
             _acrylicController.SetSystemBackdropConfiguration(ConfigurationSource);
             return true; // succeeded
         }
@@ -63,7 +63,7 @@ public class WindowBackdropHelper {
 
             // Enable the system backdrop.
             // Note: Be sure to have "using WinRT;" to support the Window.As<...>() call.
-            _ = _micaController.AddSystemBackdropTarget(BackdropWindow.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
+            _micaController.AddSystemBackdropTarget(BackdropWindow.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
             _micaController.SetSystemBackdropConfiguration(ConfigurationSource);
             return true; // succeeded
         }

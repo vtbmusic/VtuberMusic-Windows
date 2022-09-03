@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -6,39 +7,41 @@ using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
-public class ProfilePageViewModel : AppViewModel {
+public partial class ProfilePageViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
 
-    public IAsyncRelayCommand LoadCommand { get; }
+    [ObservableProperty]
+    private ObservableCollection<Playlist> createPlaylist = new();
+    [ObservableProperty]
+    private ObservableCollection<Playlist> subPlaylist = new();
 
-    public ObservableCollection<Playlist> CreatePlaylist = new();
-    public ObservableCollection<Playlist> SubPlaylist = new();
-    public Profile Profile { get => profile; set => SetProperty(ref profile, value); }
+    [ObservableProperty]
     private Profile profile;
-    public Playlist FavouritePlaylist { get => favouritePlaylist; set => SetProperty(ref favouritePlaylist, value); }
+
+    [ObservableProperty]
     private Playlist favouritePlaylist;
 
     public ProfilePageViewModel() {
-        LoadCommand = new AsyncRelayCommand(LoadDataAsync);
     }
 
-    private async Task LoadDataAsync() {
-        Profile = (await _vtuberMusicService.GetProfile(Profile.userId)).Data.profile;
+    [RelayCommand]
+    private async Task Load() {
+        this.Profile = (await _vtuberMusicService.GetProfile(this.Profile.userId)).Data.profile;
 
-        var favouritePlaylistResponse = await _vtuberMusicService.GetFavouriteMusicsPlaylist("song", Profile.userId);
-        var subPlaylistResponse = await _vtuberMusicService.GetSubPlaylist(Profile.userId);
-        var createPlaylistResponse = await _vtuberMusicService.GetCreatePlaylist(Profile.userId);
+        var favouritePlaylistResponse = await _vtuberMusicService.GetFavouriteMusicsPlaylist("song", this.Profile.userId);
+        var subPlaylistResponse = await _vtuberMusicService.GetSubPlaylist(this.Profile.userId);
+        var createPlaylistResponse = await _vtuberMusicService.GetCreatePlaylist(this.Profile.userId);
 
-        SubPlaylist.Clear();
+        this.SubPlaylist.Clear();
         foreach (var item in subPlaylistResponse.Data) {
-            SubPlaylist.Add(item);
+            this.SubPlaylist.Add(item);
         }
 
-        CreatePlaylist.Clear();
+        this.CreatePlaylist.Clear();
         foreach (var item in createPlaylistResponse.Data) {
-            CreatePlaylist.Add(item);
+            this.CreatePlaylist.Add(item);
         }
 
-        FavouritePlaylist = favouritePlaylistResponse.Data.playlist;
+        this.FavouritePlaylist = favouritePlaylistResponse.Data.playlist;
     }
 }

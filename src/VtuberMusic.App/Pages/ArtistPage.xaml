@@ -23,7 +23,7 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <controls:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
-        <ListView x:Name="MainListView" ItemsSource="{x:Bind ViewModel.Musics, Mode=OneWay}" Padding="{x:Bind ViewModel.MusicPlayerHeight}">
+        <ListView x:Name="MainListView" ItemsSource="{x:Bind ViewModel.Musics, Mode=OneWay}" Padding="{StaticResource MusicPlayerHeight}">
             <ListView.Header>
                 <Grid BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" Height="180" CornerRadius="8" Margin="10">
                     <controls1:ImageEx Source="{x:Bind ViewModel.Artist.imgUrl, Mode=OneWay}" Stretch="UniformToFill"

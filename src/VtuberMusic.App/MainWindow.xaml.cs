@@ -15,7 +15,7 @@ public sealed partial class MainWindow : Window {
     public MainWindow() {
         InitializeComponent();
         _backdropHelper = new WindowBackdropHelper(this);
-        _ = _backdropHelper.TrySetMicaBackdrop();
+        _backdropHelper.TrySetMicaBackdrop();
 
         Title = "VtuberMusic";
         ExtendsContentIntoTitleBar = true;
@@ -23,6 +23,6 @@ public sealed partial class MainWindow : Window {
         App.MainWindow = this;
         App.RootFrame = RootFrame;
         DispatcherHelper.Init(DispatcherQueue);
-        _ = RootFrame.Navigate(typeof(LoginPage));
+        RootFrame.Navigate(typeof(LoginPage));
     }
 }

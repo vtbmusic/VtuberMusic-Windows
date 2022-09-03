@@ -1,14 +1,14 @@
-﻿using VtuberMusic.Core.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using VtuberMusic.Core.Models;
 
 namespace VtuberMusic.App.ViewModels;
-public class FriendsViewModel : AppViewModel {
-    public Profile Profile { get => profile; set => SetProperty(ref profile, value); }
+public partial class FriendsViewModel : ObservableObject {
+    [ObservableProperty]
     private Profile profile;
 
-    public bool IsFansShow { get => isFansShow; set => SetProperty(ref isFansShow, value); }
+    [ObservableProperty]
     private bool isFansShow;
 
-    public bool IsFollwerdsShow { get => isFollwerdsShow; set => SetProperty(ref isFollwerdsShow, value); }
-
+    [ObservableProperty]
     private bool isFollwerdsShow;
 }

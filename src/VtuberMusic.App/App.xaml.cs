@@ -46,10 +46,10 @@ public partial class App : Application {
     private static IServiceProvider ConfigureServices() {
         ServiceCollection services = new();
 
-        _ = services.AddSingleton<INavigationService, NavigatoinSerivce>();
-        _ = services.AddSingleton<IMediaPlayBackService, MediaPlaybackService>();
-        _ = services.AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService);
-        _ = services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
+        services.AddSingleton<INavigationService, NavigatoinSerivce>();
+        services.AddSingleton<IMediaPlayBackService, MediaPlaybackService>();
+        services.AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService);
+        services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
             ContentSerializer = new NewtonsoftJsonContentSerializer(),
             AuthorizationHeaderValueGetter = auth
         })

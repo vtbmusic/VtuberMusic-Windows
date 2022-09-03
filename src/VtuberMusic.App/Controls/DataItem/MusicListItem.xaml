@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -35,7 +35,7 @@
             </MenuFlyout>
         </Grid.ContextFlyout>
         <Grid.DataContext>
-            <viewmodels:AppViewModel x:Name="ViewModel"/>
+            <viewmodels:DataItemViewModel x:Name="ViewModel"/>
         </Grid.DataContext>
         <interactivity:Interaction.Behaviors>
             <core:EventTriggerBehavior EventName="DoubleTapped">

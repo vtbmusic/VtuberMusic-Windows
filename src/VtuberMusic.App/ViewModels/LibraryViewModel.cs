@@ -4,36 +4,45 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using VtuberMusic.App.Helper;
+using VtuberMusic.App.PageArgs;
+using VtuberMusic.App.Pages;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels;
-public partial class LibraryViewModel : AppViewModel {
+public partial class LibraryViewModel : ObservableObject {
     private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
     private readonly IAuthorizationService _authorizationService = Ioc.Default.GetService<IAuthorizationService>();
 
-    public IAsyncRelayCommand LoadCommand { get; }
+    [ObservableProperty]
+    private ObservableCollection<Music> personalizedMusic = new ObservableCollection<Music>();
+    [ObservableProperty]
+    private ObservableCollection<Playlist> createPlaylist = new ObservableCollection<Playlist>();
+    [ObservableProperty]
+    private ObservableCollection<Playlist> subPlaylist = new ObservableCollection<Playlist>();
 
-    public ObservableCollection<Music> PersonalizedMusic = new();
-    public ObservableCollection<Playlist> CreatePlaylist = new();
-    public ObservableCollection<Playlist> SubPlaylist = new();
-
-    public Playlist DailyRecommenderPlaylist { get => dailyRecommenderPlaylist; set => SetProperty(ref dailyRecommenderPlaylist, value); }
+    [ObservableProperty]
     private Playlist dailyRecommenderPlaylist;
-    public Playlist FavouritePlaylist { get => favouritePlaylist; set => SetProperty(ref favouritePlaylist, value); }
+
+    [ObservableProperty]
     private Playlist favouritePlaylist;
 
-    public Music PersonalizedFirstMusic { get => personalizedFirstMusic; set => SetProperty(ref personalizedFirstMusic, value); }
+    [ObservableProperty]
     private Music personalizedFirstMusic;
 
     [ObservableProperty]
     private Profile profile;
 
     public LibraryViewModel() {
-        LoadCommand = new AsyncRelayCommand(LoadDataAsync);
     }
 
-    private async Task LoadDataAsync() {
+    [RelayCommand]
+    public void NavigateToProfile(Profile profile) =>
+    NavigationHelper.Navigate<ProfilePage>(new ProfilePageArg { Profile = profile });
+
+    [RelayCommand]
+    private async Task Load() {
         try {
             var dailyRecommenderResponse = await _vtuberMusicService.GetDailyPersonalizedMusic();
             var personalizedMusicResponse = await _vtuberMusicService.GetPersonalizedMusic();
@@ -41,25 +50,25 @@ public partial class LibraryViewModel : AppViewModel {
             var subPlaylistResponse = await _vtuberMusicService.GetSubPlaylist();
             var createPlaylistResponse = await _vtuberMusicService.GetCreatePlaylist();
 
-            PersonalizedMusic.Clear();
+            this.PersonalizedMusic.Clear();
             foreach (var item in personalizedMusicResponse.Data) {
-                PersonalizedMusic.Add(item);
+                this.PersonalizedMusic.Add(item);
             }
 
-            SubPlaylist.Clear();
+            this.SubPlaylist.Clear();
             foreach (var item in subPlaylistResponse.Data) {
-                SubPlaylist.Add(item);
+                this.SubPlaylist.Add(item);
             }
 
-            CreatePlaylist.Clear();
+            this.CreatePlaylist.Clear();
             foreach (var item in createPlaylistResponse.Data) {
-                CreatePlaylist.Add(item);
+                this.CreatePlaylist.Add(item);
             }
 
-            PersonalizedFirstMusic = PersonalizedMusic.FirstOrDefault();
-            DailyRecommenderPlaylist = dailyRecommenderResponse.Data.playlist;
-            FavouritePlaylist = favouritePlaylistResponse.Data.playlist;
-            Profile = _authorizationService.Profile;
+            this.PersonalizedFirstMusic = this.PersonalizedMusic.FirstOrDefault();
+            this.DailyRecommenderPlaylist = dailyRecommenderResponse.Data.playlist;
+            this.FavouritePlaylist = favouritePlaylistResponse.Data.playlist;
+            this.Profile = _authorizationService.Profile;
         } catch {
         }
     }

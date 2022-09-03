@@ -5,10 +5,10 @@
     xmlns:local="using:VtuberMusic.App.Controls.DataItem"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:viewmodels="using:VtuberMusic.App.ViewModels.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -29,7 +29,7 @@
             </MenuFlyout>
         </Grid.ContextFlyout>
         <Grid.DataContext>
-            <viewmodels:AppViewModel x:Name="ViewModel"/>
+            <viewmodels:DataItemViewModel x:Name="ViewModel"/>
         </Grid.DataContext>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

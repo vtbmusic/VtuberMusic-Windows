@@ -6,5 +6,5 @@ public class DispatcherHelper {
 
     public static void Init(DispatcherQueue dispatcher) => Dispatcher = dispatcher;
 
-    public static void TryRun(DispatcherQueueHandler dispatchedHandler) => _ = Dispatcher.TryEnqueue(dispatchedHandler);
+    public static void TryRun(DispatcherQueueHandler dispatchedHandler) => Dispatcher.TryEnqueue(dispatchedHandler);
 }

@@ -23,7 +23,7 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <controls1:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
-        <ListView SelectionMode="None" Padding="{x:Bind ViewModel.MusicPlayerHeight}">
+        <ListView SelectionMode="None" Padding="{StaticResource MusicPlayerHeight}">
             <ListView.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>

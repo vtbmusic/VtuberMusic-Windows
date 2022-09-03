@@ -1,15 +1,16 @@
-﻿namespace VtuberMusic.App.ViewModels;
-public class SearchViewModel : AppViewModel {
-    public string Keyword { get => keyword; set => SetProperty(ref keyword, value); }
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace VtuberMusic.App.ViewModels;
+public partial class SearchViewModel : ObservableObject {
+    [ObservableProperty]
     private string keyword;
 
-    public bool IsSearchMusic { get => isSearchMusic; set => SetProperty(ref isSearchMusic, value); }
-    public bool IsSearchArtist { get => isSearchArtist; set => SetProperty(ref isSearchArtist, value); }
-    public bool IsSearchPlaylist { get => isSearchPlaylist; set => SetProperty(ref isSearchPlaylist, value); }
-    public bool IsSearchUser { get => isSearchUser; set => SetProperty(ref isSearchUser, value); }
-
+    [ObservableProperty]
     private bool isSearchUser;
+    [ObservableProperty]
     private bool isSearchMusic;
+    [ObservableProperty]
     private bool isSearchPlaylist;
+    [ObservableProperty]
     private bool isSearchArtist;
 }

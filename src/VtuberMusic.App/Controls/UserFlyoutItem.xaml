@@ -24,11 +24,11 @@
             </Grid.ColumnDefinitions>
             <PersonPicture Width="50" Height="50" ProfilePicture="{x:Bind ViewModel.Profile.avatarUrl, Mode=OneWay}" VerticalAlignment="Top"/>
             <StackPanel Grid.Column="1" Margin="10 0 0 0">
-                <interactivity:Interaction.Behaviors>
+                <!--<interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
                         <core:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToProfileCommand}" CommandParameter="{x:Bind ViewModel.Profile.userId, Mode=OneWay}"/>
                     </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
+                </interactivity:Interaction.Behaviors>-->
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

@@ -1,8 +1,9 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
-using VtuberMusic.App.ViewModels;
+using VtuberMusic.AppCore.Services;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -12,15 +13,17 @@ public sealed partial class MusicPlayer : UserControl {
 
     public event EventHandler RequsetShowPlaying;
 
+    private IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetRequiredService<IMediaPlayBackService>();
+
     public MusicPlayer() {
         InitializeComponent();
-        (DataContext as MusicPlayerViewModel).MediaPlaybackService.PositionChanged += MediaPlaybackService_PositionChanged;
+        _mediaPlayBackService.PositionChanged += MediaPlaybackService_PositionChanged;
 
         PositionSlider.AddHandler(PointerPressedEvent, new PointerEventHandler(Slider_PointerPressed), true);
         PositionSlider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Slider_PointerReleased), true);
     }
 
-    private void MediaPlaybackService_PositionChanged(object sender, TimeSpan e) => _ = DispatcherQueue.TryEnqueue(delegate {
+    private void MediaPlaybackService_PositionChanged(object sender, TimeSpan e) => this.DispatcherQueue.TryEnqueue(delegate {
         if (!isMove) {
             PositionSlider.Value = e.TotalSeconds;
         }
@@ -30,7 +33,7 @@ public sealed partial class MusicPlayer : UserControl {
 
     private void Slider_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) {
         if (isMove) {
-            (DataContext as MusicPlayerViewModel).MediaPlaybackService.Position = TimeSpan.FromSeconds(PositionSlider.Value);
+            _mediaPlayBackService.Position = TimeSpan.FromSeconds(PositionSlider.Value);
         }
 
         isMove = false;

@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System;
 using VtuberMusic.App.Helper;
 using VtuberMusic.AppCore.Messages;
+using VtuberMusic.AppCore.Services;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -13,16 +15,10 @@ public sealed partial class Playing : UserControl {
     public event EventHandler RequestClosePlaying;
     private bool isMove = false;
 
+    private IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetRequiredService<IMediaPlayBackService>();
+
     public Playing() {
         InitializeComponent();
-        WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackPositionChangedMessage message) {
-            DispatcherHelper.TryRun(delegate {
-                if (!isMove) {
-                    PositionSlider.Value = message.Value.Position.TotalSeconds;
-                    PositionSlider.Maximum = message.Value.Duration.TotalSeconds;
-                }
-            });
-        });
 
         PositionSlider.AddHandler(PointerPressedEvent, new PointerEventHandler(Slider_PointerPressed), true);
         PositionSlider.AddHandler(PointerReleasedEvent, new PointerEventHandler(Slider_PointerReleased), true);
@@ -32,7 +28,7 @@ public sealed partial class Playing : UserControl {
 
     private void Slider_PointerReleased(object sender, PointerRoutedEventArgs e) {
         if (isMove) {
-            ViewModel.MediaPlaybackService.Position = TimeSpan.FromSeconds(PositionSlider.Value);
+            _mediaPlayBackService.Position = TimeSpan.FromSeconds(PositionSlider.Value);
         }
 
         isMove = false;
@@ -45,7 +41,22 @@ public sealed partial class Playing : UserControl {
         //CoverImgViewBox.Width = e.NewSize.Height;
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e) => ViewModel.IsActive = true;
+    private void UserControl_Loaded(object sender, RoutedEventArgs e) {
+        ViewModel.IsActive = true;
 
-    private void UserControl_Unloaded(object sender, RoutedEventArgs e) => ViewModel.IsActive = false;
+        WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackPositionChangedMessage message) {
+            DispatcherHelper.TryRun(delegate {
+                if (!isMove) {
+                    PositionSlider.Value = message.Value.Position.TotalSeconds;
+                    PositionSlider.Maximum = message.Value.Duration.TotalSeconds;
+                }
+            });
+        });
+    }
+
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e) {
+        ViewModel.IsActive = false;
+
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
 }

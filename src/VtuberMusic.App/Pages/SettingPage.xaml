@@ -13,7 +13,7 @@
         <viewmodels:SettingsPageViewModel x:Name="ViewModel"/>
     </Page.DataContext>
     <ScrollViewer>
-        <StackPanel Margin="15 0" Padding="{x:Bind ViewModel.MusicPlayerHeight}">
+        <StackPanel Margin="15 0" Padding="{StaticResource MusicPlayerHeight}">
             <TextBlock Text="设置" FontSize="24" FontWeight="Bold" Margin="0 15"/>
             <Grid>
                 <Grid.ColumnDefinitions>

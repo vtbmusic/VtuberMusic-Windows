@@ -19,6 +19,8 @@
                     <converters:DoubleConverter x:Key="DoubleConverter"/>
                     <converters:NullVisibilityConvter x:Key="NullVisibilityConvter"/>
                     <ThemeShadow x:Key="ShareShadow"/>
+
+                    <Thickness x:Key="MusicPlayerHeight">0,0,0,40</Thickness>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -27,7 +27,7 @@ public sealed partial class MusicItem : UserControl {
         }
     }
 
-    private void Grid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => _ = VisualStateManager.GoToState(this, "Hover", true);
+    private void Grid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => VisualStateManager.GoToState(this, "Hover", true);
 
-    private void Grid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => _ = VisualStateManager.GoToState(this, "Normal", true);
+    private void Grid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => VisualStateManager.GoToState(this, "Normal", true);
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using VtuberMusic.App.Helper;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
 using VtuberMusic.Core.Models;
@@ -20,5 +21,5 @@ public sealed partial class Fans : UserControl {
         InitializeComponent();
     }
 
-    private void ListView_ItemClick(object sender, ItemClickEventArgs e) => ViewModel.NavigationService.Navigate<ProfilePage>(new ProfilePageArg { Profile = e.ClickedItem as Profile });
+    private void ListView_ItemClick(object sender, ItemClickEventArgs e) => NavigationHelper.Navigate<ProfilePage>(new ProfilePageArg { Profile = e.ClickedItem as Profile });
 }
