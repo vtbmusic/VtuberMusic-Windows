@@ -14,9 +14,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Grid.DataContext>
-            <viewmodels:PlayingViewModel x:Name="ViewModel"/>
-        </Grid.DataContext>
         <controls:ImageEx Source="{x:Bind ViewModel.PlayingMusic.picUrl, Mode=OneWay}" Stretch="UniformToFill"/>
         <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
             <Grid.ColumnDefinitions>

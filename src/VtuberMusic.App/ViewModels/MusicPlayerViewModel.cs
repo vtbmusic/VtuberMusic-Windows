@@ -58,7 +58,9 @@ public partial class MusicPlayerViewModel : ObservableRecipient {
         }
     }
 
-    public MusicPlayerViewModel() {
+    public MusicPlayerViewModel(IMediaPlayBackService mediaPlayBackService) {
+        _mediaPlayBackService = mediaPlayBackService;
+
         WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackMusicChangedMessage message) {
             DispatcherHelper.TryRun(delegate { OnPropertyChanged(nameof(this.PlayingMusic)); });
         });

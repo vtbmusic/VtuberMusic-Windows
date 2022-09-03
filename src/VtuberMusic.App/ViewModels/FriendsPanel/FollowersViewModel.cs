@@ -8,7 +8,11 @@ using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.FriendsPanel;
 public partial class FollowersViewModel : ObservableObject {
-    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    private readonly IVtuberMusicService _vtuberMusicService;
+
+    public FollowersViewModel(IVtuberMusicService vtuberMusicService) {
+        _vtuberMusicService = vtuberMusicService;
+    }
 
     [ObservableProperty]
     private ObservableCollection<Profile> followers = new ObservableCollection<Profile>();

@@ -14,9 +14,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <UserControl.DataContext>
-        <lyric:LyricViewViewModel x:Name="ViewModel"/>
-    </UserControl.DataContext>
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
             <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}"/>

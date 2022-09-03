@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using VtuberMusic.App.Helper;
+using VtuberMusic.App.ViewModels.Lyric;
 using VtuberMusic.AppCore.Messages;
 using VtuberMusic.AppCore.Services;
 using VtuberMusic.Core.Models.Lyric;
@@ -16,7 +17,8 @@ public sealed partial class LyricView : UserControl {
     private int nowLyricIndex = -1;
     private LyricItem nowLyricItem = null;
 
-    private IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetRequiredService<IMediaPlayBackService>();
+    private readonly LyricViewViewModel ViewModel = Ioc.Default.GetRequiredService<LyricViewViewModel>();
+    private readonly IMediaPlayBackService _mediaPlayBackService = Ioc.Default.GetRequiredService<IMediaPlayBackService>();
 
     public LyricView() {
         InitializeComponent();

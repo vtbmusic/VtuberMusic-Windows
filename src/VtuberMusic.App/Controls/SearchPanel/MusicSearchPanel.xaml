@@ -16,9 +16,6 @@
     d:DesignWidth="400">
 
     <controls:LoadingCover IsLoading="{x:Bind ViewModel.SearchCommand.IsRunning, Mode=OneWay}">
-        <controls:LoadingCover.DataContext>
-            <searchpanel:MusicSearchPanelViewModel x:Name="ViewModel"/>
-        </controls:LoadingCover.DataContext>
         <interactivity:Interaction.Behaviors>
             <core:EventTriggerBehavior EventName="Loaded">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand}"/>
