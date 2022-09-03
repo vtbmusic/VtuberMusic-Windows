@@ -14,9 +14,6 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
-    <Page.DataContext>
-        <viewmodels:LibraryViewModel x:Name="ViewModel"/>
-    </Page.DataContext>
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
             <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}"/>

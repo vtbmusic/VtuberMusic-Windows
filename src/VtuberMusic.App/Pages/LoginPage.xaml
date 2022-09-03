@@ -9,9 +9,6 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
-    <Page.DataContext>
-        <viewmodels:LoginPageViewModel x:Name="ViewModel"/>
-    </Page.DataContext>
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="480">
         <ProgressBar IsIndeterminate="True" Visibility="{x:Bind ViewModel.LoginCommand.IsRunning, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
         <controls:ImageEx Source="/Assets/Icon/Original/Icon-with-title.png" HorizontalAlignment="Left" Stretch="UniformToFill"

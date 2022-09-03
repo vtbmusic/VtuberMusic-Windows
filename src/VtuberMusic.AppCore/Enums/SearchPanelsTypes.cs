@@ -1,5 +1,5 @@
 ﻿namespace VtuberMusic.AppCore.Enums;
-public enum FirendsPageType {
+public enum FriendsPageType {
     Fans,
     Follwers
 }

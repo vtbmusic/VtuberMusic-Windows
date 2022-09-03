@@ -13,9 +13,6 @@
     SizeChanged="{x:Bind Page_SizeChanged}"
     mc:Ignorable="d">
 
-    <Page.DataContext>
-        <viewmodels:MainPageViewModel x:Name="ViewModel"/>
-    </Page.DataContext>
     <Page.Resources>
         <Storyboard x:Name="PlayingIn">
             <DoubleAnimation Storyboard.TargetName="PlayingTransfrom" Storyboard.TargetProperty="Y"

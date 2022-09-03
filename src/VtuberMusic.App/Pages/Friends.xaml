@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="VtuberMusic.App.Pages.Firends"
+    x:Class="VtuberMusic.App.Pages.Friends"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VtuberMusic.App.Pages"
@@ -10,9 +10,6 @@
     xmlns:viewmodels="using:VtuberMusic.App.ViewModels"
     mc:Ignorable="d">
 
-    <Page.DataContext>
-        <viewmodels:FriendsViewModel x:Name="ViewModel"/>
-    </Page.DataContext>
     <muxc:NavigationView x:Name="Nav" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
                          SelectionChanged="Nav_SelectionChanged"
                          >

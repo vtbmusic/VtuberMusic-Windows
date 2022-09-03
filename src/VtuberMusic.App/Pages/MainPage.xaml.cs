@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.Linq;
 using VtuberMusic.App.Models;
 using VtuberMusic.App.Services;
-using VtuberMusic.App.ViewModels;
+using VtuberMusic.App.ViewModels.Pages;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -13,15 +13,15 @@ namespace VtuberMusic.App.Pages;
 /// 可用于自身或导航至 Frame 内部的空白页。
 /// </summary>
 public sealed partial class MainPage : Page {
-    private MainPageViewModel viewModel => DataContext as MainPageViewModel;
-    private INavigationService _navigationService = Ioc.Default.GetRequiredService<INavigationService>();
+    public readonly MainPageViewModel ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+    private readonly INavigationService _navigationService = Ioc.Default.GetRequiredService<INavigationService>();
 
     public MainPage() {
         InitializeComponent();
         _navigationService.SetContentFrame(MainFrame);
     }
 
-    private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args) {
+    private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
         if (args.IsSettingsSelected) {
             _navigationService.Navigate<SettingPage>();
             return;
@@ -44,14 +44,14 @@ public sealed partial class MainPage : Page {
         }
 
         NavigationTag tag = new() { Type = e.SourcePageType, Args = e.Parameter };
-        foreach (var item in from item in this.viewModel.NavigationItems
+        foreach (var item in from item in this.ViewModel.NavigationItems
                              where item.Tag != null && (item.Tag as NavigationTag).Type == tag.Type && (item.Tag as NavigationTag).Args == tag.Args
                              select item) {
             MainNavigationView.SelectedItem = item;
             return;
         }
 
-        foreach (var footerItem in from footerItem in this.viewModel.PaneFooterNavigationItems
+        foreach (var footerItem in from footerItem in this.ViewModel.PaneFooterNavigationItems
                                    where footerItem.Tag != null && (footerItem.Tag as NavigationTag).Type == tag.Type && (footerItem.Tag as NavigationTag).Args == tag.Args
                                    select footerItem) {
             MainNavigationView.SelectedItem = footerItem;
@@ -62,14 +62,14 @@ public sealed partial class MainPage : Page {
     }
 
     private void MusicPlayer_RequsetShowPlaying(object sender, System.EventArgs e) {
-        this.viewModel.IsPlayingShow = true;
+        this.ViewModel.IsPlayingShow = true;
         PlayingTransfrom.Y = this.ActualHeight;
         PlayingIn.Begin();
     }
 
     private void Page_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e) {
-        this.viewModel.PageHeight = e.NewSize.Height;
-        if (!this.viewModel.IsPlayingShow && PlayingTransfrom != null) {
+        this.ViewModel.PageHeight = e.NewSize.Height;
+        if (!this.ViewModel.IsPlayingShow && PlayingTransfrom != null) {
             PlayingTransfrom.Y = e.NewSize.Height;
         }
     }
@@ -77,7 +77,7 @@ public sealed partial class MainPage : Page {
     private void PlayingControl_RequestClosePlaying(object sender, System.EventArgs e) {
         PlayingOut.Begin();
         PlayingOut.Completed += delegate {
-            this.viewModel.IsPlayingShow = false;
+            this.ViewModel.IsPlayingShow = false;
         };
     }
 }

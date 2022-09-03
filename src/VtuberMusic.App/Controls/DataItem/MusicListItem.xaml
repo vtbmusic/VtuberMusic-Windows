@@ -34,9 +34,6 @@
                 <MenuFlyoutItem Icon="Share" Text="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
             </MenuFlyout>
         </Grid.ContextFlyout>
-        <Grid.DataContext>
-            <viewmodels:DataItemViewModel x:Name="ViewModel"/>
-        </Grid.DataContext>
         <interactivity:Interaction.Behaviors>
             <core:EventTriggerBehavior EventName="DoubleTapped">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.SetMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>

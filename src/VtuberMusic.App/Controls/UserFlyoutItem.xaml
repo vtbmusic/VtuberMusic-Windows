@@ -14,9 +14,6 @@
     d:DesignWidth="400">
 
     <StackPanel Margin="10" MinWidth="250">
-        <StackPanel.DataContext>
-            <viewmodels:UserFlyoutViewModel x:Name="ViewModel"/>
-        </StackPanel.DataContext>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
