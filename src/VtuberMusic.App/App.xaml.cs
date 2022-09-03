@@ -13,72 +13,69 @@ using VtuberMusic.Core.Services;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace VtuberMusic.App {
+namespace VtuberMusic.App;
+/// <summary>
+/// Provides application-specific behavior to supplement the default Application class.
+/// </summary>
+public partial class App : Application {
+    public static Frame RootFrame;
+    public static MainWindow MainWindow;
+
     /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
+    /// Initializes the singleton application object.  This is the first line of authored code
+    /// executed, and as such is the logical equivalent of main() or WinMain().
     /// </summary>
-    public partial class App : Application {
-        public static Frame RootFrame;
-        public static MainWindow MainWindow;
+    public App() {
+        InitializeComponent();
 
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App() {
-            this.InitializeComponent();
+        Ioc.Default.ConfigureServices(ConfigureServices());
+    }
 
-            Ioc.Default.ConfigureServices(ConfigureServices());
-        }
+    /// <summary>
+    /// Invoked when the application is launched normally by the end user.  Other entry points
+    /// will be used such as when the application is launched to open a specific file.
+    /// </summary>
+    /// <param name="args">Details about the launch request and process.</param>
+    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args) {
+        m_window = new MainWindow();
+        m_window.Activate();
+    }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args) {
-            m_window = new MainWindow();
-            m_window.Activate();
-        }
+    private Window m_window;
 
-        private Window m_window;
+    private static IServiceProvider ConfigureServices() {
+        ServiceCollection services = new();
 
-        private static IServiceProvider ConfigureServices() {
-            var services = new ServiceCollection();
+        _ = services.AddSingleton<INavigationService, NavigatoinSerivce>();
+        _ = services.AddSingleton<IMediaPlayBackService, MediaPlaybackService>();
+        _ = services.AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService);
+        _ = services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
+            ContentSerializer = new NewtonsoftJsonContentSerializer(),
+            AuthorizationHeaderValueGetter = auth
+        })
+            .ConfigureHttpClient(options => {
+                options.BaseAddress = new Uri("https://api.aqua.chat");
+            });
 
-            services.AddSingleton<INavigationService, NavigatoinSerivce>();
-            services.AddSingleton<IMediaPlayBackService, MediaPlaybackService>();
-            services.AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService);
-            services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
-                ContentSerializer = new NewtonsoftJsonContentSerializer(),
-                AuthorizationHeaderValueGetter = auth
-            })
-                .ConfigureHttpClient(options => {
-                    options.BaseAddress = new Uri("https://api.aqua.chat");
-                });
+        return services.BuildServiceProvider();
+    }
 
-            return services.BuildServiceProvider();
-        }
+    private static AuthorizationService initAuthorizationService(IServiceProvider arg) {
+        AuthorizationService service = new(SettingsHelper.RefreshToken);
+        service.IsAuthorizedChanged += Service_IsAuthorizedChanged;
+        service.IsLoginChanged += Service_IsLoginChanged;
 
-        private static AuthorizationService initAuthorizationService(IServiceProvider arg) {
-            var service = new AuthorizationService(SettingsHelper.RefreshToken);
-            service.IsAuthorizedChanged += Service_IsAuthorizedChanged;
-            service.IsLoginChanged += Service_IsLoginChanged;
+        return service;
+    }
 
-            return service;
-        }
+    private static void Service_IsLoginChanged(object sender, bool e) {
+        //throw new NotImplementedException();
+    }
 
-        private static void Service_IsLoginChanged(object sender, bool e) {
-            //throw new NotImplementedException();
-        }
+    private static void Service_IsAuthorizedChanged(object sender, bool e) => SettingsHelper.RefreshToken = (sender as IAuthorizationService).GetRefreshToken();
 
-        private static void Service_IsAuthorizedChanged(object sender, bool e) {
-            SettingsHelper.RefreshToken = (sender as IAuthorizationService).GetRefreshToken();
-        }
-
-        private async static Task<string> auth() {
-            var service = Ioc.Default.GetService<IAuthorizationService>();
-            return await service.GetTokenAsync();
-        }
+    private static async Task<string> auth() {
+        var service = Ioc.Default.GetService<IAuthorizationService>();
+        return await service.GetTokenAsync();
     }
 }

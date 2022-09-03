@@ -1,7 +1,6 @@
-﻿namespace VtuberMusic.AppCore.Enums {
-    public enum PlaylistPlayMode {
-        PlaylistRepeat,
-        SingleRepeat,
-        Shuffle
-    }
+﻿namespace VtuberMusic.AppCore.Enums;
+public enum PlaylistPlayMode {
+    PlaylistRepeat,
+    SingleRepeat,
+    Shuffle
 }

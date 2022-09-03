@@ -5,27 +5,28 @@ using System.Threading.Tasks;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels {
-    public class ArtistPageViewModel : AppViewModel {
-        private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+namespace VtuberMusic.App.ViewModels;
+public class ArtistPageViewModel : AppViewModel {
+    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
 
-        public IAsyncRelayCommand LoadCommand { get; }
+    public IAsyncRelayCommand LoadCommand { get; }
 
-        public Artist Artist { get => artist; set => SetProperty(ref artist, value); }
-        public ObservableCollection<Music> Musics = new ObservableCollection<Music>();
+    public Artist Artist { get => artist; set => SetProperty(ref artist, value); }
+    public ObservableCollection<Music> Musics = new();
 
-        private Artist artist;
+    private Artist artist;
 
-        public ArtistPageViewModel() {
-            LoadCommand = new AsyncRelayCommand(LoadDataAsync);
-        }
+    public ArtistPageViewModel() {
+        LoadCommand = new AsyncRelayCommand(LoadDataAsync);
+    }
 
-        private async Task LoadDataAsync() {
-            Artist = (await _vtuberMusicService.GetArtistDetail(Artist.id)).Data;
-            var musics = await _vtuberMusicService.GetArtistMusics(Artist.id);
+    private async Task LoadDataAsync() {
+        Artist = (await _vtuberMusicService.GetArtistDetail(Artist.id)).Data;
+        var musics = await _vtuberMusicService.GetArtistMusics(Artist.id);
 
-            Musics.Clear();
-            foreach (var item in musics.Data) Musics.Add(item);
+        Musics.Clear();
+        foreach (var item in musics.Data) {
+            Musics.Add(item);
         }
     }
 }

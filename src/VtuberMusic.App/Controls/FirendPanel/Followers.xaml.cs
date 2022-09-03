@@ -6,22 +6,19 @@ using VtuberMusic.Core.Models;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
-namespace VtuberMusic.App.Controls.FirendPanel {
-    public sealed partial class Followers : UserControl {
-        public DependencyProperty UserIdProperty =
-            DependencyProperty.Register("UserId", typeof(string), typeof(Followers), new PropertyMetadata(null));
+namespace VtuberMusic.App.Controls.FirendPanel;
+public sealed partial class Followers : UserControl {
+    public DependencyProperty UserIdProperty =
+        DependencyProperty.Register("UserId", typeof(string), typeof(Followers), new PropertyMetadata(null));
 
-        public string UserId {
-            get => (string)GetValue(UserIdProperty);
-            set => SetValue(UserIdProperty, value);
-        }
-
-        public Followers() {
-            this.InitializeComponent();
-        }
-
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e) {
-            ViewModel.NavigationService.Navigate<ProfilePage>(new ProfilePageArg { Profile = e.ClickedItem as Profile });
-        }
+    public string UserId {
+        get => (string)GetValue(UserIdProperty);
+        set => SetValue(UserIdProperty, value);
     }
+
+    public Followers() {
+        InitializeComponent();
+    }
+
+    private void ListView_ItemClick(object sender, ItemClickEventArgs e) => ViewModel.NavigationService.Navigate<ProfilePage>(new ProfilePageArg { Profile = e.ClickedItem as Profile });
 }

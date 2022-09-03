@@ -9,41 +9,40 @@ using VtuberMusic.Core.Helper;
 using VtuberMusic.Core.Models.Lyric;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels.Lyric {
-    public class LyricViewViewModel : AppViewModel {
-        IVtuberMusicService VtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
-        IMediaPlayBackService MediaPlayBackService = Ioc.Default.GetService<IMediaPlayBackService>();
+namespace VtuberMusic.App.ViewModels.Lyric;
+public class LyricViewViewModel : AppViewModel {
+    private readonly IVtuberMusicService VtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    private readonly IMediaPlayBackService MediaPlayBackService = Ioc.Default.GetService<IMediaPlayBackService>();
 
-        public IAsyncRelayCommand LoadCommand { get; }
+    public IAsyncRelayCommand LoadCommand { get; }
 
-        public ParsedVrc Lyric { get => lyric; set => SetProperty(ref lyric, value); }
-        private ParsedVrc lyric;
+    public ParsedVrc Lyric { get => lyric; set => SetProperty(ref lyric, value); }
+    private ParsedVrc lyric;
 
-        public LyricViewViewModel() : base() {
-            LoadCommand = new AsyncRelayCommand(load);
-        }
+    public LyricViewViewModel() : base() {
+        LoadCommand = new AsyncRelayCommand(load);
+    }
 
-        protected override void OnActivated() {
-            base.OnActivated();
-            WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackMusicChangedMessage message) {
-                DispatcherHelper.TryRun(delegate {
-                    LoadCommand.Execute(null);
-                });
+    protected override void OnActivated() {
+        base.OnActivated();
+        WeakReferenceMessenger.Default.Register(this, delegate (object sender, PlaybackMusicChangedMessage message) {
+            DispatcherHelper.TryRun(delegate {
+                LoadCommand.Execute(null);
             });
-        }
+        });
+    }
 
-        protected override void OnDeactivated() {
-            base.OnDeactivated();
-            WeakReferenceMessenger.Default.UnregisterAll(this);
-        }
+    protected override void OnDeactivated() {
+        base.OnDeactivated();
+        WeakReferenceMessenger.Default.UnregisterAll(this);
+    }
 
-        private async Task load() {
-            if (MediaPlayBackService.NowPlaying != null) {
-                try {
-                    Lyric = await LyricHelper.ParsedVrcAsync(await VtuberMusicService.GetLyric(MediaPlayBackService.NowPlaying.id));
-                } catch {
-                    Lyric = null;
-                }
+    private async Task load() {
+        if (MediaPlayBackService.NowPlaying != null) {
+            try {
+                Lyric = await LyricHelper.ParsedVrcAsync(await VtuberMusicService.GetLyric(MediaPlayBackService.NowPlaying.id));
+            } catch {
+                Lyric = null;
             }
         }
     }

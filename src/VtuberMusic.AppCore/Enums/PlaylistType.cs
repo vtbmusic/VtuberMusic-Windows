@@ -1,7 +1,6 @@
-﻿namespace VtuberMusic.AppCore.Enums {
-    public enum PlaylistType {
-        Playlist,
-        LikeMusics,
-        Personalized
-    }
+﻿namespace VtuberMusic.AppCore.Enums;
+public enum PlaylistType {
+    Playlist,
+    LikeMusics,
+    Personalized
 }

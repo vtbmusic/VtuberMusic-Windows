@@ -39,6 +39,5 @@
         ├─Messages // MVVM 的 CommunityToolkit.MVVM 包里的消息实体，如: AuthorizationStateChangedMessage 等
         ├─Models // 实体类，如: ApiResponse、Profile、Music 等
         │  └─Lyric // 歌词的实体类，如: Vrc、LyricWords 等
-        ├─Services // 服务，如: AuthorizationService，IVtuberMusicService 等
-        └─Tools
+        └─Services // 服务，如: AuthorizationService，IVtuberMusicService 等
 ```

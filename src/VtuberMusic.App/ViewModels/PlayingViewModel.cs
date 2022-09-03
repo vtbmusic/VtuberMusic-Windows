@@ -1,4 +1,3 @@
-﻿namespace VtuberMusic.App.ViewModels {
-    public class PlayingViewModel : MusicPlayerViewModel {
-    }
+﻿namespace VtuberMusic.App.ViewModels;
+public class PlayingViewModel : MusicPlayerViewModel {
 }

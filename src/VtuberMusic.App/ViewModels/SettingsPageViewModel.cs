@@ -1,5 +1,4 @@
-﻿namespace VtuberMusic.App.ViewModels {
-    public class SettingsPageViewModel : AppViewModel {
-        // todo
-    }
+﻿namespace VtuberMusic.App.ViewModels;
+public class SettingsPageViewModel : AppViewModel {
+    // todo
 }

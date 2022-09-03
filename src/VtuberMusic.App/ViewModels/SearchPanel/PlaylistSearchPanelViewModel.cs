@@ -4,18 +4,17 @@ using System.Threading.Tasks;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
-namespace VtuberMusic.App.ViewModels.SearchPanel {
-    public class PlaylistSearchPanelViewModel : SearchPanelViewModel {
-        private IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
-        public ObservableCollection<Playlist> Playlists = new ObservableCollection<Playlist>();
+namespace VtuberMusic.App.ViewModels.SearchPanel;
+public class PlaylistSearchPanelViewModel : SearchPanelViewModel {
+    private readonly IVtuberMusicService _vtuberMusicService = Ioc.Default.GetService<IVtuberMusicService>();
+    public ObservableCollection<Playlist> Playlists = new();
 
-        protected async override Task LoadResultAsync() {
-            Playlists.Clear();
-            var data = await _vtuberMusicService.SearchPlaylist(Keyword);
+    protected override async Task LoadResultAsync() {
+        Playlists.Clear();
+        var data = await _vtuberMusicService.SearchPlaylist(Keyword);
 
-            foreach (var item in data.Data) {
-                Playlists.Add(item);
-            }
+        foreach (var item in data.Data) {
+            Playlists.Add(item);
         }
     }
 }

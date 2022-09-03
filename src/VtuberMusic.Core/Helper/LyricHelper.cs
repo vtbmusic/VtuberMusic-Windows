@@ -5,13 +5,15 @@ using VtuberMusic.Core.Models.Lyric;
 
 namespace VtuberMusic.Core.Helper {
     public class LyricHelper {
-        public static async Task<ParsedVrc> ParsedVrcAsync(Vrc vrc) {
+        public static async Task<ParsedVrc> ParsedVrcAsync(Vrc vrc) => await Task.Run(delegate {
             Lyrics<Line> translateLrc = null;
             var originLrc = Lyrics.Parse(vrc.origin.text).Lyrics;
-            if (vrc.translated) translateLrc = Lyrics.Parse(vrc.translate.text).Lyrics;
+            if (vrc.translated) {
+                translateLrc = Lyrics.Parse(vrc.translate.text).Lyrics;
+            }
 
-            List<LyricWords> lyricsWords = new List<LyricWords>();
-            for (int i = 0; i != originLrc.Lines.Count; i++) {
+            var lyricsWords = new List<LyricWords>();
+            for (var i = 0; i != originLrc.Lines.Count; i++) {
                 var lyricWords = new LyricWords { Origin = originLrc.Lines[i] };
                 if (translateLrc != null) {
                     lyricWords.Translate = translateLrc.Lines[i];
@@ -28,6 +30,6 @@ namespace VtuberMusic.Core.Helper {
                 TranslateLyric = translateLrc,
                 OriginLyric = originLrc
             };
-        }
+        });
     }
 }
