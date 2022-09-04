@@ -37,8 +37,10 @@ public partial class App : Application {
     public App() {
         InitializeComponent();
 
+#if !DEBUG
         AppCenter.Start("3169a606-ee13-45f6-bb04-fc381ae6702f",
                   typeof(Analytics), typeof(Crashes));
+#endif
 
         Ioc.Default.ConfigureServices(ConfigureServices());
     }
