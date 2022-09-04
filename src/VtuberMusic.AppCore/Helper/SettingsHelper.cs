@@ -9,6 +9,14 @@ public class SettingsHelper {
 
     public static void SetSetting(string key, object value) => ApplicationData.Current.LocalSettings.Values[key] = value;
 
+    public static T GetSetting<T>(string key, T defaultValue) {
+        if (ApplicationData.Current.LocalSettings.Values[key] is T data) {
+            return data;
+        } else {
+            return defaultValue;
+        }
+    }
+
     public static T GetSetting<T>(string key) => (T)ApplicationData.Current.LocalSettings.Values[key];
 
     public static object GetSetting(string key) => ApplicationData.Current.LocalSettings.Values[key];
