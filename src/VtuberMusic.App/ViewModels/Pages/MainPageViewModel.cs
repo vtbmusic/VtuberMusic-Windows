@@ -9,7 +9,9 @@ using VtuberMusic.App.Helper;
 using VtuberMusic.App.Models;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
+using VtuberMusic.App.Services;
 using VtuberMusic.AppCore.Enums;
+using VtuberMusic.AppCore.Helper;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.Pages;
@@ -63,6 +65,21 @@ public partial class MainPageViewModel : ObservableObject {
         var subPlaylists = (await _vtuberMusicService.GetSubPlaylist()).Data;
         foreach (var item in subPlaylists) {
             this.NavigationItems.Add(createNavgationItem(typeof(PlaylistPage), item.name, new SymbolIcon(Symbol.MusicInfo), new PlaylistPageArg { Playlist = item }));
+        }
+
+        switch (SettingsHelper.DefaultNavigationPage) {
+            case DefaultNavigationPage.Home:
+                NavigationHelper.Navigate<Discover>();
+                break;
+            case DefaultNavigationPage.Library:
+                NavigationHelper.Navigate<Library>();
+                break;
+            case DefaultNavigationPage.LikeMusic:
+                NavigationHelper.Navigate<PlaylistPage>(new PlaylistPageArg { Playlist = likeMusicsPlaylist.Data.playlist, PlaylistType = PlaylistType.LikeMusics });
+                break;
+            default:
+                NavigationHelper.Navigate<Discover>();
+                break;
         }
     }
 
