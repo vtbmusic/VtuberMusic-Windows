@@ -9,7 +9,9 @@ using VtuberMusic.App.Helper;
 using VtuberMusic.App.Models;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
+using VtuberMusic.App.Services;
 using VtuberMusic.AppCore.Enums;
+using VtuberMusic.AppCore.Helper;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.Pages;
@@ -49,6 +51,15 @@ public partial class MainPageViewModel : ObservableObject {
 
     [RelayCommand]
     public async Task Load() {
+        switch (SettingsHelper.DefaultNavigationPage) {
+            case DefaultNavigationPage.Home:
+                NavigationHelper.Navigate<Discover>();
+                break;
+            case DefaultNavigationPage.Library:
+                NavigationHelper.Navigate<Library>();
+                break;
+        }
+
         var likeMusicsPlaylist = await _vtuberMusicService.GetFavouriteMusicsPlaylist();
         this.NavigationItems.Insert(2, createNavgationItem(typeof(PlaylistPage), "我喜欢的音乐", new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE006" },
             new PlaylistPageArg { Playlist = likeMusicsPlaylist.Data.playlist, PlaylistType = PlaylistType.LikeMusics }));
@@ -64,6 +75,9 @@ public partial class MainPageViewModel : ObservableObject {
         foreach (var item in subPlaylists) {
             this.NavigationItems.Add(createNavgationItem(typeof(PlaylistPage), item.name, new SymbolIcon(Symbol.MusicInfo), new PlaylistPageArg { Playlist = item }));
         }
+
+        if (SettingsHelper.DefaultNavigationPage == DefaultNavigationPage.LikeMusic)
+            NavigationHelper.Navigate<PlaylistPage>(new PlaylistPageArg { Playlist = likeMusicsPlaylist.Data.playlist, PlaylistType = PlaylistType.LikeMusics });
     }
 
     private static NavigationViewItem createNavgationItem(Type type, string title, IconElement icon, object args = null) => new() { Icon = icon, Content = title, Tag = new NavigationTag { Type = type, Args = args } };

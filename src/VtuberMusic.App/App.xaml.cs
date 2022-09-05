@@ -37,8 +37,10 @@ public partial class App : Application {
     public App() {
         InitializeComponent();
 
+#if !DEBUG
         AppCenter.Start("3169a606-ee13-45f6-bb04-fc381ae6702f",
                   typeof(Analytics), typeof(Crashes));
+#endif
 
         Ioc.Default.ConfigureServices(ConfigureServices());
     }
@@ -89,8 +91,15 @@ public partial class App : Application {
         services
             .AddSingleton<INavigationService, NavigatoinSerivce>()
             .AddSingleton<IMediaPlayBackService, MediaPlaybackService>()
-            .AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService)
-            .AddRefitClient<IVtuberMusicService>(new RefitSettings {
+            .AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService);
+
+        services.AddRefitClient<IAppCenterReleasesService>(new RefitSettings {
+            ContentSerializer = new NewtonsoftJsonContentSerializer()
+        }).ConfigureHttpClient(options => {
+            options.BaseAddress = new Uri("https://install.appcenter.ms");
+        });
+
+        services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
                 ContentSerializer = new NewtonsoftJsonContentSerializer(),
                 AuthorizationHeaderValueGetter = auth
             })

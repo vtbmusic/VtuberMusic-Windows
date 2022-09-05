@@ -25,6 +25,10 @@
     <Content Remove="Assets\76825487_p0.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
+    <None Remove="Controls\Settings\SettingsEntityItem.xaml" />
+    <None Remove="Controls\Settings\SettingsExpanderItem.xaml" />
+    <None Remove="Dialogs\UpdateAvailableDialog.xaml" />
     <None Remove="Pages\Friends.xaml" />
   </ItemGroup>
 
@@ -32,6 +36,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.1.2" />
     <PackageReference Include="Microsoft.AppCenter" Version="4.5.3" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
@@ -54,6 +59,21 @@
   <ItemGroup>
     <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj" />
     <ProjectReference Include="..\VtuberMusic.Core\VtuberMusic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\UpdateAvailableDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\SettingsExpanderItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\SettingsButtonEntityItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Friends.xaml">
@@ -134,6 +154,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\SettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\SettingsEntityItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

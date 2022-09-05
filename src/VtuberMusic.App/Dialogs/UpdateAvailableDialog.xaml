@@ -1,0 +1,21 @@
+﻿<UserControl
+    x:Class="VtuberMusic.App.Dialogs.UpdateAvailableDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <TextBlock Foreground="{ThemeResource SystemBaseMediumColor}" Margin="0 0 0 10">
+            <Run Text="最新版本"/>
+            <Run Text="{x:Bind Releases.version}"/>
+            <Run Text="/"/>
+            <Run Text="本地版本"/>
+            <Run x:Name="LocalVersionText"/>
+        </TextBlock>
+        <controls:MarkdownTextBlock Text="{x:Bind Releases.release_notes}" Background="Transparent"/>
+    </StackPanel>
+</UserControl>
