@@ -11,6 +11,7 @@ using VtuberMusic.App.ViewModels.Pages;
 using VtuberMusic.AppCore.Enums;
 using VtuberMusic.AppCore.Helper;
 using Windows.ApplicationModel;
+using Windows.System;
 using AppInstance = Microsoft.Windows.AppLifecycle.AppInstance;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -51,4 +52,19 @@ public sealed partial class SettingPage : Page {
         SettingsHelper.RefreshToken = null;
         var error = AppInstance.Restart("");
     }
+
+    private async void EmailUs_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        await Launcher.LaunchUriAsync(new Uri("mailto:us@vtbmusic.com"));
+
+    private async void JoinOurQQ_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        await Launcher.LaunchUriAsync(new Uri("https://jq.qq.com/?_wv=1027&k=G3MnnfDQ"));
+
+    private async void SubOurBiliBili_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        await Launcher.LaunchUriAsync(new Uri("https://space.bilibili.com/8003519/"));
+
+    private async void SubOurTwitter_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        await Launcher.LaunchUriAsync(new Uri("https://twitter.com/VtuberMusic"));
+
+    private async void OfficalSite_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        await Launcher.LaunchUriAsync(new Uri("https://vtbmusic.com"));
 }

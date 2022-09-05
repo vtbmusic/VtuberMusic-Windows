@@ -28,7 +28,7 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <StackPanel Orientation="Horizontal">
-                        <AppBarButton Label="官方网站">
+                        <AppBarButton x:Name="OfficalSite" Label="官方网站" Click="OfficalSite_Click">
                             <AppBarButton.Icon>
                                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEC27;" />
                             </AppBarButton.Icon>
@@ -38,14 +38,30 @@
                                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE946;" />
                             </AppBarButton.Icon>
                         </AppBarButton>
-                        <AppBarButton Label="开源许可">
+                        <!--<AppBarButton Label="开源许可">
                             <AppBarButton.Icon>
                                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE943;" />
                             </AppBarButton.Icon>
-                        </AppBarButton>
-                        <AppBarButton Label="联系我们">
+                        </AppBarButton>-->
+                        <AppBarSeparator/>
+                        <AppBarButton x:Name="EmailUs" Label="邮件" Click="EmailUs_Click">
                             <AppBarButton.Icon>
                                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE119;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="JoinOurQQ" Label="QQ 群" Click="JoinOurQQ_Click">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE125;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="SubOurBiliBili" Label="哔哩哔哩" Click="SubOurBiliBili_Click">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEB9F;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="SubOurTwitter" Label="Twitter" Click="SubOurTwitter_Click">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1D7;" />
                             </AppBarButton.Icon>
                         </AppBarButton>
                     </StackPanel>
