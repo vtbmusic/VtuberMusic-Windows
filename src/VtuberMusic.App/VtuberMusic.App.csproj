@@ -25,6 +25,9 @@
     <Content Remove="Assets\76825487_p0.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
+    <None Remove="Controls\Settings\SettingsEntityItem.xaml" />
+    <None Remove="Controls\Settings\SettingsExpanderItem.xaml" />
     <None Remove="Pages\Friends.xaml" />
   </ItemGroup>
 
@@ -54,6 +57,16 @@
   <ItemGroup>
     <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj" />
     <ProjectReference Include="..\VtuberMusic.Core\VtuberMusic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\SettingsExpanderItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\SettingsButtonEntityItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Friends.xaml">
@@ -134,6 +147,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Pages\SettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Settings\SettingsEntityItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
