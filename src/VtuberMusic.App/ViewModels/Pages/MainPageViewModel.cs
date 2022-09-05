@@ -51,6 +51,15 @@ public partial class MainPageViewModel : ObservableObject {
 
     [RelayCommand]
     public async Task Load() {
+        switch (SettingsHelper.DefaultNavigationPage) {
+            case DefaultNavigationPage.Home:
+                NavigationHelper.Navigate<Discover>();
+                break;
+            case DefaultNavigationPage.Library:
+                NavigationHelper.Navigate<Library>();
+                break;
+        }
+
         var likeMusicsPlaylist = await _vtuberMusicService.GetFavouriteMusicsPlaylist();
         this.NavigationItems.Insert(2, createNavgationItem(typeof(PlaylistPage), "我喜欢的音乐", new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE006" },
             new PlaylistPageArg { Playlist = likeMusicsPlaylist.Data.playlist, PlaylistType = PlaylistType.LikeMusics }));
@@ -67,20 +76,8 @@ public partial class MainPageViewModel : ObservableObject {
             this.NavigationItems.Add(createNavgationItem(typeof(PlaylistPage), item.name, new SymbolIcon(Symbol.MusicInfo), new PlaylistPageArg { Playlist = item }));
         }
 
-        switch (SettingsHelper.DefaultNavigationPage) {
-            case DefaultNavigationPage.Home:
-                NavigationHelper.Navigate<Discover>();
-                break;
-            case DefaultNavigationPage.Library:
-                NavigationHelper.Navigate<Library>();
-                break;
-            case DefaultNavigationPage.LikeMusic:
-                NavigationHelper.Navigate<PlaylistPage>(new PlaylistPageArg { Playlist = likeMusicsPlaylist.Data.playlist, PlaylistType = PlaylistType.LikeMusics });
-                break;
-            default:
-                NavigationHelper.Navigate<Discover>();
-                break;
-        }
+        if (SettingsHelper.DefaultNavigationPage == DefaultNavigationPage.LikeMusic)
+            NavigationHelper.Navigate<PlaylistPage>(new PlaylistPageArg { Playlist = likeMusicsPlaylist.Data.playlist, PlaylistType = PlaylistType.LikeMusics });
     }
 
     private static NavigationViewItem createNavgationItem(Type type, string title, IconElement icon, object args = null) => new() { Icon = icon, Content = title, Tag = new NavigationTag { Type = type, Args = args } };
