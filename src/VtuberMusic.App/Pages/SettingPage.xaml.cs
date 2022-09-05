@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.AppLifecycle;
 using Serilog.Events;
 using System;
 using System.Collections;
@@ -10,6 +11,7 @@ using VtuberMusic.App.ViewModels.Pages;
 using VtuberMusic.AppCore.Enums;
 using VtuberMusic.AppCore.Helper;
 using Windows.ApplicationModel;
+using AppInstance = Microsoft.Windows.AppLifecycle.AppInstance;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -44,4 +46,9 @@ public sealed partial class SettingPage : Page {
     private void DefaultNavigationPageSelector_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         => DefaultNavigationPageSelector.SelectedIndex =
         ViewModel.DefaultNavigationPageType.ToList().FindIndex(item => item.Value == SettingsHelper.DefaultNavigationPage);
+
+    private void LogOutButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) {
+        SettingsHelper.RefreshToken = null;
+        var error = AppInstance.Restart("");
+    }
 }

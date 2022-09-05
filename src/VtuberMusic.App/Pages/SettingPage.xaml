@@ -59,6 +59,15 @@
                 </StackPanel>
             </Grid>
             <TextBlock Text="账户" FontWeight="SemiBold" FontSize="16" Margin="0 10"/>
+            <settings:SettingsEntityItem Title="{x:Bind ViewModel.Profile.nickname,Mode=OneWay}" Descrption="{x:Bind ViewModel.Account.userName,Mode=OneWay}">
+                <settings:SettingsEntityItem.Icon>
+                    <PersonPicture ProfilePicture="{x:Bind ViewModel.Profile.avatarUrl,Mode=OneWay}" Height="40" Width="40" Margin="-10" />
+                </settings:SettingsEntityItem.Icon>
+                <StackPanel Orientation="Horizontal">
+                    <HyperlinkButton Content="修改个人资料" IsEnabled="False"/>
+                    <HyperlinkButton Content="登出" Click="{x:Bind LogOutButton_Click}"/>
+                </StackPanel>
+            </settings:SettingsEntityItem>
             <TextBlock Text="应用" FontWeight="SemiBold" FontSize="16" Margin="0 10"/>
             <settings:SettingsEntityItem Title="应用首页" Descrption="选择启动应用时进入的初始页">
                 <settings:SettingsEntityItem.Icon>
