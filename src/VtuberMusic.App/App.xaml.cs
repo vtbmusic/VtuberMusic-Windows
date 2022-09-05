@@ -91,8 +91,15 @@ public partial class App : Application {
         services
             .AddSingleton<INavigationService, NavigatoinSerivce>()
             .AddSingleton<IMediaPlayBackService, MediaPlaybackService>()
-            .AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService)
-            .AddRefitClient<IVtuberMusicService>(new RefitSettings {
+            .AddSingleton<IAuthorizationService, AuthorizationService>(initAuthorizationService);
+
+        services.AddRefitClient<IAppCenterReleasesService>(new RefitSettings {
+            ContentSerializer = new NewtonsoftJsonContentSerializer()
+        }).ConfigureHttpClient(options => {
+            options.BaseAddress = new Uri("https://install.appcenter.ms");
+        });
+
+        services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
                 ContentSerializer = new NewtonsoftJsonContentSerializer(),
                 AuthorizationHeaderValueGetter = auth
             })
