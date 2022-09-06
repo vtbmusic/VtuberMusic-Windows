@@ -10,5 +10,8 @@ namespace VtuberMusic.Core.Services {
 
         [Get("/v2/artist/songs")]
         Task<Models.ApiResponse<Music[]>> GetArtistMusics(string id, ArtistMusicOrder order = ArtistMusicOrder.Hot, int limit = 50, int offset = 0);
+
+        [Get("/v2/artist/list")]
+        Task<Models.ApiResponse<Artist[]>> GetArtists(string initial = null, string group = null, string area = null, int limit = 30, int offset = 0);
     }
 }

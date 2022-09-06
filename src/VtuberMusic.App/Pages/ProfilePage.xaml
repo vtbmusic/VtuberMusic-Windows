@@ -12,6 +12,7 @@
     xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
     xmlns:models="using:VtuberMusic.Core.Models"
     xmlns:controls1="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:uistatue="using:VtuberMusic.App.Converters.UIStatue"
     mc:Ignorable="d">
 
     <interactivity:Interaction.Behaviors>
@@ -19,6 +20,9 @@
             <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}"/>
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
+    <Page.Resources>
+        <uistatue:FollowStatueConverter x:Key="FollowStatueConverter"/>
+    </Page.Resources>
     <controls:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
         <ListView x:Name="MainListView" SelectionMode="None" Padding="{StaticResource MusicPlayerHeight}">
             <ListViewItem>
@@ -50,7 +54,7 @@
                         </StackPanel>
                     </Border>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
-                        <AppBarButton Label="关注" Icon="AddFriend"/>
+                        <AppBarButton x:Name="FollowButton" Label="{x:Bind ViewModel.IsFollwed, Mode=OneWay, Converter={StaticResource FollowStatueConverter}}" Icon="AddFriend" Command="{x:Bind ViewModel.FollowCommand}"/>
                     </StackPanel>
                 </Grid>
             </ListViewItem>

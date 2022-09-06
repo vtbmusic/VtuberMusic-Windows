@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using VtuberMusic.AppCore.Enums;
 using Windows.Storage;
@@ -16,7 +15,7 @@ public class SettingsHelper {
         set => SetSetting(value);
     }
 
-    public static void SetSetting(object value , [CallerMemberName] string key = "") {
+    public static void SetSetting(object value, [CallerMemberName] string key = "") {
         if (value is Enum) {
             ApplicationData.Current.LocalSettings.Values[key] = (int)value;
             return;
@@ -25,7 +24,7 @@ public class SettingsHelper {
         ApplicationData.Current.LocalSettings.Values[key] = value;
     }
 
-    public static T GetSetting<T>(T defaultValue , [CallerMemberName] string key = "") {
+    public static T GetSetting<T>(T defaultValue, [CallerMemberName] string key = "") {
         var raw = ApplicationData.Current.LocalSettings.Values[key];
         switch (raw) {
             case T:

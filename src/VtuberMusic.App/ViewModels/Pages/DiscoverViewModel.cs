@@ -19,11 +19,11 @@ public partial class DiscoverViewModel : ObservableObject {
     [ObservableProperty]
     private ObservableCollection<Music> newMusics = new ObservableCollection<Music>();
     [ObservableProperty]
-    private ObservableCollection<Banner> banners = new ObservableCollection<Banner>();
-    [ObservableProperty]
     private ObservableCollection<Playlist> playlists = new ObservableCollection<Playlist>();
     [ObservableProperty]
     private ObservableCollection<Music> personalizedMusic = new ObservableCollection<Music>();
+    [ObservableProperty]
+    private ObservableCollection<Artist> artists = new ObservableCollection<Artist>();
 
     public DateTimeOffset Today = DateTimeOffset.Now;
 
@@ -37,35 +37,22 @@ public partial class DiscoverViewModel : ObservableObject {
     private async Task Load() {
         try {
             var newMusicResponse = await _vtuberMusicService.GetNewMusic();
-            var bannerResponse = await _vtuberMusicService.GetBanner();
             var playlistResponse = await _vtuberMusicService.GetPlaylists();
             var dailyRecommenderResponse = await _vtuberMusicService.GetDailyPersonalizedMusic();
             var personalizedMusicResponse = await _vtuberMusicService.GetPersonalizedMusic();
+            var artistsResponse = await _vtuberMusicService.GetArtists();
 
             this.NewMusics.Clear();
-            foreach (var item in newMusicResponse.Data) {
-                this.NewMusics.Add(item);
-            }
-
-            this.Banners.Clear();
-            foreach (var item in bannerResponse.Data) {
-                this.Banners.Add(item);
-            }
+            Array.ForEach(newMusicResponse.Data, (item) => this.NewMusics.Add(item));
 
             this.Playlists.Clear();
-            foreach (var item in playlistResponse.Data) {
-                this.Playlists.Add(item);
-            }
-
-            this.Playlists.Clear();
-            foreach (var item in playlistResponse.Data) {
-                this.Playlists.Add(item);
-            }
+            Array.ForEach(playlistResponse.Data, (item) => this.Playlists.Add(item));
 
             this.PersonalizedMusic.Clear();
-            foreach (var item in personalizedMusicResponse.Data) {
-                this.PersonalizedMusic.Add(item);
-            }
+            Array.ForEach(personalizedMusicResponse.Data, (item) => this.PersonalizedMusic.Add(item));
+
+            this.Artists.Clear();
+            Array.ForEach(artistsResponse.Data, (item) => this.Artists.Add(item));
 
             this.PersonalizedFirstMusic = this.PersonalizedMusic.FirstOrDefault();
             this.DailyRecommenderPlaylist = dailyRecommenderResponse.Data.playlist;

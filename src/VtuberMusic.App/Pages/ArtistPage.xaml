@@ -63,7 +63,7 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
                             <AppBarButton Icon="Copy" Label="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind ViewModel.Artist, Mode=OneWay}"/>
                             <AppBarButton Icon="Share" Label="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind ViewModel.Artist, Mode=OneWay}"/>
-                            <AppBarButton Icon="AddFriend" Label="关注"/>
+                            <!--<AppBarButton Icon="AddFriend" Label="关注"/>-->
                         </StackPanel>
                     </Grid>
                 </Grid>
