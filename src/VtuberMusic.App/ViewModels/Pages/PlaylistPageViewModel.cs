@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using VtuberMusic.App.Helper;
+using VtuberMusic.App.Messages;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
 using VtuberMusic.AppCore.Enums;
@@ -13,21 +15,38 @@ using VtuberMusic.Core.Services;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace VtuberMusic.App.ViewModels.Pages;
-public partial class PlaylistPageViewModel : ObservableObject {
+public partial class PlaylistPageViewModel : ObservableRecipient {
     private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IAuthorizationService _authorizationService;
     private readonly IMediaPlayBackService _mediaPlayBackService;
 
     [ObservableProperty]
     private Playlist playlist;
 
+    [ObservableProperty]
+    private bool canRemoveMusic;
+
+    [ObservableProperty]
+    private bool canEdit;
+
     public PlaylistType PlaylistType { get; set; }
     [ObservableProperty]
     private ObservableCollection<Music> playlistMusics = new();
 
-    public PlaylistPageViewModel(IVtuberMusicService vtuberMusicService, IMediaPlayBackService mediaPlayBackService) {
+    public PlaylistPageViewModel(IVtuberMusicService vtuberMusicService, IMediaPlayBackService mediaPlayBackService, IAuthorizationService authorizationService) {
         _vtuberMusicService = vtuberMusicService;
         _mediaPlayBackService = mediaPlayBackService;
+        _authorizationService = authorizationService;
     }
+
+    protected override void OnActivated() {
+        WeakReferenceMessenger.Default.Register(this, async (object sender, PlaylistMusicChangedMessage message) => {
+            await Task.Delay(500); // 等个 500ms，因为后端更新歌单有延迟
+            await Load();
+        });
+    }
+
+    protected override void OnDeactivated() => WeakReferenceMessenger.Default.UnregisterAll(this);
 
     [RelayCommand]
     public async Task Load() {
@@ -45,6 +64,8 @@ public partial class PlaylistPageViewModel : ObservableObject {
         }
 
         this.Playlist = playlistResponse.playlist;
+        this.CanRemoveMusic = this.Playlist.creator.userId == _authorizationService.Account.id;
+        this.CanEdit = this.Playlist.creator.userId == _authorizationService.Account.id && this.PlaylistType == PlaylistType.Playlist;
         this.PlaylistMusics.Clear();
         foreach (var item in playlistResponse.songs) {
             this.PlaylistMusics.Add(item);

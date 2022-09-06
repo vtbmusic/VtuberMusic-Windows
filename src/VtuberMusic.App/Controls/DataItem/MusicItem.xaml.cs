@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using VtuberMusic.App.Dialogs;
 using VtuberMusic.App.ViewModels.Controls;
 using VtuberMusic.Core.Models;
 
@@ -34,4 +35,8 @@ public sealed partial class MusicItem : UserControl {
     private void Grid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => VisualStateManager.GoToState(this, "Hover", true);
 
     private void Grid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => VisualStateManager.GoToState(this, "Normal", true);
+
+    private async void TrackMusicMenuFlyoutItem_Click(object sender, RoutedEventArgs e) {
+        await new TrackMusicDialog().ShowDialogAsync(new string[] { this.Music.id });
+    }
 }

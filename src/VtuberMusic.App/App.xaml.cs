@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using VtuberMusic.App.Services;
 using VtuberMusic.App.ViewModels;
 using VtuberMusic.App.ViewModels.Controls;
+using VtuberMusic.App.ViewModels.Controls.DataItem;
 using VtuberMusic.App.ViewModels.FriendsPanel;
 using VtuberMusic.App.ViewModels.Lyric;
 using VtuberMusic.App.ViewModels.Pages;
@@ -63,6 +64,8 @@ public partial class App : Application {
             .AddTransient<DataItemViewModel>()
             .AddTransient<MusicPlayerViewModel>()
             .AddTransient<UserFlyoutViewModel>()
+            .AddTransient<TrackMusicDialogViewModel>()
+            .AddTransient<MusicDataItemViewModel>()
             // FriendsPanel
             .AddTransient<FansViewModel>()
             .AddTransient<FollowersViewModel>()

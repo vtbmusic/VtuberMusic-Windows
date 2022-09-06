@@ -13,7 +13,8 @@
     xmlns:controls1="using:VtuberMusic.App.Controls"
     xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    mc:Ignorable="d">
+    Loaded="{x:Bind PageRoot_Loaded}" Unloaded="{x:Bind PageRoot_Unloaded}"
+    mc:Ignorable="d" x:Name="PageRoot">
 
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
@@ -83,7 +84,7 @@
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Music">
-                    <dataitem:MusicListItem Music="{x:Bind}"/>
+                    <dataitem:MusicListItem Music="{x:Bind}" Loaded="MusicListItem_Loaded"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

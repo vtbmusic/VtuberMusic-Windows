@@ -1,5 +1,6 @@
 ﻿using Refit;
 using System.Threading.Tasks;
+using VtuberMusic.Core.Enums;
 using VtuberMusic.Core.Models;
 
 namespace VtuberMusic.Core.Services {
@@ -24,5 +25,8 @@ namespace VtuberMusic.Core.Services {
 
         [Get("/v2/playlist/likelist")]
         Task<Models.ApiResponse<PlaylistMusicsResponse>> GetFavouriteMusicsPlaylist(string type = "", string uid = "");
+
+        [Post("/v2/playlist/tracks")]
+        Task<Models.ApiResponse> TrackMusic(string pid, TrackType type, [Query(CollectionFormat.Csv)] string[] tracks);
     }
 }

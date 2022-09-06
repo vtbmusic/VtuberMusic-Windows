@@ -29,6 +29,7 @@
     <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsExpanderItem.xaml" />
+    <None Remove="Dialogs\TrackMusicDialog.xaml" />
     <None Remove="Dialogs\UpdateAvailableDialog.xaml" />
     <None Remove="Pages\Friends.xaml" />
   </ItemGroup>
@@ -60,6 +61,11 @@
   <ItemGroup>
     <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj" />
     <ProjectReference Include="..\VtuberMusic.Core\VtuberMusic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\TrackMusicDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\DataItem\ArtistItem.xaml">

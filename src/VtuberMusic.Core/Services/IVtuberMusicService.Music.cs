@@ -14,6 +14,9 @@ namespace VtuberMusic.Core.Services {
         [Get("/v2/search?type=song")]
         Task<Models.ApiResponse<Music[]>> SearchMusic(string keyword, int limit = 50, int offset = 0);
 
+        [Post("/v2/song/like")]
+        Task<Models.ApiResponse> LikeMusic(string id, bool like = true);
+
         [Get("/lyric")]
         Task<Vrc> GetLyric(string id);
     }

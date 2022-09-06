@@ -18,6 +18,7 @@
                     <converters:TimeSpanDoubleConverter x:Key="TimeSpanDoubleConverter"/>
                     <converters:DoubleConverter x:Key="DoubleConverter"/>
                     <converters:NullVisibilityConvter x:Key="NullVisibilityConvter"/>
+                    <converters:AddParameterConverter x:Key="AddParameterConverter"/>
                     <ThemeShadow x:Key="ShareShadow"/>
 
                     <Thickness x:Key="MusicPlayerHeight">0,0,0,100</Thickness>

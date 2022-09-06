@@ -13,12 +13,17 @@ using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace VtuberMusic.App.ViewModels.Controls;
-public partial class DataItemViewModel : ObservableObject {
+namespace VtuberMusic.App.ViewModels.Controls.DataItem;
+public partial class MusicDataItemViewModel : ObservableObject {
     private readonly IMediaPlayBackService _mediaPlaybackService;
     private readonly IVtuberMusicService _vtuberMusicService;
 
-    public DataItemViewModel(IMediaPlayBackService mediaPlaybackService, IVtuberMusicService vtuberMusicService) {
+    [ObservableProperty]
+    private bool canRemove;
+    [ObservableProperty]
+    private bool isFavoriteMusic;
+
+    public MusicDataItemViewModel(IMediaPlayBackService mediaPlaybackService, IVtuberMusicService vtuberMusicService) {
         _mediaPlaybackService = mediaPlaybackService;
         _vtuberMusicService = vtuberMusicService;
     }
