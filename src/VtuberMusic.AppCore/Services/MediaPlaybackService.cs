@@ -2,15 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using VtuberMusic.AppCore.Enums;
 using VtuberMusic.AppCore.Helper;
 using VtuberMusic.AppCore.Messages;
 using VtuberMusic.Core.Models;
+using VtuberMusic.Core.Services;
 using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.Networking.BackgroundTransfer;
+using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.Web.Http;
 
 namespace VtuberMusic.AppCore.Services;
 public partial class MediaPlaybackService : IMediaPlayBackService {
@@ -18,11 +26,10 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
     private readonly SystemMediaTransportControls SMTC;
 
     private Music nowPlaying { get; set; }
-    private readonly string _baseUrl = "https://api.aqua.chat/v2/song/url/media/";
 
     public ObservableCollection<Music> Playlist { get; } = new ObservableCollection<Music>();
     private readonly List<Music> originPlaylist = new();
-
+    private readonly IVtuberMusicService _vtuberMusicService;
     public Music NowPlaying {
         get => this.nowPlaying;
         set {
@@ -59,7 +66,7 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
     public event EventHandler<TimeSpan> PositionChanged;
     public event EventHandler<TimeSpan> DurationChanged;
 
-    public MediaPlaybackService() {
+    public MediaPlaybackService(IVtuberMusicService vtuberMusicService) {
         _mediaPlayer.AudioCategory = MediaPlayerAudioCategory.Media;
 
         _mediaPlayer.MediaFailed += _mediaPlayer_MediaFailed;
@@ -81,6 +88,7 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
         PlaylistPlayModeChanged += MediaPlaybackService_PlaylistPlayModeChanged;
 
         SMTC = _mediaPlayer.SystemMediaTransportControls;
+        _vtuberMusicService = vtuberMusicService;
     }
 
     private void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args) {
@@ -182,7 +190,7 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
         }
     }
 
-    public void SetMusic(Music music) {
+    public async void SetMusic(Music music) {
         if (!this.Playlist.Contains(music)) {
             this.Playlist.Add(music);
             originPlaylist.Add(music);
@@ -194,14 +202,48 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
 
         this.NowPlaying = music;
 
-        var mediaSource = MediaSource.CreateFromUri(new Uri(_baseUrl + music.id));
-        MediaPlaybackItem mediaPlaybackItem = new(mediaSource);
-        mediaPlaybackItem.ApplyDisplayProperties(updateSMTC(mediaPlaybackItem.GetDisplayProperties()));
+        var songUrl = await _vtuberMusicService.GetSongUrl(music.id);
 
-        _mediaPlayer.Source = mediaPlaybackItem;
+        var mediaFileStream = await LoadMediaAsync(songUrl.Data);
+
+        //var mediaSource = MediaSource.CreateFromStorageFile(mediaFile);
+        //MediaPlaybackItem mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+        //mediaPlaybackItem.ApplyDisplayProperties(updateSMTC(mediaPlaybackItem.GetDisplayProperties()));
+        //_mediaPlayer.Source = mediaPlaybackItem;
+        _mediaPlayer.SetStreamSource(mediaFileStream);
         Play();
     }
 
+    public async Task<IRandomAccessStream> LoadMediaAsync(string url) {
+        var uri = new Uri(url);
+        
+        Regex regex = new Regex("[^\\/]+$");
+        var cacheFileName = regex.Match(uri.LocalPath).Value;
+
+        try {
+            var file = await ApplicationData.Current.LocalCacheFolder.GetFileAsync(cacheFileName);
+            var fileStream = await file.OpenAsync(FileAccessMode.Read);
+            return fileStream;
+        } catch {}
+
+        try {
+                var httpClient = new HttpClient();
+                var buffer = await httpClient.GetBufferAsync(new Uri(url));
+                if (buffer != null && buffer.Length > 0u) {
+                    var file = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(cacheFileName, CreationCollisionOption.ReplaceExisting);
+
+                    using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite)) {
+                        await stream.WriteAsync(buffer);
+                        await stream.FlushAsync();
+                    }
+                    var fileStream = await file.OpenAsync(FileAccessMode.Read);
+                    return fileStream;
+                }
+
+        } catch { }
+        
+        return null;
+    }
     private MediaItemDisplayProperties updateSMTC(MediaItemDisplayProperties properties) {
         properties.Type = MediaPlaybackType.Music;
 

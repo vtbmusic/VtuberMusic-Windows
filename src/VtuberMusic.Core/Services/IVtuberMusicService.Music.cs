@@ -19,5 +19,8 @@ namespace VtuberMusic.Core.Services {
 
         [Get("/lyric")]
         Task<Vrc> GetLyric(string id);
+
+        [Get("/v2/song/url/media/{id}")]
+        Task<Models.ApiResponse<string>> GetSongUrl(string id, int type = 1);
     }
 }
