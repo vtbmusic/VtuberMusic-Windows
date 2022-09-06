@@ -204,6 +204,7 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
 
         var songUrl = await _vtuberMusicService.GetSongUrl(music.id);
 
+        _mediaPlayer.Pause();
         var mediaFileStream = await LoadMediaAsync(songUrl.Data);
 
         //var mediaSource = MediaSource.CreateFromStorageFile(mediaFile);
