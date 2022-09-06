@@ -49,7 +49,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid CornerRadius="8" Margin="15 15 10 15" Shadow="{StaticResource ShareShadow}" Translation="0,0,32">
-                                <controls:ImageEx Source="{x:Bind ViewModel.PersonalizedFirstMusic.picUrl, Mode=OneWay}"
+                                <controls:ImageEx Source="{x:Bind ViewModel.PersonalizedFirstMusic.picUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/200x200'}"
                                               Height="120" Width="120" HorizontalAlignment="Center"
                                               Stretch="UniformToFill"/>
                             </Grid>

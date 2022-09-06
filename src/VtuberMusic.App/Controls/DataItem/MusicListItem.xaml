@@ -43,7 +43,7 @@
             </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
         <Grid Height="45" Width="45" CornerRadius="8">
-            <controls:ImageEx Source="{x:Bind Music.picUrl, Mode=OneWay}" Height="45" Width="45" Stretch="UniformToFill"
+            <controls:ImageEx Source="{x:Bind Music.picUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/200x200'}" Height="45" Width="45" Stretch="UniformToFill"
                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Column="1">

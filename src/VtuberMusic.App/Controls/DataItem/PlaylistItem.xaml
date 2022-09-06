@@ -46,7 +46,7 @@
             </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
         <Grid Shadow="{StaticResource ShareShadow}" Translation="0,0,16" CornerRadius="8" Margin="10 0">
-            <controls:ImageEx Source="{x:Bind Playlist.coverImgUrl, Mode=OneWay}"
+            <controls:ImageEx Source="{x:Bind Playlist.coverImgUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/200x200'}"
                           Stretch="UniformToFill" Height="150" Width="150"
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Grid x:Name="HoverPanel" Background="{ThemeResource SystemAltMediumColor}" Visibility="Collapsed">

@@ -27,7 +27,7 @@
                 <Grid Height="350" CornerRadius="8">
                     <ParallaxView Source="{x:Bind MainListView}"
                               VerticalShift="500">
-                        <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay}" Stretch="UniformToFill"
+                        <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/75'}" Stretch="UniformToFill"
                                       HorizontalAlignment="Center"/>
                     </ParallaxView>
                     <Grid>
@@ -45,7 +45,7 @@
                             </Grid.RowDefinitions>
                             <Grid CornerRadius="8" Shadow="{StaticResource ShareShadow}" Translation="0,0,32"
                           Height="200" Width="330" HorizontalAlignment="Left">
-                                <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay}"
+                                <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/50'}"
                                   Stretch="UniformToFill" Height="200" Width="330"/>
                             </Grid>
                         </Grid>
