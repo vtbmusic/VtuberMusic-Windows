@@ -20,6 +20,9 @@ public partial class ProfilePageViewModel : ObservableObject {
     [ObservableProperty]
     private Playlist favouritePlaylist;
 
+    [ObservableProperty]
+    private bool isFollwed;
+
     public ProfilePageViewModel(IVtuberMusicService vtuberMusicService) {
         _vtuberMusicService = vtuberMusicService;
     }
@@ -27,6 +30,7 @@ public partial class ProfilePageViewModel : ObservableObject {
     [RelayCommand]
     private async Task Load() {
         this.Profile = (await _vtuberMusicService.GetProfile(this.Profile.userId)).Data.profile;
+        this.IsFollwed = this.Profile.followed;
 
         var favouritePlaylistResponse = await _vtuberMusicService.GetFavouriteMusicsPlaylist("song", this.Profile.userId);
         var subPlaylistResponse = await _vtuberMusicService.GetSubPlaylist(this.Profile.userId);
@@ -43,5 +47,18 @@ public partial class ProfilePageViewModel : ObservableObject {
         }
 
         this.FavouritePlaylist = favouritePlaylistResponse.Data.playlist;
+    }
+
+    [RelayCommand]
+    private async Task Follow() {
+        if (this.Profile.followed) {
+            await _vtuberMusicService.Follow(this.Profile.userId, "d");
+            this.Profile.followed = false;
+        } else {
+            await _vtuberMusicService.Follow(this.Profile.userId);
+            this.Profile.followed = true;
+        }
+
+        this.IsFollwed = this.Profile.followed;
     }
 }
