@@ -25,9 +25,11 @@ public sealed partial class MusicPlayer : UserControl {
     }
 
     private void MediaPlaybackService_PositionChanged(object sender, TimeSpan e) => this.DispatcherQueue.TryEnqueue(delegate {
-        if (PositionSlider != null & !isMove) {
+        try {
+            if (PositionSlider != null & !isPositionMove) {
             PositionSlider.Value = e.TotalSeconds;
         }
+        } catch { }
     });
 
     private void Slider_PointerPressed(object sender, PointerRoutedEventArgs e) => isMove = true;
