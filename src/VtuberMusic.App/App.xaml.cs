@@ -1,7 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -100,9 +97,9 @@ public partial class App : Application {
         });
 
         services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
-                ContentSerializer = new NewtonsoftJsonContentSerializer(),
-                AuthorizationHeaderValueGetter = auth
-            })
+            ContentSerializer = new NewtonsoftJsonContentSerializer(),
+            AuthorizationHeaderValueGetter = auth
+        })
             .ConfigureHttpClient(options => {
                 options.BaseAddress = new Uri("https://api.aqua.chat");
             });

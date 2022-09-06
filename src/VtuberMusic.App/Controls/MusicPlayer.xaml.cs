@@ -7,7 +7,6 @@ using System;
 using VtuberMusic.App.Helper;
 using VtuberMusic.App.ViewModels;
 using VtuberMusic.AppCore.Messages;
-using VtuberMusic.AppCore.Services;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 

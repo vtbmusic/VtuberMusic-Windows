@@ -1,10 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.AppLifecycle;
-using Serilog.Events;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using VtuberMusic.App.Dialogs;
 using VtuberMusic.App.ViewModels.Pages;
@@ -30,7 +26,7 @@ public sealed partial class SettingPage : Page {
         VersionText.Text = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision} © VtuberMusic {DateTimeOffset.Now.Year}";
     }
 
-        private async void PrivacyDialog_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) {
+    private async void PrivacyDialog_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) {
         ContentDialog dialog = new() {
             XamlRoot = this.XamlRoot,
             Title = "VtuberMusic 隐私协议",
