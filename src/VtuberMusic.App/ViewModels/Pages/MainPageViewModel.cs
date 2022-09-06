@@ -44,7 +44,7 @@ public partial class MainPageViewModel : ObservableObject {
 
     [RelayCommand]
     public void NavigateToSearch(string keyword) {
-        if (!string.IsNullOrWhiteSpace(keyword)) return;
+        if (string.IsNullOrWhiteSpace(keyword)) return;
 
         NavigationHelper.Navigate<Search>(new SearchPageArg { Keyword = keyword });
     }
