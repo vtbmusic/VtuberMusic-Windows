@@ -43,4 +43,7 @@ public sealed partial class PlaylistPage : Page {
 
     private async void DeletePlaylistAppBarButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
         await new ConfirmDeletePlaylistDialog().ShowDialogAsync(ViewModel.Playlist);
+
+    private async void EditPlaylistAppBarButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        await new EditPlaylistInfoDialog().ShowDialogAsync(ViewModel.Playlist);
 }

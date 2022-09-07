@@ -68,6 +68,7 @@ public partial class App : Application {
             .AddTransient<MusicDataItemViewModel>()
             .AddTransient<CreatePlaylistDialogViewModel>()
             .AddTransient<ConfirmDeletePlaylistDialogViewModel>()
+            .AddTransient<EditPlaylistInfoDialogViewModel>()
             // FriendsPanel
             .AddTransient<FansViewModel>()
             .AddTransient<FollowersViewModel>()
