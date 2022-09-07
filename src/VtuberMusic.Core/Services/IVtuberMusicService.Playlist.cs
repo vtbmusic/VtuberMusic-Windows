@@ -28,5 +28,17 @@ namespace VtuberMusic.Core.Services {
 
         [Post("/v2/playlist/tracks")]
         Task<Models.ApiResponse> TrackMusic(string pid, TrackType type, [Query(CollectionFormat.Csv)] string[] tracks);
+
+        [Post("/v2/playlist/create")]
+        Task<Models.ApiResponse> CreatePlaylist(string name, string isPrivacy = null);
+
+        [Post("/v2/playlist/delete")]
+        Task<Models.ApiResponse> DeletePlaylist(string id);
+
+        [Post("/v2/playlist/subscribe")]
+        Task<Models.ApiResponse> SubscribePlaylist(string id, bool like);
+
+        [Post("/v2/song/updateorder/order/update")]
+        Task<Models.ApiResponse> ReorderPlaylistMusic(string pid, [Query(CollectionFormat.Csv)] string[] ids);
     }
 }

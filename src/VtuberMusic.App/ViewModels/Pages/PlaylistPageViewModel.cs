@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using VtuberMusic.App.Helper;
 using VtuberMusic.App.Messages;
@@ -50,6 +51,8 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
 
     [RelayCommand]
     public async Task Load() {
+        this.PlaylistMusics.CollectionChanged -= PlaylistMusics_CollectionChanged;
+
         PlaylistMusicsResponse playlistResponse = null;
         switch (this.PlaylistType) {
             case PlaylistType.Playlist:
@@ -70,6 +73,8 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
         foreach (var item in playlistResponse.songs) {
             this.PlaylistMusics.Add(item);
         }
+
+        this.PlaylistMusics.CollectionChanged += PlaylistMusics_CollectionChanged;
     }
 
     [RelayCommand]
@@ -104,4 +109,16 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
     [RelayCommand]
     public void NavigateToProfile(Profile profile) =>
         NavigationHelper.Navigate<ProfilePage>(new ProfilePageArg { Profile = profile });
+
+    public async Task UpdateOrder() {
+        var musicIds = new List<string>();
+        foreach (var item in this.PlaylistMusics) {
+            musicIds.Add(item.id);
+        }
+
+        var response = await _vtuberMusicService.ReorderPlaylistMusic(this.Playlist.id, musicIds.ToArray());
+    }
+
+    private async void PlaylistMusics_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) =>
+        await UpdateOrder();
 }
