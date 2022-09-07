@@ -66,6 +66,8 @@ public partial class App : Application {
             .AddTransient<UserFlyoutViewModel>()
             .AddTransient<TrackMusicDialogViewModel>()
             .AddTransient<MusicDataItemViewModel>()
+            .AddTransient<CreatePlaylistDialogViewModel>()
+            .AddTransient<ConfirmDeletePlaylistDialogViewModel>()
             // FriendsPanel
             .AddTransient<FansViewModel>()
             .AddTransient<FollowersViewModel>()

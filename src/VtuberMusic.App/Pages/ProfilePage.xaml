@@ -13,6 +13,7 @@
     xmlns:models="using:VtuberMusic.Core.Models"
     xmlns:controls1="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:uistatue="using:VtuberMusic.App.Converters.UIStatue"
+    Loaded="{x:Bind Page_Loaded}" Unloaded="{x:Bind Page_Unloaded}"
     mc:Ignorable="d">
 
     <interactivity:Interaction.Behaviors>

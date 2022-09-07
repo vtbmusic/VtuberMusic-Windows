@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,9 +11,7 @@ using VtuberMusic.AppCore.Messages;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 using Windows.Media;
-using Windows.Media.Core;
 using Windows.Media.Playback;
-using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.Web.Http;
@@ -217,7 +213,7 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
 
     public async Task<IRandomAccessStream> LoadMediaAsync(string url) {
         var uri = new Uri(url);
-        
+
         Regex regex = new Regex("[^\\/]+$");
         var cacheFileName = regex.Match(uri.LocalPath).Value;
 
@@ -225,24 +221,24 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
             var file = await ApplicationData.Current.LocalCacheFolder.GetFileAsync(cacheFileName);
             var fileStream = await file.OpenAsync(FileAccessMode.Read);
             return fileStream;
-        } catch {}
+        } catch { }
 
         try {
-                var httpClient = new HttpClient();
-                var buffer = await httpClient.GetBufferAsync(new Uri(url));
-                if (buffer != null && buffer.Length > 0u) {
-                    var file = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(cacheFileName, CreationCollisionOption.ReplaceExisting);
+            var httpClient = new HttpClient();
+            var buffer = await httpClient.GetBufferAsync(new Uri(url));
+            if (buffer != null && buffer.Length > 0u) {
+                var file = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(cacheFileName, CreationCollisionOption.ReplaceExisting);
 
-                    using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite)) {
-                        await stream.WriteAsync(buffer);
-                        await stream.FlushAsync();
-                    }
-                    var fileStream = await file.OpenAsync(FileAccessMode.Read);
-                    return fileStream;
+                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite)) {
+                    await stream.WriteAsync(buffer);
+                    await stream.FlushAsync();
                 }
+                var fileStream = await file.OpenAsync(FileAccessMode.Read);
+                return fileStream;
+            }
 
         } catch { }
-        
+
         return null;
     }
     private MediaItemDisplayProperties updateSMTC(MediaItemDisplayProperties properties) {

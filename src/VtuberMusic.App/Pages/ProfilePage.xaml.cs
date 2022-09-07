@@ -21,4 +21,10 @@ public sealed partial class ProfilePage : Page {
         base.OnNavigatedTo(e);
         ViewModel.Profile = (e.Parameter as ProfilePageArg).Profile;
     }
+
+    private void Page_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        ViewModel.IsActive = true;
+
+    private void Page_Unloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
+        ViewModel.IsActive = false;
 }

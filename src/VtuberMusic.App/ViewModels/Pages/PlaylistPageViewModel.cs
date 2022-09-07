@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using VtuberMusic.App.Helper;
 using VtuberMusic.App.Messages;
@@ -30,6 +30,9 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
     [ObservableProperty]
     private bool canEdit;
 
+    [ObservableProperty]
+    private bool canSubscribe;
+
     public PlaylistType PlaylistType { get; set; }
     [ObservableProperty]
     private ObservableCollection<Music> playlistMusics = new();
@@ -45,6 +48,15 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
             await Task.Delay(500); // 等个 500ms，因为后端更新歌单有延迟
             await Load();
         });
+
+        WeakReferenceMessenger.Default.Register(this, async (object sender, UserPlaylistsChangedMessage message) => {
+            try {
+                await Load();
+            } catch (InvalidOperationException) {
+                NavigationHelper.GoToHome();
+                NavigationHelper.ClearHistory();
+            }
+        });
     }
 
     protected override void OnDeactivated() => WeakReferenceMessenger.Default.UnregisterAll(this);
@@ -53,24 +65,29 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
     public async Task Load() {
         this.PlaylistMusics.CollectionChanged -= PlaylistMusics_CollectionChanged;
 
-        PlaylistMusicsResponse playlistResponse = null;
+        ApiResponse<PlaylistMusicsResponse> playlistResponse = null;
         switch (this.PlaylistType) {
             case PlaylistType.Playlist:
-                playlistResponse = (await _vtuberMusicService.GetPlaylistMusics(this.Playlist.id)).Data;
+                playlistResponse = (await _vtuberMusicService.GetPlaylistMusics(this.Playlist.id));
                 break;
             case PlaylistType.LikeMusics:
-                playlistResponse = (await _vtuberMusicService.GetFavouriteMusicsPlaylist("1", this.Playlist.id)).Data;
+                playlistResponse = (await _vtuberMusicService.GetFavouriteMusicsPlaylist("1", this.Playlist.id));
                 break;
             case PlaylistType.Personalized:
-                playlistResponse = (await _vtuberMusicService.GetDailyPersonalizedMusic()).Data;
+                playlistResponse = (await _vtuberMusicService.GetDailyPersonalizedMusic());
                 break;
         }
 
-        this.Playlist = playlistResponse.playlist;
+        if (!playlistResponse.Success || playlistResponse.Data.playlist == null) {
+            throw new InvalidOperationException("歌单不存在");
+        }
+
+        this.Playlist = playlistResponse.Data.playlist;
         this.CanRemoveMusic = this.Playlist.creator.userId == _authorizationService.Account.id;
         this.CanEdit = this.Playlist.creator.userId == _authorizationService.Account.id && this.PlaylistType == PlaylistType.Playlist;
+        this.CanSubscribe = this.PlaylistType == PlaylistType.Playlist;
         this.PlaylistMusics.Clear();
-        foreach (var item in playlistResponse.songs) {
+        foreach (var item in playlistResponse.Data.songs) {
             this.PlaylistMusics.Add(item);
         }
 

@@ -76,7 +76,9 @@
                                        HorizontalAlignment="Right" MinHeight="30" HorizontalTextAlignment="Right"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                 <AppBarButton Icon="Play" Label="播放" Command="{x:Bind ViewModel.SetCollectionCommand}" CommandParameter="{x:Bind ViewModel.PlaylistMusics, Mode=OneWay}"/>
-                                <AppBarButton Icon="Favorite" Label="取消收藏"/>
+                                <AppBarButton Icon="Edit" Label="修改" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
+                                <AppBarButton Icon="Delete" Label="删除" Click="{x:Bind DeletePlaylistAppBarButton_Click}" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
+                                <AppBarButton Icon="Favorite" Label="取消收藏" Visibility="{x:Bind ViewModel.CanSubscribe, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
                                 <AppBarButton Icon="Copy" Label="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind ViewModel.Playlist, Mode=OneWay}"/>
                                 <AppBarButton Icon="Share" Label="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind ViewModel.Playlist, Mode=OneWay}"/>
                             </StackPanel>

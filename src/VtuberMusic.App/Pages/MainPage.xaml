@@ -11,6 +11,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     SizeChanged="{x:Bind Page_SizeChanged}"
+    Loaded="{x:Bind Page_Loaded}" Unloaded="{x:Bind Page_Unloaded}"
     mc:Ignorable="d">
 
     <Page.Resources>

@@ -1,16 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using VtuberMusic.App.Helper;
+using VtuberMusic.App.Messages;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.Pages;
-public partial class LibraryViewModel : ObservableObject {
+public partial class LibraryViewModel : ObservableRecipient {
     private readonly IVtuberMusicService _vtuberMusicService;
     private readonly IAuthorizationService _authorizationService;
 
@@ -38,8 +40,8 @@ public partial class LibraryViewModel : ObservableObject {
     [ObservableProperty]
     private Profile profile;
 
-    public LibraryViewModel() {
-    }
+    protected override void OnActivated() =>
+        WeakReferenceMessenger.Default.Register(this, async (object sender, UserPlaylistsChangedMessage message) => await Load());
 
     [RelayCommand]
     public void NavigateToProfile(Profile profile) =>

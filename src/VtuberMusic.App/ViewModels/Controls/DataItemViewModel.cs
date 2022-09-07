@@ -17,10 +17,15 @@ namespace VtuberMusic.App.ViewModels.Controls;
 public partial class DataItemViewModel : ObservableObject {
     private readonly IMediaPlayBackService _mediaPlaybackService;
     private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IAuthorizationService _authorizationService;
 
-    public DataItemViewModel(IMediaPlayBackService mediaPlaybackService, IVtuberMusicService vtuberMusicService) {
+    [ObservableProperty]
+    private bool canEdit;
+
+    public DataItemViewModel(IMediaPlayBackService mediaPlaybackService, IVtuberMusicService vtuberMusicService, IAuthorizationService authorizationService) {
         _mediaPlaybackService = mediaPlaybackService;
         _vtuberMusicService = vtuberMusicService;
+        _authorizationService = authorizationService;
     }
 
     [RelayCommand]
@@ -77,5 +82,15 @@ public partial class DataItemViewModel : ObservableObject {
         } else {
             await _vtuberMusicService.TrackMusic(playlistId, TrackType.del, musicIds);
         }
+    }
+
+    public bool UpdatePlaylistCanEdit(Playlist playlist, PlaylistType type) {
+        if (playlist != null) {
+            this.CanEdit = type == PlaylistType.Playlist && playlist.creator.userId == _authorizationService.Account.id;
+        } else {
+            this.CanEdit = false;
+        }
+
+        return this.CanEdit;
     }
 }

@@ -29,6 +29,8 @@
     <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsExpanderItem.xaml" />
+    <None Remove="Dialogs\ConfirmDeletePlaylistDialog.xaml" />
+    <None Remove="Dialogs\CreatePlaylistDialog.xaml" />
     <None Remove="Dialogs\TrackMusicDialog.xaml" />
     <None Remove="Dialogs\UpdateAvailableDialog.xaml" />
     <None Remove="Pages\Friends.xaml" />
@@ -61,6 +63,16 @@
   <ItemGroup>
     <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj" />
     <ProjectReference Include="..\VtuberMusic.Core\VtuberMusic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\ConfirmDeletePlaylistDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\CreatePlaylistDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Dialogs\TrackMusicDialog.xaml">

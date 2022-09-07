@@ -1,13 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using VtuberMusic.App.Messages;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
 namespace VtuberMusic.App.ViewModels.Pages;
-public partial class ProfilePageViewModel : ObservableObject {
+public partial class ProfilePageViewModel : ObservableRecipient {
     private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IAuthorizationService _authorizationService;
 
     [ObservableProperty]
     private ObservableCollection<Playlist> createPlaylist = new();
@@ -23,8 +26,14 @@ public partial class ProfilePageViewModel : ObservableObject {
     [ObservableProperty]
     private bool isFollwed;
 
-    public ProfilePageViewModel(IVtuberMusicService vtuberMusicService) {
+    public ProfilePageViewModel(IVtuberMusicService vtuberMusicService, IAuthorizationService authorizationService) {
         _vtuberMusicService = vtuberMusicService;
+        _authorizationService = authorizationService;
+    }
+
+    protected override void OnActivated() {
+        if (this.Profile.userId == _authorizationService.Account.id)
+            WeakReferenceMessenger.Default.Register(this, async (object sender, UserPlaylistsChangedMessage message) => await Load());
     }
 
     [RelayCommand]
