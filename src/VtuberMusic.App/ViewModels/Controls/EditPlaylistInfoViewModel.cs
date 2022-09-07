@@ -20,7 +20,7 @@ public partial class EditPlaylistInfoDialogViewModel : ObservableObject {
 
     [RelayCommand]
     public async Task EditPlaylist() {
-        await _vtuberMusicService.UpdatePlaylistInfo(this.Playlist.id, this.Playlist.name, this.Playlist.description);
+        await _vtuberMusicService.UpdatePlaylistInfo(this.Playlist.id, this.Playlist.name, this.Playlist.description, new string[] { "tag" });
         WeakReferenceMessenger.Default.Send(new UserPlaylistsChangedMessage());
     }
 }

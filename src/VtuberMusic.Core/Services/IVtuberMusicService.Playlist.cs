@@ -42,6 +42,6 @@ namespace VtuberMusic.Core.Services {
         Task<Models.ApiResponse> ReorderPlaylistMusic(string pid, [Query(CollectionFormat.Csv)] string[] ids);
 
         [Post("/v2/playlist/update")]
-        Task<Models.ApiResponse> UpdatePlaylistInfo(string id, string name, string desc);
+        Task<Models.ApiResponse> UpdatePlaylistInfo(string id, string name, string desc,[Query(CollectionFormat.Csv)] string[] tags);
     }
 }
