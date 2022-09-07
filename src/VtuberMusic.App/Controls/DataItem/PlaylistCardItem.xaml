@@ -22,6 +22,8 @@
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Icon="Copy" Text="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind Playlist, Mode=OneWay}"/>
                 <MenuFlyoutItem Icon="Share" Text="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind Playlist, Mode=OneWay}"/>
+                <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
+                <MenuFlyoutItem Icon="Delete" Text="删除歌单" Click="{x:Bind DeletePlaylistMenuFlyoutItem_Click}" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
             </MenuFlyout>
         </Grid.ContextFlyout>
         <VisualStateManager.VisualStateGroups>

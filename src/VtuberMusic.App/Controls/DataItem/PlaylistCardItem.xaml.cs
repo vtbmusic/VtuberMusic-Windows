@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using VtuberMusic.App.Dialogs;
 using VtuberMusic.App.Helper;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
@@ -37,4 +38,7 @@ public sealed partial class PlaylistCardItem : UserControl {
     private void Grid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => VisualStateManager.GoToState(this, "Hover", true);
 
     private void Grid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e) => VisualStateManager.GoToState(this, "Normal", true);
+
+    private async void DeletePlaylistMenuFlyoutItem_Click(object sender, RoutedEventArgs e) =>
+    await new ConfirmDeletePlaylistDialog().ShowDialogAsync(this.Playlist);
 }
