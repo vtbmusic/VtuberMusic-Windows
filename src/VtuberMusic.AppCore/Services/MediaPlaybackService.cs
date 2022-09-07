@@ -11,6 +11,7 @@ using VtuberMusic.AppCore.Messages;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 using Windows.Media;
+using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -203,11 +204,10 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
         _mediaPlayer.Pause();
         var mediaFileStream = await LoadMediaAsync(songUrl.Data);
 
-        //var mediaSource = MediaSource.CreateFromStorageFile(mediaFile);
-        //MediaPlaybackItem mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
-        //mediaPlaybackItem.ApplyDisplayProperties(updateSMTC(mediaPlaybackItem.GetDisplayProperties()));
-        //_mediaPlayer.Source = mediaPlaybackItem;
-        _mediaPlayer.SetStreamSource(mediaFileStream);
+        var mediaSource = MediaSource.CreateFromStream(mediaFileStream, "application/octet-stream");
+        MediaPlaybackItem mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
+        mediaPlaybackItem.ApplyDisplayProperties(updateSMTC(mediaPlaybackItem.GetDisplayProperties()));
+        _mediaPlayer.Source = mediaPlaybackItem;
         Play();
     }
 
