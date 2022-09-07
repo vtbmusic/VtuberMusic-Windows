@@ -33,6 +33,9 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
     [ObservableProperty]
     private bool canSubscribe;
 
+    [ObservableProperty]
+    private bool subscribed;
+
     public PlaylistType PlaylistType { get; set; }
     [ObservableProperty]
     private ObservableCollection<Music> playlistMusics = new();
@@ -83,6 +86,7 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
         }
 
         this.Playlist = playlistResponse.Data.playlist;
+        this.Subscribed = playlistResponse.Data.playlist.like;
         this.CanRemoveMusic = this.Playlist.creator.userId == _authorizationService.Account.id;
         this.CanEdit = this.Playlist.creator.userId == _authorizationService.Account.id && this.PlaylistType == PlaylistType.Playlist;
         this.CanSubscribe = this.PlaylistType == PlaylistType.Playlist;
@@ -126,6 +130,12 @@ public partial class PlaylistPageViewModel : ObservableRecipient {
     [RelayCommand]
     public void NavigateToProfile(Profile profile) =>
         NavigationHelper.Navigate<ProfilePage>(new ProfilePageArg { Profile = profile });
+
+    [RelayCommand]
+    public async Task SubscribePlaylist() {
+        await _vtuberMusicService.SubscribePlaylist(this.Playlist.id, !this.Playlist.like);
+        WeakReferenceMessenger.Default.Send(new UserPlaylistsChangedMessage());
+    }
 
     public async Task UpdateOrder() {
         var musicIds = new List<string>();

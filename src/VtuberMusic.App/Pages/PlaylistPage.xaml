@@ -75,10 +75,20 @@
                                        Foreground="{ThemeResource SystemBaseMediumHighColor}" TextWrapping="Wrap" MaxWidth="350"
                                        HorizontalAlignment="Right" MinHeight="30" HorizontalTextAlignment="Right"/>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <interactivity:Interaction.Behaviors>
+                                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.Subscribed, Mode=OneWay}" Value="True">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Icon" Value="UnFavorite"/>
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Label" Value="取消收藏"/>
+                                    </core:DataTriggerBehavior>
+                                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.Subscribed, Mode=OneWay}" Value="False">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Icon" Value="Favorite"/>
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Label" Value="收藏"/>
+                                    </core:DataTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
                                 <AppBarButton Icon="Play" Label="播放" Command="{x:Bind ViewModel.SetCollectionCommand}" CommandParameter="{x:Bind ViewModel.PlaylistMusics, Mode=OneWay}"/>
                                 <AppBarButton Icon="Edit" Label="修改" Click="{x:Bind EditPlaylistAppBarButton_Click}" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
                                 <AppBarButton Icon="Delete" Label="删除" Click="{x:Bind DeletePlaylistAppBarButton_Click}" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
-                                <AppBarButton Icon="Favorite" Label="取消收藏" Visibility="{x:Bind ViewModel.CanSubscribe, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
+                                <AppBarButton x:Name="FavoriteAppBarButton" Icon="Favorite" Label="收藏" Command="{x:Bind ViewModel.SubscribePlaylistCommand}" Visibility="{x:Bind ViewModel.CanSubscribe, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
                                 <AppBarButton Icon="Copy" Label="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind ViewModel.Playlist, Mode=OneWay}"/>
                                 <AppBarButton Icon="Share" Label="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind ViewModel.Playlist, Mode=OneWay}"/>
                             </StackPanel>
