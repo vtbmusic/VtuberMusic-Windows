@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using VtuberMusic.App.Messages;
+using VtuberMusic.Core.Enums;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
@@ -25,6 +26,15 @@ public partial class ProfilePageViewModel : ObservableRecipient {
 
     [ObservableProperty]
     private bool isFollwed;
+    [ObservableProperty]
+    private bool isAllFollwed;
+
+    [ObservableProperty]
+    private bool isMan;
+    [ObservableProperty]
+    private bool isWoman;
+    [ObservableProperty]
+    private bool isUnknowGender;
 
     public ProfilePageViewModel(IVtuberMusicService vtuberMusicService, IAuthorizationService authorizationService) {
         _vtuberMusicService = vtuberMusicService;
@@ -39,7 +49,11 @@ public partial class ProfilePageViewModel : ObservableRecipient {
     [RelayCommand]
     private async Task Load() {
         this.Profile = (await _vtuberMusicService.GetProfile(this.Profile.userId)).Data.profile;
+        this.IsAllFollwed = this.Profile.allfollowed;
         this.IsFollwed = this.Profile.followed;
+        this.IsMan = this.Profile.gender == ProfileGender.Man;
+        this.IsWoman = this.Profile.gender == ProfileGender.Woman;
+        this.IsUnknowGender = this.Profile.gender == ProfileGender.Unknow;
 
         var favouritePlaylistResponse = await _vtuberMusicService.GetFavouriteMusicsPlaylist("song", this.Profile.userId);
         var subPlaylistResponse = await _vtuberMusicService.GetSubPlaylist(this.Profile.userId);
@@ -60,12 +74,14 @@ public partial class ProfilePageViewModel : ObservableRecipient {
 
     [RelayCommand]
     private async Task Follow() {
-        if (this.Profile.followed) {
+        if (!this.Profile.followed) {
             await _vtuberMusicService.Follow(this.Profile.userId, "d");
-            this.Profile.followed = false;
+            this.Profile.followed = true;
+            this.IsAllFollwed = this.Profile.allfollowed;
         } else {
             await _vtuberMusicService.Follow(this.Profile.userId);
-            this.Profile.followed = true;
+            this.Profile.followed = false;
+            this.IsAllFollwed = false;
         }
 
         this.IsFollwed = this.Profile.followed;

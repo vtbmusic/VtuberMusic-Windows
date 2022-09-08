@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using VtuberMusic.Core.Enums;
 
 namespace VtuberMusic.Core.Models {
     public class Profile {
@@ -20,7 +21,7 @@ namespace VtuberMusic.Core.Models {
         public string userName { get; set; }
         public int accountType { get; set; }
         public int birthday { get; set; }
-        public int gender { get; set; }
+        public ProfileGender gender { get; set; }
         public int authStatus { get; set; }
         public string description { get; set; }
         public bool followed { get; set; }
