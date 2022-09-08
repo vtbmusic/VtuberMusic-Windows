@@ -22,9 +22,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="Assets\76825487_p0.jpg" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Remove="Assets\76825487_p0.jpg" />
     <None Remove="Controls\DataItem\ArtistItem.xaml" />
     <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsEntityItem.xaml" />

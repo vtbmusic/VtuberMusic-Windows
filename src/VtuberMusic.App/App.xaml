@@ -22,6 +22,7 @@
                     <ThemeShadow x:Key="ShareShadow"/>
 
                     <Thickness x:Key="MusicPlayerHeight">0,0,0,100</Thickness>
+                    <FontFamily x:Key="IconFont">/Assets/iconfont.ttf#iconfont</FontFamily>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
