@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\76825487_p0.jpg" />
+    <None Remove="Controls\Comments\CommentItem.xaml" />
+    <None Remove="Controls\Comments\CommentItem.xaml~RF41e2e1e.TMP" />
+    <None Remove="Controls\Comments\CommentView.xaml" />
     <None Remove="Controls\DataItem\ArtistItem.xaml" />
     <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsEntityItem.xaml" />
@@ -32,6 +35,7 @@
     <None Remove="Dialogs\EditPlaylistInfoDialog.xaml" />
     <None Remove="Dialogs\TrackMusicDialog.xaml" />
     <None Remove="Dialogs\UpdateAvailableDialog.xaml" />
+    <None Remove="Pages\CommentPage.xaml" />
     <None Remove="Pages\Friends.xaml" />
   </ItemGroup>
 
@@ -62,6 +66,16 @@
   <ItemGroup>
     <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj" />
     <ProjectReference Include="..\VtuberMusic.Core\VtuberMusic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\CommentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comments\CommentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Dialogs\EditPlaylistInfoDialog.xaml">
@@ -187,6 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Settings\SettingsEntityItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comments\CommentItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

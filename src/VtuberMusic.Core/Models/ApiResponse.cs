@@ -26,4 +26,10 @@
         public string access_token { get; set; }
         public string refresh_token { get; set; }
     }
+
+    public class CommentResponse {
+        public Comment[] hotComments { get; set; }
+        public Comment[] comments { get; set; }
+        public long total { get; set; }
+    }
 }

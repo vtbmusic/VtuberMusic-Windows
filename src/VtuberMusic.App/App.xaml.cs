@@ -69,6 +69,7 @@ public partial class App : Application {
             .AddTransient<CreatePlaylistDialogViewModel>()
             .AddTransient<ConfirmDeletePlaylistDialogViewModel>()
             .AddTransient<EditPlaylistInfoDialogViewModel>()
+            .AddTransient<CommentViewModel>()
             // FriendsPanel
             .AddTransient<FansViewModel>()
             .AddTransient<FollowersViewModel>()
@@ -88,7 +89,8 @@ public partial class App : Application {
             .AddTransient<PlaylistPageViewModel>()
             .AddTransient<ProfilePageViewModel>()
             .AddTransient<SearchViewModel>()
-            .AddTransient<SettingsPageViewModel>();
+            .AddTransient<SettingsPageViewModel>()
+            .AddTransient<CommentPageViewModel>();
 
         // Services
         services

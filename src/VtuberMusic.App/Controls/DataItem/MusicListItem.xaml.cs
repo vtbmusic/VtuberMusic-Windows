@@ -4,8 +4,12 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using VtuberMusic.App.Dialogs;
+using VtuberMusic.App.Helper;
 using VtuberMusic.App.Messages;
+using VtuberMusic.App.PageArgs;
+using VtuberMusic.App.Pages;
 using VtuberMusic.App.ViewModels.Controls.DataItem;
+using VtuberMusic.Core.Enums;
 using VtuberMusic.Core.Models;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
@@ -70,4 +74,7 @@ public sealed partial class MusicListItem : UserControl {
         await ViewModel.RemoveMusicFromPlaylist(this.PlaylistId, new string[] { this.Music.id }, this.IsFavoriteMusic);
         WeakReferenceMessenger.Default.Send(new PlaylistMusicChangedMessage(this.PlaylistId));
     }
+
+    private void ShowCommentMenuFlyoutItem_Click(object sender, RoutedEventArgs e) =>
+        NavigationHelper.Navigate<CommentPage>(new CommentPageArg { Type = CommentContentType.song, Music = this.Music });
 }

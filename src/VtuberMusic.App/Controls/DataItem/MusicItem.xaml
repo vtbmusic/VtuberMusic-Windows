@@ -21,6 +21,7 @@
                 <MenuFlyoutItem Icon="Next" Text="下一曲播放" Command="{x:Bind ViewModel.SetNextMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Icon="Add" Text="添加到歌单" Click="{x:Bind TrackMusicMenuFlyoutItem_Click}"/>
+                <MenuFlyoutItem Icon="Comment" Text="查看评论" Click="{x:Bind ShowCommentMenuFlyoutItem_Click}"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutSubItem x:Name="ArtistMenuFlyoutItem" Icon="People" Text="歌手"/>
                 <MenuFlyoutSeparator/>
