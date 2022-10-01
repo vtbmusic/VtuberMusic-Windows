@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using VtuberMusic.App.ViewModels.Controls;
 using VtuberMusic.Core.Models;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -9,6 +11,8 @@ namespace VtuberMusic.App.Controls.Comments;
 public sealed partial class CommentItem : UserControl {
     public static DependencyProperty CommentProperty =
         DependencyProperty.Register("Comment", typeof(Comment), typeof(CommentItem), new PropertyMetadata(null));
+
+    private readonly CommentItemViewModel ViewModel = Ioc.Default.GetRequiredService<CommentItemViewModel>();
 
     public Comment Comment {
         get => (Comment)GetValue(CommentProperty);

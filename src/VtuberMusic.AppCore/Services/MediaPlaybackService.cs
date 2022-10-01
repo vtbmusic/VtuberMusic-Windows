@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -131,7 +133,13 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
             default: Next(); break;
         }
     }
-    private void _mediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args) => Error?.Invoke(this, args);
+    private void _mediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args) {
+        Error?.Invoke(this, args);
+        Crashes.TrackError(args.ExtendedErrorCode, new Dictionary<string, string> {
+            { "error", args.Error.ToString() },
+            { "error_message", args.ErrorMessage }
+        });
+    }
 
     public void Pause() => _mediaPlayer.Pause();
 
@@ -198,6 +206,9 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
         }
 
         this.NowPlaying = music;
+        Analytics.TrackEvent("播放音乐", new Dictionary<string, string> {
+            { "music_id", music.id }
+        });
 
         var songUrl = await _vtuberMusicService.GetSongUrl(music.id);
 
@@ -237,7 +248,11 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
                 return fileStream;
             }
 
-        } catch { }
+        } catch (Exception ex) {
+            Crashes.TrackError(ex, new Dictionary<string, string> {
+                { "url", url }
+            });
+        }
 
         return null;
     }

@@ -24,10 +24,19 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
+            <Grid>
                 <HyperlinkButton Foreground="{ThemeResource SystemBaseHighColor}" Padding="0" FontWeight="SemiBold"
-                                 Content="{x:Bind Comment.user.nickname,Mode=OneWay}" FontSize="16"/>
-            </StackPanel>
+                                 Content="{x:Bind Comment.user.nickname,Mode=OneWay}" FontSize="16"
+                                 Command="{x:Bind ViewModel.NavigateToProfileCommand}" CommandParameter="{x:Bind Comment.user,Mode=OneWay}"/>
+                <Button HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent" Height="25" Width="25" Padding="0">
+                    <Button.Flyout>
+                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                            <MenuFlyoutItem Icon="Delete" Text="删除"/>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE10C;" FontSize="14"/>
+                </Button>
+            </Grid>
             <TextBlock Text="{x:Bind Comment.content,Mode=OneWay}" Grid.Row="1"/>
             <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 5 0 0">
                 <TextBlock Text="{x:Bind Comment.time,Mode=OneWay,Converter={StaticResource FormatConverter}, ConverterParameter='\{0:yyy/MM/dd HH\\\\:mm\}'}"

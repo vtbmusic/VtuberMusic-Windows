@@ -1,4 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -37,7 +40,11 @@ public partial class App : Application {
 
 #if !DEBUG
         AppCenter.Start("3169a606-ee13-45f6-bb04-fc381ae6702f",
-                  typeof(Analytics), typeof(Crashes));
+            typeof(Analytics), typeof(Crashes));
+#endif
+#if DEBUG
+        AppCenter.Start("f6d4a673-0c33-4150-a751-cd1b7937b99d",
+            typeof(Analytics), typeof(Crashes));
 #endif
 
         Ioc.Default.ConfigureServices(ConfigureServices());
@@ -70,6 +77,7 @@ public partial class App : Application {
             .AddTransient<ConfirmDeletePlaylistDialogViewModel>()
             .AddTransient<EditPlaylistInfoDialogViewModel>()
             .AddTransient<CommentViewModel>()
+            .AddTransient<CommentItemViewModel>()
             // FriendsPanel
             .AddTransient<FansViewModel>()
             .AddTransient<FollowersViewModel>()
@@ -127,7 +135,10 @@ public partial class App : Application {
         //throw new NotImplementedException();
     }
 
-    private static void Service_IsAuthorizedChanged(object sender, bool e) => SettingsHelper.RefreshToken = (sender as IAuthorizationService).GetRefreshToken();
+    private static void Service_IsAuthorizedChanged(object sender, bool e) {
+        SettingsHelper.RefreshToken = (sender as IAuthorizationService).GetRefreshToken();
+        AppCenter.SetUserId((sender as IAuthorizationService).Account.id);
+    }
 
     private static async Task<string> auth() {
         var service = Ioc.Default.GetService<IAuthorizationService>();
