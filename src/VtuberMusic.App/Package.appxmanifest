@@ -10,7 +10,7 @@
   <Identity
     Name="VtuberMusic.App"
     Publisher="CN=VtuberMusic Developer"
-    Version="2.0.5.0" />
+    Version="2.1.0.0" />
 
   <Properties>
     <DisplayName>VtuberMusic</DisplayName>
