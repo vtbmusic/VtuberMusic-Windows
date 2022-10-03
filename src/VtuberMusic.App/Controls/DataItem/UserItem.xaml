@@ -1,0 +1,55 @@
+﻿<UserControl
+    x:Class="VtuberMusic.App.Controls.DataItem.UserItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Controls.DataItem"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity" 
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    mc:Ignorable="d">
+
+    <Grid Width="250" Background="{ThemeResource SystemControlBaseMediumLowAcrylicElementMediumBrush}" CornerRadius="8"
+          Shadow="{StaticResource ShareShadow}" Translation="0,0,16">
+        <interactivity:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="Tapped">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToProfileCommand}" CommandParameter="{x:Bind Profile, Mode=OneWay}"/>
+            </core:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
+        <Grid.ContextFlyout>
+            <MenuFlyout>
+                <MenuFlyoutItem Text="{x:Bind Profile.nickname, Mode=OneWay}" IsEnabled="False"/>
+                <MenuFlyoutItem Icon="View" Text="查看" Command="{x:Bind ViewModel.NavigateToProfileCommand}" CommandParameter="{x:Bind Profile, Mode=OneWay}"/>
+            </MenuFlyout>
+        </Grid.ContextFlyout>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <controls:ImageEx Source="{x:Bind Profile.backgroundUrl, Mode=OneWay, TargetNullValue='Assets/76825487_p0.jpg'}" Stretch="UniformToFill"/>
+        <StackPanel Grid.Row="1" Padding="10">
+            <Grid Margin="0 -30 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <PersonPicture ProfilePicture="{x:Bind Profile.avatarUrl,Mode=OneWay}" Height="50"
+                                   CornerRadius="100"/>
+                    <Button Content="关注" Style="{ThemeResource AccentButtonStyle}" FontSize="12" Padding="5 3" HorizontalAlignment="Center"
+                            Margin="0 10 0 0" IsEnabled="False"/>
+                </StackPanel>
+                <StackPanel Margin="10 25 0 10" Grid.Column="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Lv." Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"/>
+                        <TextBlock Text="{x:Bind Profile.level,Mode=OneWay}" Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"/>
+                    </StackPanel>
+                    <TextBlock Text="{x:Bind Profile.nickname,Mode=OneWay}" FontWeight="SemiBold"/>
+                    <TextBlock Text="{x:Bind Profile.signature, Mode=OneWay, TargetNullValue='这个人... 反正没写东西'}" Foreground="{ThemeResource SystemBaseMediumColor}" FontSize="12"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

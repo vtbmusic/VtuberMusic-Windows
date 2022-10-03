@@ -5,11 +5,28 @@
     xmlns:local="using:VtuberMusic.App.Controls.SearchPanel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:VtuberMusic.App.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:models="using:VtuberMusic.Core.Models"
+    xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-        <TextBlock Text="User"/>
-    </Grid>
+    <controls:LoadingCover IsLoading="{x:Bind ViewModel.SearchCommand.IsRunning, Mode=OneWay}">
+        <interactivity:Interaction.Behaviors>
+            <core:EventTriggerBehavior EventName="Loaded">
+                <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand}"/>
+            </core:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
+        <GridView ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}" Padding="{StaticResource MusicPlayerHeight}" Margin="10"
+                  SelectionMode="None">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="models:Profile">
+                    <dataitem:UserItem Profile="{x:Bind}" Margin="5"/>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </controls:LoadingCover>
 </UserControl>

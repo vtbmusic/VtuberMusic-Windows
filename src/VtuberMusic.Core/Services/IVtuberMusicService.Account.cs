@@ -15,5 +15,8 @@ namespace VtuberMusic.Core.Services {
 
         [Post("/v2/user/follow")]
         Task<Models.ApiResponse> Follow(string id, string t = null);
+
+        [Get("/v2/search?type=user")]
+        Task<Models.ApiResponse<Profile[]>> SearchUser(string keyword, int limit = 50, int offset = 0);
     }
 }
