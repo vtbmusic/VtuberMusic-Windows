@@ -1,22 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using VtuberMusic.App.Helper;
 using VtuberMusic.App.PageArgs;
 using VtuberMusic.App.Pages;
 using VtuberMusic.AppCore.Enums;
-using VtuberMusic.AppCore.Helper;
 using VtuberMusic.AppCore.Services;
+using VtuberMusic.Core.Enums;
 using VtuberMusic.Core.Models;
+using VtuberMusic.Core.Services;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace VtuberMusic.App.ViewModels.Controls;
 public partial class DataItemViewModel : ObservableObject {
     private readonly IMediaPlayBackService _mediaPlaybackService;
+    private readonly IVtuberMusicService _vtuberMusicService;
+    private readonly IAuthorizationService _authorizationService;
 
-    public DataItemViewModel(IMediaPlayBackService mediaPlaybackService) {
+    [ObservableProperty]
+    private bool canEdit;
+
+    public DataItemViewModel(IMediaPlayBackService mediaPlaybackService, IVtuberMusicService vtuberMusicService, IAuthorizationService authorizationService) {
         _mediaPlaybackService = mediaPlaybackService;
+        _vtuberMusicService = vtuberMusicService;
+        _authorizationService = authorizationService;
     }
 
     [RelayCommand]
@@ -65,5 +74,23 @@ public partial class DataItemViewModel : ObservableObject {
         } else if (arg is Playlist) {
             ShareHelper.SharePlaylist(arg as Playlist);
         }
+    }
+
+    public async Task RemoveMusicFromPlaylist(string playlistId, string[] musicIds, bool isFavoriteMusic = false) {
+        if (isFavoriteMusic) {
+            Array.ForEach(musicIds, async (item) => await _vtuberMusicService.LikeMusic(item, false));
+        } else {
+            await _vtuberMusicService.TrackMusic(playlistId, TrackType.del, musicIds);
+        }
+    }
+
+    public bool UpdatePlaylistCanEdit(Playlist playlist, PlaylistType type) {
+        if (playlist != null) {
+            this.CanEdit = type == PlaylistType.Playlist && playlist.creator.userId == _authorizationService.Account.id;
+        } else {
+            this.CanEdit = false;
+        }
+
+        return this.CanEdit;
     }
 }

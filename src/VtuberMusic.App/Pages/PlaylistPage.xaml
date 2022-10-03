@@ -13,7 +13,8 @@
     xmlns:controls1="using:VtuberMusic.App.Controls"
     xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    mc:Ignorable="d">
+    Loaded="{x:Bind PageRoot_Loaded}" Unloaded="{x:Bind PageRoot_Unloaded}"
+    mc:Ignorable="d" x:Name="PageRoot">
 
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
@@ -21,12 +22,14 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <controls1:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
-        <ListView x:Name="MainListView" ItemsSource="{x:Bind ViewModel.PlaylistMusics, Mode=OneWay}" Padding="{StaticResource MusicPlayerHeight}">
+        <ListView x:Name="MainListView" ItemsSource="{x:Bind ViewModel.PlaylistMusics}" Padding="{StaticResource MusicPlayerHeight}"
+                  CanReorderItems="{x:Bind ViewModel.CanEdit,Mode=OneWay}" AllowDrop="{x:Bind ViewModel.CanEdit,Mode=OneWay}"
+                  SelectionMode="Extended">
             <ListView.Header>
                 <Grid Height="350" CornerRadius="8">
                     <ParallaxView Source="{x:Bind MainListView}"
                               VerticalShift="500">
-                        <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay}" Stretch="UniformToFill"
+                        <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/75'}" Stretch="UniformToFill"
                                       HorizontalAlignment="Center"/>
                     </ParallaxView>
                     <Grid>
@@ -44,7 +47,7 @@
                             </Grid.RowDefinitions>
                             <Grid CornerRadius="8" Shadow="{StaticResource ShareShadow}" Translation="0,0,32"
                           Height="200" Width="330" HorizontalAlignment="Left">
-                                <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay}"
+                                <controls:ImageEx Source="{x:Bind ViewModel.Playlist.coverImgUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/50'}"
                                   Stretch="UniformToFill" Height="200" Width="330"/>
                             </Grid>
                         </Grid>
@@ -68,12 +71,38 @@
                             <TextBlock Text="{x:Bind ViewModel.Playlist.name, Mode=OneWay}"
                                        FontWeight="Bold" FontSize="24" TextWrapping="Wrap"
                                        HorizontalAlignment="Right" HorizontalTextAlignment="Right"/>
-                            <TextBlock Text="{x:Bind ViewModel.Playlist.description, TargetNullValue=无简介, Mode=OneWay}" Margin="0 5"
+                            <TextBlock x:Name="DescriptionTextBlock" Text="{x:Bind ViewModel.Playlist.description, TargetNullValue=无简介, Mode=OneWay}" Margin="0 5"
                                        Foreground="{ThemeResource SystemBaseMediumHighColor}" TextWrapping="Wrap" MaxWidth="350"
-                                       HorizontalAlignment="Right" MinHeight="30" HorizontalTextAlignment="Right"/>
+                                       HorizontalAlignment="Right" MinHeight="30" HorizontalTextAlignment="Right"
+                                       MaxHeight="80" TextTrimming="CharacterEllipsis"/>
+                            <Button Background="Transparent" BorderBrush="Transparent"
+                                    Content="查看简介" HorizontalAlignment="Right" Padding="0"
+                                    Visibility="{x:Bind DescriptionTextBlock.IsTextTrimmed,Mode=OneWay,Converter={StaticResource VisibilityConvter}}">
+                                <Button.Flyout>
+                                    <Flyout Placement="BottomEdgeAlignedRight">
+                                        <RichTextBlock>
+                                            <Paragraph>
+                                                <Run Text="{x:Bind ViewModel.Playlist.description,Mode=OneWay}"/>
+                                            </Paragraph>
+                                        </RichTextBlock>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <interactivity:Interaction.Behaviors>
+                                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.Subscribed, Mode=OneWay}" Value="True">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Icon" Value="UnFavorite"/>
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Label" Value="取消收藏"/>
+                                    </core:DataTriggerBehavior>
+                                    <core:DataTriggerBehavior Binding="{x:Bind ViewModel.Subscribed, Mode=OneWay}" Value="False">
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Icon" Value="Favorite"/>
+                                        <core:ChangePropertyAction TargetObject="{Binding ElementName=FavoriteAppBarButton}" PropertyName="Label" Value="收藏"/>
+                                    </core:DataTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
                                 <AppBarButton Icon="Play" Label="播放" Command="{x:Bind ViewModel.SetCollectionCommand}" CommandParameter="{x:Bind ViewModel.PlaylistMusics, Mode=OneWay}"/>
-                                <AppBarButton Icon="Favorite" Label="取消收藏"/>
+                                <AppBarButton Icon="Edit" Label="修改" Click="{x:Bind EditPlaylistAppBarButton_Click}" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
+                                <AppBarButton Icon="Delete" Label="删除" Click="{x:Bind DeletePlaylistAppBarButton_Click}" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
+                                <AppBarButton x:Name="FavoriteAppBarButton" Icon="Favorite" Label="收藏" Command="{x:Bind ViewModel.SubscribePlaylistCommand}" Visibility="{x:Bind ViewModel.CanSubscribe, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
                                 <AppBarButton Icon="Copy" Label="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind ViewModel.Playlist, Mode=OneWay}"/>
                                 <AppBarButton Icon="Share" Label="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind ViewModel.Playlist, Mode=OneWay}"/>
                             </StackPanel>
@@ -83,7 +112,7 @@
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Music">
-                    <dataitem:MusicListItem Music="{x:Bind}"/>
+                    <dataitem:MusicListItem Music="{x:Bind}" Loaded="MusicListItem_Loaded"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

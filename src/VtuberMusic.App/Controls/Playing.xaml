@@ -72,7 +72,8 @@
                                     <Button Background="Transparent" BorderBrush="Transparent" Padding="10">
                                         <Button.Flyout>
                                             <Flyout>
-                                                <Slider Value="{x:Bind ViewModel.Volume, Mode=OneWay}" Maximum="1" Width="100"/>
+                                                <Slider x:Name="VolumeSlider" Maximum="1" StepFrequency="0.01" Width="100"
+                                                        ValueChanged="{x:Bind VolumeSlider_ValueChanged}"/>
                                             </Flyout>
                                         </Button.Flyout>
                                         <SymbolIcon Symbol="Volume"/>

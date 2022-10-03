@@ -20,7 +20,8 @@
                 <MenuFlyoutItem Icon="Play" Text="播放" Command="{x:Bind ViewModel.SetMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
                 <MenuFlyoutItem Icon="Next" Text="下一曲播放" Command="{x:Bind ViewModel.SetNextMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Icon="Add" Text="添加到歌单"/>
+                <MenuFlyoutItem Icon="Add" Text="添加到歌单" Click="{x:Bind TrackMusicMenuFlyoutItem_Click}"/>
+                <MenuFlyoutItem Icon="Comment" Text="查看评论" Click="{x:Bind ShowCommentMenuFlyoutItem_Click}"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutSubItem x:Name="ArtistMenuFlyoutItem" Icon="People" Text="歌手"/>
                 <MenuFlyoutSeparator/>
@@ -48,7 +49,7 @@
             </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
         <Grid Shadow="{StaticResource ShareShadow}" Translation="0,0,16" CornerRadius="8" Margin="10 0">
-            <controls:ImageEx Source="{x:Bind Music.picUrl, Mode=OneWay}"
+            <controls:ImageEx Source="{x:Bind Music.picUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/200x200'}"
                           Stretch="UniformToFill" Height="150" Width="150"
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Grid x:Name="HoverPanel" Background="{ThemeResource SystemAltMediumColor}" Visibility="Collapsed">

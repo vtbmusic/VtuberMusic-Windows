@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using VtuberMusic.App.Services;
 using VtuberMusic.App.ViewModels;
 using VtuberMusic.App.ViewModels.Controls;
+using VtuberMusic.App.ViewModels.Controls.DataItem;
 using VtuberMusic.App.ViewModels.FriendsPanel;
 using VtuberMusic.App.ViewModels.Lyric;
 using VtuberMusic.App.ViewModels.Pages;
@@ -39,7 +40,11 @@ public partial class App : Application {
 
 #if !DEBUG
         AppCenter.Start("3169a606-ee13-45f6-bb04-fc381ae6702f",
-                  typeof(Analytics), typeof(Crashes));
+            typeof(Analytics), typeof(Crashes));
+#endif
+#if DEBUG
+        AppCenter.Start("f6d4a673-0c33-4150-a751-cd1b7937b99d",
+            typeof(Analytics), typeof(Crashes));
 #endif
 
         Ioc.Default.ConfigureServices(ConfigureServices());
@@ -66,6 +71,13 @@ public partial class App : Application {
             .AddTransient<DataItemViewModel>()
             .AddTransient<MusicPlayerViewModel>()
             .AddTransient<UserFlyoutViewModel>()
+            .AddTransient<TrackMusicDialogViewModel>()
+            .AddTransient<MusicDataItemViewModel>()
+            .AddTransient<CreatePlaylistDialogViewModel>()
+            .AddTransient<ConfirmDeletePlaylistDialogViewModel>()
+            .AddTransient<EditPlaylistInfoDialogViewModel>()
+            .AddTransient<CommentViewModel>()
+            .AddTransient<CommentItemViewModel>()
             // FriendsPanel
             .AddTransient<FansViewModel>()
             .AddTransient<FollowersViewModel>()
@@ -85,7 +97,8 @@ public partial class App : Application {
             .AddTransient<PlaylistPageViewModel>()
             .AddTransient<ProfilePageViewModel>()
             .AddTransient<SearchViewModel>()
-            .AddTransient<SettingsPageViewModel>();
+            .AddTransient<SettingsPageViewModel>()
+            .AddTransient<CommentPageViewModel>();
 
         // Services
         services
@@ -100,9 +113,9 @@ public partial class App : Application {
         });
 
         services.AddRefitClient<IVtuberMusicService>(new RefitSettings {
-                ContentSerializer = new NewtonsoftJsonContentSerializer(),
-                AuthorizationHeaderValueGetter = auth
-            })
+            ContentSerializer = new NewtonsoftJsonContentSerializer(),
+            AuthorizationHeaderValueGetter = auth
+        })
             .ConfigureHttpClient(options => {
                 options.BaseAddress = new Uri("https://api.aqua.chat");
             });
@@ -122,7 +135,10 @@ public partial class App : Application {
         //throw new NotImplementedException();
     }
 
-    private static void Service_IsAuthorizedChanged(object sender, bool e) => SettingsHelper.RefreshToken = (sender as IAuthorizationService).GetRefreshToken();
+    private static void Service_IsAuthorizedChanged(object sender, bool e) {
+        SettingsHelper.RefreshToken = (sender as IAuthorizationService).GetRefreshToken();
+        AppCenter.SetUserId((sender as IAuthorizationService).Account.id);
+    }
 
     private static async Task<string> auth() {
         var service = Ioc.Default.GetService<IAuthorizationService>();

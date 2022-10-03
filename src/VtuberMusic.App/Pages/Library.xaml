@@ -12,6 +12,7 @@
     xmlns:controls1="using:VtuberMusic.App.Controls"
     xmlns:models="using:VtuberMusic.Core.Models"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    Loaded="{x:Bind Page_Loaded}" Unloaded="{x:Bind Page_Unloaded}"
     mc:Ignorable="d">
 
     <interactivity:Interaction.Behaviors>
@@ -81,30 +82,46 @@
             </ListViewItem>
             <ListViewItem Margin="0 10">
                 <StackPanel>
-                    <TextBlock Text="收藏的歌单" FontWeight="SemiBold" FontSize="16"/>
-                    <GridView Margin="0 10 0 0" ItemsSource="{x:Bind ViewModel.SubPlaylist}" SelectionMode="None">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Playlist">
-                                <dataitem:PlaylistItem Playlist="{x:Bind}"/>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
+                    <TextBlock Text="创建的歌单" FontWeight="SemiBold" FontSize="16"/>
+                    <Grid Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Tapped="{x:Bind CreatePlaylist_Tapped}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Shadow="{StaticResource ShareShadow}" Translation="0,0,16" CornerRadius="8" Margin="10 0"
+                                  Height="150" Width="150" Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE109;" FontSize="24"/>
+                            </Grid>
+                            <StackPanel CornerRadius="8" Grid.Row="1" Canvas.ZIndex="-1"
+                                        Background="{ThemeResource SystemControlAltMediumLowAcrylicElementMediumBrush}"
+                                        Shadow="{StaticResource ShareShadow}" Translation="0,0,8" Margin="0 -10 0 0"
+                                        Padding="0 5 0 0" Width="170">
+                                <TextBlock Margin="10 10 10 0" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}"
+                                           Text="创建"/>
+                                <TextBlock Text="歌单" FontSize="16" Margin="10 0 10 5"/>
+                            </StackPanel>
+                        </Grid>
+                        <Border Grid.Column="1" Width="1" Margin="5 0 0 15" Background="{ThemeResource SystemBaseLowColor}"/>
+                        <GridView Margin="5 0 0 0" ItemsSource="{x:Bind ViewModel.CreatePlaylist}" SelectionMode="None" Grid.Column="2">
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Playlist">
+                                    <dataitem:PlaylistItem Playlist="{x:Bind}"/>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </Grid>
                 </StackPanel>
             </ListViewItem>
             <ListViewItem Margin="0 10">
                 <StackPanel>
-                    <TextBlock Text="创建的歌单" FontWeight="SemiBold" FontSize="16"/>
-                    <GridView Margin="0 10 0 0" ItemsSource="{x:Bind ViewModel.CreatePlaylist}" SelectionMode="None">
-                        <GridView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </GridView.ItemsPanel>
+                    <TextBlock Text="收藏的歌单" FontWeight="SemiBold" FontSize="16"/>
+                    <GridView Margin="0 10 0 0" ItemsSource="{x:Bind ViewModel.SubPlaylist}" SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="models:Playlist">
                                 <dataitem:PlaylistItem Playlist="{x:Bind}"/>

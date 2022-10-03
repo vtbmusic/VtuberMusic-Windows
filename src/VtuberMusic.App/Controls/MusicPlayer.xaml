@@ -9,11 +9,15 @@
     xmlns:models="using:VtuberMusic.Core.Models"
     xmlns:dataitem="using:VtuberMusic.App.Controls.DataItem"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:converters="using:VtuberMusic.App.Converters"
     Loaded="{x:Bind UserControl_Loaded}" Unloaded="{x:Bind UserControl_Unloaded}"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <converters:DoubleToPercentageConverter x:Key="DoubleToPercentageConverter"/>
+    </UserControl.Resources>
     <Grid CornerRadius="8" Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
           Shadow="{StaticResource ShareShadow}" Translation="0,0,32" Margin="10"
           Height="80">
@@ -74,7 +78,8 @@
             <Button Background="Transparent" BorderBrush="Transparent" Padding="5">
                 <Button.Flyout>
                     <Flyout>
-                        <Slider Value="{x:Bind ViewModel.Volume, Mode=OneWay}" Maximum="1" Width="100"/>
+                        <Slider x:Name="VolumeSlider" Maximum="1" StepFrequency="0.01" Width="100"
+                                ValueChanged="{x:Bind VolumeSlider_ValueChanged}" ThumbToolTipValueConverter="{StaticResource DoubleToPercentageConverter}"/>
                     </Flyout>
                 </Button.Flyout>
                 <SymbolIcon Symbol="Volume"/>

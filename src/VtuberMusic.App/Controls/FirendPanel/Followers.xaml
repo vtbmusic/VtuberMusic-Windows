@@ -14,9 +14,6 @@
     d:DesignWidth="400">
 
     <controls:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
-        <controls:LoadingCover.DataContext>
-            <friendspanel:FollowersViewModel x:Name="ViewModel"/>
-        </controls:LoadingCover.DataContext>
         <interactivity:Interaction.Behaviors>
             <core:EventTriggerBehavior EventName="Loaded">
                 <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" CommandParameter="{x:Bind UserId, Mode=OneWay}"/>

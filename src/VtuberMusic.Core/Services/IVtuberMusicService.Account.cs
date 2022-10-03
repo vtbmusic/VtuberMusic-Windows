@@ -12,5 +12,8 @@ namespace VtuberMusic.Core.Services {
 
         [Get("/v2/user/fans")]
         Task<Models.ApiResponse<Profile[]>> GetFans(string uid, int limit = 30, int offset = 0);
+
+        [Post("/v2/user/follow")]
+        Task<Models.ApiResponse> Follow(string id, string t = null);
     }
 }

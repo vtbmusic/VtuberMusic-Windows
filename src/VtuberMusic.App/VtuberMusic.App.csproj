@@ -4,7 +4,6 @@
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>VtuberMusic.App</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
@@ -18,17 +17,26 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="Assets\76825487_p0.jpg" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Remove="Assets\76825487_p0.jpg" />
+    <None Remove="Controls\Comments\CommentItem.xaml" />
+    <None Remove="Controls\Comments\CommentItem.xaml~RF41e2e1e.TMP" />
+    <None Remove="Controls\Comments\CommentView.xaml" />
+    <None Remove="Controls\DataItem\ArtistItem.xaml" />
     <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsExpanderItem.xaml" />
+    <None Remove="Dialogs\ConfirmDeletePlaylistDialog.xaml" />
+    <None Remove="Dialogs\CreatePlaylistDialog.xaml" />
+    <None Remove="Dialogs\EditPlaylistInfoDialog.xaml" />
+    <None Remove="Dialogs\TrackMusicDialog.xaml" />
     <None Remove="Dialogs\UpdateAvailableDialog.xaml" />
+    <None Remove="Pages\CommentPage.xaml" />
     <None Remove="Pages\Friends.xaml" />
   </ItemGroup>
 
@@ -59,6 +67,41 @@
   <ItemGroup>
     <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj" />
     <ProjectReference Include="..\VtuberMusic.Core\VtuberMusic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\CommentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comments\CommentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\EditPlaylistInfoDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\ConfirmDeletePlaylistDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\CreatePlaylistDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dialogs\TrackMusicDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\DataItem\ArtistItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Dialogs\UpdateAvailableDialog.xaml">
@@ -159,6 +202,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Settings\SettingsEntityItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\Comments\CommentItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

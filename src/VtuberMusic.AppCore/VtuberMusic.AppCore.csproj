@@ -9,6 +9,9 @@
 
   <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+      <PackageReference Include="Microsoft.AppCenter" Version="4.5.3" />
+      <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
+      <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.4" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
       <PackageReference Include="Opportunity.LrcParser" Version="1.0.4" />

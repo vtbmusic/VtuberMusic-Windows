@@ -26,12 +26,16 @@
                 <MenuFlyoutItem Icon="Play" Text="播放" Command="{x:Bind ViewModel.SetMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
                 <MenuFlyoutItem Icon="Next" Text="下一曲播放" Command="{x:Bind ViewModel.SetNextMusicCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
                 <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Icon="Add" Text="添加到歌单"/>
+                <MenuFlyoutItem x:Name="TrackMusicMenuFlyoutItem" Icon="Add" Text="添加到歌单" Click="TrackMusicMenuFlyoutItem_Click"/>
+                <MenuFlyoutItem Icon="Comment" Text="查看评论" Click="{x:Bind ShowCommentMenuFlyoutItem_Click}"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutSubItem x:Name="ArtistMenuFlyoutItem" Icon="People" Text="歌手"/>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Icon="Copy" Text="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
                 <MenuFlyoutItem Icon="Share" Text="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind Music, Mode=OneWay}"/>
+                <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.CanRemove,Converter={StaticResource VisibilityConvter},Mode=OneWay}"/>
+                <MenuFlyoutItem Icon="Delete" Text="从歌单移除" Click="{x:Bind DeleteMenuFlyoutItem_Click}"
+                                Visibility="{x:Bind ViewModel.CanRemove,Converter={StaticResource VisibilityConvter},Mode=OneWay}"/>
             </MenuFlyout>
         </Grid.ContextFlyout>
         <interactivity:Interaction.Behaviors>
@@ -40,7 +44,7 @@
             </core:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
         <Grid Height="45" Width="45" CornerRadius="8">
-            <controls:ImageEx Source="{x:Bind Music.picUrl, Mode=OneWay}" Height="45" Width="45" Stretch="UniformToFill"
+            <controls:ImageEx Source="{x:Bind Music.picUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/200x200'}" Height="45" Width="45" Stretch="UniformToFill"
                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Column="1">

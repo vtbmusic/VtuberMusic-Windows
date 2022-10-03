@@ -22,6 +22,8 @@
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Icon="Copy" Text="复制链接" Command="{x:Bind ViewModel.CopyLinkCommand}" CommandParameter="{x:Bind Playlist, Mode=OneWay}"/>
                 <MenuFlyoutItem Icon="Share" Text="分享" Command="{x:Bind ViewModel.ShareCommand}" CommandParameter="{x:Bind Playlist, Mode=OneWay}"/>
+                <MenuFlyoutSeparator Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
+                <MenuFlyoutItem Icon="Delete" Text="删除歌单" Click="{x:Bind DeletePlaylistMenuFlyoutItem_Click}" Visibility="{x:Bind ViewModel.CanEdit, Mode=OneWay, Converter={StaticResource VisibilityConvter}}"/>
             </MenuFlyout>
         </Grid.ContextFlyout>
         <VisualStateManager.VisualStateGroups>
@@ -44,7 +46,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid CornerRadius="8" Margin="15 15 10 15" Shadow="{StaticResource ShareShadow}" Translation="0,0,32"
                       Height="120" Width="120">
-                    <controls:ImageEx Source="{x:Bind Playlist.coverImgUrl, Mode=OneWay}"
+                    <controls:ImageEx Source="{x:Bind Playlist.coverImgUrl, Mode=OneWay,Converter={StaticResource AddParameterConverter},ConverterParameter='/200x200'}"
                                               Height="120" Width="120" HorizontalAlignment="Center"
                                               Stretch="UniformToFill"/>
                     <Grid x:Name="HoverPanel" Background="{ThemeResource SystemAltMediumColor}" Visibility="Collapsed">
