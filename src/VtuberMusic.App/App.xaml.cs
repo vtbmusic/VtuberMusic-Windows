@@ -86,6 +86,7 @@ public partial class App : Application {
             // SearchPanel
             .AddTransient<MusicSearchPanelViewModel>()
             .AddTransient<PlaylistSearchPanelViewModel>()
+            .AddTransient<ArtistSearchPanelViewModel>()
             // Page
             .AddTransient<ArtistPageViewModel>()
             .AddTransient<DiscoverViewModel>()
