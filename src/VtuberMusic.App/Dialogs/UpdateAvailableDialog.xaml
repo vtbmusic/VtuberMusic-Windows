@@ -8,7 +8,11 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <TextBlock Foreground="{ThemeResource SystemBaseMediumColor}" Margin="0 0 0 10">
             <Run Text="最新版本"/>
             <Run Text="{x:Bind Releases.version}"/>
@@ -16,6 +20,8 @@
             <Run Text="本地版本"/>
             <Run x:Name="LocalVersionText"/>
         </TextBlock>
-        <controls:MarkdownTextBlock Text="{x:Bind Releases.release_notes}" Background="Transparent"/>
-    </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <controls:MarkdownTextBlock Text="{x:Bind Releases.release_notes}" Background="Transparent"/>
+        </ScrollViewer>
+    </Grid>
 </UserControl>
