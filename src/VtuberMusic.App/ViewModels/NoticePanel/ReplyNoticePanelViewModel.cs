@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using VtuberMusic.Core.Enums;
 using VtuberMusic.Core.Models;
 using VtuberMusic.Core.Services;
 
@@ -20,6 +21,7 @@ public partial class ReplyNoticePanelViewModel : ObservableObject {
     public async Task Load() {
         commentNotices.Clear();
 
+        await _vtuberMusicService.ReadNotice(NoticeType.Reply);
         var response = await _vtuberMusicService.GetReplyNotices();
         foreach (var notice in response.Data) {
             commentNotices.Add(notice);

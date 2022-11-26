@@ -7,23 +7,59 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:noitcePanel="using:VtuberMusic.App.Controls.NoitcePanel"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:controls="using:VtuberMusic.App.Controls"
     mc:Ignorable="d">
 
-    <muxc:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
-                         SelectionChanged="NavigationView_OnSelectionChanged">
-        <muxc:NavigationView.PaneHeader>
-            <TextBlock Margin="5 0" FontSize="24" FontWeight="Bold"
-                       VerticalAlignment="Center" Text="通知"/>
-        </muxc:NavigationView.PaneHeader>
-        <muxc:NavigationView.MenuItems>
-            <muxc:NavigationViewItem Tag="Reply" Content="回复"/>
-            <muxc:NavigationViewItem Tag="Forward" Content="转发" IsEnabled="False"/>
-            <muxc:NavigationViewItem Tag="DM" Content="私信" IsEnabled="False"/>
-            <muxc:NavigationViewItem Tag="System" Content="系统消息"/>
-        </muxc:NavigationView.MenuItems>
-        <Grid>
-            <noitcePanel:ReplyNoticePanel x:Name="Reply" x:Load="{x:Bind ViewModel.IsReplyNoticeShow, Mode=OneWay}"/>
-            <noitcePanel:SystemNoticePanel x:Name="System" x:Load="{x:Bind ViewModel.IsSystemNoticeShow, Mode=OneWay}"/>
-        </Grid>
-    </muxc:NavigationView>
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}"/>
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <controls:LoadingCover IsLoading="{x:Bind ViewModel.LoadCommand.IsRunning, Mode=OneWay}">
+        <muxc:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
+                             SelectionChanged="NavigationView_OnSelectionChanged">
+            <muxc:NavigationView.PaneHeader>
+                <TextBlock Margin="5 0" FontSize="24" FontWeight="Bold"
+                           VerticalAlignment="Center" Text="通知"/>
+            </muxc:NavigationView.PaneHeader>
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Tag="DM" Content="私信" IsEnabled="False">
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <InfoBadge Value="{x:Bind ViewModel.MessageCount.msg, Mode=OneWay}"
+                                   Visibility="{x:Bind ViewModel.MessageCount.msg, Mode=OneWay, Converter={StaticResource ZeroVisibilityConverter}}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Tag="Reply" Content="回复">
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <InfoBadge Value="{x:Bind ViewModel.MessageCount.comment, Mode=OneWay}"
+                                   Visibility="{x:Bind ViewModel.MessageCount.comment, Mode=OneWay, Converter={StaticResource ZeroVisibilityConverter}}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Tag="Mention" Content="@我" IsEnabled="False">
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <InfoBadge Value="{x:Bind ViewModel.MessageCount.forward, Mode=OneWay}"
+                                   Visibility="{x:Bind ViewModel.MessageCount.forward, Mode=OneWay, Converter={StaticResource ZeroVisibilityConverter}}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Tag="Forward" Content="转发" IsEnabled="False">
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <InfoBadge Value="{x:Bind ViewModel.MessageCount.forward, Mode=OneWay}"
+                                   Visibility="{x:Bind ViewModel.MessageCount.forward, Mode=OneWay, Converter={StaticResource ZeroVisibilityConverter}}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Tag="System" Content="系统消息">
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <InfoBadge Value="{x:Bind ViewModel.MessageCount.notice, Mode=OneWay}"
+                                   Visibility="{x:Bind ViewModel.MessageCount.notice, Mode=OneWay, Converter={StaticResource ZeroVisibilityConverter}}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
+            <Grid>
+                <noitcePanel:ReplyNoticePanel x:Name="Reply" x:Load="{x:Bind ViewModel.IsReplyNoticeShow, Mode=OneWay}"/>
+                <noitcePanel:SystemNoticePanel x:Name="System" x:Load="{x:Bind ViewModel.IsSystemNoticeShow, Mode=OneWay}"/>
+            </Grid>
+        </muxc:NavigationView>
+    </controls:LoadingCover>
 </Page>

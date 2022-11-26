@@ -19,6 +19,7 @@
                     <converters:DoubleConverter x:Key="DoubleConverter"/>
                     <converters:NullVisibilityConvter x:Key="NullVisibilityConvter"/>
                     <converters:AddParameterConverter x:Key="AddParameterConverter"/>
+                    <converters:ZeroVisibilityConverter x:Key="ZeroVisibilityConverter"/>
                     <ThemeShadow x:Key="ShareShadow"/>
 
                     <Thickness x:Key="MusicPlayerHeight">0,0,0,100</Thickness>
