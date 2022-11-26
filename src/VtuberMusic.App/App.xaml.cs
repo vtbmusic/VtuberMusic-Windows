@@ -14,6 +14,7 @@ using VtuberMusic.App.ViewModels.Controls;
 using VtuberMusic.App.ViewModels.Controls.DataItem;
 using VtuberMusic.App.ViewModels.FriendsPanel;
 using VtuberMusic.App.ViewModels.Lyric;
+using VtuberMusic.App.ViewModels.NoticePanel;
 using VtuberMusic.App.ViewModels.Pages;
 using VtuberMusic.App.ViewModels.SearchPanel;
 using VtuberMusic.AppCore.Helper;
@@ -88,6 +89,9 @@ public partial class App : Application {
             .AddTransient<PlaylistSearchPanelViewModel>()
             .AddTransient<ArtistSearchPanelViewModel>()
             .AddTransient<UserSearchPanelViewModel>()
+            // NoticePanel
+            .AddTransient<ReplyNoticePanelViewModel>()
+            .AddTransient<SystemNoticePanelViewModel>()
             // Page
             .AddTransient<ArtistPageViewModel>()
             .AddTransient<DiscoverViewModel>()
@@ -100,6 +104,7 @@ public partial class App : Application {
             .AddTransient<ProfilePageViewModel>()
             .AddTransient<SearchViewModel>()
             .AddTransient<SettingsPageViewModel>()
+            .AddTransient<NoticePageViewModel>()
             .AddTransient<CommentPageViewModel>();
 
         // Services

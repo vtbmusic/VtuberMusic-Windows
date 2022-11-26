@@ -29,6 +29,8 @@
     <None Remove="Controls\Comments\CommentView.xaml" />
     <None Remove="Controls\DataItem\ArtistItem.xaml" />
     <None Remove="Controls\DataItem\UserItem.xaml" />
+    <None Remove="Controls\NoitcePanel\ReplyNoticePanel.xaml" />
+    <None Remove="Controls\NoitcePanel\SystemNoticePanel.xaml" />
     <None Remove="Controls\Settings\SettingsButtonEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsEntityItem.xaml" />
     <None Remove="Controls\Settings\SettingsExpanderItem.xaml" />
@@ -39,6 +41,7 @@
     <None Remove="Dialogs\UpdateAvailableDialog.xaml" />
     <None Remove="Pages\CommentPage.xaml" />
     <None Remove="Pages\Friends.xaml" />
+    <None Remove="Pages\NoticePage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,15 +50,16 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Media" Version="7.1.2" />
-    <PackageReference Include="Microsoft.AppCenter" Version="4.5.3" />
-    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3" />
-    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.3.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.4" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AppCenter" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <PackageReference Include="Opportunity.LrcParser" Version="1.0.4" />
+    <PackageReference Include="PInvoke.User32" Version="0.7.124" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -68,6 +72,16 @@
   <ItemGroup>
     <ProjectReference Include="..\VtuberMusic.AppCore\VtuberMusic.AppCore.csproj" />
     <ProjectReference Include="..\VtuberMusic.Core\VtuberMusic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\NoitcePanel\SystemNoticePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\NoticePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\DataItem\UserItem.xaml">
@@ -213,6 +227,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Comments\CommentItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\NoitcePanel\ReplyNoticePanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

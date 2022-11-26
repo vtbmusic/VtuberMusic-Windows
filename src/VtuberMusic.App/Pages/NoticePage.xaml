@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="VtuberMusic.App.Pages.NoticePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:noitcePanel="using:VtuberMusic.App.Controls.NoitcePanel"
+    mc:Ignorable="d">
+
+    <muxc:NavigationView PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False"
+                         SelectionChanged="NavigationView_OnSelectionChanged">
+        <muxc:NavigationView.PaneHeader>
+            <TextBlock Margin="5 0" FontSize="24" FontWeight="Bold"
+                       VerticalAlignment="Center" Text="通知"/>
+        </muxc:NavigationView.PaneHeader>
+        <muxc:NavigationView.MenuItems>
+            <muxc:NavigationViewItem Tag="Reply" Content="回复"/>
+            <muxc:NavigationViewItem Tag="Forward" Content="转发" IsEnabled="False"/>
+            <muxc:NavigationViewItem Tag="DM" Content="私信" IsEnabled="False"/>
+            <muxc:NavigationViewItem Tag="System" Content="系统消息"/>
+        </muxc:NavigationView.MenuItems>
+        <Grid>
+            <noitcePanel:ReplyNoticePanel x:Name="Reply" x:Load="{x:Bind ViewModel.IsReplyNoticeShow, Mode=OneWay}"/>
+            <noitcePanel:SystemNoticePanel x:Name="System" x:Load="{x:Bind ViewModel.IsSystemNoticeShow, Mode=OneWay}"/>
+        </Grid>
+    </muxc:NavigationView>
+</Page>

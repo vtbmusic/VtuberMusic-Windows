@@ -35,7 +35,8 @@ public partial class MainPageViewModel : ObservableRecipient {
     [ObservableProperty]
     private ObservableCollection<NavigationViewItemBase> paneFooterNavigationItems = new ObservableCollection<NavigationViewItemBase>
     {
-        createNavgationItem(typeof(Library), "音乐库", new SymbolIcon(Symbol.Library))
+        createNavgationItem(typeof(Library), "音乐库", new SymbolIcon(Symbol.Library)),
+        createNavgationItem(typeof(NoticePage), "通知", new SymbolIcon(Symbol.Message))
     };
 
     protected override void OnActivated() =>
