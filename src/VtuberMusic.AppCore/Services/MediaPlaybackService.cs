@@ -4,6 +4,7 @@ using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -21,7 +22,9 @@ using Windows.Web.Http;
 
 namespace VtuberMusic.AppCore.Services;
 public partial class MediaPlaybackService : IMediaPlayBackService {
-    private readonly MediaPlayer _mediaPlayer = new();
+    private string cachePath = "MusicCache";
+
+    private readonly MediaPlayer _mediaPlayer = new(); 
     private readonly SystemMediaTransportControls SMTC;
 
     private Music nowPlaying { get; set; }
@@ -213,41 +216,45 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
         var songUrl = await _vtuberMusicService.GetSongUrl(music.id);
 
         _mediaPlayer.Pause();
-        var mediaFileStream = await LoadMediaAsync(songUrl.Data);
 
-        var mediaSource = MediaSource.CreateFromStream(mediaFileStream, "application/octet-stream");
+        var mediaSource = await LoadMediaAsync(songUrl.Data);
+
         MediaPlaybackItem mediaPlaybackItem = new MediaPlaybackItem(mediaSource);
         mediaPlaybackItem.ApplyDisplayProperties(updateSMTC(mediaPlaybackItem.GetDisplayProperties()));
+
         _mediaPlayer.Source = mediaPlaybackItem;
         Play();
     }
 
-    public async Task<IRandomAccessStream> LoadMediaAsync(string url) {
+    public async Task<MediaSource> LoadMediaAsync(string url) {
         var uri = new Uri(url);
 
         Regex regex = new Regex("[^\\/]+$");
         var cacheFileName = regex.Match(uri.LocalPath).Value;
 
+        StorageFolder cacheFolder;
         try {
-            var file = await ApplicationData.Current.LocalCacheFolder.GetFileAsync(cacheFileName);
-            var fileStream = await file.OpenAsync(FileAccessMode.Read);
-            return fileStream;
-        } catch { }
+            cacheFolder = await ApplicationData.Current.LocalCacheFolder.GetFolderAsync(cachePath);
+        } catch (FileNotFoundException) {
+            await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync(cachePath);
+            cacheFolder = await ApplicationData.Current.LocalCacheFolder.GetFolderAsync(cachePath);
+        }
+
+        try {
+            return MediaSource.CreateFromStream(await (await cacheFolder.GetFileAsync(cacheFileName)).OpenReadAsync(), "application/octet-stream");
+        } catch (FileNotFoundException) {}
+
+        var cacheFile = await cacheFolder.CreateFileAsync(cacheFileName, CreationCollisionOption.ReplaceExisting);
 
         try {
             var httpClient = new HttpClient();
-            var buffer = await httpClient.GetBufferAsync(new Uri(url));
-            if (buffer != null && buffer.Length > 0u) {
-                var file = await ApplicationData.Current.LocalCacheFolder.CreateFileAsync(cacheFileName, CreationCollisionOption.ReplaceExisting);
-
-                using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite)) {
-                    await stream.WriteAsync(buffer);
-                    await stream.FlushAsync();
+            await using (var stream = (await httpClient.GetInputStreamAsync(new Uri(url))).AsStreamForRead()) {
+                using (var writeStream = await cacheFile.OpenAsync(FileAccessMode.ReadWrite)) {
+                    await stream.CopyToAsync(writeStream.AsStreamForWrite());
                 }
-                var fileStream = await file.OpenAsync(FileAccessMode.Read);
-                return fileStream;
             }
 
+            return MediaSource.CreateFromStream(await cacheFile.OpenReadAsync(), "application/octet-stream");
         } catch (Exception ex) {
             Crashes.TrackError(ex, new Dictionary<string, string> {
                 { "url", url }
