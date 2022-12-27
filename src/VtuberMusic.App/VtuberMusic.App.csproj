@@ -37,6 +37,7 @@
     <None Remove="Dialogs\ConfirmDeletePlaylistDialog.xaml" />
     <None Remove="Dialogs\CreatePlaylistDialog.xaml" />
     <None Remove="Dialogs\EditPlaylistInfoDialog.xaml" />
+    <None Remove="Dialogs\EditProfileDialog.xaml" />
     <None Remove="Dialogs\TrackMusicDialog.xaml" />
     <None Remove="Dialogs\UpdateAvailableDialog.xaml" />
     <None Remove="Pages\CommentPage.xaml" />
@@ -234,5 +235,11 @@
     <Page Update="Controls\NoitcePanel\ReplyNoticePanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Dialogs\EditProfileDialog.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Dialogs\EditProfileDialog.xaml" />
   </ItemGroup>
 </Project>

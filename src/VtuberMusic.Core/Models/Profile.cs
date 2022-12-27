@@ -20,7 +20,8 @@ namespace VtuberMusic.Core.Models {
         public DateTimeOffset createTime { get; set; }
         public string userName { get; set; }
         public int accountType { get; set; }
-        public int birthday { get; set; }
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTimeOffset birthday { get; set; }
         public ProfileGender gender { get; set; }
         public int authStatus { get; set; }
         public string description { get; set; }

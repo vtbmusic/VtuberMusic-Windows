@@ -24,7 +24,7 @@ namespace VtuberMusic.AppCore.Services;
 public partial class MediaPlaybackService : IMediaPlayBackService {
     private string cachePath = "MusicCache";
 
-    private readonly MediaPlayer _mediaPlayer = new(); 
+    private readonly MediaPlayer _mediaPlayer = new();
     private readonly SystemMediaTransportControls SMTC;
 
     private Music nowPlaying { get; set; }
@@ -242,7 +242,7 @@ public partial class MediaPlaybackService : IMediaPlayBackService {
 
         try {
             return MediaSource.CreateFromStream(await (await cacheFolder.GetFileAsync(cacheFileName)).OpenReadAsync(), "application/octet-stream");
-        } catch (FileNotFoundException) {}
+        } catch (FileNotFoundException) { }
 
         var cacheFile = await cacheFolder.CreateFileAsync(cacheFileName, CreationCollisionOption.ReplaceExisting);
 

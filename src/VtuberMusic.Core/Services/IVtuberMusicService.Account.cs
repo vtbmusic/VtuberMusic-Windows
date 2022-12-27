@@ -1,5 +1,6 @@
 ﻿using Refit;
 using System.Threading.Tasks;
+using VtuberMusic.Core.Enums;
 using VtuberMusic.Core.Models;
 
 namespace VtuberMusic.Core.Services {
@@ -18,5 +19,8 @@ namespace VtuberMusic.Core.Services {
 
         [Get("/v2/search?type=user")]
         Task<Models.ApiResponse<Profile[]>> SearchUser(string keyword, int limit = 50, int offset = 0);
+
+        [Post("/v2/user/update")]
+        Task<Models.ApiResponse> UpdateProfile(ProfileGender gender, long birthday, string nickname, string signature);
     }
 }

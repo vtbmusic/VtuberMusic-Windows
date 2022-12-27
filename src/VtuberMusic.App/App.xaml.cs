@@ -79,6 +79,7 @@ public partial class App : Application {
             .AddTransient<EditPlaylistInfoDialogViewModel>()
             .AddTransient<CommentViewModel>()
             .AddTransient<CommentItemViewModel>()
+            .AddTransient<EditProfileDialogViewModel>()
             // FriendsPanel
             .AddTransient<FansViewModel>()
             .AddTransient<FollowersViewModel>()

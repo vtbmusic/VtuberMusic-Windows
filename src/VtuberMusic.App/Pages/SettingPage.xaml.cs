@@ -63,4 +63,8 @@ public sealed partial class SettingPage : Page {
 
     private async void OfficalSite_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) =>
         await Launcher.LaunchUriAsync(new Uri("https://vtbmusic.com"));
+
+    private async void EditProfileButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) {
+        await new EditProfileDialog().ShowDialogAsync();
+    }
 }

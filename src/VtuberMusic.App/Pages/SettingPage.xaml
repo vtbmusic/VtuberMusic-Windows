@@ -80,7 +80,7 @@
                     <PersonPicture ProfilePicture="{x:Bind ViewModel.Profile.avatarUrl,Mode=OneWay}" Height="40" Width="40" Margin="-10" />
                 </settings:SettingsEntityItem.Icon>
                 <StackPanel Orientation="Horizontal">
-                    <HyperlinkButton Content="修改个人资料" IsEnabled="False"/>
+                    <HyperlinkButton Content="修改个人资料" Click="{x:Bind EditProfileButton_Click}"/>
                     <HyperlinkButton Content="登出" Click="{x:Bind LogOutButton_Click}"/>
                 </StackPanel>
             </settings:SettingsEntityItem>

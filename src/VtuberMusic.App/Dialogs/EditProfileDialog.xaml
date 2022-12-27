@@ -1,0 +1,18 @@
+﻿<UserControl
+    x:Class="VtuberMusic.App.Dialogs.EditProfileDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VtuberMusic.App.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <TextBox PlaceholderText="昵称" Text="{x:Bind ViewModel.Nickname, Mode=TwoWay}"/>
+        <TextBox PlaceholderText="签名" Text="{x:Bind ViewModel.Signature, Mode=TwoWay}" Margin="0 5"/>
+        <ComboBox Header="性别" ItemsSource="{x:Bind ViewModel.GenderTypes}"
+                  DisplayMemberPath="Key" SelectedValuePath="Value"
+                  SelectedValue="{x:Bind ViewModel.GenderType, Mode=TwoWay}" Margin="0 0 0 5"/>
+        <DatePicker Header="生日" Date="{x:Bind ViewModel.Birthday, Mode=TwoWay}"/>
+    </StackPanel>
+</UserControl>
